@@ -1,0 +1,48 @@
+{
+  "chart_id": "CASE_001_RAJU",
+  "name": "Raju (Sample)",
+  "metadata": {
+    "gender": "male",
+    "dob": "1980-05-14"
+  },
+  "domains": {
+    "marriage": {
+      "promise": {
+        "occurred": true,
+        "notes": "Arranged marriage, stable"
+      },
+      "timing": {
+        "event_year": 2008,
+        "active_dasha_at_event": {
+          "md": "venus",
+          "ad": "jupiter"
+        },
+        "notes": "Married in late twenties."
+      }
+    },
+    "career": {
+      "promise": {
+        "occurred": true,
+        "notes": "Employed continuously"
+      },
+      "timing": {
+        "event_year": 2005,
+        "notes": "First major job."
+      }
+    },
+    "wealth": {
+      "promise": {
+        "occurred": true,
+        "notes": "Upper middle class"
+      },
+      "timing": null
+    },
+    "property": null,
+    "education": null,
+    "children": null,
+    "litigation": null,
+    "travel": null,
+    "spirituality": null,
+    "relationships": null
+  }
+}

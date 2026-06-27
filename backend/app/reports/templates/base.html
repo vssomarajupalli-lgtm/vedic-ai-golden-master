@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vedic-AI Report</title>
+    <style>
+        :root {
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --primary: #4f46e5;
+            --primary-light: #e0e7ff;
+            --border: #e5e7eb;
+        }
+
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 20mm;
+            }
+            @page landscape_page {
+                size: A4 landscape;
+                margin: 15mm;
+            }
+            body { background-color: white; }
+            .page-break { page-break-before: always; }
+            .landscape-section { page: landscape_page; }
+            .card { border: none; box-shadow: none; border-bottom: 1px solid var(--border); margin-bottom: 20px;}
+            table, tr, .avoid-break { page-break-inside: avoid; }
+            .no-print { display: none !important; }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .header h1 {
+            color: var(--primary);
+            margin: 0 0 10px 0;
+            font-size: 28px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: var(--primary);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+            font-size: 20px;
+        }
+        
+        .card h3 {
+            font-size: 16px;
+            color: #374151;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .badge {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        
+        table {
+            width: 100%;
+            text-align: left;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        
+        th, td {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        th {
+            background-color: #f3f4f6;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Client Profile -->
+        <div class="header">
+            <h1>Vedic-AI Intelligence Report</h1>
+            <p><strong>{{ report.client_profile.name }}</strong> | DOB: {{ report.client_profile.dob }} | POB: {{ report.client_profile.pob }}</p>
+            <p style="color: #6b7280; font-size: 0.9em;">Generated: {{ report.client_profile.generated_at }}</p>
+        </div>
+
+        <!-- SECTION A: Executive Summary -->
+        <div class="card avoid-break">
+            <h2>A. Executive Summary</h2>
+            <div class="grid-2">
+                <div>
+                    <p><strong>Overall Grade:</strong> <span class="badge" style="font-size: 1.2em;">{{ report.executive_summary.overall_grade }}</span></p>
+                    <p><strong>Lifetime Trend:</strong> {{ report.executive_summary.overall_lifetime_trend }}</p>
+                    <p><strong>Upcoming Turning Point:</strong> {{ report.executive_summary.upcoming_major_turning_point }}</p>
+                </div>
+                <div>
+                    <p><strong>Current Mahadasha:</strong> {{ report.executive_summary.current_mahadasha }}</p>
+                    <p><strong>Current Antardasha:</strong> {{ report.executive_summary.current_antardasha }}</p>
+                    <p><strong>Remaining Duration:</strong> {{ report.executive_summary.current_dasha_remaining }}</p>
+                </div>
+            </div>
+            
+            <div class="grid-2" style="margin-top: 20px;">
+                <div style="background: #f8fafc; padding: 15px; border-radius: 6px;">
+                    <p><strong>Strongest Life Area:</strong> {{ report.executive_summary.strongest_life_area }}</p>
+                    <p><strong>Best Planet:</strong> {{ report.executive_summary.best_planet }}</p>
+                    <p><strong>Best House:</strong> {{ report.executive_summary.best_house }}</p>
+                </div>
+                <div style="background: #fff1f2; padding: 15px; border-radius: 6px;">
+                    <p><strong>Weakest Life Area:</strong> {{ report.executive_summary.weakest_life_area }}</p>
+                    <p><strong>Weak Planet:</strong> {{ report.executive_summary.weak_planet }}</p>
+                    <p><strong>Weak House:</strong> {{ report.executive_summary.weak_house }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION B: Snapshot -->
+        <div class="card avoid-break">
+            <h2>B. Lifetime Snapshot</h2>
+            <div class="grid-3">
+                <p><strong>Overall Promise:</strong><br>{{ report.lifetime_intelligence.snapshot.overall_promise }}</p>
+                <p><strong>Current Trend:</strong><br>{{ report.lifetime_intelligence.snapshot.current_trend }}</p>
+                <p><strong>Current Opportunity:</strong><br>{{ report.lifetime_intelligence.snapshot.current_opportunity }}</p>
+                <p><strong>Current Challenge:</strong><br>{{ report.lifetime_intelligence.snapshot.current_challenge }}</p>
+                <p><strong>Best Future Period:</strong><br>{{ report.lifetime_intelligence.snapshot.best_future_period }}</p>
+                <p><strong>Current Activation:</strong><br>{{ report.lifetime_intelligence.snapshot.current_activation }}</p>
+            </div>
+        </div>
+
+        <!-- SECTION C: Life Area Intelligence -->
+        <div class="card page-break">
+            <h2>C. Life Area Intelligence</h2>
+            {% for area in report.lifetime_intelligence.life_areas %}
+            <div class="avoid-break" style="margin-bottom: 20px; border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; background: #f8fafc;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #cbd5e1; padding-bottom: 8px; margin-bottom: 10px;">
+                    <strong style="font-size: 1.1em;">{{ area.domain_name }}</strong>
+                    <span class="badge">{{ area.grade }}</span>
+                </div>
+                <p style="margin: 0 0 10px 0; font-size: 0.95em;">{{ area.interpretation }}</p>
+                <div class="grid-2">
+                    <div>
+                        <p style="margin:0;"><strong>Strengths:</strong> {{ area.strengths | join(', ') if area.strengths else 'None' }}</p>
+                        <p style="margin:0;"><strong>Weaknesses:</strong> {{ area.weaknesses | join(', ') if area.weaknesses else 'None' }}</p>
+                    </div>
+                    <div>
+                        <p style="margin:0;"><strong>Dasha Influence:</strong> {{ area.current_dasha_influence }}</p>
+                        <p style="margin:0;"><strong>Outlook:</strong> {{ area.long_term_outlook }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- SECTION D & E: Planets & Houses -->
+        <div class="card page-break">
+            <h2>D. Planet Intelligence</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Planet</th>
+                        <th>Score</th>
+                        <th>Dignity</th>
+                        <th>Functional Nature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in report.lifetime_intelligence.planets %}
+                    <tr>
+                        <td><strong>{{ p.planet_name }}</strong></td>
+                        <td><span class="badge">{{ p.strength_score }}%</span></td>
+                        <td>{{ p.dignity }}</td>
+                        <td>{{ p.functional_nature }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <h2 style="margin-top: 40px;">E. House Intelligence</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>House Domain</th>
+                        <th>Lord</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for h in report.lifetime_intelligence.houses %}
+                    <tr>
+                        <td><strong>{{ h.house_name }}</strong></td>
+                        <td>{{ h.lord }}</td>
+                        <td><span class="badge">{{ h.grade }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECTION G: Current Dasha -->
+        <div class="card avoid-break">
+            <h2>G. Current Dasha Status</h2>
+            <div style="text-align: center; padding: 20px; background: #e0e7ff; border-radius: 8px;">
+                <p style="margin:0; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; color: #4338ca;">Active Period</p>
+                <h3 style="margin: 10px 0; font-size: 24px; color: #312e81;">{{ report.lifetime_intelligence.current_dasha_status.current_md }} - {{ report.lifetime_intelligence.current_dasha_status.current_ad }} - {{ report.lifetime_intelligence.current_dasha_status.current_pd }}</h3>
+                <p style="margin:0; font-weight: bold; color: #4f46e5;">{{ report.lifetime_intelligence.current_dasha_status.remaining_duration }} remaining</p>
+                <p style="margin-top: 15px; font-size: 0.95em; color: #374151;">{{ report.lifetime_intelligence.current_dasha_status.interpretation }}</p>
+            </div>
+        </div>
+
+        <!-- SECTION H: Timeline -->
+        {% if report.lifetime_intelligence.timeline %}
+        <div class="page-break landscape-section">
+            <h2 style="color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px;">H. Technical Lifetime Timeline</h2>
+            <table style="font-size: 0.85em;">
+                <thead>
+                    <tr>
+                        <th>Age</th>
+                        <th>Start Date</th>
+                        <th>MD-AD-PD</th>
+                        <th>MD Str</th>
+                        <th>AD Str</th>
+                        <th>PD Str</th>
+                        <th>Activation %</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in report.lifetime_intelligence.timeline %}
+                    <tr>
+                        <td>{{ row.age }}</td>
+                        <td style="white-space: nowrap;">{{ row.start_date }}</td>
+                        <td><strong>{{ row.md | truncate(3, True, '') }}-{{ row.ad | truncate(3, True, '') }}-{{ row.pd | truncate(3, True, '') }}</strong></td>
+                        <td>{{ row.md_strength }}%</td>
+                        <td>{{ row.ad_strength }}%</td>
+                        <td>{{ row.pd_strength }}%</td>
+                        <td><span class="badge">{{ row.activation_percentage }}%</span></td>
+                        <td>{{ row.grade }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+    </div>
+</body>
+</html>

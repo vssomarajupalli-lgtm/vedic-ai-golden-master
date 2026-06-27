@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Ground Truth Chart Validation Schema",
+  "type": "object",
+  "required": ["chart_id", "name", "metadata", "domains"],
+  "properties": {
+    "chart_id": {
+      "type": "string",
+      "description": "Unique identifier matching the extraction payload filename"
+    },
+    "name": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["gender", "dob"],
+      "properties": {
+        "gender": { "type": "string" },
+        "dob": { "type": "string", "format": "date" }
+      }
+    },
+    "domains": {
+      "type": "object",
+      "description": "Life domains. Omitted domains will be skipped during validation.",
+      "properties": {
+        "marriage": { "$ref": "#/definitions/domainTruth" },
+        "career": { "$ref": "#/definitions/domainTruth" },
+        "wealth": { "$ref": "#/definitions/domainTruth" },
+        "property": { "$ref": "#/definitions/domainTruth" },
+        "education": { "$ref": "#/definitions/domainTruth" },
+        "children": { "$ref": "#/definitions/domainTruth" },
+        "litigation": { "$ref": "#/definitions/domainTruth" },
+        "travel": { "$ref": "#/definitions/domainTruth" },
+        "spirituality": { "$ref": "#/definitions/domainTruth" },
+        "relationships": { "$ref": "#/definitions/domainTruth" }
+      }
+    }
+  },
+  "definitions": {
+    "domainTruth": {
+      "type": ["object", "null"],
+      "properties": {
+        "promise": {
+          "type": "object",
+          "required": ["occurred"],
+          "properties": {
+            "occurred": { "type": "boolean" },
+            "notes": { "type": "string" }
+          }
+        },
+        "timing": {
+          "type": ["object", "null"],
+          "properties": {
+            "event_year": { "type": "integer" },
+            "active_dasha_at_event": {
+              "type": "object",
+              "properties": {
+                "md": { "type": "string" },
+                "ad": { "type": "string" }
+              }
+            },
+            "notes": { "type": "string" }
+          }
+        }
+      },
+      "required": ["promise"]
+    }
+  }
+}

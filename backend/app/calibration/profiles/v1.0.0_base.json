@@ -1,0 +1,714 @@
+{
+    "metadata": {
+        "profile_id": "v1.0.0_base",
+        "version": "1.0.0",
+        "status": "ACTIVE",
+        "approved_by": "Architecture Board",
+        "effective_from": "2026-06-25",
+        "compatible_architecture": "Phase16A",
+        "description": "Initial frozen calibration profile generated from legacy constants."
+    },
+    "master_probability": {
+        "MASTER_WEIGHTS": {
+            "natal_promise": 0.4,
+            "planet_strength": 0.15,
+            "house_strength": 0.1,
+            "rasi_strength": 0.1,
+            "varga_validation": 0.1,
+            "dasha_activation": 0.1,
+            "transit_trigger": 0.05
+        },
+        "PROBABILITY_GRADES": [
+            [
+                80,
+                "EXCELLENT"
+            ],
+            [
+                65,
+                "VERY GOOD"
+            ],
+            [
+                50,
+                "GOOD"
+            ],
+            [
+                35,
+                "WEAK"
+            ],
+            [
+                0,
+                "TOO WEAK"
+            ]
+        ],
+        "STUB_SCORE": 50.0
+    },
+    "planet_strength": {
+        "PLANET_SCORING_MATRIX": {
+            "dignity": {
+                "exalted": 100,
+                "own_sign": 80,
+                "friendly": 60,
+                "neutral": 50,
+                "enemy": 20,
+                "debilitated": 0
+            },
+            "house_placement": {
+                "trikona": 100,
+                "kendra": 90,
+                "upachaya": 70,
+                "neutral": 50,
+                "dusthana": 10
+            },
+            "state_modifiers": {
+                "combust_score": 0,
+                "retrograde_score": 100
+            },
+            "aspects": {
+                "benefic_aspect": 25,
+                "malefic_aspect": -25
+            },
+            "conjunctions": {
+                "benefic_conjunction": 25,
+                "malefic_conjunction": -25
+            }
+        },
+        "NATAL_BENEFICS": [
+            "jupiter",
+            "venus",
+            "moon",
+            "mercury"
+        ],
+        "NATAL_MALEFICS": [
+            "saturn",
+            "mars",
+            "sun",
+            "rahu",
+            "ketu"
+        ]
+    },
+    "house_strength": {
+        "HOUSE_SCORING_MATRIX": {
+            "house_type": {
+                "kendra": 100,
+                "trikona": 100,
+                "upachaya": 70,
+                "neutral": 50,
+                "dusthana": 10
+            },
+            "lord_dignity": {
+                "exalted": 100,
+                "own_sign": 80,
+                "friendly": 60,
+                "neutral": 50,
+                "enemy": 20,
+                "debilitated": 0
+            },
+            "occupants": {
+                "benefic": 25,
+                "malefic": -25
+            },
+            "aspects": {
+                "benefic_aspect": 25,
+                "malefic_aspect": -25
+            }
+        },
+        "PILLAR_WEIGHTS": {
+            "sav": 0.3,
+            "occupants": 0.2,
+            "benefic_aspects": 0.15,
+            "malefic_aspects": 0.15,
+            "house_type": 0.1,
+            "house_yogas": 0.1
+        }
+    },
+    "rasi_strength": {
+        "RASI_SCORING_MATRIX": {
+            "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+            },
+            "occupant_modifiers": {
+                "benefic": 15,
+                "malefic": -15,
+                "benefic_aspect": 5,
+                "malefic_aspect": -5,
+                "aspect_cap": 10
+            },
+            "dignity_modifiers": {
+                "exalted": 30,
+                "own sign": 20,
+                "moolatrikona": 20,
+                "friendly": 10,
+                "neutral": 0,
+                "enemy": -10,
+                "debilitated": -20,
+                "lord_own_bonus": 10
+            },
+            "empty_sign_baseline": 50,
+            "default_lord_score": 50
+        },
+        "SAV_BINDU_SCALE": [
+            [
+                0,
+                0
+            ],
+            [
+                20,
+                30
+            ],
+            [
+                25,
+                50
+            ],
+            [
+                30,
+                70
+            ],
+            [
+                35,
+                85
+            ],
+            [
+                40,
+                100
+            ],
+            [
+                56,
+                100
+            ]
+        ],
+        "SIGN_LORD_MAP": {
+            "aries": "mars",
+            "taurus": "venus",
+            "gemini": "mercury",
+            "cancer": "moon",
+            "leo": "sun",
+            "virgo": "mercury",
+            "libra": "venus",
+            "scorpio": "mars",
+            "sagittarius": "jupiter",
+            "capricorn": "saturn",
+            "aquarius": "saturn",
+            "pisces": "jupiter"
+        },
+        "SIGNS_IN_ORDER": [
+            "aries",
+            "taurus",
+            "gemini",
+            "cancer",
+            "leo",
+            "virgo",
+            "libra",
+            "scorpio",
+            "sagittarius",
+            "capricorn",
+            "aquarius",
+            "pisces"
+        ]
+    },
+    "varga": {
+        "D9_SCORES": {
+            "exalted": 15.0,
+            "moolatrikona": 10.0,
+            "own_house": 10.0,
+            "friendly": 5.0,
+            "neutral": 0.0,
+            "enemy": -5.0,
+            "debilitated": -10.0
+        },
+        "D10_SCORES": {
+            "exalted": 10.0,
+            "moolatrikona": 5.0,
+            "own_house": 5.0,
+            "friendly": 2.5,
+            "neutral": 0.0,
+            "enemy": -2.5,
+            "debilitated": -5.0
+        },
+        "VARGOTTAMA_BONUS": 15.0
+    },
+    "dasha": {
+        "DASHA_SCORING_MATRIX": {
+            "relationship_scalars": {
+                "1_1": 1.0,
+                "2_12": 0.75,
+                "3_11": 1.15,
+                "4_10": 1.2,
+                "5_9": 1.25,
+                "6_8": 0.8,
+                "1_7": 1.1
+            }
+        }
+    },
+    "ashtakavarga": {
+        "BAV_GRADE_THRESHOLDS": [
+            [
+                7,
+                "EXCELLENT"
+            ],
+            [
+                6,
+                "STRONG"
+            ],
+            [
+                5,
+                "GOOD"
+            ],
+            [
+                4,
+                "AVERAGE"
+            ],
+            [
+                3,
+                "BELOW_AVG"
+            ],
+            [
+                2,
+                "WEAK"
+            ],
+            [
+                0,
+                "CRITICAL"
+            ]
+        ],
+        "BAV_PLANET_MODIFIER": {
+            "high": 5,
+            "neutral": 0,
+            "low": -5
+        },
+        "SAV_FAVORABLE_THRESHOLD": 28,
+        "SAV_STRONG_THRESHOLD": 30,
+        "SAV_WEAK_THRESHOLD": 22,
+        "DASHA_BAV_CONFIDENCE": {
+            "high": 1.1,
+            "moderate": 1.05,
+            "low": 0.95
+        },
+        "BAV_EXCLUDED_PLANETS": [
+            "ketu",
+            "rahu"
+        ],
+        "BAV_PLANETS": [
+            "sun",
+            "moon",
+            "mars",
+            "mercury",
+            "jupiter",
+            "venus",
+            "saturn"
+        ],
+        "DASHA_BAV_WEIGHTS": {
+            "md": 0.6,
+            "ad": 0.4
+        }
+    },
+    "natal_promise": {
+        "NATAL_PROMISE_GRADES": [
+            [
+                70,
+                "STRONG"
+            ],
+            [
+                50,
+                "MODERATE"
+            ],
+            [
+                30,
+                "WEAK"
+            ],
+            [
+                0,
+                "PRESENT"
+            ]
+        ],
+        "DOMAIN_KARAKA": {
+            "marriage": {
+                "primary": "venus",
+                "secondary": "jupiter"
+            },
+            "career": {
+                "primary": "saturn",
+                "secondary": "sun"
+            },
+            "wealth": {
+                "primary": "jupiter",
+                "secondary": "venus"
+            },
+            "education": {
+                "primary": "mercury",
+                "secondary": "jupiter"
+            },
+            "children": {
+                "primary": "jupiter",
+                "secondary": "moon"
+            },
+            "property": {
+                "primary": "mars",
+                "secondary": "moon"
+            },
+            "health": {
+                "primary": "sun",
+                "secondary": "moon"
+            },
+            "spirituality": {
+                "primary": "jupiter",
+                "secondary": "ketu"
+            }
+        },
+        "DOMAIN_CONFIG": {
+            "marriage": {
+                "primary_house": "7",
+                "support_houses": [
+                    "2",
+                    "11"
+                ],
+                "varga": "D9",
+                "weights": {
+                    "bhava": 0.35,
+                    "bhavadhipati": 0.3,
+                    "karaka": 0.2,
+                    "varga": 0.15
+                }
+            },
+            "career": {
+                "primary_house": "10",
+                "support_houses": [
+                    "6",
+                    "11"
+                ],
+                "varga": "D10",
+                "weights": {
+                    "bhava": 0.35,
+                    "bhavadhipati": 0.3,
+                    "karaka": 0.2,
+                    "varga": 0.15
+                }
+            },
+            "wealth": {
+                "primary_house": [
+                    "2",
+                    "11"
+                ],
+                "support_houses": [
+                    "5",
+                    "9"
+                ],
+                "varga": "D2",
+                "weights": {
+                    "bhava": 0.35,
+                    "bhavadhipati": 0.3,
+                    "karaka": 0.2,
+                    "varga": 0.15
+                }
+            },
+            "education": {
+                "primary_house": "5",
+                "support_houses": [
+                    "4",
+                    "9"
+                ],
+                "varga": "D24",
+                "weights": {
+                    "bhava": 0.35,
+                    "bhavadhipati": 0.3,
+                    "karaka": 0.2,
+                    "varga": 0.15
+                }
+            },
+            "children": {
+                "primary_house": "5",
+                "support_houses": [
+                    "9",
+                    "11"
+                ],
+                "varga": "D7",
+                "weights": {
+                    "bhava": 0.35,
+                    "bhavadhipati": 0.3,
+                    "karaka": 0.2,
+                    "varga": 0.15
+                }
+            },
+            "property": {
+                "primary_house": "4",
+                "support_houses": [
+                    "2",
+                    "11"
+                ],
+                "varga": "D4",
+                "weights": {
+                    "bhava": 0.35,
+                    "bhavadhipati": 0.3,
+                    "karaka": 0.2,
+                    "varga": 0.15
+                }
+            },
+            "health": {
+                "primary_house": "1",
+                "support_houses": [
+                    "6",
+                    "8",
+                    "12"
+                ],
+                "inverted_support": true,
+                "varga": "D6",
+                "weights": {
+                    "bhava": 0.35,
+                    "bhavadhipati": 0.3,
+                    "karaka": 0.2,
+                    "varga": 0.15
+                }
+            },
+            "spirituality": {
+                "primary_house": [
+                    "9",
+                    "12"
+                ],
+                "support_houses": [
+                    "5"
+                ],
+                "varga": "D20",
+                "weights": {
+                    "bhava": 0.35,
+                    "bhavadhipati": 0.3,
+                    "karaka": 0.2,
+                    "varga": 0.15
+                }
+            }
+        },
+        "DOMAIN_BONUSES": {
+            "same_2_11_lords": {
+                "wealth": 8
+            },
+            "jupiter_in_2_or_11": {
+                "wealth": 5
+            },
+            "jupiter_in_9": {
+                "wealth": 5,
+                "spirituality": 8
+            },
+            "jupiter_in_5": {
+                "wealth": 5,
+                "spirituality": 5
+            },
+            "venus_in_2": {
+                "wealth": 5
+            },
+            "ketu_strong_in_moksha": {
+                "spirituality": 10
+            },
+            "jupiter_aspects_7": {
+                "marriage": 8
+            },
+            "venus_exalted": {
+                "marriage": 5
+            }
+        }
+    },
+    "transit": {
+        "TRANSIT_HOUSE_QUALITY": {
+            "sun": {
+                "3": 12,
+                "6": 12,
+                "10": 12,
+                "11": 12,
+                "1": -8,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "7": -8,
+                "8": -8,
+                "9": -8,
+                "12": -8
+            },
+            "moon": {
+                "1": 12,
+                "3": 12,
+                "6": 12,
+                "7": 12,
+                "10": 12,
+                "11": 12,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "8": -8,
+                "9": -8,
+                "12": -8
+            },
+            "mars": {
+                "3": 12,
+                "6": 12,
+                "11": 12,
+                "1": -8,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "7": -8,
+                "8": -8,
+                "9": -8,
+                "10": -8,
+                "12": -8
+            },
+            "mercury": {
+                "2": 12,
+                "4": 12,
+                "6": 12,
+                "8": 12,
+                "10": 12,
+                "11": 12,
+                "1": -8,
+                "3": -8,
+                "5": -8,
+                "7": -8,
+                "9": -8,
+                "12": -8
+            },
+            "jupiter": {
+                "2": 12,
+                "5": 12,
+                "7": 12,
+                "9": 12,
+                "11": 12,
+                "1": -8,
+                "3": -8,
+                "4": -8,
+                "6": -8,
+                "8": -8,
+                "10": -8,
+                "12": -8
+            },
+            "venus": {
+                "1": 12,
+                "2": 12,
+                "3": 12,
+                "4": 12,
+                "5": 12,
+                "8": 12,
+                "9": 12,
+                "11": 12,
+                "12": 12,
+                "6": -8,
+                "7": -8,
+                "10": -8
+            },
+            "saturn": {
+                "3": 12,
+                "6": 12,
+                "11": 12,
+                "1": -8,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "7": -8,
+                "8": -8,
+                "9": -8,
+                "10": -8,
+                "12": -8
+            },
+            "rahu": {
+                "3": 12,
+                "6": 12,
+                "10": 12,
+                "11": 12,
+                "1": -8,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "7": -8,
+                "8": -8,
+                "9": -8,
+                "12": -8
+            },
+            "ketu": {
+                "3": 12,
+                "6": 12,
+                "11": 12,
+                "1": -8,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "7": -8,
+                "8": -8,
+                "9": -8,
+                "10": -8,
+                "12": -8
+            }
+        },
+        "TRANSIT_CONJUNCTION_MATRIX": {
+            "jupiter_benefic": 12,
+            "jupiter_malefic": 3,
+            "venus_benefic": 8,
+            "venus_malefic": 2,
+            "moon_benefic": 6,
+            "moon_malefic": 0,
+            "mercury_benefic": 5,
+            "mercury_malefic": 0,
+            "sun_benefic": 4,
+            "sun_malefic": -2,
+            "mars_benefic": -8,
+            "mars_malefic": -4,
+            "saturn_benefic": -10,
+            "saturn_malefic": -5,
+            "rahu_benefic": -6,
+            "rahu_malefic": -6,
+            "ketu_benefic": -6,
+            "ketu_malefic": -6
+        },
+        "TRANSIT_ASPECT_WEIGHTS": {
+            "benefic_benefic": 6,
+            "malefic_benefic": -5,
+            "benefic_malefic": 2,
+            "malefic_malefic": -3
+        },
+        "TRANSIT_SPECIAL_ASPECTS": {
+            "saturn": [
+                3,
+                7,
+                10
+            ],
+            "jupiter": [
+                5,
+                7,
+                9
+            ],
+            "mars": [
+                4,
+                7,
+                8
+            ]
+        },
+        "TRANSIT_SPECIAL_ASPECT_WEIGHT": 0.6,
+        "TRANSIT_WEIGHTS": {
+            "house_activation": 0.3,
+            "bav_support": 0.2,
+            "planet_activation": 0.2,
+            "dasha_sync": 0.2,
+            "vedha_layer": 0.1
+        },
+        "TRANSIT_VEDHA_CAP": -15,
+        "TRANSIT_DASHA_SYNC_BONUSES": {
+            "transit_is_md_lord": 20,
+            "transit_is_ad_lord": 12,
+            "transit_aspects_md_natal": 8,
+            "transit_aspects_ad_natal": 5,
+            "transit_same_sign_as_md": 6,
+            "md_transit_bav_high": 8
+        },
+        "VEDHA_PAIRS": {
+            "1": 8,
+            "2": 12,
+            "3": 6,
+            "4": 5,
+            "5": 4,
+            "6": 3,
+            "7": 2,
+            "8": 1,
+            "9": 12,
+            "10": 3,
+            "11": 6,
+            "12": 9
+        }
+    }
+}

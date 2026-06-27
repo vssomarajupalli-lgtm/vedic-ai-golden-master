@@ -1,0 +1,55 @@
+{
+  "favorites": [],
+  "recents": [
+    {
+      "question_id": "7.2",
+      "question_name": "Marriage Timing",
+      "timestamp": "2026-06-21T11:13:56.521590Z"
+    },
+    {
+      "question_id": "2.1",
+      "question_name": "Savings Potential",
+      "timestamp": "2026-06-21T11:11:37.855684Z"
+    },
+    {
+      "question_id": "8.1",
+      "question_name": "Will I have children?",
+      "timestamp": "2026-06-21T11:11:37.854907Z"
+    },
+    {
+      "question_id": "4.1",
+      "question_name": "Will I own a house?",
+      "timestamp": "2026-06-21T11:11:37.854101Z"
+    },
+    {
+      "question_id": "5.1",
+      "question_name": "How will my academic life be?",
+      "timestamp": "2026-06-21T11:11:37.853067Z"
+    },
+    {
+      "question_id": "10.1",
+      "question_name": "Career Growth",
+      "timestamp": "2026-06-21T11:11:37.852282Z"
+    },
+    {
+      "question_id": "7.1",
+      "question_name": "Marriage Prospects",
+      "timestamp": "2026-06-21T11:11:37.851289Z"
+    },
+    {
+      "question_id": "8.2",
+      "question_name": "Will my children be healthy/successful?",
+      "timestamp": "2026-06-21T11:00:00.655153Z"
+    },
+    {
+      "question_id": "12.1",
+      "question_name": "Will I achieve spiritual progress/Moksha?",
+      "timestamp": "2026-06-21T02:31:43.109255Z"
+    },
+    {
+      "question_id": "11.1",
+      "question_name": "Will I travel for leisure soon?",
+      "timestamp": "2026-06-21T02:31:43.108503Z"
+    }
+  ]
+}

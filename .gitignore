@@ -1,0 +1,25 @@
+# Python Cache & Compiled Files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Testing & Environment
+.pytest_cache/
+venv/
+env/
+.env
+
+# Frontend Dependencies & Build Output
+node_modules/
+dist/
+dist-ssr/
+frontend/.vite/
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
+
+# IDE & Editor Configs
+.vscode/
+.idea/
