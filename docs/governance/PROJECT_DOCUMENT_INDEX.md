@@ -2,6 +2,7 @@
 
 | File Name | Status | Location | Authority Level |
 | :--- | :--- | :--- | :--- |
+| `GOLDEN_MASTER_MANIFEST.md` | AUTHORITATIVE | `docs/governance/` | 1 (Start Here - Golden Master) |
 | `READ_THIS_FIRST_NEW_CHAT.md` | AUTHORITATIVE | `docs/governance/` | 1 (Start Here) |
 | `PROJECT_REFERENCE_MASTER_2026-06-11_IST.md` | AUTHORITATIVE | `docs/governance/` | 1 (Master Memory) |
 | `CODING_AGENT_MEMORY_2026-06-11_IST.md` | ACTIVE | `docs/governance/` | 1 (Agent Memory) |
