@@ -13,3 +13,7 @@
 - [x] 10. Frontend Question System
 - [x] 11. Validation Framework
 - [x] 12. Calibration Framework
+- [x] 13. Functional Nature Engine
+- [x] 14. Quality Metrics Engine
+- [x] 15. Mandali Generator
+- [x] 16. Transit Engine
