@@ -138,6 +138,7 @@ def ask_structured_question(request: QuestionRequest) -> Any:
             domain=domain,
             natal_promise=natal_promise,
             dasha_activation=dashas,
+            lifetime_projection=request.engine_outputs.get("master_probability", {}).get("lifetime_projection", []),
             final_state=evaluation_result.final_state,
             isolated_signals=evaluation_result.isolated_signals,
             client_metadata=client_metadata
