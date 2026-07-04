@@ -59,6 +59,9 @@ None directly. It executes the `CAL-001: Master Probability Synthesis` calculati
 - **Dasha Synthesis Override:** When calculating the lifetime projection, the engine iterates the `dashas.timeline` array and swaps the current `dasha_activation` score with the historical/future ones to generate a time-series graph of probability.
 
 ## 11. Deterministic Rules (The Master Weights)
+The Master Probability Engine is the sole canonical owner of probability aggregation methodology and formula ownership.
+
+### A. Core Engine Weights
 The master aggregation formula is explicitly governed by the following ratio:
 - `natal_promise`: 0.40 (40%)
 - `planet_strength`: 0.15 (15%)
@@ -67,6 +70,10 @@ The master aggregation formula is explicitly governed by the following ratio:
 - `varga_validation`: 0.10 (10%)
 - `dasha_activation`: 0.10 (10%)
 - `transit_trigger`: 0.05 (5%)
+
+### B. Probability Synthesis Formula
+- **60/40 Synthesis Rule**: `(Natal Promise * 0.60) + (Dasha Activation * 0.40)`
+- This exact mathematical synthesis rule is constitutionally owned by the Master Probability Engine and must never be redefined by any downstream orchestrator.
 
 ## 12. Execution Flow
 1. Fetch all 7 factor sub-scores by inspecting the dictionaries emitted by downstream engines.

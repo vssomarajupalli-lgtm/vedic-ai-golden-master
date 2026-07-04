@@ -102,6 +102,10 @@ The following domains have conflicting documents claiming ownership or containin
   * **Status**: RESOLVED (REF-BKL-001)
   * **Resolution**: Created `PIPELINE_RUNNER_KNOWLEDGE_PACKAGE.md` and extracted orchestration logic from Question Engine and Master Probability Engine.
 
+* **Concept**: Probability Synthesis (CON-002)
+  * **Status**: RESOLVED (REF-BKL-002)
+  * **Resolution**: Removed hardcoded 60/40 math from Question Engine. Enforced Master Probability Engine as sole canonical owner.
+
 * **Concept**: Formula Governance
   * **Conflicting Documents**: `FORMULA_GENERATION_GOVERNANCE_v1.md`, `FORMULA_REPOSITORY_GOVERNANCE_v1.md`, `FORMULA_LIBRARY_SCALING_GOVERNANCE_v1.md`
   * **Evidence**: Three distinct v1 documents exist governing the same formula lifecycle processes.

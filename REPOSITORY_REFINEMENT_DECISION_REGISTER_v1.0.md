@@ -159,3 +159,17 @@ All future refinement decisions must be permanently recorded here before any imp
 * **Approval Status**: Approved
 * **Implementation Status**: Implemented
 * **Notes**: Creation of new canonical source architecturally justified.
+
+### REF-BKL-002
+* **Decision ID**: REF-BKL-002
+* **Date**: 2026-07-04
+* **Category**: Knowledge Consolidation
+* **Component**: `QUESTION_ENGINE_KNOWLEDGE_PACKAGE.md`, `MASTER_PROBABILITY_KNOWLEDGE_PACKAGE.md`
+* **Current Location**: Root directory
+* **Proposed Action**: Remove 60/40 probability synthesis math from Question Engine and establish canonical ownership inside Master Probability Engine.
+* **Architectural Reason**: Restores the Question Engine as a pure Orchestrator. Defends the Master Probability Engine as the sole canonical owner of mathematical synthesis, resolving CON-002.
+* **Supporting Evidence**: BKL-002 Execution Package and Architectural Evaluation (Option B).
+* **Impact Assessment**: Eradicates mathematical calculations from the routing layer, enforcing Single Responsibility and One Formula One Owner.
+* **Approval Status**: Approved
+* **Implementation Status**: Implemented
+* **Notes**: Resolves formula ownership conflict.

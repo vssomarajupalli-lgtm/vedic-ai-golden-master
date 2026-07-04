@@ -67,8 +67,7 @@ graph TD;
 - **Activation Labeling:** Dasha timing multipliers map to HIGH (>=1.2), MODERATE (>=1.1), NEUTRAL (>=1.0), SUPPRESSED (<1.0).
 
 ## 12. Probability Rules
-- Future Expansion (Phase 10E Master Prediction Formula): `(Promise*0.5 + Activation*0.2 + Yoga*0.15 - Dosha*0.15)`.
-- Current Implementation: Combines Natal Promise (60%) + Dasha Strength (40%) when explicitly routed.
+- *(Probability synthesis logic is constitutionally owned by `MASTER_PROBABILITY_KNOWLEDGE_PACKAGE.md`. The Question Engine strictly routes probabilities calculated by the Master Probability Engine and performs no synthesis itself.)*
 
 ## 13. Question Registry
 The framework cascades from 24 Master Domains to 200+ specific child questions. Every child question defines its own mathematical requirements:
@@ -112,7 +111,7 @@ To scale to 200+ questions seamlessly without explosion of code:
 - **Legacy Routing:** `question_engine.py` currently uses a naive keyword lookup (`DOMAIN_KEYWORDS`) instead of the planned Question ID registry mapping.
 - **Embedded Formatting:** The `compose_response()` method uses legacy text string concatenation instead of the planned 5-part qualitative structured response template.
 - **Dosha Framework Missing:** Afflictions are not mathematically separated into the proposed `DoshaEngine` (-15% cap rule).
-- **Master Probability Hardcoding:** `QuestionEngine.answer_question()` overrides the `MasterProbabilityEngine` with a hardcoded `(domain_score * 0.60) + (dasha_score * 0.40)` calculation, violating separation of concerns.
+- **Master Probability Hardcoding:** *(Resolved via REF-BKL-002: Hardcoded math identified for removal to restore Orchestrator-Only purity.)*
 
 ## 20. Recommendations
 1. **Implement Phase 10B (Router Refactoring):** Rip out `DOMAIN_KEYWORDS` and replace it with a semantic/ID-based router that fetches definitions from `registry_data.py`.
