@@ -69,7 +69,7 @@ When a document explicitly declares ownership, provides the root mathematical ru
 | **Master Probability** | `MASTER_PROBABILITY_KNOWLEDGE_PACKAGE.md` | None | Phase 9 Prediction Math | Question Engine | Synthesizes final probabilistic scores. | |
 | **Mandali Generator** | `MANDALI_GENERATOR_KNOWLEDGE_PACKAGE.md` | `PHASE15_MANDALI_DECOUPLING_DECISION_RECORD.md` | Phase 15 Reports | Transit Engine | Canonical source for spatial Gochara grids. | |
 | **Transit Engine** | `TRANSIT_ENGINE_KNOWLEDGE_PACKAGE.md` | None | Phase 7/8 Transit logic | None (Legacy) | Preserved legacy transit deterministic logic. | |
-| **Pipeline** | *CONFLICT* (See Sec 6) | `DEPENDENCY_AUDIT_REPORT.md` | Phase 13 Pipeline Reports | Question Engine | Orchestration logic is scattered. | |
+| **Pipeline** | `PIPELINE_RUNNER_KNOWLEDGE_PACKAGE.md` | `DEPENDENCY_AUDIT_REPORT.md` | Phase 13 Pipeline Reports | Question Engine | REF-BKL-001 resolved conflict. | |
 | **JSON Contracts** | `QUESTION_REGISTRY_BACKEND_CONTRACT_v1.md` | `QUESTION_ROUTER_CONTRACT_v1.md` | Phase 10B Contract Review | API, Frontend | Defines the I/O schemas for routing. | |
 | **Repository Decision Register** | `REPOSITORY_REFINEMENT_DECISION_REGISTER_v1.0.md` | None | None | Architects | Logs all GM-005 structural changes. | |
 | **Repository Inventory** | `REPOSITORY_REFINEMENT_MASTER_INVENTORY_v1.0.md` | None | `FINAL_REPOSITORY_TREE_AUDIT.md` | Architects | Central index of all repository assets. | |
@@ -87,7 +87,7 @@ When a document explicitly declares ownership, provides the root mathematical ru
 | **Engine Definitions** | Respective `*_KNOWLEDGE_PACKAGE.md` |
 | **Validation Rules** | `VALIDATION_FRAMEWORK_KNOWLEDGE_PACKAGE.md` |
 | **Calibration Rules** | `CALIBRATION_FRAMEWORK_KNOWLEDGE_PACKAGE.md` |
-| **Pipeline Rules** | *Unresolved Conflict* |
+| **Pipeline Rules** | `PIPELINE_RUNNER_KNOWLEDGE_PACKAGE.md` |
 | **Repository Rules** | `GOVERNANCE_COMPLIANCE_CHECKLIST_v1.0.md` |
 | **Documentation Standards** | `REPOSITORY_CLASSIFICATION_AND_ARCHIVE_STRATEGY_v1.0.md` |
 | **Decision Records** | `REPOSITORY_REFINEMENT_DECISION_REGISTER_v1.0.md` |
@@ -99,9 +99,8 @@ When a document explicitly declares ownership, provides the root mathematical ru
 The following domains have conflicting documents claiming ownership or containing overlapping definitive rules. These conflicts are recorded here and MUST be resolved through future refinement decisions.
 
 * **Concept**: Pipeline Orchestration
-  * **Conflicting Documents**: `QUESTION_ENGINE_KNOWLEDGE_PACKAGE.md`, `MASTER_PROBABILITY_KNOWLEDGE_PACKAGE.md`
-  * **Evidence**: Both documents describe the execution sequence and weighting logic of the `PipelineRunner`, violating single responsibility.
-  * **Risk**: Modifying pipeline execution in one package leaves the other out of sync, causing orchestration drift.
+  * **Status**: RESOLVED (REF-BKL-001)
+  * **Resolution**: Created `PIPELINE_RUNNER_KNOWLEDGE_PACKAGE.md` and extracted orchestration logic from Question Engine and Master Probability Engine.
 
 * **Concept**: Formula Governance
   * **Conflicting Documents**: `FORMULA_GENERATION_GOVERNANCE_v1.md`, `FORMULA_REPOSITORY_GOVERNANCE_v1.md`, `FORMULA_LIBRARY_SCALING_GOVERNANCE_v1.md`
@@ -113,7 +112,7 @@ The following domains have conflicting documents claiming ownership or containin
   * **Evidence**: Only Phase 15 uses a formal ADR structure, while other phases embed major architectural decisions inside implementation readouts.
   * **Risk**: Lack of a centralized ADR collection makes architectural constraints difficult to discover and audit.
 
-*(Note: No conflicts are resolved in this document. Future refinement will address them.)*
+*(Note: Conflicts are progressively resolved through formal refinement decisions (e.g., REF-BKL-001).)*
 
 ---
 

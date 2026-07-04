@@ -141,3 +141,21 @@ All future refinement decisions must be permanently recorded here before any imp
 * **Architecture Review**
 * **Documentation Update**
 * **Version Increment**
+
+---
+
+## SECTION 11: Approved Decisions
+
+### REF-BKL-001
+* **Decision ID**: REF-BKL-001
+* **Date**: 2026-07-04
+* **Category**: Knowledge Consolidation
+* **Component**: `PIPELINE_RUNNER_KNOWLEDGE_PACKAGE.md`, `QUESTION_ENGINE_KNOWLEDGE_PACKAGE.md`, `MASTER_PROBABILITY_KNOWLEDGE_PACKAGE.md`
+* **Current Location**: Root directory
+* **Proposed Action**: Create `PIPELINE_RUNNER_KNOWLEDGE_PACKAGE.md`. Extract pipeline orchestration logic from Question Engine and Master Probability packages into this new canonical source.
+* **Architectural Reason**: Resolves CON-001. Establishes the Pipeline Runner as the canonical owner of the DAG execution sequence, enforcing the Single Responsibility Principle.
+* **Supporting Evidence**: BKL-001 Execution Package and Final Canonical Ownership Verification (Option B).
+* **Impact Assessment**: Decouples orchestration from engine logic. Question and Master Probability engines become completely isolated from execution DAG mechanics.
+* **Approval Status**: Approved
+* **Implementation Status**: Implemented
+* **Notes**: Creation of new canonical source architecturally justified.

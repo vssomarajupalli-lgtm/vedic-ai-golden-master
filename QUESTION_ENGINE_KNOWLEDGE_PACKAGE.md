@@ -21,32 +21,10 @@ The architecture enforces a total separation of concerns: The Question Engine pe
 | **Answer Composer** | Formats the extracted variables into a governed natural language response. | Legacy Text Concat |
 
 ## 4. Execution Flow
-1. API receives a user query.
-2. `QuestionEngine` routes query to a Domain / `question_id`.
-3. `PipelineRunner` executes all foundational engines (Planet, House, Rasi, Yoga, Dasha, etc.).
-4. `QuestionEngine` receives the unified `pipeline_output`.
-5. `QuestionEngine` extracts the required domain promise, dasha timing, transit activation, and master probability.
-6. `QuestionEngine` composes a structured payload (Score, Grade, Narrative).
-7. Payload is sent to the client UI.
+*(Execution DAG and sequence moved to `PIPELINE_RUNNER_KNOWLEDGE_PACKAGE.md`)*
 
 ## 5. Engine Dependency Diagram
-```mermaid
-graph TD;
-    API[API Request] --> QE[Question Engine];
-    QE --> PR[Pipeline Runner];
-    PR --> PE[Planet Strength];
-    PR --> HE[House Strength];
-    PR --> VE[Varga Engine];
-    PR --> DE[Dasha Engine];
-    PR --> YE[Yoga Engine];
-    PE --> MPE[Master Probability Engine];
-    HE --> MPE;
-    VE --> MPE;
-    DE --> MPE;
-    YE --> MPE;
-    MPE --> QE_ANS[QE Answer Composer];
-    QE_ANS --> UI[Frontend Display];
-```
+*(Moved to `PIPELINE_RUNNER_KNOWLEDGE_PACKAGE.md`)*
 
 ## 6. Formula Dependency Diagram
 ```mermaid

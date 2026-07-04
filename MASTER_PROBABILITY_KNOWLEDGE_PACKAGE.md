@@ -73,9 +73,7 @@ The master aggregation formula is explicitly governed by the following ratio:
 2. Calculate the weighted sum using `MASTER_WEIGHTS`.
 3. Apply `clamp_score(raw)` to bound between 0-100.
 4. Call `_grade(score)` to assign the qualitative label.
-5. Clone the current environment and loop through the native's Dasha timeline.
-6. Swap the Dasha Activation score in the clone for each period.
-7. Recalculate the master probability for every period in the native's life to generate the `lifetime_projection`.
+5. *(Lifetime Projection timeline orchestration looping moved to `PIPELINE_RUNNER_KNOWLEDGE_PACKAGE.md`)*
 
 ## 13. Implementation Files
 - `backend/app/engines/master_probability_engine.py`
