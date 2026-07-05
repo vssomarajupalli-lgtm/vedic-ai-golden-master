@@ -76,3 +76,8 @@ Implements 23 deterministic boolean combinations, including:
 ## 18. Recommendations
 - **Refactor to Registry (Phase 10A):** Delete the 23 Python methods and replace them with a dynamic evaluator that reads `YOG_` formulas from `registry_data.py`.
 - **Integrate Mathematics:** Update the Master Probability formula to mathematically reward charts that possess passing yogas, as outlined in the Phase 10E implementation plan.
+
+## 19. Formula Integration (Yoga Data Model)
+*Migrated from `FORMULA_REPOSITORY_DATA_MODEL_v1.md` (CON-004 Resolution)*
+- **Yoga Support Confidence Layer**: Within the broader formula data model, Yogas function as a specific confidence layer. Their structural role is to define named mathematical combinations that amplify or rescue a base astrological assessment.
+- **Data Structure**: Yogas are not calculated within the formula. The formula merely checks if the Yoga Engine trace output contains a `PASSED` status for the specific required Yoga.

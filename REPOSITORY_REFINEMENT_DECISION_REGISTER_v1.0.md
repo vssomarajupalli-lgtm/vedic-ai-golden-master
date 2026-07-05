@@ -187,3 +187,17 @@ All future refinement decisions must be permanently recorded here before any imp
 * **Approval Status**: Approved
 * **Implementation Status**: Implemented
 * **Notes**: All unique architectural constraints from the original three documents were physically preserved in the new canonical source.
+
+### REF-BKL-004
+* **Decision ID**: REF-BKL-004
+* **Date**: 2026-07-05
+* **Category**: Knowledge Consolidation
+* **Component**: `FORMULA_REPOSITORY_DATA_MODEL_v1.md`, `YOGA_INTELLIGENCE_KNOWLEDGE_PACKAGE.md`
+* **Current Location**: Root directory
+* **Proposed Action**: Transfer duplicate Yoga Data Model knowledge (Yoga Support definitions) into the canonical Yoga Intelligence Knowledge Package. Replace the section in the Data Model with a reference.
+* **Architectural Reason**: Resolves CON-004 by affirming the Yoga Engine as the sole canonical owner of Yoga Data Models, complying with the "One Canonical Source Per Concept" rule.
+* **Supporting Evidence**: BKL-004 Execution Package, Architectural Evaluation (Option B).
+* **Impact Assessment**: Eradicates duplication and calculation drift. Yoga knowledge and formula ownership are unchanged.
+* **Approval Status**: Approved
+* **Implementation Status**: Implemented
+* **Notes**: Yoga knowledge safely preserved without altering Yoga Engine behavior.

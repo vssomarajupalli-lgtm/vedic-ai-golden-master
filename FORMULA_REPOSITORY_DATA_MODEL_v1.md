@@ -29,7 +29,7 @@ The system evaluates an astrological event not by a single boolean, but by accum
 ### 3.1 Layer Contributions
 1. **Natal Promise**: The baseline. Does the D1/Varga chart support the event? (e.g., 7th lord is well-placed). If the natal promise is denied, subsequent layers cannot override it to "positive."
 2. **Dasha Activation**: The timing mechanism. Is the current Mahadasha or Antardasha connected to the required signals?
-3. **Yoga Support**: Are there specific named mathematical combinations (Yogas) that amplify or rescue the assessment?
+3. **Yoga Support**: *(Migrated to `YOGA_INTELLIGENCE_KNOWLEDGE_PACKAGE.md` as per BKL-004/CON-004 resolution to consolidate Yoga Engine as the sole canonical owner of Yoga data structures)*
 4. **Ashtakavarga Support**: Does the relevant house possess sufficient bindus (>28) to sustain the event?
 5. **Transit Support**: Is the current sky (TransitEngine) triggering the natal promise?
 

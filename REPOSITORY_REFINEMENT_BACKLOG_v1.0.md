@@ -32,7 +32,7 @@ The Repository Refinement Backlog acts as the master execution queue for the GM-
 | **BKL-001** | Engine Knowledge | `QUESTION_ENGINE_KNOWLEDGE_PACKAGE.md` vs `MASTER_PROBABILITY_KNOWLEDGE_PACKAGE.md` | Conflict Resolution Plan | Critical | High | Pipeline Runner | High | Pending | Queued |
 | **BKL-002** | Engine Knowledge | `QUESTION_ENGINE_KNOWLEDGE_PACKAGE.md` | Formula Ownership Mapping | Critical | High | API Layer | Medium | Pending | Queued |
 | **BKL-003** | Governance Knowledge | `FORMULA_*_GOVERNANCE_v1.md` | Canonical Source Mapping | High | High | Formula Catalogs | Medium | REF-BKL-003 | Complete |
-| **BKL-004** | Formula Knowledge | `FORMULA_REPOSITORY_DATA_MODEL_v1.md` | Formula Ownership Mapping | High | Medium | Yoga Engine | Low | Pending | Queued |
+| **BKL-004** | Formula Knowledge | `FORMULA_REPOSITORY_DATA_MODEL_v1.md` | Formula Ownership Mapping | High | Medium | Yoga Engine | Low | REF-BKL-004 | Complete |
 | **BKL-005** | Documentation | Phase 8-16 Readouts (ADR Extraction) | Conflict Resolution Plan | Medium | Low | Historical Traceability | High | Pending | Queued |
 | **BKL-006** | Legacy Archive | Phase 8-16 Readouts | Duplication Analysis | Medium | Low | BKL-005 | Low | Pending | Queued |
 | **BKL-007** | Formula Knowledge | `FORMULA_CATEGORY_CATALOG_v1.md`, `FORMULA_FAMILY_CATALOG_v1.md` | Duplication Analysis | Low | Low | Engine references | Low | Pending | Queued |
