@@ -173,3 +173,17 @@ All future refinement decisions must be permanently recorded here before any imp
 * **Approval Status**: Approved
 * **Implementation Status**: Implemented
 * **Notes**: Resolves formula ownership conflict.
+
+### REF-BKL-003
+* **Decision ID**: REF-BKL-003
+* **Date**: 2026-07-05
+* **Category**: Knowledge Consolidation
+* **Component**: `FORMULA_GENERATION_GOVERNANCE_v1.md`, `FORMULA_REPOSITORY_GOVERNANCE_v1.md`, `FORMULA_LIBRARY_SCALING_GOVERNANCE_v1.md`
+* **Current Location**: Root directory
+* **Proposed Action**: Merge into a single Canonical Governance document `FORMULA_GOVERNANCE_v1.0.md` and archive the original three documents to `docs/archive/formulas/`.
+* **Architectural Reason**: Resolves governance contradiction regarding formula lifecycle processes by establishing one unambiguous constitutional rulebook, in compliance with "One Canonical Source Per Concept" rule.
+* **Supporting Evidence**: BKL-003 Execution Package, Architectural Evaluation (Option B), Canonical Source Mapping.
+* **Impact Assessment**: Eliminates contradictory developer instructions. Formula ownership unchanged. Enforces strict inheritance and template reuse.
+* **Approval Status**: Approved
+* **Implementation Status**: Implemented
+* **Notes**: All unique architectural constraints from the original three documents were physically preserved in the new canonical source.

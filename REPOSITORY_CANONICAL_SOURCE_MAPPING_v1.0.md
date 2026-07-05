@@ -107,9 +107,8 @@ The following domains have conflicting documents claiming ownership or containin
   * **Resolution**: Removed hardcoded 60/40 math from Question Engine. Enforced Master Probability Engine as sole canonical owner.
 
 * **Concept**: Formula Governance
-  * **Conflicting Documents**: `FORMULA_GENERATION_GOVERNANCE_v1.md`, `FORMULA_REPOSITORY_GOVERNANCE_v1.md`, `FORMULA_LIBRARY_SCALING_GOVERNANCE_v1.md`
-  * **Evidence**: Three distinct v1 documents exist governing the same formula lifecycle processes.
-  * **Risk**: Governance contradiction; developers may follow scaling governance while violating repository governance.
+  * **Status**: RESOLVED (REF-BKL-003)
+  * **Resolution**: Consolidated `FORMULA_GENERATION_GOVERNANCE_v1.md`, `FORMULA_REPOSITORY_GOVERNANCE_v1.md`, and `FORMULA_LIBRARY_SCALING_GOVERNANCE_v1.md` into a single canonical source `FORMULA_GOVERNANCE_v1.0.md`.
 
 * **Concept**: Architecture Decision Records (ADRs)
   * **Conflicting Documents**: `PHASE15_MANDALI_DECOUPLING_DECISION_RECORD.md` vs all other `PHASE*_REPORT.md` files.
