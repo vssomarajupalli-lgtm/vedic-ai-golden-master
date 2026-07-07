@@ -7,8 +7,8 @@
 * **Project**: SVAI-GM
 * **Program**: Program B
 * **Milestone**: GM-005
-* **Version**: v1.0
-* **Status**: DRAFT
+* **Version**: v1.1
+* **Status**: ACTIVE
 * **Author**: Coding Engine
 
 ---
@@ -29,11 +29,11 @@ The Repository Refinement Backlog acts as the master execution queue for the GM-
 
 | Backlog ID | Knowledge Domain | Repository Asset | Evidence Source | Priority | Architectural Risk | Dependencies | Estimated Complexity | Decision Register Reference | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **BKL-001** | Engine Knowledge | `QUESTION_ENGINE_KNOWLEDGE_PACKAGE.md` vs `MASTER_PROBABILITY_KNOWLEDGE_PACKAGE.md` | Conflict Resolution Plan | Critical | High | Pipeline Runner | High | Pending | Queued |
-| **BKL-002** | Engine Knowledge | `QUESTION_ENGINE_KNOWLEDGE_PACKAGE.md` | Formula Ownership Mapping | Critical | High | API Layer | Medium | Pending | Queued |
+| **BKL-001** | Engine Knowledge | `QUESTION_ENGINE_KNOWLEDGE_PACKAGE.md` vs `MASTER_PROBABILITY_KNOWLEDGE_PACKAGE.md` | Conflict Resolution Plan | Critical | High | Pipeline Runner | High | REF-BKL-001 | Complete |
+| **BKL-002** | Engine Knowledge | `QUESTION_ENGINE_KNOWLEDGE_PACKAGE.md` | Formula Ownership Mapping | Critical | High | API Layer | Medium | REF-BKL-002 | Complete |
 | **BKL-003** | Governance Knowledge | `FORMULA_*_GOVERNANCE_v1.md` | Canonical Source Mapping | High | High | Formula Catalogs | Medium | REF-BKL-003 | Complete |
 | **BKL-004** | Formula Knowledge | `FORMULA_REPOSITORY_DATA_MODEL_v1.md` | Formula Ownership Mapping | High | Medium | Yoga Engine | Low | REF-BKL-004 | Complete |
-| **BKL-005** | Documentation | Phase 8-16 Readouts (ADR Extraction) | Conflict Resolution Plan | Medium | Low | Historical Traceability | High | Pending | Queued |
+| **BKL-005** | Documentation | Phase 8-16 Readouts (ADR Extraction) | Conflict Resolution Plan | Medium | Low | Historical Traceability | High | REF-BKL-005 | Complete |
 | **BKL-006** | Legacy Archive | Phase 8-16 Readouts | Duplication Analysis | Medium | Low | BKL-005 | Low | Pending | Queued |
 | **BKL-007** | Formula Knowledge | `FORMULA_CATEGORY_CATALOG_v1.md`, `FORMULA_FAMILY_CATALOG_v1.md` | Duplication Analysis | Low | Low | Engine references | Low | Pending | Queued |
 
@@ -62,7 +62,7 @@ To ensure safe refinement, the master backlog is grouped by architectural domain
 
 ## SECTION 5: Execution Order
 
-Refinement execution must follow a strict order to minimize repository shock. The recommended execution sequence is:
+Refinement execution must follow a strict order to minimize repository shock. The recommended execution sequence (representing the approved execution sequence established during GM-005 planning) is:
 
 1. **BKL-001 & BKL-002 (Engine Knowledge)**: *Highest Architectural Risk*. Orchestration boundaries and calculation ownership must be fixed first to prevent active logic drift.
 2. **BKL-003 (Governance Knowledge)**: *High Impact*. Formula governance must be unified before any physical formulas are moved or evaluated in upcoming milestones.

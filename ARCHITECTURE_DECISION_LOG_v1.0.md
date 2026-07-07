@@ -33,4 +33,14 @@ This log acts as the central index for all formal Architecture Decision Records 
 | [ADR-012](docs/architecture/decisions/ADR-012.md) | Non-Numeric Confidence Model (Boolean Layering) | Data Model | Phase 12 | Formula Evaluator | Accepted |
 
 ---
+## Phase D: Validation & Runtime Protection
+
+| ADR ID | Title | Domain | Original Phase | Canonical Owner | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| [ADR-013](docs/architecture/decisions/ADR-013.md) | Formula Final State Supremacy (Strict Tone-Locking) | Validation / Pipeline | Phase 13 / 15 | Answer Composer | Accepted |
+| [ADR-014](docs/architecture/decisions/ADR-014.md) | Answer Composer Firewall Rules | Validation / Pipeline | Phase 12 | Answer Composer | Accepted |
+| [ADR-015](docs/architecture/decisions/ADR-015.md) | Graceful Degradation via MIXED State Capping | Evaluation / Pipeline | Phase 13 | Formula Evaluator | Accepted |
+| [ADR-016](docs/architecture/decisions/ADR-016.md) | Deterministic Communication of System Warnings | Validation / UI | Phase 13 | Answer Composer | Accepted |
+
+---
 *(Later phases will be appended here as they are recovered and approved)*

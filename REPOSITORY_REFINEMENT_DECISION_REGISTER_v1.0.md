@@ -7,8 +7,8 @@
 * **Project**: SVAI-GM
 * **Program**: Program B
 * **Milestone**: GM-005
-* **Version**: v1.0
-* **Status**: DRAFT
+* **Version**: v1.1
+* **Status**: ACTIVE
 * **Author**: Coding Engine
 
 ---
@@ -201,3 +201,17 @@ All future refinement decisions must be permanently recorded here before any imp
 * **Approval Status**: Approved
 * **Implementation Status**: Implemented
 * **Notes**: Yoga knowledge safely preserved without altering Yoga Engine behavior.
+
+### REF-BKL-005
+* **Decision ID**: REF-BKL-005
+* **Date**: 2026-07-07
+* **Category**: Knowledge Consolidation
+* **Component**: Phase 8-16 Readouts
+* **Current Location**: Root directory
+* **Proposed Action**: Extract hidden architectural constraints and rules from legacy Phase 8-16 reports and convert them into formal ADRs.
+* **Architectural Reason**: Resolves undocumented architectural rules and protects repository governance from drift by formalizing constraints as Architecture Decision Records.
+* **Supporting Evidence**: ADR_INVENTORY_v1.0.md
+* **Impact Assessment**: No logic or governance changes. Explicitly preserves architectural intent securely in ADR format.
+* **Approval Status**: Approved
+* **Implementation Status**: Implemented
+* **Notes**: 16 ADRs successfully recovered. Final Constitutional Audit passed.
