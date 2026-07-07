@@ -24,4 +24,13 @@ This log acts as the central index for all formal Architecture Decision Records 
 | [ADR-009](docs/architecture/decisions/ADR-009.md) | Deterministic Mapping Matrix (Replacement of NLP Routing) | Engine Architecture | Phase 9 | Question Registry | Accepted |
 
 ---
+## Phase C: Formula Architecture & Data Model
+
+| ADR ID | Title | Domain | Original Phase | Canonical Owner | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| [ADR-010](docs/architecture/decisions/ADR-010.md) | Formula Scaling via Many-to-One Convergence Rule | Formula Architecture | Phase 14 | Formula Repository | Accepted |
+| [ADR-011](docs/architecture/decisions/ADR-011.md) | Exclusion of the Moon from the Biological Progeny Promise | Data Model | Phase 14 | Formula Repository | Accepted |
+| [ADR-012](docs/architecture/decisions/ADR-012.md) | Non-Numeric Confidence Model (Boolean Layering) | Data Model | Phase 12 | Formula Evaluator | Accepted |
+
+---
 *(Later phases will be appended here as they are recovered and approved)*
