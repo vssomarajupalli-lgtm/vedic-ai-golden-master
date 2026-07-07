@@ -66,6 +66,8 @@ Execution Package
 
 Architectural Evaluation
 
+(Includes Architectural Peer Review Protocol: Every proposed architectural or governance modification shall be independently challenged using repository evidence before approval. The reviewer shall explicitly state AGREE or DISAGREE together with supporting repository evidence. Blind agreement is prohibited.)
+
 ↓
 
 User Approval
@@ -124,6 +126,25 @@ Every newly created or updated repository document must include:
 - Last Updated Time (IST)
 - Version
 - Status
+
+Every constitutional, discovery, or audit report must utilize the Evidence Verification Standard:
+
+This Evidence Verification Standard applies to all Discovery Reports, Audit Reports, Validation Reports, Repository Analysis Reports, Constitutional Reviews, Execution Verification Reports, and similar governance artifacts.
+
+All factual claims must be explicitly classified as one of the following:
+- Verified: Repository evidence explicitly confirms the statement.
+- Not Verified: Repository evidence has not yet confirmed the statement.
+- Not Applicable: The evidence category does not apply to the current activity.
+
+Do not use "None" unless it represents a repository-verified absence.
+
+Every report must conclude with an Evidence Confidence Summary:
+- Repository Inventory: [Verified / Not Verified]
+- Repository References: [Verified / Not Verified]
+- Executable References: [Verified / Not Verified]
+- Dependency Verification: [Verified / Not Verified]
+- Repository Modifications: [None / Performed]
+- Architectural Inference: [None / Present]
 
 ---
 
