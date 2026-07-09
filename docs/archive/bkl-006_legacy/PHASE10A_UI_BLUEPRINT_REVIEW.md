@@ -1,7 +1,7 @@
 # PHASE 10A: UI BLUEPRINT REVIEW & IMPLEMENTATION READINESS
 
 ## 1. Objective Alignment
-The UI Blueprint successfully outlines the deprecation of the open-text LLM query paradigm in favor of a deterministic, 24-domain Question Registry browser. The designs adhere strictly to the `QUESTION_REGISTRY_MASTER_v1.md` taxonomy while maintaining a mobile-first, elder-friendly accessibility posture.
+The UI Blueprint successfully outlines the deprecation of the open-text LLM query paradigm in favor of a deterministic, 24-domain Question Registry browser. The designs adhere strictly to the `docs/status/QUESTION_REGISTRY_MASTER_v1.md` taxonomy while maintaining a mobile-first, elder-friendly accessibility posture.
 
 ## 2. Potential UX Risks
 

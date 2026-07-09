@@ -4,10 +4,10 @@
 - **Phase:** 9
 - **Step:** 3
 - **Objective:** Design the authoritative architecture for a deterministic Question Registry framework, displacing free-text-only reliance.
-- **Result:** Successfully authored `QUESTION_REGISTRY_ARCHITECTURE_v1.md`.
+- **Result:** Successfully authored `docs/architecture/QUESTION_REGISTRY_ARCHITECTURE_v1.md`.
 
 ## Deliverables Completed
-1. **QUESTION_REGISTRY_ARCHITECTURE_v1.md**
+1. **docs/architecture/QUESTION_REGISTRY_ARCHITECTURE_v1.md**
    - Outlined structural hierarchy from 24 Master Domains down to individual Question IDs.
    - Defined 3 Input Modes (Direct selection, NLP matching, Typo handling).
    - Designed the `question_id` registry schema containing dependencies (houses, planets, yogas, dashas, transits).

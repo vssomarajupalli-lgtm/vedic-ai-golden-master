@@ -105,7 +105,7 @@ DESIGN REFERENCE ONLY
 
 ---
 
-## reference/VEDIC_AI_VERSION_1_RELEASE.md
+## reference/VEDIC_AI_docs/status/VERSION_1_RELEASE.md
 
 Purpose:
 

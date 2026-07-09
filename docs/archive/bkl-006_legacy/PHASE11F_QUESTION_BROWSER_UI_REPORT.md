@@ -17,7 +17,7 @@ Updated `frontend/src/api/backend.ts` with typed asynchronous Axios calls to int
 Updated `askQuestion` to correctly accept both `question_text` and `question_id`.
 
 ### 3.2 `QuestionBrowser.tsx`
-Built the complex UI specified in `QUESTION_BROWSER_UI_BLUEPRINT_v1.md`:
+Built the complex UI specified in `docs/architecture/QUESTION_BROWSER_UI_BLUEPRINT_v1.md`:
 - **Sticky Search Bar**: Real-time resolution leveraging the backend `SearchLayer`.
 - **Segmented Tabs**: Smooth switching between "Browse All", "Favorites", and "Recent".
 - **Domain Accordion**: The registry is grouped into 24 expandable Master Domains. Tapping expands to reveal the nested Question IDs.

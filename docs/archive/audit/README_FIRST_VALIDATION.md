@@ -10,7 +10,7 @@ Validating paths relative to the `docs/` directory:
 * `reference/PROJECT_REQUIREMENTS.md` (Valid)
 * `reference/VEDIC_AI_MASTER_DEVELOPMENT_ROADMAP.md` (Valid)
 * `reference/VEDIC_AI_PROBABILITY_ENGINE_ARCHITECTURE.md` (Valid)
-* `reference/VEDIC_AI_VERSION_1_RELEASE.md` (Valid)
+* `reference/VEDIC_AI_docs/status/VERSION_1_RELEASE.md` (Valid)
 * `docs/archive/*` (**Broken**: Relative to the `docs/` directory, this path translates to `docs/docs/archive/*`. It should just be `archive/*`).
 * `CHATGPT_IMPLEMENTATION_MEMORY.md` (Valid)
 * `CHATGPT_ARCHITECTURE_MEMORY.md` (**Broken**: File exists in `archive/`, not at the root of `docs/`).

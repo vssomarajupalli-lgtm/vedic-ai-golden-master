@@ -38,7 +38,7 @@
 | `docs/reference/VEDIC_AI_MASTER_ARCHITECTURE.md` | The Master Architecture Document outlining core engines, technical layers, and vision. | ACTIVE |
 | `docs/reference/VEDIC_AI_MASTER_DEVELOPMENT_ROADMAP.md` | Detailed development roadmap for data ingestion, engines, and domain evaluation. | ACTIVE |
 | `docs/reference/VEDIC_AI_PROBABILITY_ENGINE_ARCHITECTURE.md` | Master calculation document defining formulas and weighting for the probability engines. | ACTIVE |
-| `docs/reference/VEDIC_AI_VERSION_1_RELEASE.md` | Release notes for Version 1.0.0 (Phase 4 Freeze). | ACTIVE |
+| `docs/reference/VEDIC_AI_docs/status/VERSION_1_RELEASE.md` | Release notes for Version 1.0.0 (Phase 4 Freeze). | ACTIVE |
 | `frontend/README.md` | Default Vite/React README with ESLint setup instructions. | ACTIVE |
 
 ## Specific Queries

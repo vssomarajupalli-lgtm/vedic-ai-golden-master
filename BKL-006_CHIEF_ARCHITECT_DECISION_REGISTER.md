@@ -935,193 +935,193 @@ status: PENDING_CRL1_CLASSIFICATION
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE10A_FORMULA_LOADER_BLUEPRINT_2026-06-19.md](file:///d:/vedic-ai-golden-master/PHASE10A_FORMULA_LOADER_BLUEPRINT_2026-06-19.md)
-*   **Repository Path:** `PHASE10A_FORMULA_LOADER_BLUEPRINT_2026-06-19.md`
-*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-001.md; Canonical Refs: ADR_INVENTORY_v1.0.md
+### Artifact: [docs/architecture/PHASE10A_FORMULA_LOADER_BLUEPRINT_2026-06-19.md](file:///d:/vedic-ai-golden-master/PHASE10A_FORMULA_LOADER_BLUEPRINT_2026-06-19.md)
+*   **Repository Path:** `docs/architecture/PHASE10A_FORMULA_LOADER_BLUEPRINT_2026-06-19.md`
+*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-001.md; Canonical Refs: docs/architecture/ADR_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE11A_REGISTRY_IMPLEMENTATION_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE11A_REGISTRY_IMPLEMENTATION_REPORT.md)
-*   **Repository Path:** `PHASE11A_REGISTRY_IMPLEMENTATION_REPORT.md`
-*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-002.md; Canonical Refs: ADR_INVENTORY_v1.0.md
+### Artifact: [docs/status/PHASE11A_REGISTRY_IMPLEMENTATION_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE11A_REGISTRY_IMPLEMENTATION_REPORT.md)
+*   **Repository Path:** `docs/status/PHASE11A_REGISTRY_IMPLEMENTATION_REPORT.md`
+*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-002.md; Canonical Refs: docs/architecture/ADR_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE12A_FORMULA_ARCHITECTURE_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE12A_FORMULA_ARCHITECTURE_REPORT.md)
-*   **Repository Path:** `PHASE12A_FORMULA_ARCHITECTURE_REPORT.md`
-*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-008.md, docs/architecture/decisions/ADR-014.md; Canonical Refs: ADR_INVENTORY_v1.0.md
+### Artifact: [docs/architecture/PHASE12A_FORMULA_ARCHITECTURE_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE12A_FORMULA_ARCHITECTURE_REPORT.md)
+*   **Repository Path:** `docs/architecture/PHASE12A_FORMULA_ARCHITECTURE_REPORT.md`
+*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-008.md, docs/architecture/decisions/ADR-014.md; Canonical Refs: docs/architecture/ADR_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE12B_DATA_MODEL_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE12B_DATA_MODEL_REPORT.md)
-*   **Repository Path:** `PHASE12B_DATA_MODEL_REPORT.md`
-*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-012.md; Canonical Refs: ADR_INVENTORY_v1.0.md
+### Artifact: [docs/architecture/PHASE12B_DATA_MODEL_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE12B_DATA_MODEL_REPORT.md)
+*   **Repository Path:** `docs/architecture/PHASE12B_DATA_MODEL_REPORT.md`
+*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-012.md; Canonical Refs: docs/architecture/ADR_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE13B_EVALUATOR_ARCHITECTURE_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE13B_EVALUATOR_ARCHITECTURE_REPORT.md)
-*   **Repository Path:** `PHASE13B_EVALUATOR_ARCHITECTURE_REPORT.md`
-*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-015.md; Canonical Refs: ADR_INVENTORY_v1.0.md
+### Artifact: [docs/architecture/PHASE13B_EVALUATOR_ARCHITECTURE_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE13B_EVALUATOR_ARCHITECTURE_REPORT.md)
+*   **Repository Path:** `docs/architecture/PHASE13B_EVALUATOR_ARCHITECTURE_REPORT.md`
+*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-015.md; Canonical Refs: docs/architecture/ADR_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE13D_COMPOSER_ARCHITECTURE_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE13D_COMPOSER_ARCHITECTURE_REPORT.md)
-*   **Repository Path:** `PHASE13D_COMPOSER_ARCHITECTURE_REPORT.md`
-*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-013.md, docs/architecture/decisions/ADR-016.md; Canonical Refs: ADR_INVENTORY_v1.0.md
+### Artifact: [docs/architecture/PHASE13D_COMPOSER_ARCHITECTURE_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE13D_COMPOSER_ARCHITECTURE_REPORT.md)
+*   **Repository Path:** `docs/architecture/PHASE13D_COMPOSER_ARCHITECTURE_REPORT.md`
+*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-013.md, docs/architecture/decisions/ADR-016.md; Canonical Refs: docs/architecture/ADR_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE14A_ARCHITECTURE_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE14A_ARCHITECTURE_REPORT.md)
-*   **Repository Path:** `PHASE14A_ARCHITECTURE_REPORT.md`
-*   **Verified Evidence Summary:** Canonical Refs: ADR_INVENTORY_v1.0.md; Active Doc Refs: REPOSITORY_REFINEMENT_MASTER_INVENTORY_v1.0.md
+### Artifact: [docs/architecture/PHASE14A_ARCHITECTURE_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE14A_ARCHITECTURE_REPORT.md)
+*   **Repository Path:** `docs/architecture/PHASE14A_ARCHITECTURE_REPORT.md`
+*   **Verified Evidence Summary:** Canonical Refs: docs/architecture/ADR_INVENTORY_v1.0.md; Active Doc Refs: docs/status/REPOSITORY_REFINEMENT_MASTER_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE14C_CATALOG_ARCHITECTURE_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE14C_CATALOG_ARCHITECTURE_REPORT.md)
-*   **Repository Path:** `PHASE14C_CATALOG_ARCHITECTURE_REPORT.md`
-*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-005.md, docs/architecture/decisions/ADR-010.md; Canonical Refs: ADR_INVENTORY_v1.0.md
+### Artifact: [docs/architecture/PHASE14C_CATALOG_ARCHITECTURE_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE14C_CATALOG_ARCHITECTURE_REPORT.md)
+*   **Repository Path:** `docs/architecture/PHASE14C_CATALOG_ARCHITECTURE_REPORT.md`
+*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-005.md, docs/architecture/decisions/ADR-010.md; Canonical Refs: docs/architecture/ADR_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE14D_RISK_REGISTER.md](file:///d:/vedic-ai-golden-master/PHASE14D_RISK_REGISTER.md)
-*   **Repository Path:** `PHASE14D_RISK_REGISTER.md`
-*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-010.md; Canonical Refs: ADR_INVENTORY_v1.0.md
+### Artifact: [docs/governance/PHASE14D_RISK_REGISTER.md](file:///d:/vedic-ai-golden-master/PHASE14D_RISK_REGISTER.md)
+*   **Repository Path:** `docs/governance/PHASE14D_RISK_REGISTER.md`
+*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-010.md; Canonical Refs: docs/architecture/ADR_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE14E_IMPLEMENTATION_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE14E_IMPLEMENTATION_REPORT.md)
-*   **Repository Path:** `PHASE14E_IMPLEMENTATION_REPORT.md`
-*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-010.md; Canonical Refs: ADR_INVENTORY_v1.0.md
+### Artifact: [docs/status/PHASE14E_IMPLEMENTATION_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE14E_IMPLEMENTATION_REPORT.md)
+*   **Repository Path:** `docs/status/PHASE14E_IMPLEMENTATION_REPORT.md`
+*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-010.md; Canonical Refs: docs/architecture/ADR_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE14G_ARCHITECTURE_REVIEW.md](file:///d:/vedic-ai-golden-master/PHASE14G_ARCHITECTURE_REVIEW.md)
-*   **Repository Path:** `PHASE14G_ARCHITECTURE_REVIEW.md`
-*   **Verified Evidence Summary:** Active Doc Refs: REPOSITORY_CLASSIFICATION_AND_ARCHIVE_STRATEGY_v1.0.md, REPOSITORY_DUPLICATION_AND_CONSOLIDATION_ANALYSIS_v1.0.md, REPOSITORY_REFINEMENT_MASTER_INVENTORY_v1.0.md
+### Artifact: [docs/architecture/PHASE14G_ARCHITECTURE_REVIEW.md](file:///d:/vedic-ai-golden-master/PHASE14G_ARCHITECTURE_REVIEW.md)
+*   **Repository Path:** `docs/architecture/PHASE14G_ARCHITECTURE_REVIEW.md`
+*   **Verified Evidence Summary:** Active Doc Refs: docs/status/REPOSITORY_CLASSIFICATION_AND_ARCHIVE_STRATEGY_v1.0.md, docs/status/REPOSITORY_DUPLICATION_AND_CONSOLIDATION_ANALYSIS_v1.0.md, docs/status/REPOSITORY_REFINEMENT_MASTER_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE14G_HARDENING_REVIEW.md](file:///d:/vedic-ai-golden-master/PHASE14G_HARDENING_REVIEW.md)
-*   **Repository Path:** `PHASE14G_HARDENING_REVIEW.md`
-*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-011.md; Canonical Refs: ADR_INVENTORY_v1.0.md
+### Artifact: [docs/status/PHASE14G_HARDENING_REVIEW.md](file:///d:/vedic-ai-golden-master/PHASE14G_HARDENING_REVIEW.md)
+*   **Repository Path:** `docs/status/PHASE14G_HARDENING_REVIEW.md`
+*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-011.md; Canonical Refs: docs/architecture/ADR_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE15A_ENGINE_INTERFACE_AUDIT.md](file:///d:/vedic-ai-golden-master/PHASE15A_ENGINE_INTERFACE_AUDIT.md)
-*   **Repository Path:** `PHASE15A_ENGINE_INTERFACE_AUDIT.md`
-*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-004.md, docs/architecture/decisions/ADR-013.md; Canonical Refs: ADR_INVENTORY_v1.0.md
+### Artifact: [docs/status/PHASE15A_ENGINE_INTERFACE_AUDIT.md](file:///d:/vedic-ai-golden-master/PHASE15A_ENGINE_INTERFACE_AUDIT.md)
+*   **Repository Path:** `docs/status/PHASE15A_ENGINE_INTERFACE_AUDIT.md`
+*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-004.md, docs/architecture/decisions/ADR-013.md; Canonical Refs: docs/architecture/ADR_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE15_MANDALI_DECOUPLING_DECISION_RECORD.md](file:///d:/vedic-ai-golden-master/PHASE15_MANDALI_DECOUPLING_DECISION_RECORD.md)
-*   **Repository Path:** `PHASE15_MANDALI_DECOUPLING_DECISION_RECORD.md`
-*   **Verified Evidence Summary:** Gov Refs: docs/project_handover/GOVERNANCE_FREEZE_RECORD_20260620_2230IST.md; Canonical Refs: ENGINE_KNOWLEDGE_CONSOLIDATION_ANALYSIS_v1.0.md, ENGINE_KNOWLEDGE_OWNERSHIP_MAPPING_v1.0.md; Active Doc Refs: FORMULA_OWNERSHIP_MAPPING_v1.0.md, PHASE15_MANDALI_DECOUPLING_DECISION_RECORD.md, REPOSITORY_CANONICAL_SOURCE_MAPPING_v1.0.md, REPOSITORY_CONFLICT_RESOLUTION_PLAN_v1.0.md, docs/project_handover/MASTER_PROJECT_HANDOVER_20260620_2230IST.md, docs/project_handover/PROJECT_STATE_SNAPSHOT_20260620_2230IST.md
+### Artifact: [docs/status/PHASE15_MANDALI_DECOUPLING_DECISION_RECORD.md](file:///d:/vedic-ai-golden-master/PHASE15_MANDALI_DECOUPLING_DECISION_RECORD.md)
+*   **Repository Path:** `docs/status/PHASE15_MANDALI_DECOUPLING_DECISION_RECORD.md`
+*   **Verified Evidence Summary:** Gov Refs: docs/project_handover/GOVERNANCE_FREEZE_RECORD_20260620_2230IST.md; Canonical Refs: docs/status/ENGINE_KNOWLEDGE_CONSOLIDATION_ANALYSIS_v1.0.md, docs/architecture/ENGINE_KNOWLEDGE_OWNERSHIP_MAPPING_v1.0.md; Active Doc Refs: docs/architecture/FORMULA_OWNERSHIP_MAPPING_v1.0.md, docs/status/PHASE15_MANDALI_DECOUPLING_DECISION_RECORD.md, docs/architecture/REPOSITORY_CANONICAL_SOURCE_MAPPING_v1.0.md, docs/architecture/REPOSITORY_CONFLICT_RESOLUTION_PLAN_v1.0.md, docs/project_handover/MASTER_PROJECT_HANDOVER_20260620_2230IST.md, docs/project_handover/PROJECT_STATE_SNAPSHOT_20260620_2230IST.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE15_PREPARATION_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE15_PREPARATION_REPORT.md)
-*   **Repository Path:** `PHASE15_PREPARATION_REPORT.md`
-*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-006.md; Canonical Refs: ADR_INVENTORY_v1.0.md
+### Artifact: [docs/status/PHASE15_PREPARATION_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE15_PREPARATION_REPORT.md)
+*   **Repository Path:** `docs/status/PHASE15_PREPARATION_REPORT.md`
+*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-006.md; Canonical Refs: docs/architecture/ADR_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE8_PDF_FIX_VALIDATION.md](file:///d:/vedic-ai-golden-master/PHASE8_PDF_FIX_VALIDATION.md)
-*   **Repository Path:** `PHASE8_PDF_FIX_VALIDATION.md`
-*   **Verified Evidence Summary:** Active Doc Refs: DOCUMENTATION_INDEX_PREPARATION_REPORT.md
+### Artifact: [docs/status/PHASE8_PDF_FIX_VALIDATION.md](file:///d:/vedic-ai-golden-master/PHASE8_PDF_FIX_VALIDATION.md)
+*   **Repository Path:** `docs/status/PHASE8_PDF_FIX_VALIDATION.md`
+*   **Verified Evidence Summary:** Active Doc Refs: docs/status/DOCUMENTATION_INDEX_PREPARATION_REPORT.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE9_QUESTION_BLUEPRINT_UPDATE_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE9_QUESTION_BLUEPRINT_UPDATE_REPORT.md)
-*   **Repository Path:** `PHASE9_QUESTION_BLUEPRINT_UPDATE_REPORT.md`
-*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-007.md; Canonical Refs: ADR_INVENTORY_v1.0.md
+### Artifact: [docs/architecture/PHASE9_QUESTION_BLUEPRINT_UPDATE_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE9_QUESTION_BLUEPRINT_UPDATE_REPORT.md)
+*   **Repository Path:** `docs/architecture/PHASE9_QUESTION_BLUEPRINT_UPDATE_REPORT.md`
+*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-007.md; Canonical Refs: docs/architecture/ADR_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE9_RECONCILIATION_AUDIT.md](file:///d:/vedic-ai-golden-master/PHASE9_RECONCILIATION_AUDIT.md)
-*   **Repository Path:** `PHASE9_RECONCILIATION_AUDIT.md`
-*   **Verified Evidence Summary:** Active Doc Refs: DOCUMENTATION_INDEX_2026-06-19.md
+### Artifact: [docs/status/PHASE9_RECONCILIATION_AUDIT.md](file:///d:/vedic-ai-golden-master/PHASE9_RECONCILIATION_AUDIT.md)
+*   **Repository Path:** `docs/status/PHASE9_RECONCILIATION_AUDIT.md`
+*   **Verified Evidence Summary:** Active Doc Refs: docs/status/DOCUMENTATION_INDEX_2026-06-19.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE9_STEP1B_RESULTS_PROFILE_FIX.md](file:///d:/vedic-ai-golden-master/PHASE9_STEP1B_RESULTS_PROFILE_FIX.md)
-*   **Repository Path:** `PHASE9_STEP1B_RESULTS_PROFILE_FIX.md`
-*   **Verified Evidence Summary:** Active Doc Refs: DOCUMENTATION_INDEX_PREPARATION_REPORT.md
+### Artifact: [docs/status/PHASE9_STEP1B_RESULTS_PROFILE_FIX.md](file:///d:/vedic-ai-golden-master/PHASE9_STEP1B_RESULTS_PROFILE_FIX.md)
+*   **Repository Path:** `docs/status/PHASE9_STEP1B_RESULTS_PROFILE_FIX.md`
+*   **Verified Evidence Summary:** Active Doc Refs: docs/status/DOCUMENTATION_INDEX_PREPARATION_REPORT.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE9_STEP1_REPORT_PROFILE_FIX.md](file:///d:/vedic-ai-golden-master/PHASE9_STEP1_REPORT_PROFILE_FIX.md)
-*   **Repository Path:** `PHASE9_STEP1_REPORT_PROFILE_FIX.md`
-*   **Verified Evidence Summary:** Gov Refs: FORMULA_GOVERNANCE_CONSOLIDATION_ANALYSIS_v1.0.md; Register Refs: REPOSITORY_REFINEMENT_DECISION_REGISTER_v1.0.md; Active Doc Refs: REPOSITORY_CLASSIFICATION_AND_ARCHIVE_STRATEGY_v1.0.md, REPOSITORY_REFINEMENT_MASTER_INVENTORY_v1.0.md
+### Artifact: [docs/status/PHASE9_STEP1_REPORT_PROFILE_FIX.md](file:///d:/vedic-ai-golden-master/PHASE9_STEP1_REPORT_PROFILE_FIX.md)
+*   **Repository Path:** `docs/status/PHASE9_STEP1_REPORT_PROFILE_FIX.md`
+*   **Verified Evidence Summary:** Gov Refs: docs/governance/FORMULA_GOVERNANCE_CONSOLIDATION_ANALYSIS_v1.0.md; Register Refs: docs/governance/REPOSITORY_REFINEMENT_DECISION_REGISTER_v1.0.md; Active Doc Refs: docs/status/REPOSITORY_CLASSIFICATION_AND_ARCHIVE_STRATEGY_v1.0.md, docs/status/REPOSITORY_REFINEMENT_MASTER_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE9_STEP2B_QUESTION_ENGINE_DASHA_AUDIT.md](file:///d:/vedic-ai-golden-master/PHASE9_STEP2B_QUESTION_ENGINE_DASHA_AUDIT.md)
-*   **Repository Path:** `PHASE9_STEP2B_QUESTION_ENGINE_DASHA_AUDIT.md`
-*   **Verified Evidence Summary:** Active Doc Refs: PHASE9_STEP2B_QUESTION_ENGINE_DASHA_AUDIT.md
+### Artifact: [docs/status/PHASE9_STEP2B_QUESTION_ENGINE_DASHA_AUDIT.md](file:///d:/vedic-ai-golden-master/PHASE9_STEP2B_QUESTION_ENGINE_DASHA_AUDIT.md)
+*   **Repository Path:** `docs/status/PHASE9_STEP2B_QUESTION_ENGINE_DASHA_AUDIT.md`
+*   **Verified Evidence Summary:** Active Doc Refs: docs/status/PHASE9_STEP2B_QUESTION_ENGINE_DASHA_AUDIT.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE9_STEP2_DASHA_VISIBILITY_FIX.md](file:///d:/vedic-ai-golden-master/PHASE9_STEP2_DASHA_VISIBILITY_FIX.md)
-*   **Repository Path:** `PHASE9_STEP2_DASHA_VISIBILITY_FIX.md`
-*   **Verified Evidence Summary:** Gov Refs: FORMULA_GOVERNANCE_CONSOLIDATION_ANALYSIS_v1.0.md
+### Artifact: [docs/status/PHASE9_STEP2_DASHA_VISIBILITY_FIX.md](file:///d:/vedic-ai-golden-master/PHASE9_STEP2_DASHA_VISIBILITY_FIX.md)
+*   **Repository Path:** `docs/status/PHASE9_STEP2_DASHA_VISIBILITY_FIX.md`
+*   **Verified Evidence Summary:** Gov Refs: docs/governance/FORMULA_GOVERNANCE_CONSOLIDATION_ANALYSIS_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE9_STEP3A_GOVERNANCE_PACKAGE_REPORT_2026-06-19_1130.md](file:///d:/vedic-ai-golden-master/PHASE9_STEP3A_GOVERNANCE_PACKAGE_REPORT_2026-06-19_1130.md)
-*   **Repository Path:** `PHASE9_STEP3A_GOVERNANCE_PACKAGE_REPORT_2026-06-19_1130.md`
-*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-003.md; Canonical Refs: ADR_INVENTORY_v1.0.md
+### Artifact: [docs/governance/PHASE9_STEP3A_GOVERNANCE_PACKAGE_REPORT_2026-06-19_1130.md](file:///d:/vedic-ai-golden-master/PHASE9_STEP3A_GOVERNANCE_PACKAGE_REPORT_2026-06-19_1130.md)
+*   **Repository Path:** `docs/governance/PHASE9_STEP3A_GOVERNANCE_PACKAGE_REPORT_2026-06-19_1130.md`
+*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-003.md; Canonical Refs: docs/architecture/ADR_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE9_STEP3B_REGISTRY_DATA_MODEL_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE9_STEP3B_REGISTRY_DATA_MODEL_REPORT.md)
-*   **Repository Path:** `PHASE9_STEP3B_REGISTRY_DATA_MODEL_REPORT.md`
-*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-009.md; Canonical Refs: ADR_INVENTORY_v1.0.md
+### Artifact: [docs/architecture/PHASE9_STEP3B_REGISTRY_DATA_MODEL_REPORT.md](file:///d:/vedic-ai-golden-master/PHASE9_STEP3B_REGISTRY_DATA_MODEL_REPORT.md)
+*   **Repository Path:** `docs/architecture/PHASE9_STEP3B_REGISTRY_DATA_MODEL_REPORT.md`
+*   **Verified Evidence Summary:** ADR Refs: docs/architecture/decisions/ADR-009.md; Canonical Refs: docs/architecture/ADR_INVENTORY_v1.0.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
@@ -1135,9 +1135,9 @@ status: PENDING_CRL1_CLASSIFICATION
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [README_FIRST_PHASE9_UPDATE_REPORT.md](file:///d:/vedic-ai-golden-master/README_FIRST_PHASE9_UPDATE_REPORT.md)
-*   **Repository Path:** `README_FIRST_PHASE9_UPDATE_REPORT.md`
-*   **Verified Evidence Summary:** Active Doc Refs: PHASE9_RECONCILIATION_AUDIT.md
+### Artifact: [docs/status/README_FIRST_PHASE9_UPDATE_REPORT.md](file:///d:/vedic-ai-golden-master/README_FIRST_PHASE9_UPDATE_REPORT.md)
+*   **Repository Path:** `docs/status/README_FIRST_PHASE9_UPDATE_REPORT.md`
+*   **Verified Evidence Summary:** Active Doc Refs: docs/status/PHASE9_RECONCILIATION_AUDIT.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None

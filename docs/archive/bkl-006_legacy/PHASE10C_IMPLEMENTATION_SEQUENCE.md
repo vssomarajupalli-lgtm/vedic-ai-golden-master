@@ -3,7 +3,7 @@
 To ensure maximum architectural safety and prevent frontend blockage during backend development, the implementation of the Question Registry must follow this strict bottom-up sequence.
 
 ### Step 1: Registry Data Serialization (Backend)
-- **Action:** Translate the `QUESTION_REGISTRY_MASTER_v1.md` and `QUESTION_REGISTRY_MAPPING_v1.md` documents into a static configuration format (JSON or YAML).
+- **Action:** Translate the `docs/status/QUESTION_REGISTRY_MASTER_v1.md` and `docs/architecture/QUESTION_REGISTRY_MAPPING_v1.md` documents into a static configuration format (JSON or YAML).
 - **Deliverable:** A single authoritative `registry_config.yaml` or `registry.json` file in the backend repository containing all 200+ question nodes and their boolean logic bounds.
 - **Why First:** This file becomes the source of truth for both the Python backend to route logic, and the React frontend to build the UI domains.
 
@@ -21,7 +21,7 @@ To ensure maximum architectural safety and prevent frontend blockage during back
 - **Deliverable:** A Headless React state management system capable of tracking recent `question_id` arrays.
 
 ### Step 5: Question Browser UI Implementation (Frontend)
-- **Action:** Build the Accordion UI, Search Bar, Question Cards, and Sticky Ask Footer based on the `QUESTION_BROWSER_UI_BLUEPRINT_v1.md`.
+- **Action:** Build the Accordion UI, Search Bar, Question Cards, and Sticky Ask Footer based on the `docs/architecture/QUESTION_BROWSER_UI_BLUEPRINT_v1.md`.
 - **Deliverable:** Fully functional, interactive React interface replacing the current text box.
 - **Why Fifth:** Requires the backend API to be stable so the "Ask" button can successfully submit `question_id` payloads.
 

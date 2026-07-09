@@ -20,7 +20,7 @@ graph TD
 ## 2. Data Flow
 1. **Initiation:** The Frontend dispatches an HTTP POST containing the pre-calculated math (`engine_outputs`) and the user's intent (`question_id`).
 2. **Resolution:** The API layer guarantees a valid `question_id`. If omitted, the Free Text Fallback resolves the intent to a deterministic ID.
-3. **Extraction:** The Question Router reads the `QUESTION_REGISTRY_MAPPING_v1.md` schema associated with the ID and plucks ONLY the necessary variables (e.g., Mahadasha Lord) from the master payload.
+3. **Extraction:** The Question Router reads the `docs/architecture/QUESTION_REGISTRY_MAPPING_v1.md` schema associated with the ID and plucks ONLY the necessary variables (e.g., Mahadasha Lord) from the master payload.
 4. **Composition:** The exact, mathematical data points are serialized into a strict context prompt for the LLM to format into human language.
 
 ## 3. Payload Examples

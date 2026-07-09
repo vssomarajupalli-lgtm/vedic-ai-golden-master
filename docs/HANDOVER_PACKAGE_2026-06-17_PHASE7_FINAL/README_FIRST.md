@@ -18,9 +18,9 @@ The immediate focus is executing **Phase 10**:
 
 ## 4. Question Registry Authority Documents
 The following documents represent the undisputed ground-truth for Phase 10 development. Any Question Engine logic MUST map back to these architectural specs:
-* `QUESTION_REGISTRY_ARCHITECTURE_v1.md` (System Objective & UI Guidelines)
-* `QUESTION_REGISTRY_MASTER_v1.md` (24 Master Domains & 194+ Child Nodes)
-* `QUESTION_REGISTRY_MAPPING_v1.md` (Strict data schema requirements for nodes)
+* `docs/architecture/QUESTION_REGISTRY_ARCHITECTURE_v1.md` (System Objective & UI Guidelines)
+* `docs/status/QUESTION_REGISTRY_MASTER_v1.md` (24 Master Domains & 194+ Child Nodes)
+* `docs/architecture/QUESTION_REGISTRY_MAPPING_v1.md` (Strict data schema requirements for nodes)
 * `FORMULA_REPOSITORY_GOVERNANCE_2026-06-19_1600.md` (Mathematical rules)
 
 ## 5. Gochara Deferral Governance

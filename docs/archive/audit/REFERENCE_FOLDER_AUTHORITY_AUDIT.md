@@ -74,7 +74,7 @@
 
 ---
 
-## 6. `docs/reference/VEDIC_AI_VERSION_1_RELEASE.md`
+## 6. `docs/reference/VEDIC_AI_docs/status/VERSION_1_RELEASE.md`
 
 1. **Purpose**: Release notes for Version 1.0.0 (Phase 4 Freeze).
 2. **Last known project phase it represents**: Version 1.0.0 Release.

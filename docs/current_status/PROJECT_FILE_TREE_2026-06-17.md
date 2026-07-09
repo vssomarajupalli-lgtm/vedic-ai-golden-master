@@ -10,8 +10,8 @@
 ## Repository Structure
 `	ext
 vedic-ai-system
-├── FINAL_REPOSITORY_TREE_AUDIT.md
-├── FINAL_TREE_PLACEMENT_AUDIT.md
+├── docs/status/FINAL_REPOSITORY_TREE_AUDIT.md
+├── docs/status/FINAL_TREE_PLACEMENT_AUDIT.md
 ├── app_tree.txt
 ├── backend
 │   ├── app
@@ -207,7 +207,7 @@ vedic-ai-system
 │   │   ├── VEDIC_AI_MASTER_ARCHITECTURE.md
 │   │   ├── VEDIC_AI_MASTER_DEVELOPMENT_ROADMAP.md
 │   │   ├── VEDIC_AI_PROBABILITY_ENGINE_ARCHITECTURE.md
-│   │   └── VEDIC_AI_VERSION_1_RELEASE.md
+│   │   └── VEDIC_AI_docs/status/VERSION_1_RELEASE.md
 │   └── validation
 │       ├── ASTROLOGY_VALIDATION_MASTER_PLAN.md
 │       ├── IMPLEMENTATION_DEPENDENCY_MAP.md

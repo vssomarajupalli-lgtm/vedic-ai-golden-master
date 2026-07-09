@@ -29,7 +29,7 @@ Do not rely on previous chat history if repository evidence exists.
 
 Before performing any work:
 
-- Read PROJECT_CONTINUITY.md (if available).
+- Read docs/status/PROJECT_CONTINUITY.md (if available).
 - Verify the Git working tree is clean.
 - Identify the latest Git tag.
 - Identify the current milestone.
@@ -155,7 +155,7 @@ Before closing work:
 - Verify Git working tree is clean.
 - Push completed work.
 - Create a Git tag when a backlog item or milestone is completed.
-- Update PROJECT_CONTINUITY.md.
+- Update docs/status/PROJECT_CONTINUITY.md.
 - Commit and push the continuity update.
 
 This ensures any future AI session can continue without relying on previous chat history.
