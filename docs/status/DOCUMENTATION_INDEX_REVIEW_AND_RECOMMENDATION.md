@@ -4,7 +4,7 @@
 **Yes.** While the repository root contains numerous scattered validation logs and audit files from earlier sessions, the presence of the `docs/status/DOCUMENTATION_INDEX_2026-06-19.md` file establishes a clear, authoritative map. Any competent developer (or AI agent) reading the index will be immediately directed to the locked architecture schemas and the current `README_FIRST.md`, allowing them to safely ignore the noise of deprecated audit files. The cognitive debt is mitigated through strict navigation rather than structural deletion.
 
 ## 2. Should documentation restructuring be performed now or deferred?
-**Deferred.** Executing a mass migration of 30+ files into nested folders (`docs/audits/`, `docs/reports/`, etc.) generates significant Git noise and introduces the risk of breaking internal markdown hyperlinks right before entering a heavy implementation phase. Because the newly created Index effectively isolates the noise, restructuring yields diminishing returns at this exact moment and should be deferred until Phase 10 is completed as part of a final Phase 10 Handover cleanup.
+**Deferred.** Executing a mass migration of 30+ files into nested folders (`docs/governance/audits/`, `docs/reports/`, etc.) generates significant Git noise and introduces the risk of breaking internal markdown hyperlinks right before entering a heavy implementation phase. Because the newly created Index effectively isolates the noise, restructuring yields diminishing returns at this exact moment and should be deferred until Phase 10 is completed as part of a final Phase 10 Handover cleanup.
 
 ## 3. Highest-Value Next Activity
 **Choice:** `C. Question Registry Implementation`

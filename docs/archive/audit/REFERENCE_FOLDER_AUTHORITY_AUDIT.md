@@ -1,6 +1,6 @@
 # REFERENCE FOLDER AUTHORITY AUDIT
 
-## 1. `docs/reference/PROJECT_CONTEXT.md`
+## 1. `docs/knowledge/PROJECT_CONTEXT.md`
 
 1. **Purpose**: Describes what Vedic-AI is, the current implementation phase, tech stack, and core directives.
 2. **Last known project phase it represents**: Phase 4 (Frontend & API Integration) Completion.
@@ -15,7 +15,7 @@
 
 ---
 
-## 2. `docs/reference/PROJECT_REQUIREMENTS.md`
+## 2. `docs/knowledge/PROJECT_REQUIREMENTS.md`
 
 1. **Purpose**: Defines Version 1 and Version 2 capabilities and non-functional requirements.
 2. **Last known project phase it represents**: Post-V1 (claiming V1 is completed).
@@ -30,7 +30,7 @@
 
 ---
 
-## 3. `docs/reference/VEDIC_AI_MASTER_ARCHITECTURE.md`
+## 3. `docs/knowledge/VEDIC_AI_MASTER_ARCHITECTURE.md`
 
 1. **Purpose**: Outlines core engines, technical layers, and project vision.
 2. **Last known project phase it represents**: Post-Phase 4 (claiming all 11 engines are fully implemented).
@@ -46,7 +46,7 @@
 
 ---
 
-## 4. `docs/reference/VEDIC_AI_MASTER_DEVELOPMENT_ROADMAP.md`
+## 4. `docs/knowledge/VEDIC_AI_MASTER_DEVELOPMENT_ROADMAP.md`
 
 1. **Purpose**: Provides a detailed development roadmap and hierarchical feature list for data ingestion, engines, and domain evaluation.
 2. **Last known project phase it represents**: General Project Planning / Blueprinting.
@@ -60,7 +60,7 @@
 
 ---
 
-## 5. `docs/reference/VEDIC_AI_PROBABILITY_ENGINE_ARCHITECTURE.md`
+## 5. `docs/knowledge/VEDIC_AI_PROBABILITY_ENGINE_ARCHITECTURE.md`
 
 1. **Purpose**: Defines the mathematical formulas, weighting, and conceptual architecture for the probability, dasha, transit, and event strength engines.
 2. **Last known project phase it represents**: Architectural Design Phase (Mathematical blueprinting).
@@ -74,7 +74,7 @@
 
 ---
 
-## 6. `docs/reference/VEDIC_AI_docs/status/VERSION_1_RELEASE.md`
+## 6. `docs/knowledge/VEDIC_AI_docs/status/VERSION_1_RELEASE.md`
 
 1. **Purpose**: Release notes for Version 1.0.0 (Phase 4 Freeze).
 2. **Last known project phase it represents**: Version 1.0.0 Release.

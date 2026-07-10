@@ -1,4 +1,4 @@
-﻿# BKL-006 REPOSITORY DISCOVERY REPORT
+# BKL-006 REPOSITORY DISCOVERY REPORT
 
 ## 1. Discovery Scope
 This discovery activity targeted all legacy Phase 8 through Phase 16 execution reports, readout documents, and audits located within the repository. The objective was to inventory these documents and collect mechanical repository evidence regarding their current role, dependencies, and constitutional traceability.
@@ -16,7 +16,7 @@ Every document has been individually verified via exact-string search across the
 | 08_FILES_MODIFIED_PHASE15.md | 15 | None | No | None | None | None | docs/handover/PHASE15_HANDOVER_PACKAGE_20260623_1246/08_FILES_MODIFIED_PHASE15.md, docs/handover/PHASE15_HANDOVER_PACKAGE_20260623_1246/HANDOVER_INDEX.md | None |
 | 2026-06-25_PHASE_16A.3_HANDOVER.md | 16 | None | No | None | None | None | docs/handover/2026-06-25_PHASE_16A.3_HANDOVER.md | None |
 | 2026-06-25_PHASE_16B_FINAL_HANDOVER.md | 16 | None | No | None | None | None | None | None |
-| phase_15_final_regression_evidence.md | 15 | None | No | docs/audits/phase_16_documentation_governance_review.md | None | None | docs/audits/phase_16_final_cleanup_verification.md, docs/audits/phase_16a1_mathematical_calibration_audit.md | None |
+| phase_15_final_regression_evidence.md | 15 | None | No | docs/governance/audits/phase_16_documentation_governance_review.md | None | None | docs/governance/audits/phase_16_final_cleanup_verification.md, docs/governance/audits/phase_16a1_mathematical_calibration_audit.md | None |
 | PHASE_15_PROMISE_ENGINE_VALIDATION.md | 15 | None | No | None | None | None | docs/handover/PHASE15_HANDOVER_PACKAGE_20260623_1246/08_FILES_MODIFIED_PHASE15.md, docs/handover/PHASE15_HANDOVER_PACKAGE_20260623_1246/11_NEXT_SESSION_STARTUP.md | None |
 | phase_15f10_signal_trace_hydration_audit.md | 15 | None | No | None | None | None | None | None |
 | phase_15f11_signal_pipeline_architecture_audit.md | 15 | None | No | None | None | None | None | None |
@@ -40,14 +40,14 @@ Every document has been individually verified via exact-string search across the
 | phase_15g8_calibration_transparency_audit.md | 15 | None | No | None | None | None | None | None |
 | phase_15g8a_verification_console_completeness_audit.md | 15 | None | No | None | None | None | None | None |
 | phase_15g9_transparency_gap_audit.md | 15 | None | No | None | None | None | None | None |
-| phase_16_architecture_review.md | 16 | None | No | docs/audits/phase_16_documentation_governance_review.md | None | None | docs/audits/phase_16_final_cleanup_verification.md, docs/audits/phase_16a1_mathematical_calibration_audit.md, docs/audits/phase_16a_architecture_freeze_audit.md | None |
+| phase_16_architecture_review.md | 16 | None | No | docs/governance/audits/phase_16_documentation_governance_review.md | None | None | docs/governance/audits/phase_16_final_cleanup_verification.md, docs/governance/audits/phase_16a1_mathematical_calibration_audit.md, docs/governance/audits/phase_16a_architecture_freeze_audit.md | None |
 | PHASE_16_ASTROLOGY_INTELLIGENCE_CONSOLE_MASTER_BLUEPRINT.md | 16 | None | No | None | None | None | None | None |
-| phase_16_documentation_governance_review.md | 16 | None | No | None | None | None | docs/audits/phase_16_final_cleanup_verification.md | None |
-| phase_16_final_cleanup_verification.md | 16 | None | No | docs/audits/phase_16_documentation_governance_review.md | None | None | None | None |
-| phase_16a_architecture_constitution_review.md | 16 | None | No | docs/audits/phase_16_documentation_governance_review.md | None | None | docs/audits/phase_16_final_cleanup_verification.md, docs/audits/phase_16a_architecture_freeze_audit.md, docs/audits/phase_16a_final_constitution_review.md | None |
-| phase_16a_architecture_freeze_audit.md | 16 | None | No | docs/audits/phase_16_documentation_governance_review.md | None | None | docs/audits/phase_16_architecture_review.md, docs/audits/phase_16_final_cleanup_verification.md, docs/audits/phase_16a_architecture_constitution_review.md | None |
-| phase_16a_final_constitution_review.md | 16 | None | No | docs/audits/phase_16_documentation_governance_review.md | None | None | docs/audits/phase_16_final_cleanup_verification.md, docs/audits/phase_16a_architecture_constitution_review.md | None |
-| phase_16a1_mathematical_calibration_audit.md | 16 | None | No | docs/audits/phase_16_documentation_governance_review.md | None | None | docs/audits/phase_15_final_regression_evidence.md, docs/audits/phase_16_architecture_review.md, docs/audits/phase_16_final_cleanup_verification.md | None |
+| phase_16_documentation_governance_review.md | 16 | None | No | None | None | None | docs/governance/audits/phase_16_final_cleanup_verification.md | None |
+| phase_16_final_cleanup_verification.md | 16 | None | No | docs/governance/audits/phase_16_documentation_governance_review.md | None | None | None | None |
+| phase_16a_architecture_constitution_review.md | 16 | None | No | docs/governance/audits/phase_16_documentation_governance_review.md | None | None | docs/governance/audits/phase_16_final_cleanup_verification.md, docs/governance/audits/phase_16a_architecture_freeze_audit.md, docs/governance/audits/phase_16a_final_constitution_review.md | None |
+| phase_16a_architecture_freeze_audit.md | 16 | None | No | docs/governance/audits/phase_16_documentation_governance_review.md | None | None | docs/governance/audits/phase_16_architecture_review.md, docs/governance/audits/phase_16_final_cleanup_verification.md, docs/governance/audits/phase_16a_architecture_constitution_review.md | None |
+| phase_16a_final_constitution_review.md | 16 | None | No | docs/governance/audits/phase_16_documentation_governance_review.md | None | None | docs/governance/audits/phase_16_final_cleanup_verification.md, docs/governance/audits/phase_16a_architecture_constitution_review.md | None |
+| phase_16a1_mathematical_calibration_audit.md | 16 | None | No | docs/governance/audits/phase_16_documentation_governance_review.md | None | None | docs/governance/audits/phase_15_final_regression_evidence.md, docs/governance/audits/phase_16_architecture_review.md, docs/governance/audits/phase_16_final_cleanup_verification.md | None |
 | PHASE_16B_CALIBRATION_GOVERNANCE_v1.md | 16 | None | No | None | None | None | None | None |
 | docs/architecture/PHASE10A_FORMULA_LOADER_BLUEPRINT_2026-06-19.md | 10 | docs/architecture/decisions/ADR-001.md | No | None | docs/architecture/ADR_INVENTORY_v1.0.md | None | None | None |
 | PHASE10A_UI_BLUEPRINT_REVIEW.md | 10 | None | No | None | None | None | None | None |

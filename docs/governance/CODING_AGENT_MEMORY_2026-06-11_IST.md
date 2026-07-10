@@ -33,5 +33,5 @@ Build a strictly deterministic, classical Vedic Astrology calculation and interp
 * `docs/governance/AUTHORITY_LOCK_2026-06-11_18-15_IST.md`
 * `docs/governance/PROJECT_REFERENCE_MASTER_2026-06-11_IST.md`
 * `docs/governance/DECISION_REGISTER.md`
-* `docs/implementation/SAMARTHA_GOCHARA_IMPLEMENTATION_BLUEPRINT.md`
-* `docs/implementation/NEXT_IMPLEMENTATION_PLAN.md`
+* `docs/engineering/implementation/SAMARTHA_GOCHARA_IMPLEMENTATION_BLUEPRINT.md`
+* `docs/engineering/implementation/NEXT_IMPLEMENTATION_PLAN.md`

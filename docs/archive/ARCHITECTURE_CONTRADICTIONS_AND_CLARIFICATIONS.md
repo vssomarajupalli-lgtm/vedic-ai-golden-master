@@ -4,19 +4,19 @@
 
 **Conflict ID: AC-001 (D1 Immutability vs Varga Override)**
 *   **Document A**: `docs/ARCHITECTURE_RULES.md` (Rule 3) - "D1 must remain foundational... Vargas must NOT overwrite D1".
-*   **Document B**: `docs/validation/PROJECT_MILESTONE_v1_RUNTIME_VALIDATION.md` - Implementation shows Varga adjustments (e.g., Venus D9 Navamsha support of 100.0) significantly altering domain grades (e.g., Marriage 19 -> 22).
+*   **Document B**: `docs/engineering/validation/PROJECT_MILESTONE_v1_RUNTIME_VALIDATION.md` - Implementation shows Varga adjustments (e.g., Venus D9 Navamsha support of 100.0) significantly altering domain grades (e.g., Marriage 19 -> 22).
 *   **Reason for conflict**: Varga modifiers are actively changing the fundamental scores, which pushes the boundaries of "supporting" vs "overwriting" the D1 foundation.
 *   **Recommended clarification required**: Define the mathematical threshold (e.g., max 10% variance) where Varga support officially becomes an "overwrite" of D1 logic.
 
 **Conflict ID: AC-002 (Engine Development Priorities)**
 *   **Document A**: `docs/ARCHITECTURE_RULES.md` (Rule 13) - "The following remain FUTURE roadmap phases: Dasha systems... Transit systems".
-*   **Document B**: `docs/current_status/PROJECT_HANDOVER_MASTER_2026-06-09_13-45_IST.md` - Lists `DashaEngine` under "Current working engines" but later states "V1.3 MD/AD/PD STRENGTH ENGINE Next major milestone."
+*   **Document B**: `docs/status/PROJECT_HANDOVER_MASTER_2026-06-09_13-45_IST.md` - Lists `DashaEngine` under "Current working engines" but later states "V1.3 MD/AD/PD STRENGTH ENGINE Next major milestone."
 *   **Reason for conflict**: The Dasha system is simultaneously categorized as an active, completed engine, a pending V1.3 milestone, and a future roadmap phase.
 *   **Recommended clarification required**: Explicitly declare the current production status of `DashaEngine` and whether V1 is considered stable without it.
 
 **Conflict ID: AC-003 (Kuja Dosha Evaluation Rules)**
-*   **Document A**: `docs/validation/NATAL_PROMISE_VALIDATION_AUDIT.md` - Criticizes missing Kuja Dosha checks (Mars in 1, 2, 4, 8, 12).
-*   **Document B**: `docs/validation/VEDIC_RULE_VALIDATION_REVIEW.md` - Recommends Kuja Dosha for V1, but warns "cancellation rules must be coded precisely" to avoid false alarms.
+*   **Document A**: `docs/engineering/validation/NATAL_PROMISE_VALIDATION_AUDIT.md` - Criticizes missing Kuja Dosha checks (Mars in 1, 2, 4, 8, 12).
+*   **Document B**: `docs/engineering/validation/VEDIC_RULE_VALIDATION_REVIEW.md` - Recommends Kuja Dosha for V1, but warns "cancellation rules must be coded precisely" to avoid false alarms.
 *   **Reason for conflict**: Implementing Kuja Dosha immediately without complex cancellation logic will produce false predictions, violating the "Deterministic Astrology Calculation" rule.
 *   **Recommended clarification required**: Should Kuja Dosha be delayed to V2, or should a simplified version be released in V1 accepting the false-alarm risks?
 
@@ -63,10 +63,10 @@
 
 *   **Primary Source**: `docs/VEDIC_AI_SOURCE_OF_TRUTH.md` is designated as the master schema definition.
 *   **Rule Master**: `docs/ARCHITECTURE_RULES.md` defines the strict deterministic laws.
-*   **Status Master**: `docs/current_status/PROJECT_HANDOVER_MASTER_2026-06-09_13-45_IST.md` establishes the immediate action items.
+*   **Status Master**: `docs/status/PROJECT_HANDOVER_MASTER_2026-06-09_13-45_IST.md` establishes the immediate action items.
 *   **The Conflict**:
-    *   `PROJECT_HANDOVER_MASTER` explicitly states that `docs/reference/` files are "Used for design guidance only. Not implementation authority."
-    *   However, highly detailed formulas exist in `docs/reference/VEDIC_AI_PROBABILITY_ENGINE_ARCHITECTURE.md` that contradict the `HANDOVER_MASTER`.
+    *   `PROJECT_HANDOVER_MASTER` explicitly states that `docs/knowledge/` files are "Used for design guidance only. Not implementation authority."
+    *   However, highly detailed formulas exist in `docs/knowledge/VEDIC_AI_PROBABILITY_ENGINE_ARCHITECTURE.md` that contradict the `HANDOVER_MASTER`.
     *   Additionally, the `validation` audit files propose highly complex additions (Atmakaraka, Upapada Lagna) that directly conflict with the "Overengineering Prevention Rule" (Rule 8) in `ARCHITECTURE_RULES.md`.
 *   **Flagged For Resolution**: Multiple documents claim ultimate authority. The exact formula hierarchy must be strictly defined before coding resumes.
 
@@ -101,7 +101,7 @@
 
 **Conflict ID: GC-003 (Conflicting Scoring Weights)**
 *   **Document A**: `docs/samartha_v2/GOCHARA_ENGINE_MASTER.md` (Section 6) - Defines a rigid universal scoring formula: `(0.40 × S_lord) + (0.30 × S_karaka) + (0.15 × S_D9) + (0.10 × S_varga) + (0.05 × 20) + Bonus`.
-*   **Document B**: `docs/reference/VEDIC_AI_PROBABILITY_ENGINE_ARCHITECTURE.md` - Uses domain-specific weights (e.g., Marriage uses 25% House, 25% Lord, 20% Karaka, 20% D9, 10% Vargas).
+*   **Document B**: `docs/knowledge/VEDIC_AI_PROBABILITY_ENGINE_ARCHITECTURE.md` - Uses domain-specific weights (e.g., Marriage uses 25% House, 25% Lord, 20% Karaka, 20% D9, 10% Vargas).
 *   **Reason for conflict**: The Gochara Engine Master attempts to override the global domain probability formulas with a generalized 40/30/15/10/5 split.
 *   **Recommended clarification required**: Does the Gochara Engine override the core Event Probability scoring framework, or should Section 6 of `GOCHARA_ENGINE_MASTER.md` be discarded in favor of domain-specific weighting?
 
@@ -109,7 +109,7 @@
 
 ## 9. Recommended Resolutions
 
-1.  **Freeze Reference Documents**: Officially label all documents in `docs/reference/` as deprecated or strictly illustrative, moving all active mathematical formulas into `VEDIC_AI_SOURCE_OF_TRUTH.md`.
+1.  **Freeze Reference Documents**: Officially label all documents in `docs/knowledge/` as deprecated or strictly illustrative, moving all active mathematical formulas into `VEDIC_AI_SOURCE_OF_TRUTH.md`.
 2.  **Define Pipeline Aggregator**: Clarify that individual Engines (Planet, House, Varga, NatalPromise) remain strictly isolated, and only the `PipelineRunner` or a specialized `SynthesisEngine` (like `MasterProbabilityEngine`) can read from multiple engine outputs to compute the final formulas. This resolves the engine boundary conflicts.
 3.  **Standardize Lexicon**: Enforce "Strength" for static chart calculations (e.g., Planet Strength, House Strength) and "Probability" strictly for final predictive event outcomes (e.g., Marriage Event Probability).
 4.  **Health Formula Override**: Immediately pause the inversion of the 8th house in the Health domain calculation until the Domain Expert clarifies the longevity rules.

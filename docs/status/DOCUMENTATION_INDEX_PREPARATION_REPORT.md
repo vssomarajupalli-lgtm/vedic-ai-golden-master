@@ -45,7 +45,7 @@ docs/
 ```
 
 ### Migration Recommendations
-1. **Consolidate Root:** Move the ~30 `PHASE8` and `PHASE9` output files from the repository root into `docs/audits/` or `docs/reports/` based on their type.
+1. **Consolidate Root:** Move the ~30 `PHASE8` and `PHASE9` output files from the repository root into `docs/governance/audits/` or `docs/reports/` based on their type.
 2. **Elevate Authority:** Move `docs/architecture/QUESTION_REGISTRY_ARCHITECTURE_v1.md` into `docs/architecture/`. Move `QUESTION_REGISTRY_MASTER_v1.md` and `docs/architecture/QUESTION_REGISTRY_MAPPING_v1.md` into `docs/governance/`.
 3. **De-duplicate:** Purge the duplicate Phase 7 legacy files stored in `docs/archive/` that contradict the formal Handover Package.
 4. **Deploy Indices:** Create a `README.md` file within each nested `docs/` folder briefly stating its purpose and listing active files, ensuring rapid orientation for future coding agents.

@@ -6,7 +6,7 @@
 This document serves as the implementation report for Phase 9 Step 3A: Question Engine Governance Package. The objective was to produce a strictly documentation-only architectural blueprint for the Question Engine, securing the logic abstractions and pipeline flow before any Python implementation begins.
 
 ## Files Created
-The following documents were generated in `docs/question_engine/`:
+The following documents were generated in `docs/engineering/question_engine/`:
 
 1. `QUESTION_ENGINE_INDEX_2026-06-19_1130.md`
 2. `QUESTION_ENGINE_ARCHITECTURE_2026-06-19_1130.md`
@@ -18,7 +18,7 @@ The following documents were generated in `docs/question_engine/`:
 8. `FORMULA_REPOSITORY_DESIGN_2026-06-19_1130.md`
 
 ## Files Modified
-1. `docs/README_FIRST.md` - Added reference to the `docs/question_engine/` Governance Package under the architecture section.
+1. `docs/README_FIRST.md` - Added reference to the `docs/engineering/question_engine/` Governance Package under the architecture section.
 
 ## Governance Summary
 * **Code Isolation:** **PASS**. Zero Python code or engine execution logic was modified.

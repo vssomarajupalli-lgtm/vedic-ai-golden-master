@@ -9,9 +9,9 @@ This update successfully established the documentation and architectural boundar
 
 ## Files Modified
 - `docs/HANDOVER_PACKAGE_2026-06-17_PHASE7_FINAL/README_FIRST.md`: Appended the Phase 9 Question Engine Direction note to ensure future agents understand the expansion strategy.
-- `docs/docs/samartha_v2/QUESTIONNAIRE_PIPELINE.md`: Cleaned out old git merge conflict markers (`<<<<<<< HEAD`, etc.).
-- `docs/docs/samartha_v2/CAUTIONS.md`: Cleaned out old git merge conflict markers.
-- `docs/docs/samartha_v2/CANONICAL_JSON_SCHEMA.md`: Cleaned out old git merge conflict markers.
+- `docs/knowledge/QUESTIONNAIRE_PIPELINE.md`: Cleaned out old git merge conflict markers (`<<<<<<< HEAD`, etc.).
+- `docs/knowledge/CAUTIONS.md`: Cleaned out old git merge conflict markers.
+- `docs/knowledge/CANONICAL_JSON_SCHEMA.md`: Cleaned out old git merge conflict markers.
 
 ## Architecture and Governance Confirmations
 - **Code Integrity Preserved:** `PASS`. Absolutely no `.py`, `.tsx`, `.json`, or test files were modified. The `PipelineRunner` and existing engines remain completely untouched.

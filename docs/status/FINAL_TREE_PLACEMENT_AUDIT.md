@@ -9,18 +9,18 @@
 | `VEDIC_AI_SOURCE_OF_TRUTH.md` | `docs/archive/` | `docs/` | **YES** |
 | `CHATGPT_IMPLEMENTATION_MEMORY.md` | `docs/` | `docs/archive/` | **YES** |
 | `SYSTEM_ARCHITECTURE.md` | `docs/` | `docs/archive/` | **YES** |
-| `VEDIC-AI SYSTEM – PROJECT HANDOVER STATUS (June 2026).md` | `docs/current_status/` | `docs/current_status/` | NO |
-| `ASTROLOGY_VALIDATION_MASTER_PLAN.md` | `docs/validation/` | `docs/validation/` | NO |
-| `IMPLEMENTATION_DEPENDENCY_MAP.md` | `docs/validation/` | `docs/validation/` | NO |
-| `NATAL_PROMISE_VALIDATION_AUDIT.md` | `docs/validation/` | `docs/validation/` | NO |
-| `PROJECT_MILESTONE_v1_RUNTIME_VALIDATION.md` | `docs/validation/` | `docs/validation/` | NO |
-| `VEDIC_RULE_VALIDATION_REVIEW.md` | `docs/validation/` | `docs/validation/` | NO |
-| `PROJECT_CONTEXT.md` | `docs/reference/` | `docs/reference/` | NO |
-| `PROJECT_REQUIREMENTS.md` | `docs/reference/` | `docs/reference/` | NO |
-| `VEDIC_AI_MASTER_ARCHITECTURE.md` | `docs/reference/` | `docs/reference/` | NO |
-| `VEDIC_AI_MASTER_DEVELOPMENT_ROADMAP.md` | `docs/reference/` | `docs/reference/` | NO |
-| `VEDIC_AI_PROBABILITY_ENGINE_ARCHITECTURE.md` | `docs/reference/` | `docs/reference/` | NO |
-| `VEDIC_AI_VERSION_1_RELEASE.md` | `docs/reference/` | `docs/reference/` | NO |
+| `VEDIC-AI SYSTEM – PROJECT HANDOVER STATUS (June 2026).md` | `docs/status/` | `docs/status/` | NO |
+| `ASTROLOGY_VALIDATION_MASTER_PLAN.md` | `docs/engineering/validation/` | `docs/engineering/validation/` | NO |
+| `IMPLEMENTATION_DEPENDENCY_MAP.md` | `docs/engineering/validation/` | `docs/engineering/validation/` | NO |
+| `NATAL_PROMISE_VALIDATION_AUDIT.md` | `docs/engineering/validation/` | `docs/engineering/validation/` | NO |
+| `PROJECT_MILESTONE_v1_RUNTIME_VALIDATION.md` | `docs/engineering/validation/` | `docs/engineering/validation/` | NO |
+| `VEDIC_RULE_VALIDATION_REVIEW.md` | `docs/engineering/validation/` | `docs/engineering/validation/` | NO |
+| `PROJECT_CONTEXT.md` | `docs/knowledge/` | `docs/knowledge/` | NO |
+| `PROJECT_REQUIREMENTS.md` | `docs/knowledge/` | `docs/knowledge/` | NO |
+| `VEDIC_AI_MASTER_ARCHITECTURE.md` | `docs/knowledge/` | `docs/knowledge/` | NO |
+| `VEDIC_AI_MASTER_DEVELOPMENT_ROADMAP.md` | `docs/knowledge/` | `docs/knowledge/` | NO |
+| `VEDIC_AI_PROBABILITY_ENGINE_ARCHITECTURE.md` | `docs/knowledge/` | `docs/knowledge/` | NO |
+| `VEDIC_AI_VERSION_1_RELEASE.md` | `docs/knowledge/` | `docs/knowledge/` | NO |
 | `CHATGPT_ARCHITECTURE_MEMORY.md` | `docs/archive/` | `docs/archive/` | NO |
 | `CHATGPT_IMPLEMENTATION_MEMORY.md` | `docs/archive/` | `docs/archive/` | NO |
 | `JSON_CONTRACT_MASTER.md` | `docs/archive/` | `docs/archive/` | NO |
@@ -39,9 +39,9 @@
 ### A. Files correctly placed
 * `README_FIRST.md`
 * `ARCHITECTURE_RULES.md`
-* All files strictly within `docs/validation/`
-* All files strictly within `docs/current_status/`
-* All files strictly within `docs/reference/`
+* All files strictly within `docs/engineering/validation/`
+* All files strictly within `docs/status/`
+* All files strictly within `docs/knowledge/`
 * All files properly archived within `docs/archive/` and `docs/archive/audit/`
 
 ### B. Files requiring movement

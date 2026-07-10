@@ -16,7 +16,7 @@
 | `docs/ARCHITECTURE_RULES.md` | Defines the active architectural rules for the current implementation phase. | ACTIVE |
 | `docs/ASTROLOGY_VALIDATION_MASTER_PLAN.md` | Validates mathematical calculations and scoring heuristics against classical texts. | REFERENCE |
 | `docs/CHATGPT_IMPLEMENTATION_MEMORY.md` | Obsolete memory document from Runtime Investigation Phase (June 2026). | OBSOLETE |
-| `docs/IMPLEMENTATION_DEPENDENCY_MAP.md` | Maps implementation dependencies for missing and oversimplified astrological rules. | REFERENCE |
+| `docs/engineering/implementation_DEPENDENCY_MAP.md` | Maps implementation dependencies for missing and oversimplified astrological rules. | REFERENCE |
 | `docs/NATAL_PROMISE_VALIDATION_AUDIT.md` | Technical and astrological audit of the NatalPromiseEngine across all eight life domains. | REFERENCE |
 | `docs/PROJECT_MILESTONE_v1_RUNTIME_VALIDATION.md` | Documents the completion of the Runtime Validation Milestone. | REFERENCE |
 | `docs/README_FIRST.md` | Important instructions and document reading order for new developers. | ACTIVE |
@@ -33,12 +33,12 @@
 | `docs/archive/SYSTEM_ARCHITECTURE.md` | Historical system architecture focusing on PDF extraction workflow. | ARCHIVED |
 | `docs/archive/VEDIC_AI_SYSTEM_MASTER_STATUS.md` | Historical master status showing early completion estimates. | ARCHIVED |
 | `docs/archive/VEDIC_AI_VERIFIED_SOURCE_AUDIT.md` | Historical audit of the verified source tree and implementations. | ARCHIVED |
-| `docs/reference/PROJECT_CONTEXT.md` | Describes what Vedic-AI is, current phase, tech stack, and core directives. | ACTIVE |
-| `docs/reference/PROJECT_REQUIREMENTS.md` | Defines Version 1 and Version 2 capabilities and non-functional requirements. | ACTIVE |
-| `docs/reference/VEDIC_AI_MASTER_ARCHITECTURE.md` | The Master Architecture Document outlining core engines, technical layers, and vision. | ACTIVE |
-| `docs/reference/VEDIC_AI_MASTER_DEVELOPMENT_ROADMAP.md` | Detailed development roadmap for data ingestion, engines, and domain evaluation. | ACTIVE |
-| `docs/reference/VEDIC_AI_PROBABILITY_ENGINE_ARCHITECTURE.md` | Master calculation document defining formulas and weighting for the probability engines. | ACTIVE |
-| `docs/reference/VEDIC_AI_docs/status/VERSION_1_RELEASE.md` | Release notes for Version 1.0.0 (Phase 4 Freeze). | ACTIVE |
+| `docs/knowledge/PROJECT_CONTEXT.md` | Describes what Vedic-AI is, current phase, tech stack, and core directives. | ACTIVE |
+| `docs/knowledge/PROJECT_REQUIREMENTS.md` | Defines Version 1 and Version 2 capabilities and non-functional requirements. | ACTIVE |
+| `docs/knowledge/VEDIC_AI_MASTER_ARCHITECTURE.md` | The Master Architecture Document outlining core engines, technical layers, and vision. | ACTIVE |
+| `docs/knowledge/VEDIC_AI_MASTER_DEVELOPMENT_ROADMAP.md` | Detailed development roadmap for data ingestion, engines, and domain evaluation. | ACTIVE |
+| `docs/knowledge/VEDIC_AI_PROBABILITY_ENGINE_ARCHITECTURE.md` | Master calculation document defining formulas and weighting for the probability engines. | ACTIVE |
+| `docs/knowledge/VEDIC_AI_docs/status/VERSION_1_RELEASE.md` | Release notes for Version 1.0.0 (Phase 4 Freeze). | ACTIVE |
 | `frontend/README.md` | Default Vite/React README with ESLint setup instructions. | ACTIVE |
 
 ## Specific Queries
@@ -47,10 +47,10 @@
 `docs/README_FIRST.md`
 
 **B. Which file is the master architecture document.**  
-`docs/reference/VEDIC_AI_MASTER_ARCHITECTURE.md`
+`docs/knowledge/VEDIC_AI_MASTER_ARCHITECTURE.md`
 
 **C. Which file is the master calculation document.**  
-`docs/reference/VEDIC_AI_PROBABILITY_ENGINE_ARCHITECTURE.md`
+`docs/knowledge/VEDIC_AI_PROBABILITY_ENGINE_ARCHITECTURE.md`
 
 **D. Which file is the master project status document.**  
 `docs/VEDIC-AI SYSTEM – PROJECT HANDOVER STATUS (June 2026).md`

@@ -10,7 +10,7 @@
 ## 3. Authoritative Governance Documents
 - **[QUESTION_REGISTRY_MASTER_v1.md](file:///D:/vedic-ai-system/QUESTION_REGISTRY_MASTER_v1.md)**: The 24 Master Domains and 194+ child question taxonomy.
 - **[docs/architecture/QUESTION_REGISTRY_MAPPING_v1.md](file:///D:/vedic-ai-system/QUESTION_REGISTRY_MAPPING_v1.md)**: The strict schema definitions mapping UI questions to backend math engines and timing layers.
-- **[FORMULA_REPOSITORY_GOVERNANCE_2026-06-19_1600.md](file:///D:/vedic-ai-system/docs/question_engine/FORMULA_REPOSITORY_GOVERNANCE_2026-06-19_1600.md)**: Mathematical logic mappings.
+- **[FORMULA_REPOSITORY_GOVERNANCE_2026-06-19_1600.md](file:///D:/vedic-ai-system/docs/engineering/question_engine/FORMULA_REPOSITORY_GOVERNANCE_2026-06-19_1600.md)**: Mathematical logic mappings.
 
 ## 4. Active Handover Documents
 - **[PROJECT_STATUS_MASTER.md](file:///D:/vedic-ai-system/docs/HANDOVER_PACKAGE_2026-06-17_PHASE7_FINAL/PROJECT_STATUS_MASTER.md)**: Baseline Phase 7 mathematical locking status.

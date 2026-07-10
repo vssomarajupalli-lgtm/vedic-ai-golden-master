@@ -28,7 +28,7 @@ Located in `docs/governance/`. Contains the current rule enforcement hierarchy.
 
 ### 6. Latest Roadmap
 **`VEDIC_AI_MASTER_DEVELOPMENT_ROADMAP.md`**
-Located in `docs/reference/`. Note: The `NEXT_IMPLEMENTATION_PLAN.md` governs immediate active tasks.
+Located in `docs/knowledge/`. Note: The `NEXT_IMPLEMENTATION_PLAN.md` governs immediate active tasks.
 
 ### 7. Latest Decision Register
 **`DECISION_REGISTER.md`**

@@ -1127,8 +1127,8 @@ status: PENDING_CRL1_CLASSIFICATION
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [PHASE_15_PROMISE_ENGINE_VALIDATION.md](file:///d:/vedic-ai-golden-master/docs/validation/PHASE_15_PROMISE_ENGINE_VALIDATION.md)
-*   **Repository Path:** `docs/validation/PHASE_15_PROMISE_ENGINE_VALIDATION.md`
+### Artifact: [PHASE_15_PROMISE_ENGINE_VALIDATION.md](file:///d:/vedic-ai-golden-master/docs/engineering/validation/PHASE_15_PROMISE_ENGINE_VALIDATION.md)
+*   **Repository Path:** `docs/engineering/validation/PHASE_15_PROMISE_ENGINE_VALIDATION.md`
 *   **Verified Evidence Summary:** Active Doc Refs: docs/handover/PHASE15_HANDOVER_PACKAGE_20260623_1246/08_FILES_MODIFIED_PHASE15.md, docs/handover/PHASE15_HANDOVER_PACKAGE_20260623_1246/11_NEXT_SESSION_STARTUP.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
@@ -1143,65 +1143,65 @@ status: PENDING_CRL1_CLASSIFICATION
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [phase_15_final_regression_evidence.md](file:///d:/vedic-ai-golden-master/docs/audits/phase_15_final_regression_evidence.md)
-*   **Repository Path:** `docs/audits/phase_15_final_regression_evidence.md`
-*   **Verified Evidence Summary:** Gov Refs: docs/audits/phase_16_documentation_governance_review.md; Active Doc Refs: docs/audits/phase_16_final_cleanup_verification.md, docs/audits/phase_16a1_mathematical_calibration_audit.md
+### Artifact: [phase_15_final_regression_evidence.md](file:///d:/vedic-ai-golden-master/docs/governance/audits/phase_15_final_regression_evidence.md)
+*   **Repository Path:** `docs/governance/audits/phase_15_final_regression_evidence.md`
+*   **Verified Evidence Summary:** Gov Refs: docs/governance/audits/phase_16_documentation_governance_review.md; Active Doc Refs: docs/governance/audits/phase_16_final_cleanup_verification.md, docs/governance/audits/phase_16a1_mathematical_calibration_audit.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [phase_16_architecture_review.md](file:///d:/vedic-ai-golden-master/docs/audits/phase_16_architecture_review.md)
-*   **Repository Path:** `docs/audits/phase_16_architecture_review.md`
-*   **Verified Evidence Summary:** Gov Refs: docs/audits/phase_16_documentation_governance_review.md; Active Doc Refs: docs/audits/phase_16_final_cleanup_verification.md, docs/audits/phase_16a1_mathematical_calibration_audit.md, docs/audits/phase_16a_architecture_freeze_audit.md
+### Artifact: [phase_16_architecture_review.md](file:///d:/vedic-ai-golden-master/docs/governance/audits/phase_16_architecture_review.md)
+*   **Repository Path:** `docs/governance/audits/phase_16_architecture_review.md`
+*   **Verified Evidence Summary:** Gov Refs: docs/governance/audits/phase_16_documentation_governance_review.md; Active Doc Refs: docs/governance/audits/phase_16_final_cleanup_verification.md, docs/governance/audits/phase_16a1_mathematical_calibration_audit.md, docs/governance/audits/phase_16a_architecture_freeze_audit.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [phase_16_documentation_governance_review.md](file:///d:/vedic-ai-golden-master/docs/audits/phase_16_documentation_governance_review.md)
-*   **Repository Path:** `docs/audits/phase_16_documentation_governance_review.md`
-*   **Verified Evidence Summary:** Active Doc Refs: docs/audits/phase_16_final_cleanup_verification.md
+### Artifact: [phase_16_documentation_governance_review.md](file:///d:/vedic-ai-golden-master/docs/governance/audits/phase_16_documentation_governance_review.md)
+*   **Repository Path:** `docs/governance/audits/phase_16_documentation_governance_review.md`
+*   **Verified Evidence Summary:** Active Doc Refs: docs/governance/audits/phase_16_final_cleanup_verification.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [phase_16_final_cleanup_verification.md](file:///d:/vedic-ai-golden-master/docs/audits/phase_16_final_cleanup_verification.md)
-*   **Repository Path:** `docs/audits/phase_16_final_cleanup_verification.md`
-*   **Verified Evidence Summary:** Gov Refs: docs/audits/phase_16_documentation_governance_review.md
+### Artifact: [phase_16_final_cleanup_verification.md](file:///d:/vedic-ai-golden-master/docs/governance/audits/phase_16_final_cleanup_verification.md)
+*   **Repository Path:** `docs/governance/audits/phase_16_final_cleanup_verification.md`
+*   **Verified Evidence Summary:** Gov Refs: docs/governance/audits/phase_16_documentation_governance_review.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [phase_16a1_mathematical_calibration_audit.md](file:///d:/vedic-ai-golden-master/docs/audits/phase_16a1_mathematical_calibration_audit.md)
-*   **Repository Path:** `docs/audits/phase_16a1_mathematical_calibration_audit.md`
-*   **Verified Evidence Summary:** Gov Refs: docs/audits/phase_16_documentation_governance_review.md; Active Doc Refs: docs/audits/phase_15_final_regression_evidence.md, docs/audits/phase_16_architecture_review.md, docs/audits/phase_16_final_cleanup_verification.md
+### Artifact: [phase_16a1_mathematical_calibration_audit.md](file:///d:/vedic-ai-golden-master/docs/governance/audits/phase_16a1_mathematical_calibration_audit.md)
+*   **Repository Path:** `docs/governance/audits/phase_16a1_mathematical_calibration_audit.md`
+*   **Verified Evidence Summary:** Gov Refs: docs/governance/audits/phase_16_documentation_governance_review.md; Active Doc Refs: docs/governance/audits/phase_15_final_regression_evidence.md, docs/governance/audits/phase_16_architecture_review.md, docs/governance/audits/phase_16_final_cleanup_verification.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [phase_16a_architecture_constitution_review.md](file:///d:/vedic-ai-golden-master/docs/audits/phase_16a_architecture_constitution_review.md)
-*   **Repository Path:** `docs/audits/phase_16a_architecture_constitution_review.md`
-*   **Verified Evidence Summary:** Gov Refs: docs/audits/phase_16_documentation_governance_review.md; Active Doc Refs: docs/audits/phase_16_final_cleanup_verification.md, docs/audits/phase_16a_architecture_freeze_audit.md, docs/audits/phase_16a_final_constitution_review.md
+### Artifact: [phase_16a_architecture_constitution_review.md](file:///d:/vedic-ai-golden-master/docs/governance/audits/phase_16a_architecture_constitution_review.md)
+*   **Repository Path:** `docs/governance/audits/phase_16a_architecture_constitution_review.md`
+*   **Verified Evidence Summary:** Gov Refs: docs/governance/audits/phase_16_documentation_governance_review.md; Active Doc Refs: docs/governance/audits/phase_16_final_cleanup_verification.md, docs/governance/audits/phase_16a_architecture_freeze_audit.md, docs/governance/audits/phase_16a_final_constitution_review.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [phase_16a_architecture_freeze_audit.md](file:///d:/vedic-ai-golden-master/docs/audits/phase_16a_architecture_freeze_audit.md)
-*   **Repository Path:** `docs/audits/phase_16a_architecture_freeze_audit.md`
-*   **Verified Evidence Summary:** Gov Refs: docs/audits/phase_16_documentation_governance_review.md; Active Doc Refs: docs/audits/phase_16_architecture_review.md, docs/audits/phase_16_final_cleanup_verification.md, docs/audits/phase_16a_architecture_constitution_review.md
+### Artifact: [phase_16a_architecture_freeze_audit.md](file:///d:/vedic-ai-golden-master/docs/governance/audits/phase_16a_architecture_freeze_audit.md)
+*   **Repository Path:** `docs/governance/audits/phase_16a_architecture_freeze_audit.md`
+*   **Verified Evidence Summary:** Gov Refs: docs/governance/audits/phase_16_documentation_governance_review.md; Active Doc Refs: docs/governance/audits/phase_16_architecture_review.md, docs/governance/audits/phase_16_final_cleanup_verification.md, docs/governance/audits/phase_16a_architecture_constitution_review.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None
 *   **Target Archive Location:** docs/archive/constitutional/
 
-### Artifact: [phase_16a_final_constitution_review.md](file:///d:/vedic-ai-golden-master/docs/audits/phase_16a_final_constitution_review.md)
-*   **Repository Path:** `docs/audits/phase_16a_final_constitution_review.md`
-*   **Verified Evidence Summary:** Gov Refs: docs/audits/phase_16_documentation_governance_review.md; Active Doc Refs: docs/audits/phase_16_final_cleanup_verification.md, docs/audits/phase_16a_architecture_constitution_review.md
+### Artifact: [phase_16a_final_constitution_review.md](file:///d:/vedic-ai-golden-master/docs/governance/audits/phase_16a_final_constitution_review.md)
+*   **Repository Path:** `docs/governance/audits/phase_16a_final_constitution_review.md`
+*   **Verified Evidence Summary:** Gov Refs: docs/governance/audits/phase_16_documentation_governance_review.md; Active Doc Refs: docs/governance/audits/phase_16_final_cleanup_verification.md, docs/governance/audits/phase_16a_architecture_constitution_review.md
 *   **Applied Classification Profile:** CP-002
 *   **Archive Action:** Pending Dependency Verification
 *   **Exception Notes:** None

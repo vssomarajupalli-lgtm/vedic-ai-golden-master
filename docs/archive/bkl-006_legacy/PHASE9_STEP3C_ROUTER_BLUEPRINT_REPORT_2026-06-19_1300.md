@@ -3,7 +3,7 @@
 **Date:** 2026-06-19_1300
 
 ## Files Created
-1. `docs/question_engine/QUESTION_ROUTER_IMPLEMENTATION_BLUEPRINT_2026-06-19_1300.md`
+1. `docs/engineering/question_engine/QUESTION_ROUTER_IMPLEMENTATION_BLUEPRINT_2026-06-19_1300.md`
 
 ## Router Architecture Summary
 The newly established blueprint successfully dictates the end-to-end execution path for the Question Engine:
