@@ -84,7 +84,7 @@ Major documents and components are classified as follows to guide future refinem
 * **Legacy**: 
   * Older phase reports (`PHASE8`, `PHASE9`, `PHASE11` artifacts) that have been superseded by canonical Knowledge Packages.
 * **Archive Candidate**: 
-  * Highly granular implementation diffs (`PHASE14F_REGISTRY_DATA_DIFF.txt`)
+  * Highly granular implementation diffs (`docs/archive/PHASE14F_REGISTRY_DATA_DIFF.txt`)
   * Interim step reports and fixes (`docs/status/PHASE9_STEP1_REPORT_PROFILE_FIX.md`)
 * **Future**: 
   * Planned GM-005 refinement documentation.

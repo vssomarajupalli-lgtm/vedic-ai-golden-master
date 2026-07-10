@@ -9,7 +9,7 @@
 ## 1. Validation Tables
 
 ### ARP-001: Consolidate Constitutional Truth
-*   **Repository Evidence Reference:** `BKL-007_ARCHITECTURE_EVIDENCE_REPORT_v1.md` (Finding 1)
+*   **Repository Evidence Reference:** `docs/status/BKL-007_ARCHITECTURE_EVIDENCE_REPORT_v1.md` (Finding 1)
 *   **Constitutional Compliance:** **PASS**. Strongly aligns with the Single Authoritative Owner principle.
 *   **Architecture Compliance:** **PASS**.
 *   **Governance Compliance:** **PASS**. Resolves systemic ambiguity.
@@ -22,7 +22,7 @@
 *   **Recommendation:** **Approved with Conditions** (Condition: Explicitly verify which path agents currently consume before executing consolidation).
 
 ### ARP-002: Root Directory Clutter Relocation
-*   **Repository Evidence Reference:** `BKL-007_ARCHITECTURE_EVIDENCE_REPORT_v1.md` (Finding 2)
+*   **Repository Evidence Reference:** `docs/status/BKL-007_ARCHITECTURE_EVIDENCE_REPORT_v1.md` (Finding 2)
 *   **Constitutional Compliance:** **PASS**. Enforces structural modularity.
 *   **Architecture Compliance:** **PASS**.
 *   **Governance Compliance:** **PASS**.
@@ -35,7 +35,7 @@
 *   **Recommendation:** **Approved with Conditions** (Condition: Execution must be accompanied by atomic, repository-wide hyperlink updates).
 
 ### ARP-003: Audit Legacy and Placeholder Debt
-*   **Repository Evidence Reference:** `BKL-007_ARCHITECTURE_EVIDENCE_REPORT_v1.md` (Finding 3)
+*   **Repository Evidence Reference:** `docs/status/BKL-007_ARCHITECTURE_EVIDENCE_REPORT_v1.md` (Finding 3)
 *   **Constitutional Compliance:** **PASS**.
 *   **Architecture Compliance:** **PASS**.
 *   **Governance Compliance:** **PASS**.
@@ -48,7 +48,7 @@
 *   **Recommendation:** **Needs Revision** (Recommendation: Approve the audit portion only. Explicitly reject any automated deletion execution until human module leads have verified the classification).
 
 ### ARP-004: Mechanical Artifact Purge
-*   **Repository Evidence Reference:** `BKL-007_ARCHITECTURE_EVIDENCE_REPORT_v1.md` (Finding 4)
+*   **Repository Evidence Reference:** `docs/status/BKL-007_ARCHITECTURE_EVIDENCE_REPORT_v1.md` (Finding 4)
 *   **Constitutional Compliance:** **PASS**.
 *   **Architecture Compliance:** **PASS**.
 *   **Governance Compliance:** **PASS**.

@@ -95,7 +95,7 @@ The 135 active root-level files have been mechanically categorized to accelerate
 *   docs/architecture/ANSWER_COMPOSER_ARCHITECTURE_v1.md
 *   docs/architecture/ARCHITECTURE_DECISION_LOG_v1.0.md
 *   docs/architecture/ASHTAKAVARGA_ARCHITECTURE_RECOMMENDATION_2026-06-19_1800.md
-*   BKL-007_ARCHITECTURE_EVIDENCE_REPORT_v1.md
+*   docs/status/BKL-007_ARCHITECTURE_EVIDENCE_REPORT_v1.md
 *   docs/architecture/FORMULA_EVALUATOR_ARCHITECTURE_v1.md
 *   docs/architecture/FORMULA_LIBRARY_EXPANSION_ARCHITECTURE_v1.md
 *   docs/architecture/FORMULA_REPOSITORY_ARCHITECTURE_v1.md
@@ -117,11 +117,11 @@ The 135 active root-level files have been mechanically categorized to accelerate
 *   docs/status/BKL-001_EXECUTION_PACKAGE_v1.0.md
 *   docs/status/BKL-002_EXECUTION_PACKAGE_v1.0.md
 *   docs/status/BKL-005_COMPLETION_REPORT.md
-*   BKL-006_CHIEF_ARCHITECT_DECISION_REGISTER.md
+*   docs/governance/BKL-006_CHIEF_ARCHITECT_DECISION_REGISTER.md
 *   docs/status/BKL-006_CRL1_ARCHIVE_EXECUTION_PACKAGE.md
 *   docs/status/BKL-006_REPOSITORY_DISCOVERY_REPORT.md
-*   BKL-007_ARCHITECTURAL_REFINEMENT_PLAN_v1.md
-*   BKL-007_REPOSITORY_DISCOVERY_REPORT_v1.md
+*   docs/status/BKL-007_ARCHITECTURAL_REFINEMENT_PLAN_v1.md
+*   docs/status/BKL-007_REPOSITORY_DISCOVERY_REPORT_v1.md
 *   docs/knowledge/CALIBRATION_FRAMEWORK_KNOWLEDGE_PACKAGE.md
 *   docs/status/CURRENT_IMPLEMENTATION_AUDIT.md
 *   docs/knowledge/DASHA_INTELLIGENCE_KNOWLEDGE_PACKAGE.md
@@ -166,8 +166,8 @@ The 135 active root-level files have been mechanically categorized to accelerate
 *   docs/architecture/PHASE12B_DATA_MODEL_REPORT.md
 *   docs/governance/PHASE14D_RISK_REGISTER.md
 *   docs/status/PHASE14E_IMPLEMENTATION_REPORT.md
-*   PHASE14F_QUESTION_REGISTRY_DIFF.txt
-*   PHASE14F_REGISTRY_DATA_DIFF.txt
+*   docs/archive/PHASE14F_QUESTION_REGISTRY_DIFF.txt
+*   docs/archive/PHASE14F_REGISTRY_DATA_DIFF.txt
 *   docs/status/PHASE14G_HARDENING_REVIEW.md
 *   docs/status/PHASE15A_ENGINE_INTERFACE_AUDIT.md
 *   docs/status/PHASE15_MANDALI_DECOUPLING_DECISION_RECORD.md

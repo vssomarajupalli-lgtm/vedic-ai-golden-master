@@ -60,9 +60,9 @@ Changes not staged for commit:
 
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
-	BKL-008_DISCOVERY_RECONCILIATION_REPORT_v1.md
-	BKL-008_REPOSITORY_DISCOVERY_REPORT_v1.md
-	LEGACY_MODULE_REMOVAL_EXECUTION_REPORT_v1.md
+	docs/status/BKL-008_DISCOVERY_RECONCILIATION_REPORT_v1.md
+	docs/status/BKL-008_REPOSITORY_DISCOVERY_REPORT_v1.md
+	docs/status/LEGACY_MODULE_REMOVAL_EXECUTION_REPORT_v1.md
 	REPOSITORY_TREE_BKL008.txt
 
 no changes added to commit (use "git add" and/or "git commit -a")

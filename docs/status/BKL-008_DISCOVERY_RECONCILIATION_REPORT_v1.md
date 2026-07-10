@@ -12,7 +12,7 @@
 
 The previous discovery report erroneously concluded that ARP-002 (Root Directory Clutter Relocation) was incomplete due to the presence of `BKL-*` and `PHASE14F-*` files in the root directory. 
 
-**Repository Evidence:** A review of `BKL-007_CONSTITUTIONAL_VALIDATION_REVIEW_v1.md` confirms that ARP-002 targeted the relocation of 135 legacy markdown files. A structural assessment confirms these files were successfully relocated. The remaining files in the root directory are strictly related to the active GM-005 Refinement program or recent Phase 14F completion.
+**Repository Evidence:** A review of `docs/status/BKL-007_CONSTITUTIONAL_VALIDATION_REVIEW_v1.md` confirms that ARP-002 targeted the relocation of 135 legacy markdown files. A structural assessment confirms these files were successfully relocated. The remaining files in the root directory are strictly related to the active GM-005 Refinement program or recent Phase 14F completion.
 
 Therefore, I explicitly **withdraw** the previous finding. ARP-002 was successfully completed during BKL-007.
 
@@ -25,14 +25,14 @@ Based on the rule prohibiting the relocation of active milestone artifacts durin
 | `.gitignore` | Permanent Root File | Retain in root |
 | `docker-compose.yml` | Permanent Root File | Retain in root |
 | `pytest.ini` | Permanent Root File | Retain in root |
-| `BKL-006_CHIEF_ARCHITECT_DECISION_REGISTER.md` | Active Milestone Artifact | Retain in root for GM-005 duration |
-| `BKL-007_ARCHITECTURAL_REFINEMENT_PLAN_v1.md` | Active Milestone Artifact | Retain in root for GM-005 duration |
-| `BKL-007_ARCHITECTURE_EVIDENCE_REPORT_v1.md` | Active Milestone Artifact | Retain in root for GM-005 duration |
-| `BKL-007_CONSTITUTIONAL_VALIDATION_REVIEW_v1.md` | Active Milestone Artifact | Retain in root for GM-005 duration |
-| `BKL-007_REPOSITORY_DISCOVERY_REPORT_v1.md` | Active Milestone Artifact | Retain in root for GM-005 duration |
-| `BKL-008_REPOSITORY_DISCOVERY_REPORT_v1.md` | Active Milestone Artifact | Retain in root for GM-005 duration |
-| `PHASE14F_QUESTION_REGISTRY_DIFF.txt` | Active Milestone Artifact | Retain in root for GM-005 duration |
-| `PHASE14F_REGISTRY_DATA_DIFF.txt` | Active Milestone Artifact | Retain in root for GM-005 duration |
+| `docs/governance/BKL-006_CHIEF_ARCHITECT_DECISION_REGISTER.md` | Active Milestone Artifact | Retain in root for GM-005 duration |
+| `docs/status/BKL-007_ARCHITECTURAL_REFINEMENT_PLAN_v1.md` | Active Milestone Artifact | Retain in root for GM-005 duration |
+| `docs/status/BKL-007_ARCHITECTURE_EVIDENCE_REPORT_v1.md` | Active Milestone Artifact | Retain in root for GM-005 duration |
+| `docs/status/BKL-007_CONSTITUTIONAL_VALIDATION_REVIEW_v1.md` | Active Milestone Artifact | Retain in root for GM-005 duration |
+| `docs/status/BKL-007_REPOSITORY_DISCOVERY_REPORT_v1.md` | Active Milestone Artifact | Retain in root for GM-005 duration |
+| `docs/status/BKL-008_REPOSITORY_DISCOVERY_REPORT_v1.md` | Active Milestone Artifact | Retain in root for GM-005 duration |
+| `docs/archive/PHASE14F_QUESTION_REGISTRY_DIFF.txt` | Active Milestone Artifact | Retain in root for GM-005 duration |
+| `docs/archive/PHASE14F_REGISTRY_DATA_DIFF.txt` | Active Milestone Artifact | Retain in root for GM-005 duration |
 | `REPOSITORY_TREE_BKL008.txt` | Temporary Working Artifact | Can be safely deleted at phase end |
 
 ## 3. Documentation Architecture Assessment

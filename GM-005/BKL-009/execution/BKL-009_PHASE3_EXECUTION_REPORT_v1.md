@@ -73,7 +73,7 @@ Your branch is up to date with 'origin/main'.
 Changes not staged for commit:
   (use "git add/rm <file>..." to update what will be committed)
   (use "git restore <file>..." to discard changes in working directory)
-	modified:   BKL-006_CHIEF_ARCHITECT_DECISION_REGISTER.md
+	modified:   docs/governance/BKL-006_CHIEF_ARCHITECT_DECISION_REGISTER.md
 	modified:   docs/HANDOVER_PACKAGE_2026-06-17_PHASE7_FINAL/PROJECT_RECOVERY_GUIDE.md
 	modified:   docs/README_FIRST.md
 	modified:   docs/architecture/PHASE9_QUESTION_BLUEPRINT_UPDATE_REPORT.md

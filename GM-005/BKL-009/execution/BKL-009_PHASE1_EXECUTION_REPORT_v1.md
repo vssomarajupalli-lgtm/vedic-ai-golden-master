@@ -24,7 +24,7 @@ Phase 1 of the Documentation Migration Manifest has been strictly executed. No f
 
 A repository-wide scan and replace was executed to update internal markdown hyperlinks pointing to the deprecated directories. The following files were successfully updated to point to the new canonical paths:
 
-*   `BKL-006_CHIEF_ARCHITECT_DECISION_REGISTER.md`
+*   `docs/governance/BKL-006_CHIEF_ARCHITECT_DECISION_REGISTER.md`
 *   `docs/HANDOVER_PACKAGE_2026-06-17_PHASE7_FINAL/PROJECT_RECOVERY_GUIDE.md`
 *   `docs/archive/ARCHITECTURE_CONTRADICTIONS_AND_CLARIFICATIONS.md`
 *   `docs/governance/PROJECT_DOCUMENT_INDEX.md`
@@ -67,7 +67,7 @@ Your branch is up to date with 'origin/main'.
 Changes not staged for commit:
   (use "git add/rm <file>..." to update what will be committed)
   (use "git restore <file>..." to discard changes in working directory)
-	modified:   BKL-006_CHIEF_ARCHITECT_DECISION_REGISTER.md
+	modified:   docs/governance/BKL-006_CHIEF_ARCHITECT_DECISION_REGISTER.md
 	modified:   docs/HANDOVER_PACKAGE_2026-06-17_PHASE7_FINAL/PROJECT_RECOVERY_GUIDE.md
 	modified:   docs/archive/ARCHITECTURE_CONTRADICTIONS_AND_CLARIFICATIONS.md
 	deleted:    docs/audits/phase_15_final_regression_evidence.md
