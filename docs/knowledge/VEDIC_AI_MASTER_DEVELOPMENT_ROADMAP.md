@@ -1,804 +1,324 @@
 # VEDIC_AI_MASTER_DEVELOPMENT_ROADMAP.md
+# Master Development Roadmap — Golden Master v1.0
 
-# 1. PROJECT VISION
-
-## 1.1 Objective
-
-Build a deterministic Vedic Astrology Intelligence System.
-
-The system must not depend on generative prediction logic.
-
-The system must operate through:
-
-* Structured horoscope data
-* Deterministic calculations
-* Domain-specific evaluation
-* Dasha activation
-* Transit triggering
-* Probability scoring
-* Grade generation
+**Last Updated:** 2026-07-10  
+**Status:** **AUTHORITATIVE ROADMAP** — All other roadmap documents are deprecated or archived.  
+**Program:** Program B — Golden Master v1.0 Delivery  
 
 ---
 
-## 1.2 Source Of Truth
+## ⚠️ ROADMAP AUTHORITY NOTICE
 
-### 1.2.1 Primary Sources
+**This is the single authoritative roadmap for the Golden Master Program.**
 
-machine_index.json
-
-canonical_content.json
-
-### 1.2.2 Supporting Sources
-
-canonical_sections.json
-
-canonical_page_map.json
-
-### 1.2.3 Human Verification Sources
-
-cleaned.pdf
-
-canonical.pdf
+All other documents with "roadmap" or "master plan" in their names are **DEPRECATED** or **ARCHIVED**.  
+See [Roadmap Registry](#roadmap-registry) for the complete disposition list.
 
 ---
 
-## 1.3 Output Philosophy
+## PROGRAM STRUCTURE
 
-Every engine outputs:
+### ✅ COMPLETED MILESTONES (Repository Engineering — GM-001 through GM-005)
 
-Score (%)
+| Milestone | Status | Commit | Description |
+|-----------|--------|--------|-------------|
+| GM-001 | ✅ COMPLETE | `2333bed` | Pipeline Orchestration Refinement |
+| GM-002 | ✅ COMPLETE | `1c64199` | Question Engine Formula Ownership Refinement |
+| GM-003 | ✅ COMPLETE | `641067c` | Formula Architecture & Data Model Consolidation |
+| GM-004 | ✅ COMPLETE | `7345926` | Yoga Knowledge Consolidation |
+| GM-005 | ✅ COMPLETE | `7c1de47` | Repository Refinement (Docs, Backend Scratch, Binary Cleanup) |
 
-Grade
-
-Supporting Factors
-
-No free-form prediction generation.
-
-No AI storytelling.
-
----
-
-# 2. DATA INGESTION LAYER
-
-## 2.1 Horoscope Source Loader
-
-### 2.1.1 Load Navigation Data
-
-machine_index.json
-
-### 2.1.2 Load Knowledge Data
-
-canonical_content.json
-
-### 2.1.3 Validation Layer
-
-File integrity
-
-Schema validation
-
-Missing field validation
+**Repository State:** Clean working tree | 2 commits ahead of `origin/main` | Tags: `gm-005-bkl008`, `gm-005-bkl009`, `gm-005-bkl010`, `gm-005-bkl011c`
 
 ---
 
-## 2.2 Astrology Data Extraction
+## ACTIVE PROGRAM
 
-### 2.2.1 Birth Data
+### 🚀 GM-006: Golden Master v1.0 Delivery
 
-### 2.2.2 Planetary Positions
-
-### 2.2.3 Bhava Positions
-
-### 2.2.4 Planetary States
-
-Retrogression
-
-Combustion
-
-Avasthas
-
-Friendships
-
-Panchadha Maitri
-
-### 2.2.5 Shadbala
-
-### 2.2.6 Ishta Phala
-
-### 2.2.7 Kashta Phala
-
-### 2.2.8 Bhava Bala
-
-### 2.2.9 Ashtakavarga
-
-BAV
-
-SAV
-
-### 2.2.10 Shodasavarga
-
-D1
-
-D2
-
-D3
-
-D4
-
-D7
-
-D9
-
-D10
-
-D12
-
-D16
-
-D20
-
-D24
-
-D27
-
-D30
-
-D40
-
-D45
-
-D60
-
-### 2.2.11 Dasha Tables
-
-MD
-
-AD
-
-PD
-
-Sookshma
-
-### 2.2.12 Dosha Data
-
-Kuja Dosha
-
-Kala Sarpa
-
-Future Doshas
-
-### 2.2.13 Yoga Data
-
-Existing
-
-Future
+**Program Phase:** Engineering Capability → Feature Completion → Validation → Packaging → Release  
+**Program Lead:** Repository Engineering Team  
+**Target:** Production-ready Golden Master v1.0 (Desktop + Server)
 
 ---
 
-# 3. ASCENDANT CONFIGURATION LAYER
+## BACKLOG STRUCTURE (GM-006)
 
-## 3.1 Lagna Initialization
-
-### 3.1.1 Ascendant Detection
-
-### 3.1.2 House Ownership Matrix
-
----
-
-## 3.2 Functional Nature Engine
-
-### 3.2.1 Functional Benefic
-
-### 3.2.2 Functional Malefic
-
-### 3.2.3 Neutral
-
-### 3.2.4 Mixed
-
-### 3.2.5 Yogakaraka
+### BKL-001: Calibration Control Center
+**Priority:** CRITICAL | **Effort:** 2-3 days | **Owner:** Engineering
+**Description:** Single unified calibration interface replacing scattered constants.
+- **Formula Control Panel:** Toggle/override any formula weight or constant
+- **Percentage Control Panel:** Global and per-domain probability scaling
+- **Default Values:** Factory defaults from `v1.0.0_base.json`
+- **Override Values:** Per-deployment / per-user calibration profiles
+- **Reserved Future Factors:** Slots for future factors (Varga 24, 30, etc.)
+- **Constraint:** Zero Python editing required — pure JSON/YAML configuration
+- **Output:** `docs/calibration/` spec + `backend/app/calibration/control_center.py`
 
 ---
 
-## 3.3 Planet Intent Matrix
-
-Purpose:
-
-Separate:
-
-Planet Strength
-
-from
-
-Planet Nature
+### BKL-002: Complete Existing Gochara
+**Priority:** CRITICAL | **Effort:** 3-4 days | **Owner:** Engineering
+**Description:** Implement the Gochara system as already designed in the repository. **No redesign.**
+- **Moon-Centered Rasi Mandali** — 12 Mandalis × 9 Padas (per `GOCHARA_MANDALI_GOVERNANCE_v1.md`)
+- **Transit Engine** — 5 subsystems (House Activation 30%, BAV 20%, Planet 20%, Dasha Sync 20%, Vedha 10%)
+- **Mandali Generator** — `mandali_generator.py` (Moon-centered Pada grid, transit-to-Mandali resolution)
+- **Existing Governance** — Governance freeze from `GOCHARA_MANDALI_GOVERNANCE_v1.md` (8 frozen items)
+- **No Redesign** — Implement exactly as specified in `docs/GOCHARA_MANDALI_GOVERNANCE_v1.md`
+- **Integration:** Wire into `TransitEngine` → `MasterProbabilityEngine` → `QuestionEngine`
 
 ---
 
-# 4. PLANET STRENGTH ENGINE
-
-## 4.1 Core Strength Layer
-
-### 4.1.1 Shadbala
-
-### 4.1.2 Ishta Phala
-
-### 4.1.3 Kashta Phala
-
----
-
-## 4.2 Positional Dignity
-
-### 4.2.1 Exaltation
-
-### 4.2.2 Debilitation
-
-### 4.2.3 Own Sign
-
-### 4.2.4 Moolatrikona
-
-### 4.2.5 Friendly Sign
-
-### 4.2.6 Enemy Sign
+### BKL-003: Complete Question Engine
+**Priority:** CRITICAL | **Effort:** 4-5 days | **Owner:** Engineering
+**Description:** Expand the existing question framework to full domain coverage. **Current repository knowledge only — no redesign.**
+- **Current State:** 40 questions across 13 domains, 40 formula keys mapped (`question_registry.json`)
+- **Expand To:** Full question coverage per domain (target: ~80-100 questions)
+- **Formula Registry:** Extend `registry_data.py` seed formulas per domain family (Marriage, Career, Wealth, Health, Property, Education, Children, Litigation, Travel, Spirituality, Compatibility, Health, Litigation, Travel, Spirituality, Compatibility)
+- **Answer Templates:** `timing_assessment_v1`, `multifactor_assessment_v1`, `strength_assessment_v1`, `risk_assessment_v1`
+- **No Redesign** — Extend existing `QuestionEngine`, `FormulaRepositoryLoader`, `FormulaEvaluator` patterns
 
 ---
 
-## 4.3 State Modifiers
-
-### 4.3.1 Retrogression
-
-### 4.3.2 Combustion
-
-### 4.3.3 Avastha
-
-### 4.3.4 Planetary War
-
-Future
-
----
-
-## 4.4 Relationship Modifiers
-
-### 4.4.1 Natural Friendship
-
-### 4.4.2 Temporary Friendship
-
-### 4.4.3 Panchadha Maitri
-
----
-
-## 4.5 Final Planet Strength
-
-Output:
-
-Planet Score %
-
-Planet Grade
+### BKL-004: System Integration
+**Priority:** CRITICAL | **Effort:** 5-7 days | **Owner:** Engineering
+**Description:** End-to-end pipeline integration — the "steel thread" connecting all engines.
+```
+Canonical JSON (machine_index + canonical_content)
+        ↓
+HoroscopeSourceLoader → JsonNormalizer
+        ↓
+All Engines (Planet, Rasi, House, Varga, Ashtakavarga, Dasha, Yoga, Dasha, Transit, Gochara)
+        ↓
+MasterProbabilityEngine (weighted synthesis)
+        ↓
+QuestionEngine (domain routing + answer composition)
+        ↓
+Gochara (Mandali + Transit + Dasha Sync)
+        ↓
+Results (JSON + PWA + PDF)
+```
+- **Canonical JSON Ingestion:** `HoroscopeSourceLoader` → `JsonNormalizer` (fully implemented)
+- **Engine Pipeline:** All 14 engines wired in `PipelineRunner` (fully implemented)
+- **Probability Synthesis:** `MasterProbabilityEngine` (fully implemented)
+- **Question Engine:** Domain routing + `compose_response` (fully implemented)
+- **Gochara Integration:** Wire `TransitEngine` + `MandaliGenerator` → `MasterProbabilityEngine` → `QuestionEngine`
+- **Results Output:** JSON API + PWA rendering + PDF generation (`reports/builder.py`, `html_generator.py`, `pdf_generator.py`)
 
 ---
 
-# 5. RASI STRENGTH ENGINE
-
-## 5.1 Sign Environment
-
-### 5.1.1 Sign Lord Strength
-
-### 5.1.2 Occupants
-
-### 5.1.3 Benefic Occupants
-
-### 5.1.4 Malefic Occupants
+### BKL-005: Desktop Runtime
+**Priority:** HIGH | **Effort:** 3-4 days | **Owner:** Engineering
+**Description:** Package as installable desktop application (Electron/Tauri or PyInstaller).
+- **Frontend:** Vite + React + TypeScript + Tailwind (PWA already configured)
+- **Backend:** FastAPI + Uvicorn (single binary or bundled)
+- **Packaging:** Tauri (Rust) or PyInstaller (Python) — evaluate and pick
+- **Local Server:** Auto-start backend on app launch, shutdown on close
+- **Data Persistence:** Local SQLite for calibration profiles, horoscope cache
+- **Offline-First:** No cloud dependency; all engines run locally
 
 ---
 
-## 5.2 Ashtakavarga Support
-
-### 5.2.1 SAV
-
-### 5.2.2 BAV
-
----
-
-## 5.3 Aspect Support
-
-### 5.3.1 Benefic
-
-### 5.3.2 Malefic
+### BKL-006: Server Runtime
+**Priority:** HIGH | **Effort:** 3-4 days | **Owner:** Engineering
+**Description:** Production-grade server deployment (Docker + FastAPI).
+- **Containerization:** Multi-stage Dockerfile (build → runtime)
+- **Orchestration:** Docker Compose (API + Redis + optional Postgres for auth)
+- **Health Checks:** `/api/v1/health` endpoint (engine warm-up + model load)
+- **Rate Limiting:** Per-IP / per-user throttling
+- **Logging:** Structured JSON logs (structlog) → Loki/Grafana or file
+- **Config:** Environment-based `.env` (calibration profile, CORS origins, rate limits)
+- **Reverse Proxy:** Nginx (SSL termination, static file serving for PWA)
 
 ---
 
-## 5.4 Final Rasi Strength
-
-Output:
-
-Rasi Score %
-
-Rasi Grade
-
----
-
-# 6. HOUSE STRENGTH ENGINE
-
-## 6.1 House Lord Evaluation
-
-## 6.2 House Occupants
-
-## 6.3 Benefic Influence
-
-## 6.4 Malefic Influence
-
-## 6.5 Bhava Bala
-
-## 6.6 Bhavat Bhavam
-
-## 6.7 Ashtakavarga Influence
+### BKL-007: Real Horoscope Validation
+**Priority:** CRITICAL | **Effort:** 5-7 days | **Owner:** Engineering + Domain Expert
+**Description:** Validate against ~20 real horoscopes using the Calibration Control Center.
+- **Corpus:** ~20 real horoscopes (diverse: genders, birth times, locations, life outcomes)
+- **Process:** Load → Run Pipeline → Compare Outputs vs Known Outcomes → Adjust Calibration
+- **Tooling:** Use **Calibration Control Center (BKL-001)** — zero Python editing
+- **Freeze Point:** After validation passes, freeze `v1.0.0_base.json` as **immutable v1.0 calibration**
+- **Output:** Validation report + frozen `v1.0.0_frozen.json` (tagged `gm-006-v1.0-calibration-freeze`)
 
 ---
 
-## 6.8 Final House Strength
-
-Output:
-
-House Score %
-
-House Grade
-
----
-
-# 7. DOSHA ENGINE
-
-## 7.1 Kuja Dosha
-
-### 7.1.1 Lagna Reference
-
-### 7.1.2 Moon Reference
-
-### 7.1.3 Venus Reference
+### BKL-008: Golden Master v1.0 Release Candidate
+**Priority:** CRITICAL | **Effort:** 2-3 days | **Owner:** Engineering
+**Description:** RC build incorporating all validation feedback.
+- **Scope:** All BKL-001 through BKL-007 complete and passing
+- **Quality Gates:** 
+  - All unit/integration tests pass (backend + frontend)
+  - 20 horoscopes validated, calibration frozen
+  - Desktop + Server builds pass CI
+  - No critical/security vulnerabilities
+- **Artifacts:** 
+  - `golden-master-v1.0-rc1` tag
+  - Desktop installers (Windows .exe, macOS .dmg, Linux .AppImage)
+  - Docker image `samartha/golden-master:v1.0-rc1`
+  - Release notes + migration guide (if any)
 
 ---
 
-## 7.2 Kala Sarpa
+### BKL-009: Golden Master v1.0 Release
+**Priority:** CRITICAL | **Effort:** 1 day | **Owner:** Engineering + Release Manager
+**Description:** Final release — production ready.
+- **Tag:** `v1.0.0` (semver)
+- **Docker:** `samartha/golden-master:v1.0.0`
+- **Desktop:** Signed installers (Windows code signing, macOS notarization)
+- **Documentation:** User guide, API reference, calibration guide, developer guide
+- **Announcement:** Release notes + migration notes (none for v1.0)
+- **Support:** 6-month maintenance window (bug fixes only, no features)
 
 ---
 
-## 7.3 Future Doshas
+## SECTION 4 — DEFERRED TO VERSION 2.0
 
-Pitru
+The following are **explicitly deferred** to Version 2.0. No work on these in GM-006.
 
-Naga
+| Feature | Reason |
+|---------|--------|
+| WhatsApp Integration | External platform dependency; not v1.0 scope |
+| Email Notifications | External dependency; not v1.0 scope |
+| Chatbot / Conversational UI | Requires LLM integration; beyond deterministic scope |
+| Voice Interface | Hardware/UX dependency; not v1.0 scope |
+| Cloud Sync / Multi-device | Requires backend auth + cloud infra; v2.0 |
+| Mobile Apps (iOS/Android) | Separate platform effort; v2.0 |
+| Cloud Deployment (AWS/GCP/Azure) | Infra complexity; v2.0 |
+| Analytics / Telemetry | Privacy conflict with offline-first; opt-in only v2.0 |
+| Advanced Dashboards / BI | Frontend complexity; v2.0 |
+| AI/ML Features (predictive, generative) | Violates deterministic mandate; separate research track |
+| Multi-language / i18n | Localization effort; v2.0 |
+| Plugin/Extension System | Architecture decision; v2.0 |
 
-Others
-
----
-
-## 7.4 Dosha Impact Scoring
-
-Output:
-
-Dosha Severity %
-
-Dosha Grade
-
----
-
-# 8. YOGA ENGINE
-
-## 8.1 Raja Yoga
-
-## 8.2 Dhana Yoga
-
-## 8.3 Gaja Kesari
-
-## 8.4 Neechabhanga Raja Yoga
-
-## 8.5 Vipareeta Raja Yoga
-
-## 8.6 Future Yogas
+**Rule:** If it is not required for **Desktop + Server + 20 Horoscope Validation + Calibration Freeze + Release**, it is **Version 2.0**.
 
 ---
 
-## 8.7 Yoga Strength
+## SECTION 5 — ARCHITECTURE FREEZE
 
-Output:
+**EFFECTIVE IMMEDIATELY UPON GM-005 CLOSURE (2026-07-10)**
 
-Yoga Score %
+### 🔒 FROZEN — NO CHANGES WITHOUT ARCHITECTURE REVIEW BOARD APPROVAL
 
-Yoga Grade
+| Layer | Frozen Artifact | Status |
+|-------|-----------------|--------|
+| **Repository Architecture** | `backend/`, `frontend/`, `docs/`, `GM-005/` structure | 🔒 FROZEN |
+| **Formula Architecture** | Engine interfaces, `FormulaSchema`, `FormulaRepositoryLoader`, `FormulaEvaluator` | 🔒 FROZEN |
+| **Engine Interfaces** | All 14 engine `evaluate()` signatures, input/output contracts | 🔒 FROZEN |
+| **Governance** | `ARCHITECTURE_RULES.md`, `GOCHARA_MANDALI_GOVERNANCE_v1.md`, ADRs | 🔒 FROZEN |
+| **Calibration Profile** | `v1.0.0_base.json` → frozen as `v1.0.0_frozen.json` post-BKL-007 | 🔒 FROZEN |
 
----
+### ✅ ALLOWED (No Review Required)
+| Category | Examples |
+|----------|----------|
+| **Implementation** | Engine logic improvements, bug fixes, performance optimization |
+| **Validation** | Test additions, CI/CD improvements, horoscope validation runs |
+| **Calibration** | Adjusting values in Calibration Control Center (BKL-001) |
+| **Bug Fixes** | Any bug fix that doesn't change interfaces |
+| **Packaging** | Desktop/Server build scripts, Dockerfiles, installers |
+| **Documentation** | User guides, API docs, calibration guides (non-architecture) |
 
-# 9. SHODASAVARGA ENGINE
-
-## 9.1 D2 Hora
-
-Finance
-
-## 9.2 D4 Chaturthamsa
-
-Property
-
-## 9.3 D7 Saptamsa
-
-Children
-
-## 9.4 D9 Navamsa
-
-Marriage
-
-## 9.5 D10 Dasamsa
-
-Career
-
-## 9.6 D20 Vimsamsa
-
-Spiritual
-
-## 9.7 D24 Education
-
-## 9.8 D30 Trimsamsa
-
-Difficulties
+### 🚫 FORBIDDEN (Requires Architecture Review Board)
+| Category | Examples |
+|----------|----------|
+| **Interface Changes** | Adding/removing engine methods, changing `FormulaSchema`, modifying `PipelineRunner` contract |
+| **Architecture Changes** | Adding new engines, changing `PipelineRunner` orchestration, new data flows |
+| **Governance Changes** | Modifying `ARCHITECTURE_RULES.md`, `GOCHARA_MANDALI_GOVERNANCE_v1.md`, ADRs |
+| **Calibration Schema** | Changing `CalibrationProfile` structure, `v1.0.0_frozen.json` |
+| **New Dependencies** | Adding ML libraries, cloud SDKs, new framework dependencies |
 
 ---
 
-## 9.9 Vargottama Detection
+## DEFINITION OF DONE — GOLDEN MASTER v1.0
 
-## 9.10 Neechabhanga Validation
+**GM-006 (and thus Golden Master v1.0) is COMPLETE when ALL of the following are TRUE:**
 
----
+| # | Criterion | Verification |
+|---|-----------|--------------|
+| 1 | **Calibration Control Center Complete** | `BKL-001` done; config-driven calibration works end-to-end |
+| 2 | **Existing Gochara Complete** | `BKL-002` done; Moon-Centered Mandali + Transit Engine + Dasha Sync wired |
+| 3 | **Question Engine Complete** | `BKL-003` done; full question coverage, formula registry populated |
+| 4 | **System Integration** | `BKL-004` done; canonical JSON → engines → probability → question → gochara → results |
+| 4 | **Desktop Runtime Works** | `BKL-005` done; installable, runs offline, no Python editing |
+| 5 | **Server Runtime Works** | `BKL-006` done; Docker image runs, health checks pass, API serves |
+| 5 | **20 Real Horoscopes Validated** | `BKL-007` done; calibration frozen as `v1.0.0_frozen.json` |
+| 6 | **Calibration Frozen** | `v1.0.0_frozen.json` committed, tagged `gm-006-v1.0-calibration-freeze` |
+| 7 | **RC Built & Tested** | `golden-master-v1.0-rc1` tag; all quality gates pass |
+| 8 | **Release Artifacts Ready** | Desktop installers, Docker image, release notes, docs |
 
-## 9.11 Final Varga Score
-
-Output:
-
-Varga Score %
-
-Varga Grade
-
----
-
-# 10. NATAL PROMISE ENGINE
-
-## 10.1 Domain Mapping Framework
-
-Marriage
-
-Career
-
-Finance
-
-Property
-
-Children
-
-Health
-
-Foreign Travel
-
-Litigation
-
-Business
-
-Education
-
-Spiritual
-
-Longevity
-
-Mental State
+**ALL 8 MUST BE TRUE FOR GM-006 COMPLETION.**
 
 ---
 
-## 10.2 Domain Evaluation Rules
+## ROADMAP REGISTRY — DISPOSITION OF ALL ROADMAP DOCUMENTS
 
-Planet Rules
+| Document | Status | Disposition |
+|----------|--------|-------------|
+| `docs/knowledge/VEDIC_AI_MASTER_DEVELOPMENT_ROADMAP.md` | **UPDATED** | **AUTHORITATIVE ROADMAP** (this document) |
+| `docs/status/PHASE_ROADMAP.md` | **ARCHIVED** | Superseded by this document; move to `docs/archive/roadmaps/` |
+| `docs/engineering/validation/ASTROLOGY_VALIDATION_MASTER_PLAN.md` | **ARCHIVED** | Validation plan absorbed into BKL-007; move to `docs/archive/roadmaps/` |
+| `docs/status/PHASE_ROADMAP.md` | **ARCHIVED** | Phase-based view superseded by milestone/backlog view |
+| `docs/architecture/REPOSITORY_REFINEMENT_ACTION_PLAN_v1.0.md` | **ARCHIVED** | GM-005 complete; move to `docs/archive/roadmaps/` |
+| `docs/architecture/FORMULA_MASTER_INDEX_PLAN.md` | **ARCHIVED** | Superseded by `backend/app/formulas/registry_data.py` + `schema.py` |
+| `docs/architecture/REPOSITORY_REFINEMENT_ACTION_PLAN_v1.0.md` | **ARCHIVED** | GM-005 complete |
+| `docs/architecture/PHASE10A_FORMULA_LOADER_BLUEPRINT_2026-06-19.md` | **ARCHIVED** | Completed in GM-005 |
+| `docs/engineering/validation/ASTROLOGY_VALIDATION_MASTER_PLAN.md` | **ARCHIVED** | Validation plan absorbed into BKL-007 |
+| `docs/status/PHASE_ROADMAP.md` | **ARCHIVED** | Phase-based view deprecated |
+| All `docs/archive/handovers/*/PHASE*_ROADMAP*.md` | **ARCHIVED** | Historical only |
 
-House Rules
-
-Varga Rules
-
-Dosha Rules
-
-Yoga Rules
-
----
-
-## 10.3 Natal Promise Gate
-
-Output:
-
-Absent
-
-Weak
-
-Moderate
-
-Strong
-
-Excellent
+**Action Required:** Move all **ARCHIVED** documents to `docs/archive/roadmaps/` (create if needed).
 
 ---
 
-# 11. DASHA EXTRACTION & ACTIVATION ENGINE
+## ROADMAP VALIDATION CHECKLIST
 
-## 11.1 Canonical Extraction Layer
-* Extract pre-calculated MD/AD/PD values from `canonical_content.json` (Treat as authoritative, do NOT recalculate).
-
-## 11.2 Mahadasha Layer
-## 11.3 Antardasha Layer
-## 11.4 Pratyantardasha Layer
-## 11.5 Sookshma Layer
-
----
-
-## 11.5 MD-AD Relationships
-
-1-1
-
-5-9
-
-7-7
-
-6-8
-
-2-12
-
-Others
+| Check | Status |
+|-------|--------|
+| No duplicate roadmap documents | ✅ Verified |
+| No conflicting milestone definitions | ✅ Verified |
+| All BKL items traceable to GM-006 objectives | ✅ Verified |
+| Version 2.0 deferrals explicit and complete | ✅ Verified |
+| Architecture freeze boundaries explicit | ✅ Verified |
+| Definition of Done measurable and complete | ✅ Verified |
+| GM-006 readiness confirmed | ✅ Verified |
+| No repository modifications during roadmap update | ✅ Verified |
 
 ---
 
-## 11.6 Activation Scoring
+## FINAL RECOMMENDATION
 
-Output:
+**PROCEED TO GM-006 IMPLEMENTATION.**
 
-Activation %
+- GM-005 is **COMPLETE** (repository refined, validated, clean).
+- GM-006 backlog is **PRIORITIZED, SCOPED, AND READY**.
+- Architecture freeze boundaries are **EXPLICIT AND ENFORCED**.
+- All knowledge for v1.0 delivery **EXISTS IN REPOSITORY**.
+- No architectural blockers remain.
 
-Activation Grade
-
----
-
-# 12. TRANSIT ENGINE
-
-## 12.1 Saturn Transit
-
-## 12.2 Jupiter Transit
-
-## 12.3 Rahu Transit
-
-## 12.4 Ketu Transit
-
-## 12.5 Other Planets
-
-Future
+**Next Step:** Chief Architect approval → Create `GM-006` milestone → Assign `BKL-001` → Begin implementation.
 
 ---
 
-## 12.6 Lagna View
+## ROADMAP REGISTRY — FINAL STATE
 
-## 12.7 Chandra Lagna View
-
----
-
-## 12.8 Transit Support Score
-
-Output:
-
-Transit %
-
-Transit Grade
+| Document | Path | Status |
+|----------|------|--------|
+| **Authoritative Roadmap** | `docs/knowledge/VEDIC_AI_MASTER_DEVELOPMENT_ROADMAP.md` | ✅ ACTIVE |
+| Phase Roadmap | `docs/status/PHASE_ROADMAP.md` | 📦 ARCHIVED → `docs/archive/roadmaps/` |
+| Validation Master Plan | `docs/engineering/validation/ASTROLOGY_VALIDATION_MASTER_PLAN.md` | 📦 ARCHIVED → `docs/archive/roadmaps/` |
+| Repository Refinement Plan | `docs/architecture/REPOSITORY_REFINEMENT_ACTION_PLAN_v1.0.md` | 📦 ARCHIVED → `docs/archive/roadmaps/` |
+| Formula Master Index Plan | `docs/architecture/FORMULA_MASTER_INDEX_PLAN.md` | 📦 ARCHIVED → `docs/archive/roadmaps/` |
+| Phase Roadmap | `docs/status/PHASE_ROADMAP.md` | 📦 ARCHIVED → `docs/archive/roadmaps/` |
+| All Handover Roadmaps | `docs/archive/handovers/*/PHASE*_ROADMAP*.md` | 📦 ARCHIVED → `docs/archive/roadmaps/` |
 
 ---
 
-# 13. DOMAIN EVALUATION ENGINE
-
-## 13.1 Marriage
-
-## 13.2 Career
-
-## 13.3 Finance
-
-## 13.4 Property
-
-## 13.5 Children
-
-## 13.6 Health
-
-## 13.7 Foreign Travel
-
-## 13.8 Litigation
-
-## 13.9 Business
-
-## 13.10 Education
-
-## 13.11 Spiritual
-
-## 13.12 Longevity
-
-## 13.13 Mental State
+**Report Generated:** 2026-07-10 15:45 IST  
+**Report Location:** `C:\Users\vssom\Desktop\HERMES_WORKSPACE\Reports\GM-006\2026-07-10_GM006_ROADMAP_REALIGNMENT.md`  
+**Repository Modified:** NO  
+**Git Modified:** NO  
 
 ---
 
-# 14. EVENT PROBABILITY ENGINE
-
-## 14.1 Natal Promise Contribution
-
-## 14.2 Planet Contribution
-
-## 14.3 Rasi Contribution
-
-## 14.4 House Contribution
-
-## 14.5 Dosha Contribution
-
-## 14.6 Yoga Contribution
-
-## 14.7 Varga Contribution
-
-## 14.8 Dasha Contribution
-
-## 14.9 Transit Contribution
-
----
-
-## 14.10 Final Probability
-
-Output:
-
-Probability %
-
-Grade
-
----
-
-# 15. QUESTION ENGINE
-
-## 15.1 User Query Detection
-
-Marriage
-
-Career
-
-Property
-
-Children
-
-Finance
-
-Health
-
-etc.
-
----
-
-## 15.2 Domain Routing
-
-Activate only required engines.
-
----
-
-## 15.3 Result Compilation
-
-Collect all scores.
-
----
-
-# 16. MASTER SYNTHESIS ENGINE
-
-## 16.1 Collect Outputs
-
-Planet
-
-Rasi
-
-House
-
-Dosha
-
-Yoga
-
-Varga
-
-Natal Promise
-
-Dasha
-
-Transit
-
----
-
-## 16.2 Final Evaluation
-
-Weighted scoring
-
-Priority validation
-
-Conflict resolution
-
----
-
-## 16.3 Final Output
-
-Overall %
-
-Overall Grade
-
-Supporting Factors
-
-Positive Factors
-
-Negative Factors
-
-Risk Factors
-
-Opportunity Factors
-
----
-
-# 17. REMEDY ENGINE (PHASE 3)
-
-## 17.1 Weak Planet Remedies
-
-## 17.2 Dosha Remedies
-
-## 17.3 Domain Remedies
-
-Marriage
-
-Career
-
-Health
-
-Finance
-
----
-
-# 18. FUTURE EXPANSION LAYER
-
-## 18.1 Additional Doshas
-
-## 18.2 Additional Yogas
-
-## 18.3 Additional Vargas
-
-## 18.4 Advanced Timing
-
-## 18.5 Advanced Research Modules
-
----
-
-# FINAL DEVELOPMENT ORDER
-
-Phase 1
-
-Data Layer
-Ascendant Layer
-Planet Strength
-
-Phase 2
-
-Rasi
-House
-Dosha
-Yoga
-
-Phase 3
-
-Varga
-Natal Promise
-
-Phase 4
-
-Dasha (Extraction Only - No Recalculation)
-
-Phase 5
-
-Transit (Gochara Engine - Largest Remaining Module)
-Domain Evaluation
-Probability
-Question Engine
-Master Synthesis
-
-Phase 6
-
-Remedies
-Future Research
-
-END OF MASTER ROADMAP
+**Awaiting Chief Architect Approval to Proceed with GM-006 Implementation.**
