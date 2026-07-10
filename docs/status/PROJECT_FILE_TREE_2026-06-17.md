@@ -81,20 +81,20 @@ vedic-ai-system
 │   │       ├── test_index_reader.py
 │   │       ├── test_pdf_text_extractor.py
 │   │       └── test_table_parser.py
-│   ├── av_tables.txt
+├── av_tables.txt
 │   ├── av_tables2.txt
 │   ├── debug
-│   ├── inspect_av.py
 │   ├── main.py
 │   ├── requirements.txt
 │   ├── run.py
-│   ├── search_astakavarga.py
-│   ├── test_output.txt
-│   ├── test_output_script.py
-│   ├── test_output_script2.py
+│   ├── run_validation.py
+│   ├── scripts
+│   │   ├── inspect_av.py
+│   │   ├── search_astakavarga.py
+│   │   └── trace_chart.py
 │   ├── tests
-│   │   ├── __init__.py
-│   │   ├── test_accuracy_validation.py
+│   │   ├── integration
+│   │   │   └── test_structured_api.py
 │   │   ├── test_ashtakavarga_engine.py
 │   │   ├── test_dasha_engine.py
 │   │   ├── test_ephemeris_service.py
@@ -117,8 +117,6 @@ vedic-ai-system
 │   │   ├── test_varga_engine.py
 │   │   ├── test_weightage_calibration.py
 │   │   └── test_yoga_engine.py
-│   ├── trace_chart.py
-│   └── validation_check.txt
 ├── backend_tree.txt
 ├── docs
 │   ├── ARCHITECTURE_RULES.md

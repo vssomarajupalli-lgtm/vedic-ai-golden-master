@@ -48,7 +48,7 @@ The following issues were audited and addressed during this milestone:
 ## 5. Validation Evidence
 
 ### A. Runtime Trace Results
-Executing the trace script (`backend/trace_chart.py`) against the Raju canonical chart verified that the normalization, calculation, and API response structures are correct. 
+Executing the trace script (`backend/scripts/trace_chart.py`) against the Raju canonical chart verified that the normalization, calculation, and API response structures are correct. 
 * **Input Counts**: 9 planets, 12 houses.
 * **Data Flow**: `JsonNormalizer` successfully ingests, validates, and normalizes the payload. `PipelineRunner` successfully coordinates and executes all engines in sequence.
 

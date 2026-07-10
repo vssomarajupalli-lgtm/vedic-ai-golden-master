@@ -12,7 +12,8 @@
 * **Archived documentation**: `docs/archive/*` (10 files)
 * **Audit documentation**: `docs/archive/audit/*` (15 files)
 * **Source code**: 
-  * `backend/` (`main.py`, `run.py`, `trace_chart.py`)
+  * `backend/` (`main.py`, `run.py`)
+  * `backend/scripts/` (`trace_chart.py`, `inspect_av.py`, `search_astakavarga.py`)
   * `frontend/src/` (React/Vite app structure)
 * **Tests**: 
   * *ISSUE: No test files or `tests/` directory found in the backend, despite documentation claiming 619 passing tests.*
