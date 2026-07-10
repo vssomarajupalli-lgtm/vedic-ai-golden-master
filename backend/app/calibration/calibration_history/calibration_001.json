@@ -1,0 +1,1934 @@
+{
+  "snapshot_id": "calibration_001",
+  "timestamp": "2026-07-10T19:23:32.625884",
+  "horoscope_id": "Raju_1972-04-21",
+  "reason": "Initial calibration for Raju",
+  "changes_made": [],
+  "validation_score": null,
+  "engineer": "Engineer",
+  "profile": {
+    "metadata": {
+      "profile_id": "v1.0_default",
+      "version": "1.0.0",
+      "status": "IMMUTABLE",
+      "based_on": null,
+      "last_modified": "2026-07-10T19:23:26.889987",
+      "modified_by": "Calibration Manager",
+      "validation_horoscopes_completed": 0
+    },
+    "sections": {
+      "planet_strength": {
+        "name": "planet_strength",
+        "description": "Core planetary capability scoring (0-100 per planet) — 8 factors",
+        "total_weight_pct": 100.0,
+        "parameters": {
+          "dignity": {
+            "name": "dignity",
+            "description": "Planetary dignity scoring based on sign placement",
+            "purpose": "Dignity weight in planet strength formula",
+            "default_value": 25.0,
+            "current_value": 25.0,
+            "recommended_range": [
+              20,
+              30
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 25.0
+          },
+          "house_placement": {
+            "name": "house_placement",
+            "description": "Planetary house placement scoring",
+            "purpose": "House placement weight in planet strength formula",
+            "default_value": 20.0,
+            "current_value": 20.0,
+            "recommended_range": [
+              15,
+              25
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 20.0
+          },
+          "aspects": {
+            "name": "aspects",
+            "description": "Planetary aspect scoring (benefic/malefic)",
+            "purpose": "Aspect weight in planet strength formula",
+            "default_value": 15.0,
+            "current_value": 15.0,
+            "recommended_range": [
+              10,
+              20
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 15.0
+          },
+          "conjunctions": {
+            "name": "conjunctions",
+            "description": "Planetary conjunction scoring (benefic/malefic)",
+            "purpose": "Conjunction weight in planet strength formula",
+            "default_value": 10.0,
+            "current_value": 10.0,
+            "recommended_range": [
+              5,
+              15
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 10.0
+          },
+          "combustion": {
+            "name": "combustion",
+            "description": "Combustion state modifier (0=combust, 100=not combust)",
+            "purpose": "Combustion weight in planet strength formula",
+            "default_value": 10.0,
+            "current_value": 10.0,
+            "recommended_range": [
+              5,
+              15
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 10.0
+          },
+          "retrogression": {
+            "name": "retrogression",
+            "description": "Retrograde motion bonus (100=retrograde, 50=direct)",
+            "purpose": "Retrogression weight in planet strength formula",
+            "default_value": 5.0,
+            "current_value": 5.0,
+            "recommended_range": [
+              2,
+              10
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 5.0
+          },
+          "shadbala": {
+            "name": "shadbala",
+            "description": "Shadbala percentage to score mapping",
+            "purpose": "Shadbala weight in planet strength formula",
+            "default_value": 10.0,
+            "current_value": 10.0,
+            "recommended_range": [
+              5,
+              15
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 10.0
+          },
+          "varga_dignity": {
+            "name": "varga_dignity",
+            "description": "Varga (D9/D10) dignity modifier",
+            "purpose": "Varga dignity weight in planet strength formula",
+            "default_value": 5.0,
+            "current_value": 5.0,
+            "recommended_range": [
+              2,
+              10
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 5.0
+          }
+        },
+        "additional_factor_1": {
+          "name": "",
+          "description": "Reserved for Moolatrikona dignity (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        },
+        "additional_factor_2": {
+          "name": "",
+          "description": "Reserved for Graha Yuddha (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        }
+      },
+      "house_strength": {
+        "name": "house_strength",
+        "description": "Bhava (house) structural strength scoring — 6 pillars",
+        "total_weight_pct": 100.0,
+        "parameters": {
+          "sav": {
+            "name": "sav",
+            "description": "SAV bindu support (30%)",
+            "purpose": "SAV weight in house strength formula",
+            "default_value": 30.0,
+            "current_value": 30.0,
+            "recommended_range": [
+              20,
+              40
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 30.0
+          },
+          "occupants": {
+            "name": "occupants",
+            "description": "Benefic/malefic occupant balance",
+            "purpose": "Occupant weight in house strength formula",
+            "default_value": 20.0,
+            "current_value": 20.0,
+            "recommended_range": [
+              10,
+              30
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 20.0
+          },
+          "benefic_aspects": {
+            "name": "benefic_aspects",
+            "description": "Benefic aspect bonus",
+            "purpose": "Benefic aspect weight in house strength formula",
+            "default_value": 15.0,
+            "current_value": 15.0,
+            "recommended_range": [
+              10,
+              20
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 15.0
+          },
+          "malefic_aspects": {
+            "name": "malefic_aspects",
+            "description": "Malefic aspect penalty",
+            "purpose": "Malefic aspect weight in house strength formula",
+            "default_value": 15.0,
+            "current_value": 15.0,
+            "recommended_range": [
+              10,
+              20
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 15.0
+          },
+          "house_type": {
+            "name": "house_type",
+            "description": "Kendra/Trikona/Upachaya/Dusthana house type",
+            "purpose": "House type weight in house strength formula",
+            "default_value": 10.0,
+            "current_value": 10.0,
+            "recommended_range": [
+              5,
+              15
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 10.0
+          },
+          "yogas": {
+            "name": "yogas",
+            "description": "House-specific yoga bonus (stubbed)",
+            "purpose": "Yoga weight in house strength formula",
+            "default_value": 10.0,
+            "current_value": 10.0,
+            "recommended_range": [
+              5,
+              15
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 10.0
+          }
+        },
+        "additional_factor_1": {
+          "name": "",
+          "description": "Reserved for Bhava Chalit adjustment (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        },
+        "additional_factor_2": {
+          "name": "",
+          "description": "Reserved for house lord placement factor (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        }
+      },
+      "rasi_strength": {
+        "name": "rasi_strength",
+        "description": "Sign (Rasi) environmental strength scoring — 4 factors",
+        "total_weight_pct": 100.0,
+        "parameters": {
+          "bhava": {
+            "name": "bhava",
+            "description": "SAV environment factor (35%)",
+            "purpose": "SAV environment weight in rasi strength formula",
+            "default_value": 35.0,
+            "current_value": 35.0,
+            "recommended_range": [
+              25,
+              45
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 35.0
+          },
+          "bhavadhipati": {
+            "name": "bhavadhipati",
+            "description": "Sign Lord Strength factor (30%)",
+            "purpose": "Sign lord weight in rasi strength formula",
+            "default_value": 30.0,
+            "current_value": 30.0,
+            "recommended_range": [
+              20,
+              40
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 30.0
+          },
+          "karaka": {
+            "name": "karaka",
+            "description": "Karaka factor (20%)",
+            "purpose": "Karaka weight in rasi strength formula",
+            "default_value": 20.0,
+            "current_value": 20.0,
+            "recommended_range": [
+              15,
+              25
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 20.0
+          },
+          "varga": {
+            "name": "varga",
+            "description": "Varga validation factor (15%)",
+            "purpose": "Varga weight in rasi strength formula",
+            "default_value": 15.0,
+            "current_value": 15.0,
+            "recommended_range": [
+              10,
+              20
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": 15.0
+          }
+        },
+        "additional_factor_1": {
+          "name": "",
+          "description": "Reserved for sign aspects (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        },
+        "additional_factor_2": {
+          "name": "",
+          "description": "Reserved for sign yogas (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        }
+      },
+      "natal_promise": {
+        "name": "natal_promise",
+        "description": "Domain-specific natal promise scoring",
+        "total_weight_pct": 100.0,
+        "parameters": {
+          "grades": {
+            "name": "grades",
+            "description": "Promise grade thresholds",
+            "purpose": "4-tier promise classification thresholds",
+            "default_value": {
+              "STRONG": 70,
+              "MODERATE": 50,
+              "WEAK": 30,
+              "PRESENT": 0
+            },
+            "current_value": {
+              "STRONG": 70,
+              "MODERATE": 50,
+              "WEAK": 30,
+              "PRESENT": 0
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "domains": {
+            "name": "domains",
+            "description": "Domain configurations (marriage, career, wealth, education, children, property, health, spirituality)",
+            "purpose": "8 domain configurations with weights and karakas",
+            "default_value": {
+              "marriage": {
+                "primary_house": "7",
+                "support_houses": [
+                  "2",
+                  "11"
+                ],
+                "varga": "D9",
+                "weights": {
+                  "bhava": 35,
+                  "bhavadhipati": 30,
+                  "karaka": 20,
+                  "varga": 15
+                },
+                "karaka": {
+                  "primary": "venus",
+                  "secondary": "jupiter"
+                }
+              },
+              "career": {
+                "primary_house": "10",
+                "support_houses": [
+                  "6",
+                  "11"
+                ],
+                "varga": "D10",
+                "weights": {
+                  "bhava": 35,
+                  "bhavadhipati": 30,
+                  "karaka": 20,
+                  "varga": 15
+                },
+                "karaka": {
+                  "primary": "saturn",
+                  "secondary": "sun"
+                }
+              },
+              "wealth": {
+                "primary_house": [
+                  "2",
+                  "11"
+                ],
+                "support_houses": [
+                  "5",
+                  "9"
+                ],
+                "varga": "D2",
+                "weights": {
+                  "bhava": 35,
+                  "bhavadhipati": 30,
+                  "karaka": 20,
+                  "varga": 15
+                },
+                "karaka": {
+                  "primary": "jupiter",
+                  "secondary": "venus"
+                }
+              },
+              "education": {
+                "primary_house": "5",
+                "support_houses": [
+                  "4",
+                  "9"
+                ],
+                "varga": "D24",
+                "weights": {
+                  "bhava": 35,
+                  "bhavadhipati": 30,
+                  "karaka": 20,
+                  "varga": 15
+                },
+                "karaka": {
+                  "primary": "mercury",
+                  "secondary": "jupiter"
+                }
+              },
+              "children": {
+                "primary_house": "5",
+                "support_houses": [
+                  "9",
+                  "11"
+                ],
+                "varga": "D7",
+                "weights": {
+                  "bhava": 35,
+                  "bhavadhipati": 30,
+                  "karaka": 20,
+                  "varga": 15
+                },
+                "karaka": {
+                  "primary": "jupiter",
+                  "secondary": "moon"
+                }
+              },
+              "property": {
+                "primary_house": "4",
+                "support_houses": [
+                  "2",
+                  "11"
+                ],
+                "varga": "D4",
+                "weights": {
+                  "bhava": 35,
+                  "bhavadhipati": 30,
+                  "karaka": 20,
+                  "varga": 15
+                },
+                "karaka": {
+                  "primary": "mars",
+                  "secondary": "moon"
+                }
+              },
+              "health": {
+                "primary_house": "1",
+                "support_houses": [
+                  "6",
+                  "8",
+                  "12"
+                ],
+                "inverted_support": true,
+                "varga": "D6",
+                "weights": {
+                  "bhava": 35,
+                  "bhavadhipati": 30,
+                  "karaka": 20,
+                  "varga": 15
+                },
+                "karaka": {
+                  "primary": "sun",
+                  "secondary": "moon"
+                }
+              },
+              "spirituality": {
+                "primary_house": [
+                  "9",
+                  "12"
+                ],
+                "support_houses": [
+                  "5"
+                ],
+                "varga": "D20",
+                "weights": {
+                  "bhava": 35,
+                  "bhavadhipati": 30,
+                  "karaka": 20,
+                  "varga": 15
+                },
+                "karaka": {
+                  "primary": "jupiter",
+                  "secondary": "ketu"
+                }
+              }
+            },
+            "current_value": {
+              "marriage": {
+                "primary_house": "7",
+                "support_houses": [
+                  "2",
+                  "11"
+                ],
+                "varga": "D9",
+                "weights": {
+                  "bhava": 35,
+                  "bhavadhipati": 30,
+                  "karaka": 20,
+                  "varga": 15
+                },
+                "karaka": {
+                  "primary": "venus",
+                  "secondary": "jupiter"
+                }
+              },
+              "career": {
+                "primary_house": "10",
+                "support_houses": [
+                  "6",
+                  "11"
+                ],
+                "varga": "D10",
+                "weights": {
+                  "bhava": 35,
+                  "bhavadhipati": 30,
+                  "karaka": 20,
+                  "varga": 15
+                },
+                "karaka": {
+                  "primary": "saturn",
+                  "secondary": "sun"
+                }
+              },
+              "wealth": {
+                "primary_house": [
+                  "2",
+                  "11"
+                ],
+                "support_houses": [
+                  "5",
+                  "9"
+                ],
+                "varga": "D2",
+                "weights": {
+                  "bhava": 35,
+                  "bhavadhipati": 30,
+                  "karaka": 20,
+                  "varga": 15
+                },
+                "karaka": {
+                  "primary": "jupiter",
+                  "secondary": "venus"
+                }
+              },
+              "education": {
+                "primary_house": "5",
+                "support_houses": [
+                  "4",
+                  "9"
+                ],
+                "varga": "D24",
+                "weights": {
+                  "bhava": 35,
+                  "bhavadhipati": 30,
+                  "karaka": 20,
+                  "varga": 15
+                },
+                "karaka": {
+                  "primary": "mercury",
+                  "secondary": "jupiter"
+                }
+              },
+              "children": {
+                "primary_house": "5",
+                "support_houses": [
+                  "9",
+                  "11"
+                ],
+                "varga": "D7",
+                "weights": {
+                  "bhava": 35,
+                  "bhavadhipati": 30,
+                  "karaka": 20,
+                  "varga": 15
+                },
+                "karaka": {
+                  "primary": "jupiter",
+                  "secondary": "moon"
+                }
+              },
+              "property": {
+                "primary_house": "4",
+                "support_houses": [
+                  "2",
+                  "11"
+                ],
+                "varga": "D4",
+                "weights": {
+                  "bhava": 35,
+                  "bhavadhipati": 30,
+                  "karaka": 20,
+                  "varga": 15
+                },
+                "karaka": {
+                  "primary": "mars",
+                  "secondary": "moon"
+                }
+              },
+              "health": {
+                "primary_house": "1",
+                "support_houses": [
+                  "6",
+                  "8",
+                  "12"
+                ],
+                "inverted_support": true,
+                "varga": "D6",
+                "weights": {
+                  "bhava": 35,
+                  "bhavadhipati": 30,
+                  "karaka": 20,
+                  "varga": 15
+                },
+                "karaka": {
+                  "primary": "sun",
+                  "secondary": "moon"
+                }
+              },
+              "spirituality": {
+                "primary_house": [
+                  "9",
+                  "12"
+                ],
+                "support_houses": [
+                  "5"
+                ],
+                "varga": "D20",
+                "weights": {
+                  "bhava": 35,
+                  "bhavadhipati": 30,
+                  "karaka": 20,
+                  "varga": 15
+                },
+                "karaka": {
+                  "primary": "jupiter",
+                  "secondary": "ketu"
+                }
+              }
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "bonuses": {
+            "name": "bonuses",
+            "description": "Classical yoga bonuses",
+            "purpose": "Yoga/condition bonuses per domain",
+            "default_value": {
+              "same_2_11_lords": {
+                "wealth": 8
+              },
+              "jupiter_in_2_or_11": {
+                "wealth": 5
+              },
+              "jupiter_in_9": {
+                "wealth": 5,
+                "spirituality": 8
+              },
+              "jupiter_in_5": {
+                "wealth": 5,
+                "spirituality": 5
+              },
+              "venus_in_2": {
+                "wealth": 5
+              },
+              "ketu_strong_in_moksha": {
+                "spirituality": 10
+              },
+              "jupiter_aspects_7": {
+                "marriage": 8
+              },
+              "venus_exalted": {
+                "marriage": 5
+              }
+            },
+            "current_value": {
+              "same_2_11_lords": {
+                "wealth": 8
+              },
+              "jupiter_in_2_or_11": {
+                "wealth": 5
+              },
+              "jupiter_in_9": {
+                "wealth": 5,
+                "spirituality": 8
+              },
+              "jupiter_in_5": {
+                "wealth": 5,
+                "spirituality": 5
+              },
+              "venus_in_2": {
+                "wealth": 5
+              },
+              "ketu_strong_in_moksha": {
+                "spirituality": 10
+              },
+              "jupiter_aspects_7": {
+                "marriage": 8
+              },
+              "venus_exalted": {
+                "marriage": 5
+              }
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          }
+        },
+        "additional_factor_1": {
+          "name": "",
+          "description": "Reserved for additional domains (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        },
+        "additional_factor_2": {
+          "name": "",
+          "description": "Reserved for domain interactions (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        }
+      },
+      "probability": {
+        "name": "probability",
+        "description": "Final probability synthesis weights",
+        "total_weight_pct": 100.0,
+        "parameters": {
+          "weights": {
+            "name": "weights",
+            "description": "Engine synthesis weights",
+            "purpose": "7-engine weighted synthesis",
+            "default_value": {
+              "natal_promise": 0.4,
+              "planet_strength": 0.15,
+              "house_strength": 0.1,
+              "rasi_strength": 0.1,
+              "varga_validation": 0.1,
+              "dasha_activation": 0.1,
+              "transit_trigger": 0.05
+            },
+            "current_value": {
+              "natal_promise": 0.4,
+              "planet_strength": 0.15,
+              "house_strength": 0.1,
+              "rasi_strength": 0.1,
+              "varga_validation": 0.1,
+              "dasha_activation": 0.1,
+              "transit_trigger": 0.05
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "grades": {
+            "name": "grades",
+            "description": "Probability grade thresholds",
+            "purpose": "Score to grade mapping",
+            "default_value": {
+              "EXCELLENT": 80,
+              "VERY_GOOD": 65,
+              "GOOD": 50,
+              "WEAK": 35,
+              "TOO_WEAK": 0
+            },
+            "current_value": {
+              "EXCELLENT": 80,
+              "VERY_GOOD": 65,
+              "GOOD": 50,
+              "WEAK": 35,
+              "TOO_WEAK": 0
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "stub_score": {
+            "name": "stub_score",
+            "description": "Default score when data unavailable",
+            "purpose": "Fallback score for missing data",
+            "default_value": 50.0,
+            "current_value": 50.0,
+            "recommended_range": [
+              0,
+              100
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          }
+        },
+        "additional_factor_1": {
+          "name": "",
+          "description": "Reserved for custom synthesis (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        },
+        "additional_factor_2": {
+          "name": "",
+          "description": "Reserved for domain-specific weights (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        }
+      },
+      "dasha": {
+        "name": "dasha",
+        "description": "Vimshottari Dasha relationship scoring",
+        "total_weight_pct": 100.0,
+        "parameters": {
+          "relationship_scalars": {
+            "name": "relationship_scalars",
+            "description": "MD-AD relationship multipliers",
+            "purpose": "7 relationship scalars for MD-AD axis",
+            "default_value": {
+              "1_1": 1.0,
+              "2_12": 0.75,
+              "3_11": 1.15,
+              "4_10": 1.2,
+              "5_9": 1.25,
+              "6_8": 0.8,
+              "1_7": 1.1
+            },
+            "current_value": {
+              "1_1": 1.0,
+              "2_12": 0.75,
+              "3_11": 1.15,
+              "4_10": 1.2,
+              "5_9": 1.25,
+              "6_8": 0.8,
+              "1_7": 1.1
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "synthesis_weights": {
+            "name": "synthesis_weights",
+            "description": "MD/AD/PD synthesis weights",
+            "purpose": "Weights for MD (50%), AD (30%), PD (20%)",
+            "default_value": {
+              "md": 0.5,
+              "ad": 0.3,
+              "pd": 0.2
+            },
+            "current_value": {
+              "md": 0.5,
+              "ad": 0.3,
+              "pd": 0.2
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          }
+        },
+        "additional_factor_1": {
+          "name": "",
+          "description": "Reserved for Sookshma Dasha (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        },
+        "additional_factor_2": {
+          "name": "",
+          "description": "Reserved for Dasha-Transit sync (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        }
+      },
+      "question_engine": {
+        "name": "question_engine",
+        "description": "Question routing and answer composition",
+        "total_weight_pct": 100.0,
+        "parameters": {
+          "domain_keywords": {
+            "name": "domain_keywords",
+            "description": "Keyword-based domain routing",
+            "purpose": "12 domains × keywords for routing",
+            "default_value": {
+              "marriage": [
+                "marriage",
+                "married",
+                "wedding",
+                "spouse",
+                "husband",
+                "wife",
+                "partner",
+                "love",
+                "relationship",
+                "divorce",
+                "remarriage",
+                "second marriage"
+              ],
+              "career": [
+                "career",
+                "job",
+                "profession",
+                "work",
+                "business",
+                "promotion",
+                "employment",
+                "office",
+                "salary",
+                "transfer",
+                "foreign job",
+                "government job",
+                "service"
+              ],
+              "wealth": [
+                "wealth",
+                "money",
+                "finance",
+                "rich",
+                "income",
+                "earn",
+                "financial",
+                "investment",
+                "profit",
+                "loss",
+                "debt",
+                "loan",
+                "lottery",
+                "inheritance",
+                "windfall"
+              ],
+              "education": [
+                "education",
+                "study abroad",
+                "study",
+                "school",
+                "college",
+                "university",
+                "degree",
+                "learning",
+                "knowledge",
+                "exam",
+                "course",
+                "graduate",
+                "higher education",
+                "academic"
+              ],
+              "children": [
+                "children",
+                "child",
+                "baby",
+                "son",
+                "daughter",
+                "pregnancy",
+                "offspring",
+                "progeny",
+                "birth",
+                "kid",
+                "kids",
+                "parent",
+                "parenthood"
+              ],
+              "property": [
+                "property",
+                "house",
+                "home",
+                "land",
+                "real estate",
+                "apartment",
+                "flat",
+                "plot",
+                "building",
+                "construction",
+                "own house"
+              ],
+              "health": [
+                "health",
+                "illness",
+                "disease",
+                "medical",
+                "sick",
+                "wellness",
+                "body",
+                "surgery",
+                "hospital",
+                "accident",
+                "injury",
+                "recover",
+                "longevity",
+                "chronic"
+              ],
+              "spirituality": [
+                "spiritual",
+                "religion",
+                "dharma",
+                "moksha",
+                "meditation",
+                "yoga",
+                "divine",
+                "pilgrimage",
+                "temple",
+                "renunciation"
+              ],
+              "travel": [
+                "travel",
+                "abroad",
+                "foreign",
+                "overseas",
+                "visa",
+                "passport",
+                "relocation",
+                "migration"
+              ],
+              "litigation": [
+                "court",
+                "case",
+                "legal",
+                "lawsuit",
+                "litigation",
+                "dispute",
+                "enemy",
+                "opponent"
+              ],
+              "compatibility": [
+                "compatibility",
+                "match",
+                "synastry",
+                "partnership",
+                "relationship match"
+              ],
+              "vehicle": [
+                "vehicle",
+                "car",
+                "transport",
+                "travel"
+              ]
+            },
+            "current_value": {
+              "marriage": [
+                "marriage",
+                "married",
+                "wedding",
+                "spouse",
+                "husband",
+                "wife",
+                "partner",
+                "love",
+                "relationship",
+                "divorce",
+                "remarriage",
+                "second marriage"
+              ],
+              "career": [
+                "career",
+                "job",
+                "profession",
+                "work",
+                "business",
+                "promotion",
+                "employment",
+                "office",
+                "salary",
+                "transfer",
+                "foreign job",
+                "government job",
+                "service"
+              ],
+              "wealth": [
+                "wealth",
+                "money",
+                "finance",
+                "rich",
+                "income",
+                "earn",
+                "financial",
+                "investment",
+                "profit",
+                "loss",
+                "debt",
+                "loan",
+                "lottery",
+                "inheritance",
+                "windfall"
+              ],
+              "education": [
+                "education",
+                "study abroad",
+                "study",
+                "school",
+                "college",
+                "university",
+                "degree",
+                "learning",
+                "knowledge",
+                "exam",
+                "course",
+                "graduate",
+                "higher education",
+                "academic"
+              ],
+              "children": [
+                "children",
+                "child",
+                "baby",
+                "son",
+                "daughter",
+                "pregnancy",
+                "offspring",
+                "progeny",
+                "birth",
+                "kid",
+                "kids",
+                "parent",
+                "parenthood"
+              ],
+              "property": [
+                "property",
+                "house",
+                "home",
+                "land",
+                "real estate",
+                "apartment",
+                "flat",
+                "plot",
+                "building",
+                "construction",
+                "own house"
+              ],
+              "health": [
+                "health",
+                "illness",
+                "disease",
+                "medical",
+                "sick",
+                "wellness",
+                "body",
+                "surgery",
+                "hospital",
+                "accident",
+                "injury",
+                "recover",
+                "longevity",
+                "chronic"
+              ],
+              "spirituality": [
+                "spiritual",
+                "religion",
+                "dharma",
+                "moksha",
+                "meditation",
+                "yoga",
+                "divine",
+                "pilgrimage",
+                "temple",
+                "renunciation"
+              ],
+              "travel": [
+                "travel",
+                "abroad",
+                "foreign",
+                "overseas",
+                "visa",
+                "passport",
+                "relocation",
+                "migration"
+              ],
+              "litigation": [
+                "court",
+                "case",
+                "legal",
+                "lawsuit",
+                "litigation",
+                "dispute",
+                "enemy",
+                "opponent"
+              ],
+              "compatibility": [
+                "compatibility",
+                "match",
+                "synastry",
+                "partnership",
+                "relationship match"
+              ],
+              "vehicle": [
+                "vehicle",
+                "car",
+                "transport",
+                "travel"
+              ]
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "domain_priority": {
+            "name": "domain_priority",
+            "description": "Priority order for domain routing",
+            "purpose": "First-match-wins priority order",
+            "default_value": [
+              "marriage",
+              "career",
+              "wealth",
+              "children",
+              "education",
+              "property",
+              "health",
+              "spirituality",
+              "travel",
+              "litigation",
+              "compatibility",
+              "vehicle"
+            ],
+            "current_value": [
+              "marriage",
+              "career",
+              "wealth",
+              "children",
+              "education",
+              "property",
+              "health",
+              "spirituality",
+              "travel",
+              "litigation",
+              "compatibility",
+              "vehicle"
+            ],
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "activation_labels": {
+            "name": "activation_labels",
+            "description": "Activation level thresholds",
+            "purpose": "Timing multiplier to label mapping",
+            "default_value": {
+              "HIGH": 1.2,
+              "MODERATE": 1.1,
+              "NEUTRAL": 1.0,
+              "SUPPRESSED": 0.0
+            },
+            "current_value": {
+              "HIGH": 1.2,
+              "MODERATE": 1.1,
+              "NEUTRAL": 1.0,
+              "SUPPRESSED": 0.0
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          }
+        },
+        "additional_factor_1": {
+          "name": "",
+          "description": "Reserved for semantic routing (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        },
+        "additional_factor_2": {
+          "name": "",
+          "description": "Reserved for multi-domain questions (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        }
+      },
+      "transit": {
+        "name": "transit",
+        "description": "Gochara transit scoring (5 subsystems)",
+        "total_weight_pct": 100.0,
+        "parameters": {
+          "weights": {
+            "name": "weights",
+            "description": "5-subsystem weights",
+            "purpose": "House(30%) + BAV(20%) + Planet(20%) + Dasha(20%) + Vedha(10%)",
+            "default_value": {
+              "house_activation": 0.3,
+              "bav_support": 0.2,
+              "planet_activation": 0.2,
+              "dasha_sync": 0.2,
+              "vedha_layer": 0.1
+            },
+            "current_value": {
+              "house_activation": 0.3,
+              "bav_support": 0.2,
+              "planet_activation": 0.2,
+              "dasha_sync": 0.2,
+              "vedha_layer": 0.1
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": 100.0
+          },
+          "house_quality": {
+            "name": "house_quality",
+            "description": "Per-planet per-house transit quality (+12/-8/0)",
+            "purpose": "Classical Gochara house quality per planet",
+            "default_value": {
+              "sun": {
+                "3": 12,
+                "6": 12,
+                "10": 12,
+                "11": 12,
+                "1": -8,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "7": -8,
+                "8": -8,
+                "9": -8,
+                "12": -8
+              },
+              "moon": {
+                "1": 12,
+                "3": 12,
+                "6": 12,
+                "7": 12,
+                "10": 12,
+                "11": 12,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "8": -8,
+                "9": -8,
+                "12": -8
+              },
+              "mars": {
+                "3": 12,
+                "6": 12,
+                "11": 12,
+                "1": -8,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "7": -8,
+                "8": -8,
+                "9": -8,
+                "10": -8,
+                "12": -8
+              },
+              "mercury": {
+                "2": 12,
+                "4": 12,
+                "6": 12,
+                "8": 12,
+                "10": 12,
+                "11": 12,
+                "1": -8,
+                "3": -8,
+                "5": -8,
+                "7": -8,
+                "9": -8,
+                "12": -8
+              },
+              "jupiter": {
+                "2": 12,
+                "5": 12,
+                "7": 12,
+                "9": 12,
+                "11": 12,
+                "1": -8,
+                "3": -8,
+                "4": -8,
+                "6": -8,
+                "8": -8,
+                "10": -8,
+                "12": -8
+              },
+              "venus": {
+                "1": 12,
+                "2": 12,
+                "3": 12,
+                "4": 12,
+                "5": 12,
+                "8": 12,
+                "9": 12,
+                "11": 12,
+                "12": 12,
+                "6": -8,
+                "7": -8,
+                "10": -8
+              },
+              "saturn": {
+                "3": 12,
+                "6": 12,
+                "11": 12,
+                "1": -8,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "7": -8,
+                "8": -8,
+                "9": -8,
+                "10": -8,
+                "12": -8
+              },
+              "rahu": {
+                "3": 12,
+                "6": 12,
+                "10": 12,
+                "11": 12,
+                "1": -8,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "7": -8,
+                "8": -8,
+                "9": -8,
+                "12": -8
+              },
+              "ketu": {
+                "3": 12,
+                "6": 12,
+                "11": 12,
+                "1": -8,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "7": -8,
+                "8": -8,
+                "9": -8,
+                "10": -8,
+                "12": -8
+              }
+            },
+            "current_value": {
+              "sun": {
+                "3": 12,
+                "6": 12,
+                "10": 12,
+                "11": 12,
+                "1": -8,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "7": -8,
+                "8": -8,
+                "9": -8,
+                "12": -8
+              },
+              "moon": {
+                "1": 12,
+                "3": 12,
+                "6": 12,
+                "7": 12,
+                "10": 12,
+                "11": 12,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "8": -8,
+                "9": -8,
+                "12": -8
+              },
+              "mars": {
+                "3": 12,
+                "6": 12,
+                "11": 12,
+                "1": -8,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "7": -8,
+                "8": -8,
+                "9": -8,
+                "10": -8,
+                "12": -8
+              },
+              "mercury": {
+                "2": 12,
+                "4": 12,
+                "6": 12,
+                "8": 12,
+                "10": 12,
+                "11": 12,
+                "1": -8,
+                "3": -8,
+                "5": -8,
+                "7": -8,
+                "9": -8,
+                "12": -8
+              },
+              "jupiter": {
+                "2": 12,
+                "5": 12,
+                "7": 12,
+                "9": 12,
+                "11": 12,
+                "1": -8,
+                "3": -8,
+                "4": -8,
+                "6": -8,
+                "8": -8,
+                "10": -8,
+                "12": -8
+              },
+              "venus": {
+                "1": 12,
+                "2": 12,
+                "3": 12,
+                "4": 12,
+                "5": 12,
+                "8": 12,
+                "9": 12,
+                "11": 12,
+                "12": 12,
+                "6": -8,
+                "7": -8,
+                "10": -8
+              },
+              "saturn": {
+                "3": 12,
+                "6": 12,
+                "11": 12,
+                "1": -8,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "7": -8,
+                "8": -8,
+                "9": -8,
+                "10": -8,
+                "12": -8
+              },
+              "rahu": {
+                "3": 12,
+                "6": 12,
+                "10": 12,
+                "11": 12,
+                "1": -8,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "7": -8,
+                "8": -8,
+                "9": -8,
+                "12": -8
+              },
+              "ketu": {
+                "3": 12,
+                "6": 12,
+                "11": 12,
+                "1": -8,
+                "2": -8,
+                "4": -8,
+                "5": -8,
+                "7": -8,
+                "8": -8,
+                "9": -8,
+                "10": -8,
+                "12": -8
+              }
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "conjunction_matrix": {
+            "name": "conjunction_matrix",
+            "description": "Transit conjunction scoring per planet per nature",
+            "purpose": "Conjunction scores per transit planet × natal nature",
+            "default_value": {
+              "jupiter_benefic": 12,
+              "jupiter_malefic": 3,
+              "venus_benefic": 8,
+              "venus_malefic": 2,
+              "moon_benefic": 6,
+              "moon_malefic": 0,
+              "mercury_benefic": 5,
+              "mercury_malefic": 0,
+              "sun_benefic": 4,
+              "sun_malefic": -2,
+              "mars_benefic": -8,
+              "mars_malefic": -4,
+              "saturn_benefic": -10,
+              "saturn_malefic": -5,
+              "rahu_benefic": -6,
+              "rahu_malefic": -6,
+              "ketu_benefic": -6,
+              "ketu_malefic": -6
+            },
+            "current_value": {
+              "jupiter_benefic": 12,
+              "jupiter_malefic": 3,
+              "venus_benefic": 8,
+              "venus_malefic": 2,
+              "moon_benefic": 6,
+              "moon_malefic": 0,
+              "mercury_benefic": 5,
+              "mercury_malefic": 0,
+              "sun_benefic": 4,
+              "sun_malefic": -2,
+              "mars_benefic": -8,
+              "mars_malefic": -4,
+              "saturn_benefic": -10,
+              "saturn_malefic": -5,
+              "rahu_benefic": -6,
+              "rahu_malefic": -6,
+              "ketu_benefic": -6,
+              "ketu_malefic": -6
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "aspect_weights": {
+            "name": "aspect_weights",
+            "description": "Aspect weights per nature combination",
+            "purpose": "7th aspect weights per nature pair",
+            "default_value": {
+              "benefic_benefic": 6,
+              "malefic_benefic": -5,
+              "benefic_malefic": 2,
+              "malefic_malefic": -3
+            },
+            "current_value": {
+              "benefic_benefic": 6,
+              "malefic_benefic": -5,
+              "benefic_malefic": 2,
+              "malefic_malefic": -3
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "special_aspects": {
+            "name": "special_aspects",
+            "description": "Special aspect houses (Saturn 3/10, Jupiter 5/9, Mars 4/8)",
+            "purpose": "Non-7th special aspects per classical texts",
+            "default_value": {
+              "saturn": [
+                3,
+                10
+              ],
+              "jupiter": [
+                5,
+                9
+              ],
+              "mars": [
+                4,
+                8
+              ]
+            },
+            "current_value": {
+              "saturn": [
+                3,
+                10
+              ],
+              "jupiter": [
+                5,
+                9
+              ],
+              "mars": [
+                4,
+                8
+              ]
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "special_aspect_weight": {
+            "name": "special_aspect_weight",
+            "description": "Weight for non-7th special aspects",
+            "purpose": "Fraction of 7th aspect weight for special aspects",
+            "default_value": 0.6,
+            "current_value": 0.6,
+            "recommended_range": [
+              0.0,
+              1.0
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "vedha_pairs": {
+            "name": "vedha_pairs",
+            "description": "Vedha obstruction house pairs",
+            "purpose": "Classical Vedha pairs for obstruction",
+            "default_value": {
+              "1": 8,
+              "2": 12,
+              "3": 6,
+              "4": 5,
+              "5": 4,
+              "6": 3,
+              "7": 2,
+              "8": 1,
+              "9": 12,
+              "10": 3,
+              "11": 6,
+              "12": 9
+            },
+            "current_value": {
+              "1": 8,
+              "2": 12,
+              "3": 6,
+              "4": 5,
+              "5": 4,
+              "6": 3,
+              "7": 2,
+              "8": 1,
+              "9": 12,
+              "10": 3,
+              "11": 6,
+              "12": 9
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "vedha_cap": {
+            "name": "vedha_cap",
+            "description": "Maximum Vedha penalty",
+            "purpose": "Cap on total Vedha obstruction penalty",
+            "default_value": -15,
+            "current_value": -15,
+            "recommended_range": [
+              -50,
+              0
+            ],
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "dasha_sync_bonuses": {
+            "name": "dasha_sync_bonuses",
+            "description": "Dasha-Transit synchronization bonuses",
+            "purpose": "6 bonus conditions for Dasha-Transit sync",
+            "default_value": {
+              "transit_is_md_lord": 20,
+              "transit_is_ad_lord": 12,
+              "transit_aspects_md_natal": 8,
+              "transit_aspects_ad_natal": 5,
+              "transit_same_sign_as_md": 6,
+              "md_lord_bav_ge_5": 8
+            },
+            "current_value": {
+              "transit_is_md_lord": 20,
+              "transit_is_ad_lord": 12,
+              "transit_aspects_md_natal": 8,
+              "transit_aspects_ad_natal": 5,
+              "transit_same_sign_as_md": 6,
+              "md_lord_bav_ge_5": 8
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          }
+        },
+        "additional_factor_1": {
+          "name": "",
+          "description": "Reserved for Mandali boundaries (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        },
+        "additional_factor_2": {
+          "name": "",
+          "description": "Reserved for retrograde transit (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        }
+      },
+      "ashtakavarga": {
+        "name": "ashtakavarga",
+        "description": "Ashtakavarga bindu scoring and timing",
+        "total_weight_pct": 100.0,
+        "parameters": {
+          "bav_grade_thresholds": {
+            "name": "bav_grade_thresholds",
+            "description": "BAV grade thresholds",
+            "purpose": "Classical BAV bindu to grade mapping",
+            "default_value": {
+              "EXCELLENT": 7,
+              "STRONG": 6,
+              "GOOD": 5,
+              "AVERAGE": 4,
+              "BELOW_AVG": 3,
+              "WEAK": 2,
+              "CRITICAL": 0
+            },
+            "current_value": {
+              "EXCELLENT": 7,
+              "STRONG": 6,
+              "GOOD": 5,
+              "AVERAGE": 4,
+              "BELOW_AVG": 3,
+              "WEAK": 2,
+              "CRITICAL": 0
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "planet_modifier": {
+            "name": "planet_modifier",
+            "description": "BAV planet modifier",
+            "purpose": "BAV modifier applied to planet strength",
+            "default_value": {
+              "high": 5,
+              "neutral": 0,
+              "low": -5
+            },
+            "current_value": {
+              "high": 5,
+              "neutral": 0,
+              "low": -5
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "sav_thresholds": {
+            "name": "sav_thresholds",
+            "description": "SAV thresholds",
+            "purpose": "SAV bindu classification thresholds",
+            "default_value": {
+              "favorable": 28,
+              "strong": 30,
+              "weak": 22
+            },
+            "current_value": {
+              "favorable": 28,
+              "strong": 30,
+              "weak": 22
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "dasha_bav_confidence": {
+            "name": "dasha_bav_confidence",
+            "description": "Dasha BAV confidence multipliers",
+            "purpose": "BAV confidence multipliers for Dasha timing",
+            "default_value": {
+              "high": 1.1,
+              "moderate": 1.05,
+              "low": 0.95
+            },
+            "current_value": {
+              "high": 1.1,
+              "moderate": 1.05,
+              "low": 0.95
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          },
+          "dasha_bav_weights": {
+            "name": "dasha_bav_weights",
+            "description": "Dasha BAV weights",
+            "purpose": "MD/AD weights for BAV timing confidence",
+            "default_value": {
+              "md": 0.6,
+              "ad": 0.4
+            },
+            "current_value": {
+              "md": 0.6,
+              "ad": 0.4
+            },
+            "recommended_range": null,
+            "editable": true,
+            "protected": true,
+            "weight_pct": null
+          }
+        },
+        "additional_factor_1": {
+          "name": "",
+          "description": "Reserved for Shodhana reductions (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        },
+        "additional_factor_2": {
+          "name": "",
+          "description": "Reserved for planet-specific BAV (v2)",
+          "weight_pct": 0.0,
+          "editable": true,
+          "removable": true
+        }
+      }
+    },
+    "history": []
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Calibration Profile Schema",
+  "type": "object",
+  "required": ["metadata", "sections"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["profile_id", "version", "status", "last_modified", "modified_by", "validation_horoscopes_completed"],
+      "properties": {
+        "profile_id": {"type": "string", "pattern": "^v1\\.0_(default|current|frozen)$"},
+        "version": {"type": "string", "pattern": "^1\\.0\\.0$"},
+        "status": {"type": "string", "enum": ["IMMUTABLE", "ACTIVE", "FROZEN", "INVALID"]},
+        "based_on": {"type": ["string", "null"]},
+        "last_modified": {"type": "string", "format": "date-time"},
+        "modified_by": {"type": "string"},
+        "validation_horoscopes_completed": {"type": "integer", "minimum": 0, "maximum": 20}
+      }
+    },
+    "sections": {
+      "type": "object",
+      "minProperties": 9,
+      "maxProperties": 12,
+      "patternProperties": {
+        "^[a-z_]+$": {
+          "type": "object",
+          "required": ["name", "description", "total_weight_pct", "parameters"],
+          "properties": {
+            "name": {"type": "string", "pattern": "^[a-z_]+$"},
+            "description": {"type": "string"},
+            "total_weight_pct": {"type": "number", "minimum": 0, "maximum": 100},
+            "parameters": {
+              "type": "object",
+              "patternProperties": {
+                "^[a-z_]+$": {
+                  "type": "object",
+                  "required": ["name", "description", "purpose", "default_value", "current_value", "editable", "protected"],
+                  "properties": {
+                    "name": {"type": "string", "pattern": "^[a-z_]+$"},
+                    "description": {"type": "string"},
+                    "purpose": {"type": "string"},
+                    "default_value": {},
+                    "current_value": {},
+                    "recommended_range": {"type": ["array", "null"], "minItems": 2, "maxItems": 2},
+                    "editable": {"type": "boolean"},
+                    "protected": {"type": "boolean"},
+                    "weight_pct": {"type": ["number", "null"], "minimum": 0, "maximum": 100}
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "additional_factor_1": {
+              "type": ["object", "null"],
+              "properties": {
+                "name": {"type": "string"},
+                "description": {"type": "string"},
+                "weight_pct": {"type": "number", "minimum": 0, "maximum": 100},
+                "editable": {"type": "boolean"},
+                "removable": {"type": "boolean"}
+              },
+              "required": ["name", "description", "weight_pct", "editable", "removable"]
+            },
+            "additional_factor_2": {
+              "type": ["object", "null"],
+              "properties": {
+                "name": {"type": "string"},
+                "description": {"type": "string"},
+                "weight_pct": {"type": "number", "minimum": 0, "maximum": 100},
+                "editable": {"type": "boolean"},
+                "removable": {"type": "boolean"}
+              },
+              "required": ["name", "description", "weight_pct", "editable", "removable"]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "planet_strength",
+        "house_strength",
+        "rasi_strength",
+        "natal_promise",
+        "probability",
+        "dasha",
+        "question_engine",
+        "transit",
+        "ashtakavarga"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -7,6 +7,7 @@ class CalibrationProfile:
     Strongly typed container for a complete calibration profile.
     """
     metadata: Dict[str, Any] = field(default_factory=dict)
+    sections: Dict[str, Any] = field(default_factory=dict)
     master_probability: Dict[str, Any] = field(default_factory=dict)
     planet_strength: Dict[str, Any] = field(default_factory=dict)
     house_strength: Dict[str, Any] = field(default_factory=dict)
