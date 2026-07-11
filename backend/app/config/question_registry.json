@@ -27,6 +27,51 @@
     "future_gochara_required": false
   },
   {
+    "question_id": "7.4",
+    "domain_id": 7,
+    "domain_name": "Marriage",
+    "question_name": "Will I have a Love Marriage?",
+    "formula_key": "MAR_TIMING_NORMAL",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "7.5",
+    "domain_id": 7,
+    "domain_name": "Marriage",
+    "question_name": "Will I have an Arranged Marriage?",
+    "formula_key": "MAR_TIMING_NORMAL",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "7.6",
+    "domain_id": 7,
+    "domain_name": "Marriage",
+    "question_name": "Will I have a Second Marriage?",
+    "formula_key": "MAR_TIMING_DELAY",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "7.7",
+    "domain_id": 7,
+    "domain_name": "Marriage",
+    "question_name": "What will my Spouse be like?",
+    "formula_key": "MAR_TIMING_NORMAL",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "7.8",
+    "domain_id": 7,
+    "domain_name": "Marriage",
+    "question_name": "How will my Married Life be?",
+    "formula_key": "REL_MARITAL_HARMONY",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
     "question_id": "10.1",
     "domain_id": 10,
     "domain_name": "Career",
@@ -41,6 +86,60 @@
     "domain_name": "Career",
     "question_name": "Job Change",
     "formula_key": "CAR_CHANGE_TIMING",
+    "timing_required": true,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "10.3",
+    "domain_id": 10,
+    "domain_name": "Career",
+    "question_name": "Will I get a Government Job?",
+    "formula_key": "CAR_GROWTH_BASE",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "10.4",
+    "domain_id": 10,
+    "domain_name": "Career",
+    "question_name": "Will I get a Private Job?",
+    "formula_key": "CAR_CHANGE_TIMING",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "10.5",
+    "domain_id": 10,
+    "domain_name": "Career",
+    "question_name": "Will my Business succeed?",
+    "formula_key": "CAR_GROWTH_BASE",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "10.6",
+    "domain_id": 10,
+    "domain_name": "Career",
+    "question_name": "Should I change my Career?",
+    "formula_key": "CAR_CHANGE_TIMING",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "10.7",
+    "domain_id": 10,
+    "domain_name": "Career",
+    "question_name": "Will I get a Foreign Job?",
+    "formula_key": "TRV_FOREIGN_SETTLEMENT",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "10.8",
+    "domain_id": 10,
+    "domain_name": "Career",
+    "question_name": "When will I Retire?",
+    "formula_key": "CAR_GROWTH_BASE",
     "timing_required": true,
     "future_gochara_required": false
   },
@@ -63,10 +162,163 @@
     "future_gochara_required": false
   },
   {
+    "question_id": "2.2",
+    "domain_id": 2,
+    "domain_name": "Wealth",
+    "question_name": "Investment Timing",
+    "formula_key": "WEA_SUDDEN_BASE",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "2.3",
+    "domain_id": 2,
+    "domain_name": "Wealth",
+    "question_name": "Debt Resolution",
+    "formula_key": "WEA_SUDDEN_LOSS",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "2.4",
+    "domain_id": 2,
+    "domain_name": "Wealth",
+    "question_name": "Loan Recovery",
+    "formula_key": "LIT_DEBT_RISK",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "2.5",
+    "domain_id": 2,
+    "domain_name": "Wealth",
+    "question_name": "Inheritance Prospects",
+    "formula_key": "WEA_SUDDEN_GAIN",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "2.6",
+    "domain_id": 2,
+    "domain_name": "Wealth",
+    "question_name": "Windfall Gains",
+    "formula_key": "WEA_SUDDEN_GAIN",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "2.8",
+    "domain_id": 2,
+    "domain_name": "Wealth",
+    "question_name": "Financial Loss Risk",
+    "formula_key": "WEA_SUDDEN_LOSS",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "4.1",
+    "domain_id": 4,
+    "domain_name": "Property",
+    "question_name": "Will I own a House?",
+    "formula_key": "AST_PROP_PROMISE",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "4.2",
+    "domain_id": 4,
+    "domain_name": "Property",
+    "question_name": "Am I destined to buy Property?",
+    "formula_key": "AST_PROP_PROMISE",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "4.3",
+    "domain_id": 4,
+    "domain_name": "Property",
+    "question_name": "When will I buy a House?",
+    "formula_key": "AST_PROP_TIMING",
+    "timing_required": true,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "4.4",
+    "domain_id": 4,
+    "domain_name": "Property",
+    "question_name": "Is this a good time to buy Property?",
+    "formula_key": "AST_PROP_TIMING",
+    "timing_required": true,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "4.5",
+    "domain_id": 4,
+    "domain_name": "Property",
+    "question_name": "Will I lose my Property?",
+    "formula_key": "AST_PROP_LOSS_RISK",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "4.6",
+    "domain_id": 4,
+    "domain_name": "Property",
+    "question_name": "Are there Property Disputes in my chart?",
+    "formula_key": "AST_PROP_LOSS_RISK",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "4.7",
+    "domain_id": 4,
+    "domain_name": "Property",
+    "question_name": "Will I buy Land?",
+    "formula_key": "AST_PROP_TIMING",
+    "timing_required": true,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "4.8",
+    "domain_id": 4,
+    "domain_name": "Property",
+    "question_name": "Will I buy an Apartment?",
+    "formula_key": "AST_PROP_TIMING",
+    "timing_required": true,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "4.9",
+    "domain_id": 4,
+    "domain_name": "Property",
+    "question_name": "Will I buy a Vehicle?",
+    "formula_key": "AST_VEHICLE_BASE",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "4.10",
+    "domain_id": 4,
+    "domain_name": "Property",
+    "question_name": "Will I sell my Property?",
+    "formula_key": "AST_PROP_LOSS_RISK",
+    "timing_required": true,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "4.11",
+    "domain_id": 4,
+    "domain_name": "Property",
+    "question_name": "Property Inheritance",
+    "formula_key": "AST_PROP_PROMISE",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
     "question_id": "6.1",
     "domain_id": 6,
     "domain_name": "Health",
-    "question_name": "How is my general health?",
+    "question_name": "How is my General Health?",
     "formula_key": "HLT_GENERAL_VITALITY",
     "timing_required": false,
     "future_gochara_required": false
@@ -75,7 +327,7 @@
     "question_id": "6.2",
     "domain_id": 6,
     "domain_name": "Health",
-    "question_name": "Will I have a long life?",
+    "question_name": "Will I have a Long Life?",
     "formula_key": "HLT_LONGEVITY_ASSESSMENT",
     "timing_required": false,
     "future_gochara_required": false
@@ -84,7 +336,7 @@
     "question_id": "6.3",
     "domain_id": 6,
     "domain_name": "Health",
-    "question_name": "Will I suffer from chronic illness?",
+    "question_name": "Will I suffer from Chronic Illness?",
     "formula_key": "HLT_ILLNESS_RISK",
     "timing_required": false,
     "future_gochara_required": false
@@ -102,124 +354,43 @@
     "question_id": "6.5",
     "domain_id": 6,
     "domain_name": "Health",
-    "question_name": "When will I recover from my illness?",
+    "question_name": "When will I recover from Illness?",
     "formula_key": "HLT_RECOVERY_TIMING",
     "timing_required": true,
     "future_gochara_required": false
   },
   {
-    "question_id": "4.1",
-    "domain_id": 4,
-    "domain_name": "Property",
-    "question_name": "Will I own a house?",
-    "formula_key": "AST_PROP_PROMISE",
+    "question_id": "6.6",
+    "domain_id": 6,
+    "domain_name": "Health",
+    "question_name": "What is my Mental Health outlook?",
+    "formula_key": "HLT_VITALITY_BASE",
     "timing_required": false,
     "future_gochara_required": false
   },
   {
-    "question_id": "4.2",
-    "domain_id": 4,
-    "domain_name": "Property",
-    "question_name": "Am I destined to buy property?",
-    "formula_key": "AST_PROP_PROMISE",
-    "timing_required": false,
-    "future_gochara_required": false
-  },
-  {
-    "question_id": "4.3",
-    "domain_id": 4,
-    "domain_name": "Property",
-    "question_name": "When will I buy a house?",
-    "formula_key": "AST_PROP_TIMING",
+    "question_id": "6.7",
+    "domain_id": 6,
+    "domain_name": "Health",
+    "question_name": "Surgery Timing",
+    "formula_key": "HLT_RECOVERY_TIMING",
     "timing_required": true,
     "future_gochara_required": false
   },
   {
-    "question_id": "4.4",
-    "domain_id": 4,
-    "domain_name": "Property",
-    "question_name": "Is this a good time to buy property?",
-    "formula_key": "AST_PROP_TIMING",
-    "timing_required": true,
-    "future_gochara_required": false
-  },
-  {
-    "question_id": "4.5",
-    "domain_id": 4,
-    "domain_name": "Property",
-    "question_name": "Will I lose my property?",
-    "formula_key": "AST_PROP_LOSS_RISK",
+    "question_id": "6.8",
+    "domain_id": 6,
+    "domain_name": "Health",
+    "question_name": "Specific Disease Risk",
+    "formula_key": "HLT_ILLNESS_RISK",
     "timing_required": false,
-    "future_gochara_required": false
-  },
-  {
-    "question_id": "4.6",
-    "domain_id": 4,
-    "domain_name": "Property",
-    "question_name": "Are there property disputes in my chart?",
-    "formula_key": "AST_PROP_LOSS_RISK",
-    "timing_required": false,
-    "future_gochara_required": false
-  },
-  {
-    "question_id": "5.1",
-    "domain_id": 5,
-    "domain_name": "Education",
-    "question_name": "How will my academic life be?",
-    "formula_key": "EDU_ACADEMIC_SUCCESS",
-    "timing_required": false,
-    "future_gochara_required": false
-  },
-  {
-    "question_id": "5.2",
-    "domain_id": 5,
-    "domain_name": "Education",
-    "question_name": "Will I be good at studies?",
-    "formula_key": "EDU_ACADEMIC_SUCCESS",
-    "timing_required": false,
-    "future_gochara_required": false
-  },
-  {
-    "question_id": "5.3",
-    "domain_id": 5,
-    "domain_name": "Education",
-    "question_name": "Will I pursue higher education (Masters/PhD)?",
-    "formula_key": "EDU_HIGHER_ACADEMICS",
-    "timing_required": false,
-    "future_gochara_required": false
-  },
-  {
-    "question_id": "5.4",
-    "domain_id": 5,
-    "domain_name": "Education",
-    "question_name": "Will I go abroad for studies?",
-    "formula_key": "EDU_FOREIGN_STUDY",
-    "timing_required": false,
-    "future_gochara_required": false
-  },
-  {
-    "question_id": "5.5",
-    "domain_id": 5,
-    "domain_name": "Education",
-    "question_name": "When will I clear my competitive exams?",
-    "formula_key": "EDU_EXAM_SUCCESS_TIMING",
-    "timing_required": true,
-    "future_gochara_required": false
-  },
-  {
-    "question_id": "5.6",
-    "domain_id": 5,
-    "domain_name": "Education",
-    "question_name": "Will I pass my upcoming exam?",
-    "formula_key": "EDU_EXAM_SUCCESS_TIMING",
-    "timing_required": true,
     "future_gochara_required": false
   },
   {
     "question_id": "8.1",
     "domain_id": 8,
     "domain_name": "Children",
-    "question_name": "Will I have children?",
+    "question_name": "Will I have Children?",
     "formula_key": "FAM_CHILD_PROMISE",
     "timing_required": false,
     "future_gochara_required": false
@@ -228,7 +399,7 @@
     "question_id": "8.2",
     "domain_id": 8,
     "domain_name": "Children",
-    "question_name": "Will my children be healthy/successful?",
+    "question_name": "Will my Children be healthy/successful?",
     "formula_key": "FAM_CHILD_PROMISE",
     "timing_required": false,
     "future_gochara_required": false
@@ -237,8 +408,116 @@
     "question_id": "8.3",
     "domain_id": 8,
     "domain_name": "Children",
-    "question_name": "When will I have a child?",
+    "question_name": "When will I have a Child?",
     "formula_key": "FAM_CHILD_TIMING",
+    "timing_required": true,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "8.4",
+    "domain_id": 8,
+    "domain_name": "Children",
+    "question_name": "How many Children will I have?",
+    "formula_key": "FAM_CHILD_PROMISE",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "8.5",
+    "domain_id": 8,
+    "domain_name": "Children",
+    "question_name": "Delay in Childbirth",
+    "formula_key": "FAM_CHILD_TIMING",
+    "timing_required": true,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "8.6",
+    "domain_id": 8,
+    "domain_name": "Children",
+    "question_name": "Child Health",
+    "formula_key": "HLT_VITALITY_BASE",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "8.7",
+    "domain_id": 8,
+    "domain_name": "Children",
+    "question_name": "Child Education",
+    "formula_key": "EDU_ACADEMIC_BASE",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "5.1",
+    "domain_id": 5,
+    "domain_name": "Education",
+    "question_name": "How will my Academic life be?",
+    "formula_key": "EDU_ACADEMIC_SUCCESS",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "5.2",
+    "domain_id": 5,
+    "domain_name": "Education",
+    "question_name": "Will I be good at Studies?",
+    "formula_key": "EDU_ACADEMIC_SUCCESS",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "5.3",
+    "domain_id": 5,
+    "domain_name": "Education",
+    "question_name": "Will I pursue Higher Education (Masters/PhD)?",
+    "formula_key": "EDU_HIGHER_ACADEMICS",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "5.4",
+    "domain_id": 5,
+    "domain_name": "Education",
+    "question_name": "Will I go abroad for Studies?",
+    "formula_key": "EDU_FOREIGN_STUDY",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "5.5",
+    "domain_id": 5,
+    "domain_name": "Education",
+    "question_name": "When will I clear Competitive Exams?",
+    "formula_key": "EDU_EXAM_SUCCESS_TIMING",
+    "timing_required": true,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "5.6",
+    "domain_id": 5,
+    "domain_name": "Education",
+    "question_name": "Will I pass my upcoming Exam?",
+    "formula_key": "EDU_EXAM_SUCCESS_TIMING",
+    "timing_required": true,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "5.7",
+    "domain_id": 5,
+    "domain_name": "Education",
+    "question_name": "Scholarship Prospects",
+    "formula_key": "EDU_ACADEMIC_SUCCESS",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "5.8",
+    "domain_id": 5,
+    "domain_name": "Education",
+    "question_name": "Competitive Exam Timing",
+    "formula_key": "EDU_EXAM_SUCCESS_TIMING",
     "timing_required": true,
     "future_gochara_required": false
   },
@@ -246,7 +525,7 @@
     "question_id": "9.1",
     "domain_id": 9,
     "domain_name": "Litigation",
-    "question_name": "Will I win my court case?",
+    "question_name": "Will I win my Court Case?",
     "formula_key": "LIT_LEGAL_VICTORY",
     "timing_required": false,
     "future_gochara_required": false
@@ -255,7 +534,7 @@
     "question_id": "9.2",
     "domain_id": 9,
     "domain_name": "Litigation",
-    "question_name": "Will I defeat my enemies?",
+    "question_name": "Will I defeat my Enemies?",
     "formula_key": "LIT_LEGAL_VICTORY",
     "timing_required": false,
     "future_gochara_required": false
@@ -264,7 +543,7 @@
     "question_id": "9.3",
     "domain_id": 9,
     "domain_name": "Litigation",
-    "question_name": "Will I fall into severe debt?",
+    "question_name": "Will I fall into Severe Debt?",
     "formula_key": "LIT_DEBT_RISK",
     "timing_required": false,
     "future_gochara_required": false
@@ -273,8 +552,26 @@
     "question_id": "9.4",
     "domain_id": 9,
     "domain_name": "Litigation",
-    "question_name": "When will my legal issues resolve?",
+    "question_name": "When will my Legal Issues resolve?",
     "formula_key": "LIT_CONFLICT_TIMING",
+    "timing_required": true,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "9.5",
+    "domain_id": 9,
+    "domain_name": "Litigation",
+    "question_name": "Property Litigation",
+    "formula_key": "AST_PROP_LOSS_RISK",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "9.6",
+    "domain_id": 9,
+    "domain_name": "Litigation",
+    "question_name": "Conflict Resolution Timing",
+    "formula_key": "LIT_LEGAL_VICTORY",
     "timing_required": true,
     "future_gochara_required": false
   },
@@ -282,7 +579,7 @@
     "question_id": "11.1",
     "domain_id": 11,
     "domain_name": "Travel",
-    "question_name": "Will I travel for leisure soon?",
+    "question_name": "Will I travel for Leisure soon?",
     "formula_key": "TRV_SHORT_TRIP",
     "timing_required": false,
     "future_gochara_required": false
@@ -315,10 +612,28 @@
     "future_gochara_required": false
   },
   {
+    "question_id": "11.5",
+    "domain_id": 11,
+    "domain_name": "Travel",
+    "question_name": "Pilgrimage Timing",
+    "formula_key": "SPR_ISOLATION_TIMING",
+    "timing_required": true,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "11.6",
+    "domain_id": 11,
+    "domain_name": "Travel",
+    "question_name": "Business Travel",
+    "formula_key": "TRV_TIMING",
+    "timing_required": true,
+    "future_gochara_required": false
+  },
+  {
     "question_id": "12.1",
     "domain_id": 12,
     "domain_name": "Spirituality",
-    "question_name": "Will I achieve spiritual progress/Moksha?",
+    "question_name": "Will I achieve Spiritual Progress/Moksha?",
     "formula_key": "SPR_SPIRITUAL_PROGRESS",
     "timing_required": false,
     "future_gochara_required": false
@@ -327,7 +642,7 @@
     "question_id": "12.2",
     "domain_id": 12,
     "domain_name": "Spirituality",
-    "question_name": "Will my mantras/remedies work?",
+    "question_name": "Will my Mantras/Remedies work?",
     "formula_key": "SPR_MANTRA_SIDDHI",
     "timing_required": false,
     "future_gochara_required": false
@@ -336,7 +651,7 @@
     "question_id": "12.3",
     "domain_id": 12,
     "domain_name": "Spirituality",
-    "question_name": "Do I have a talent for astrology/occult?",
+    "question_name": "Do I have a talent for Astrology/Occult?",
     "formula_key": "SPR_MANTRA_SIDDHI",
     "timing_required": false,
     "future_gochara_required": false
@@ -345,16 +660,43 @@
     "question_id": "12.4",
     "domain_id": 12,
     "domain_name": "Spirituality",
-    "question_name": "When is a good time for a spiritual pilgrimage?",
+    "question_name": "When is a good time for a Spiritual Pilgrimage?",
     "formula_key": "SPR_ISOLATION_TIMING",
     "timing_required": true,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "12.5",
+    "domain_id": 12,
+    "domain_name": "Spirituality",
+    "question_name": "Will I find a Guru/Diksha?",
+    "formula_key": "SPR_MOKSHA_BASE",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "12.6",
+    "domain_id": 12,
+    "domain_name": "Spirituality",
+    "question_name": "Temple Service / Seva",
+    "formula_key": "SPR_MOKSHA_BASE",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "12.7",
+    "domain_id": 12,
+    "domain_name": "Spirituality",
+    "question_name": "Meditation Progress",
+    "formula_key": "SPR_SPIRITUAL_PROGRESS",
+    "timing_required": false,
     "future_gochara_required": false
   },
   {
     "question_id": "13.1",
     "domain_id": 13,
     "domain_name": "Compatibility",
-    "question_name": "Will my married life be peaceful?",
+    "question_name": "Will my Married Life be peaceful?",
     "formula_key": "REL_MARITAL_HARMONY",
     "timing_required": false,
     "future_gochara_required": false
@@ -363,7 +705,7 @@
     "question_id": "13.2",
     "domain_id": 13,
     "domain_name": "Compatibility",
-    "question_name": "Is there a risk of divorce?",
+    "question_name": "Is there a risk of Divorce?",
     "formula_key": "REL_DIVORCE_RISK",
     "timing_required": false,
     "future_gochara_required": false
@@ -372,8 +714,35 @@
     "question_id": "13.3",
     "domain_id": 13,
     "domain_name": "Compatibility",
-    "question_name": "Will I have a second marriage?",
+    "question_name": "Will I have a Second Marriage?",
     "formula_key": "REL_DIVORCE_RISK",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "13.4",
+    "domain_id": 13,
+    "domain_name": "Compatibility",
+    "question_name": "Business Partnership Compatibility",
+    "formula_key": "REL_DYNAMICS_BASE",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "13.5",
+    "domain_id": 13,
+    "domain_name": "Compatibility",
+    "question_name": "Friendship Compatibility",
+    "formula_key": "REL_DYNAMICS_BASE",
+    "timing_required": false,
+    "future_gochara_required": false
+  },
+  {
+    "question_id": "13.6",
+    "domain_id": 13,
+    "domain_name": "Compatibility",
+    "question_name": "Relationship Stability",
+    "formula_key": "REL_MARITAL_HARMONY",
     "timing_required": false,
     "future_gochara_required": false
   }

@@ -433,7 +433,20 @@ class CalibrationManager:
 
     @property
     def natal_promise(self) -> Dict[str, Any]:
-        return self._extract_section_values("natal_promise")
+        """Return natal promise calibration in engine-expected format."""
+        # Try new sections format first - include NATAL_PROMISE_GRADES from constants
+        try:
+            from app.config.astrology_constants import NATAL_PROMISE_GRADES, DOMAIN_KARAKA
+            return {
+                "NATAL_PROMISE_GRADES": NATAL_PROMISE_GRADES,
+                "DOMAIN_KARAKA": DOMAIN_KARAKA
+            }
+        except ImportError:
+            pass
+
+        # Fallback to legacy flat format
+        legacy_data = self.active_profile.get("natal_promise", {})
+        return legacy_data
 
     @property
     def formula_calibration(self) -> Dict[str, Any]:

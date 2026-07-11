@@ -22,7 +22,7 @@ def test_router_valid_question_id():
     
     response = router.route_question("7.2")
     assert response["status"] == "success"
-    assert response["formula_key"] == "MAR_TIMING_001"
+    assert response["formula_key"] == "MAR_TIMING_NORMAL"
     assert "registry_record" in response
     assert response["metadata"]["timing_required"] is True
 
@@ -97,7 +97,7 @@ def test_integration_router_resolves_full_chain():
     assert record["domain_name"] == "Career"
     
     # 2. Formula Key resolution
-    assert result["formula_key"] == "CAR_CHANGE_001"
+    assert result["formula_key"] == "CAR_CHANGE_TIMING"
     
     # 3. Metadata resolution
     assert result["metadata"]["timing_required"] is True
