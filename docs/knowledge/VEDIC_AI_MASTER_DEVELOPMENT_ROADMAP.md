@@ -102,6 +102,45 @@ Perform calibration after reviewing the complete validation dataset.
 
 ---
 
+## PARAMETER-DRIVEN EVOLUTION (Permanent Engineering Principle)
+
+The deterministic Python engine shall remain stable after Feature Complete.
+
+Future astrological refinement shall be performed through centralized parameter/configuration files wherever technically feasible.
+
+The parameter system should support configuration of:
+
+- Planet Strength factors and weights
+- Bhava Strength factors and weights
+- Gochara weights
+- Formula percentages
+- Thresholds
+- Enable/Disable
+- Add configurable factors
+- Remove configurable factors
+- Parameter redistribution
+- Versioning
+- Snapshots
+- Restore
+- Compare
+
+Default parameter files shall be supplied with the software.
+
+If the user makes no changes, the software shall execute using default values.
+
+If parameter values are modified, the deterministic engine shall automatically use the new values throughout the system, without requiring Python source modifications.
+
+**Engineering Philosophy:**
+
+Build the engine once.
+Freeze deterministic logic.
+Future research should refine configuration, not implementation.
+
+Validation may continue for months or years.
+During that period, knowledge evolves, while the deterministic engine remains stable.
+
+---
+
 ## BACKLOG STRUCTURE (GM-006)
 
 ### BKL-001: Calibration Control Center

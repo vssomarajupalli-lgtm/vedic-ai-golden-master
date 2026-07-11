@@ -41,11 +41,52 @@ Final Release
 - Validation occurs AFTER the product reaches Feature Complete
 - This prevents continuous formula changes, architecture drift, overfitting, and unnecessary repository modifications
 
-**Permanent Engineering Rule:**
+## Permanent Engineering Rule
 - Implement First → Validate Later → Calibrate Once
 - Do NOT modify formulas after every horoscope
 - Do NOT change calibration during active development
 - Record observations → Complete the product → Batch validation → Controlled calibration
+
+---
+
+## PARAMETER-DRIVEN EVOLUTION (Permanent Engineering Principle)
+
+The deterministic Python engine shall remain stable after Feature Complete.
+
+Future astrological refinement shall be performed through centralized parameter/configuration files wherever technically feasible.
+
+The parameter system should support configuration of:
+
+- Planet Strength factors and weights
+- Bhava Strength factors and weights
+- Gochara weights
+- Formula percentages
+- Thresholds
+- Enable/Disable
+- Add configurable factors
+- Remove configurable factors
+- Parameter redistribution
+- Versioning
+- Snapshots
+- Restore
+- Compare
+
+Default parameter files shall be supplied with the software.
+
+If the user makes no changes, the software shall execute using default values.
+
+If parameter values are modified, the deterministic engine shall automatically use the new values throughout the system, without requiring Python source modifications.
+
+**Engineering Philosophy:**
+
+Build the engine once.
+Freeze deterministic logic.
+Future research should refine configuration, not implementation.
+
+Validation may continue for months or years.
+During that period, knowledge evolves, while the deterministic engine remains stable.
+
+---
 
 ## Phase Status
 * **GM-001 through GM-005:** COMPLETE & FROZEN
