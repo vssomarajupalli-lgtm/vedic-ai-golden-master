@@ -404,14 +404,16 @@ class PipelineRunner:
                 # Evaluate formula with calibration
                 formula_evaluation = FormulaEvaluator.evaluate(
                     formula=formula,
-                    engine_outputs=pipeline_output.get("engine_outputs", {}),
+                    engine_outputs=engine_outputs,
                     isolated_signals=isolated_signals,
                     formula_calibration=formula_calibration
                 )
             except Exception as e:
                 # Log error but don't crash - formula evaluation is supplementary
                 formula_evaluation = None
+                import traceback
                 print(f"Formula evaluation error for {formula_key}: {e}")
+                traceback.print_exc()
 
         return self.question_engine.compose_response(
             question=question_id if is_question_id else question_text,
@@ -528,7 +530,7 @@ class PipelineRunner:
         if not path:
             return None
 
-        current = engine_outputs
+        current = payload
         for key in path:
             if isinstance(current, dict) and key in current:
                 current = current[key]

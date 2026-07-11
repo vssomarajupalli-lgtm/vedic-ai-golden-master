@@ -11,7 +11,7 @@
   "sections": {
     "planet_strength": {
       "name": "planet_strength",
-      "description": "Core planetary capability scoring (0-100 per planet) — 8 factors",
+      "description": "Core planetary capability scoring (0-100 per planet) \u2014 8 factors",
       "total_weight_pct": 100.0,
       "parameters": {
         "dignity": {
@@ -144,7 +144,7 @@
     },
     "house_strength": {
       "name": "house_strength",
-      "description": "Bhava (house) structural strength scoring — 6 pillars",
+      "description": "Bhava (house) structural strength scoring \u2014 6 pillars",
       "total_weight_pct": 100.0,
       "parameters": {
         "sav": {
@@ -249,7 +249,7 @@
     },
     "rasi_strength": {
       "name": "rasi_strength",
-      "description": "Sign (Rasi) environmental strength scoring — 4 factors",
+      "description": "Sign (Rasi) environmental strength scoring \u2014 4 factors",
       "total_weight_pct": 100.0,
       "parameters": {
         "bhava": {
@@ -933,7 +933,7 @@
         "domain_keywords": {
           "name": "domain_keywords",
           "description": "Keyword-based domain routing",
-          "purpose": "12 domains × keywords for routing",
+          "purpose": "12 domains \u00d7 keywords for routing",
           "default_value": {
             "marriage": [
               "marriage",
@@ -1615,7 +1615,7 @@
         "conjunction_matrix": {
           "name": "conjunction_matrix",
           "description": "Transit conjunction scoring per planet per nature",
-          "purpose": "Conjunction scores per transit planet × natal nature",
+          "purpose": "Conjunction scores per transit planet \u00d7 natal nature",
           "default_value": {
             "jupiter_benefic": 12,
             "jupiter_malefic": 3,
@@ -2112,493 +2112,3085 @@
     "MAR_TIMING_BASE": {
       "formula_key": "MAR_TIMING_BASE",
       "formula_name": "Marriage Timing Base",
-      "description": "Base formula for marriage timing assessment",
+      "description": "Base formula for Marriage Timing Base",
       "total_weight_pct": 100.0,
       "enabled": true,
       "factors": {
         "7th_house": {
           "name": "7th_house",
-          "description": "7th house strength and lordship",
-          "purpose": "Primary house for marriage timing",
-          "default_value": 30.0,
-          "current_value": 30.0,
+          "description": "7Th House factor for Marriage Timing Base",
+          "purpose": "Evaluates 7th house in Marriage Timing Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
           "recommended_range": [
-            25,
-            35
+            8,
+            33
           ],
           "editable": true,
           "protected": true,
-          "weight_pct": 30.0,
+          "weight_pct": 16.7,
           "enabled": true,
-          "engine_required": "NatalPromiseEngine"
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "7th_house",
+          "display_order": 1,
+          "mandatory": true
         },
         "7th_lord": {
           "name": "7th_lord",
-          "description": "7th lord strength and placement",
-          "purpose": "Lord of marriage house",
-          "default_value": 25.0,
-          "current_value": 25.0,
+          "description": "7Th Lord factor for Marriage Timing Base",
+          "purpose": "Evaluates 7th lord in Marriage Timing Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
           "recommended_range": [
-            20,
-            30
+            8,
+            33
           ],
           "editable": true,
           "protected": true,
-          "weight_pct": 25.0,
+          "weight_pct": 16.7,
           "enabled": true,
-          "engine_required": "PlanetStrengthEngine"
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "7th_lord",
+          "display_order": 2,
+          "mandatory": true
         },
         "venus": {
           "name": "venus",
-          "description": "Venus karaka strength for marriage",
-          "purpose": "Natural significator of marriage",
-          "default_value": 20.0,
-          "current_value": 20.0,
+          "description": "Venus factor for Marriage Timing Base",
+          "purpose": "Evaluates venus in Marriage Timing Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
           "recommended_range": [
-            15,
-            25
+            8,
+            33
           ],
           "editable": true,
           "protected": true,
-          "weight_pct": 20.0,
+          "weight_pct": 16.7,
           "enabled": true,
-          "engine_required": "PlanetStrengthEngine"
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "venus",
+          "display_order": 3,
+          "mandatory": true
         },
-        "d9": {
-          "name": "d9",
-          "description": "Navamsa (D9) chart dignity",
-          "purpose": "Marriage-specific varga assessment",
-          "default_value": 10.0,
-          "current_value": 10.0,
+        "lagna_lord": {
+          "name": "lagna_lord",
+          "description": "Lagna Lord factor for Marriage Timing Base",
+          "purpose": "Evaluates lagna lord in Marriage Timing Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
           "recommended_range": [
-            5,
-            15
+            8,
+            33
           ],
           "editable": true,
           "protected": true,
-          "weight_pct": 10.0,
+          "weight_pct": 16.7,
           "enabled": true,
-          "engine_required": "VargaEngine"
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "lagna_lord",
+          "display_order": 4,
+          "mandatory": true
         },
-        "yoga": {
-          "name": "yoga",
-          "description": "Marriage-related yogas",
-          "purpose": "Classical combination indicators",
-          "default_value": 8.0,
-          "current_value": 8.0,
+        "dasha_lord_aspect_7th": {
+          "name": "dasha_lord_aspect_7th",
+          "description": "Dasha Lord Aspect 7Th factor for Marriage Timing Base",
+          "purpose": "Evaluates dasha lord aspect 7th in Marriage Timing Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
           "recommended_range": [
-            5,
-            12
+            8,
+            33
           ],
           "editable": true,
           "protected": true,
-          "weight_pct": 8.0,
+          "weight_pct": 16.7,
           "enabled": true,
-          "engine_required": "YogaEngine"
+          "engine_required": "DashaEngine",
+          "signal_name": "dasha_lord_aspect_7th",
+          "display_order": 5,
+          "mandatory": false
         },
-        "dasha": {
-          "name": "dasha",
-          "description": "Dasha timing alignment",
-          "purpose": "Planetary period synchronization",
-          "default_value": 5.0,
-          "current_value": 5.0,
+        "dasha_lord_is_venus": {
+          "name": "dasha_lord_is_venus",
+          "description": "Dasha Lord Is Venus factor for Marriage Timing Base",
+          "purpose": "Evaluates dasha lord is venus in Marriage Timing Base",
+          "default_value": 16.5,
+          "current_value": 16.5,
           "recommended_range": [
-            3,
-            8
+            8,
+            33
           ],
           "editable": true,
           "protected": true,
-          "weight_pct": 5.0,
+          "weight_pct": 16.5,
           "enabled": true,
-          "engine_required": "DashaEngine"
-        },
-        "transit": {
-          "name": "transit",
-          "description": "Gochara transit triggers",
-          "purpose": "Transit activation timing",
-          "default_value": 2.0,
-          "current_value": 2.0,
-          "recommended_range": [
-            1,
-            5
-          ],
-          "editable": true,
-          "protected": true,
-          "weight_pct": 2.0,
-          "enabled": true,
-          "engine_required": "TransitEngine"
+          "engine_required": "DashaEngine",
+          "signal_name": "dasha_lord_is_venus",
+          "display_order": 6,
+          "mandatory": false
         }
       }
     },
     "MAR_TIMING_NORMAL": {
       "formula_key": "MAR_TIMING_NORMAL",
       "formula_name": "Standard Marriage Timing",
-      "description": "Standard marriage timing assessment",
+      "description": "Child formula for Standard Marriage Timing",
       "total_weight_pct": 100.0,
       "enabled": true,
       "factors": {
-        "7th_house": {
-          "name": "7th_house",
-          "description": "7th house strength and lordship",
-          "purpose": "Primary house for marriage timing",
-          "default_value": 30.0,
-          "current_value": 30.0,
+        "absence_of_saturn_delay": {
+          "name": "absence_of_saturn_delay",
+          "description": "Absence Of Saturn Delay factor for Standard Marriage Timing",
+          "purpose": "Evaluates absence of saturn delay in Standard Marriage Timing",
+          "default_value": 100.0,
+          "current_value": 100.0,
           "recommended_range": [
-            25,
-            35
+            50,
+            99
           ],
           "editable": true,
           "protected": true,
-          "weight_pct": 30.0,
+          "weight_pct": 100.0,
           "enabled": true,
-          "engine_required": "NatalPromiseEngine"
-        },
-        "7th_lord": {
-          "name": "7th_lord",
-          "description": "7th lord strength and placement",
-          "purpose": "Lord of marriage house",
-          "default_value": 25.0,
-          "current_value": 25.0,
-          "recommended_range": [
-            20,
-            30
-          ],
-          "editable": true,
-          "protected": true,
-          "weight_pct": 25.0,
-          "enabled": true,
-          "engine_required": "PlanetStrengthEngine"
-        },
-        "venus": {
-          "name": "venus",
-          "description": "Venus karaka strength for marriage",
-          "purpose": "Natural significator of marriage",
-          "default_value": 20.0,
-          "current_value": 20.0,
-          "recommended_range": [
-            15,
-            25
-          ],
-          "editable": true,
-          "protected": true,
-          "weight_pct": 20.0,
-          "enabled": true,
-          "engine_required": "PlanetStrengthEngine"
-        },
-        "d9": {
-          "name": "d9",
-          "description": "Navamsa (D9) chart dignity",
-          "purpose": "Marriage-specific varga assessment",
-          "default_value": 15.0,
-          "current_value": 15.0,
-          "recommended_range": [
-            10,
-            20
-          ],
-          "editable": true,
-          "protected": true,
-          "weight_pct": 15.0,
-          "enabled": true,
-          "engine_required": "VargaEngine"
-        },
-        "dasha": {
-          "name": "dasha",
-          "description": "Dasha timing alignment",
-          "purpose": "Planetary period synchronization",
-          "default_value": 10.0,
-          "current_value": 10.0,
-          "recommended_range": [
-            5,
-            15
-          ],
-          "editable": true,
-          "protected": true,
-          "weight_pct": 10.0,
-          "enabled": true,
-          "engine_required": "DashaEngine"
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "absence_of_saturn_delay",
+          "display_order": 1,
+          "mandatory": false
         }
       }
     },
     "MAR_TIMING_DELAY": {
       "formula_key": "MAR_TIMING_DELAY",
       "formula_name": "Delayed Marriage Timing",
-      "description": "Delayed marriage timing assessment",
+      "description": "Child formula for Delayed Marriage Timing",
       "total_weight_pct": 100.0,
       "enabled": true,
       "factors": {
-        "7th_house": {
-          "name": "7th_house",
-          "description": "7th house strength and lordship",
-          "purpose": "Primary house for marriage timing",
-          "default_value": 25.0,
-          "current_value": 25.0,
-          "recommended_range": [
-            20,
-            30
-          ],
-          "editable": true,
-          "protected": true,
-          "weight_pct": 25.0,
-          "enabled": true,
-          "engine_required": "NatalPromiseEngine"
-        },
-        "7th_lord": {
-          "name": "7th_lord",
-          "description": "7th lord strength and placement",
-          "purpose": "Lord of marriage house",
-          "default_value": 20.0,
-          "current_value": 20.0,
-          "recommended_range": [
-            15,
-            25
-          ],
-          "editable": true,
-          "protected": true,
-          "weight_pct": 20.0,
-          "enabled": true,
-          "engine_required": "PlanetStrengthEngine"
-        },
-        "venus": {
-          "name": "venus",
-          "description": "Venus karaka strength for marriage",
-          "purpose": "Natural significator of marriage",
-          "default_value": 15.0,
-          "current_value": 15.0,
-          "recommended_range": [
-            10,
-            20
-          ],
-          "editable": true,
-          "protected": true,
-          "weight_pct": 15.0,
-          "enabled": true,
-          "engine_required": "PlanetStrengthEngine"
-        },
         "saturn": {
           "name": "saturn",
-          "description": "Saturn delay influence",
-          "purpose": "Delay indicator for marriage",
-          "default_value": 20.0,
-          "current_value": 20.0,
+          "description": "Saturn factor for Delayed Marriage Timing",
+          "purpose": "Evaluates saturn in Delayed Marriage Timing",
+          "default_value": 50.0,
+          "current_value": 50.0,
           "recommended_range": [
-            15,
-            25
+            25,
+            99
           ],
           "editable": true,
           "protected": true,
-          "weight_pct": 20.0,
+          "weight_pct": 50.0,
           "enabled": true,
-          "engine_required": "PlanetStrengthEngine"
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "saturn",
+          "display_order": 1,
+          "mandatory": false
         },
-        "d9": {
-          "name": "d9",
-          "description": "Navamsa (D9) chart dignity",
-          "purpose": "Marriage-specific varga assessment",
-          "default_value": 10.0,
-          "current_value": 10.0,
+        "saturn_aspect_7th": {
+          "name": "saturn_aspect_7th",
+          "description": "Saturn Aspect 7Th factor for Delayed Marriage Timing",
+          "purpose": "Evaluates saturn aspect 7th in Delayed Marriage Timing",
+          "default_value": 50.0,
+          "current_value": 50.0,
           "recommended_range": [
-            5,
-            15
+            25,
+            99
           ],
           "editable": true,
           "protected": true,
-          "weight_pct": 10.0,
+          "weight_pct": 50.0,
           "enabled": true,
-          "engine_required": "VargaEngine"
-        },
-        "dasha": {
-          "name": "dasha",
-          "description": "Dasha timing alignment",
-          "purpose": "Planetary period synchronization",
-          "default_value": 10.0,
-          "current_value": 10.0,
-          "recommended_range": [
-            5,
-            15
-          ],
-          "editable": true,
-          "protected": true,
-          "weight_pct": 10.0,
-          "enabled": true,
-          "engine_required": "DashaEngine"
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "saturn_aspect_7th",
+          "display_order": 2,
+          "mandatory": false
         }
       }
     },
     "CAR_GROWTH_BASE": {
       "formula_key": "CAR_GROWTH_BASE",
       "formula_name": "Career Growth Base",
-      "description": "Base formula for career growth assessment",
+      "description": "Base formula for Career Growth Base",
       "total_weight_pct": 100.0,
       "enabled": true,
       "factors": {
         "10th_house": {
           "name": "10th_house",
-          "description": "10th house strength and lordship",
-          "purpose": "Primary house for career",
-          "default_value": 30.0,
-          "current_value": 30.0,
-          "recommended_range": [
-            25,
-            35
-          ],
-          "editable": true,
-          "protected": true,
-          "weight_pct": 30.0,
-          "enabled": true,
-          "engine_required": "NatalPromiseEngine"
-        },
-        "10th_lord": {
-          "name": "10th_lord",
-          "description": "10th lord strength and placement",
-          "purpose": "Lord of career house",
-          "default_value": 25.0,
-          "current_value": 25.0,
-          "recommended_range": [
-            20,
-            30
-          ],
-          "editable": true,
-          "protected": true,
-          "weight_pct": 25.0,
-          "enabled": true,
-          "engine_required": "PlanetStrengthEngine"
-        },
-        "saturn": {
-          "name": "saturn",
-          "description": "Saturn karaka for career",
-          "purpose": "Natural significator of career",
+          "description": "10Th House factor for Career Growth Base",
+          "purpose": "Evaluates 10th house in Career Growth Base",
           "default_value": 20.0,
           "current_value": 20.0,
           "recommended_range": [
-            15,
-            25
+            10,
+            40
           ],
           "editable": true,
           "protected": true,
           "weight_pct": 20.0,
           "enabled": true,
-          "engine_required": "PlanetStrengthEngine"
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "10th_house",
+          "display_order": 1,
+          "mandatory": true
         },
-        "d10": {
-          "name": "d10",
-          "description": "Dashamsa (D10) chart dignity",
-          "purpose": "Career-specific varga assessment",
-          "default_value": 15.0,
-          "current_value": 15.0,
+        "10th_lord": {
+          "name": "10th_lord",
+          "description": "10Th Lord factor for Career Growth Base",
+          "purpose": "Evaluates 10th lord in Career Growth Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
           "recommended_range": [
             10,
-            20
+            40
           ],
           "editable": true,
           "protected": true,
-          "weight_pct": 15.0,
+          "weight_pct": 20.0,
           "enabled": true,
-          "engine_required": "VargaEngine"
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "10th_lord",
+          "display_order": 2,
+          "mandatory": true
         },
-        "dasha": {
-          "name": "dasha",
-          "description": "Dasha timing alignment",
-          "purpose": "Planetary period synchronization",
-          "default_value": 10.0,
-          "current_value": 10.0,
+        "11th_house": {
+          "name": "11th_house",
+          "description": "11Th House factor for Career Growth Base",
+          "purpose": "Evaluates 11th house in Career Growth Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
           "recommended_range": [
-            5,
-            15
+            10,
+            40
           ],
           "editable": true,
           "protected": true,
-          "weight_pct": 10.0,
+          "weight_pct": 20.0,
           "enabled": true,
-          "engine_required": "DashaEngine"
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "11th_house",
+          "display_order": 3,
+          "mandatory": true
+        },
+        "10th_lord_d10_strength": {
+          "name": "10th_lord_d10_strength",
+          "description": "10Th Lord D10 Strength factor for Career Growth Base",
+          "purpose": "Evaluates 10th lord d10 strength in Career Growth Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "VargaEngine",
+          "signal_name": "10th_lord_d10_strength",
+          "display_order": 4,
+          "mandatory": false
+        },
+        "positive_dasha": {
+          "name": "positive_dasha",
+          "description": "Positive Dasha factor for Career Growth Base",
+          "purpose": "Evaluates positive dasha in Career Growth Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "DashaEngine",
+          "signal_name": "positive_dasha",
+          "display_order": 5,
+          "mandatory": false
         }
       }
     },
-    "WEA_ACCUMULATION_BASE": {
-      "formula_key": "WEA_ACCUMULATION_BASE",
-      "formula_name": "Wealth Accumulation Base",
-      "description": "Base formula for wealth accumulation assessment",
+    "CAR_PROMOTION_TIMING": {
+      "formula_key": "CAR_PROMOTION_TIMING",
+      "formula_name": "Promotion Timing",
+      "description": "Child formula for Promotion Timing",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "10th_house_bindus_gt_28": {
+          "name": "10th_house_bindus_gt_28",
+          "description": "10Th House Bindus Gt 28 factor for Promotion Timing",
+          "purpose": "Evaluates 10th house bindus gt 28 in Promotion Timing",
+          "default_value": 100.0,
+          "current_value": 100.0,
+          "recommended_range": [
+            50,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 100.0,
+          "enabled": true,
+          "engine_required": "AshtakavargaEngine",
+          "signal_name": "10th_house_bindus_gt_28",
+          "display_order": 1,
+          "mandatory": false
+        }
+      }
+    },
+    "CAR_CHANGE_TIMING": {
+      "formula_key": "CAR_CHANGE_TIMING",
+      "formula_name": "Job Change Timing",
+      "description": "Child formula for Job Change Timing",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "5th_house": {
+          "name": "5th_house",
+          "description": "5Th House factor for Job Change Timing",
+          "purpose": "Evaluates 5th house in Job Change Timing",
+          "default_value": 33.3,
+          "current_value": 33.3,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.3,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "5th_house",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "9th_house": {
+          "name": "9th_house",
+          "description": "9Th House factor for Job Change Timing",
+          "purpose": "Evaluates 9th house in Job Change Timing",
+          "default_value": 33.3,
+          "current_value": 33.3,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.3,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "9th_house",
+          "display_order": 2,
+          "mandatory": false
+        },
+        "dasha_lords_connect_5th_9th": {
+          "name": "dasha_lords_connect_5th_9th",
+          "description": "Dasha Lords Connect 5Th 9Th factor for Job Change Timing",
+          "purpose": "Evaluates dasha lords connect 5th 9th in Job Change Timing",
+          "default_value": 33.4,
+          "current_value": 33.4,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.4,
+          "enabled": true,
+          "engine_required": "DashaEngine",
+          "signal_name": "dasha_lords_connect_5th_9th",
+          "display_order": 3,
+          "mandatory": false
+        }
+      }
+    },
+    "WEA_SUDDEN_BASE": {
+      "formula_key": "WEA_SUDDEN_BASE",
+      "formula_name": "Sudden Wealth Base",
+      "description": "Base formula for Sudden Wealth Base",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "8th_house": {
+          "name": "8th_house",
+          "description": "8Th House factor for Sudden Wealth Base",
+          "purpose": "Evaluates 8th house in Sudden Wealth Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "8th_house",
+          "display_order": 1,
+          "mandatory": true
+        },
+        "11th_house": {
+          "name": "11th_house",
+          "description": "11Th House factor for Sudden Wealth Base",
+          "purpose": "Evaluates 11th house in Sudden Wealth Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "11th_house",
+          "display_order": 2,
+          "mandatory": true
+        },
+        "rahu": {
+          "name": "rahu",
+          "description": "Rahu factor for Sudden Wealth Base",
+          "purpose": "Evaluates rahu in Sudden Wealth Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "rahu",
+          "display_order": 3,
+          "mandatory": true
+        },
+        "2nd_house": {
+          "name": "2nd_house",
+          "description": "2Nd House factor for Sudden Wealth Base",
+          "purpose": "Evaluates 2nd house in Sudden Wealth Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "2nd_house",
+          "display_order": 4,
+          "mandatory": true
+        },
+        "8th_lord_connect_11th": {
+          "name": "8th_lord_connect_11th",
+          "description": "8Th Lord Connect 11Th factor for Sudden Wealth Base",
+          "purpose": "Evaluates 8th lord connect 11th in Sudden Wealth Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "8th_lord_connect_11th",
+          "display_order": 5,
+          "mandatory": false
+        },
+        "dasha_activates_yoga": {
+          "name": "dasha_activates_yoga",
+          "description": "Dasha Activates Yoga factor for Sudden Wealth Base",
+          "purpose": "Evaluates dasha activates yoga in Sudden Wealth Base",
+          "default_value": 16.5,
+          "current_value": 16.5,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.5,
+          "enabled": true,
+          "engine_required": "DashaEngine",
+          "signal_name": "dasha_activates_yoga",
+          "display_order": 6,
+          "mandatory": false
+        }
+      }
+    },
+    "WEA_SUDDEN_GAIN": {
+      "formula_key": "WEA_SUDDEN_GAIN",
+      "formula_name": "Sudden Financial Gains",
+      "description": "Child formula for Sudden Financial Gains",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "rahu_in_8th_11th": {
+          "name": "rahu_in_8th_11th",
+          "description": "Rahu In 8Th 11Th factor for Sudden Financial Gains",
+          "purpose": "Evaluates rahu in 8th 11th in Sudden Financial Gains",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "rahu_in_8th_11th",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "absence_malefic_aspect_2nd": {
+          "name": "absence_malefic_aspect_2nd",
+          "description": "Absence Malefic Aspect 2Nd factor for Sudden Financial Gains",
+          "purpose": "Evaluates absence malefic aspect 2nd in Sudden Financial Gains",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "absence_malefic_aspect_2nd",
+          "display_order": 2,
+          "mandatory": false
+        }
+      }
+    },
+    "WEA_SUDDEN_LOSS": {
+      "formula_key": "WEA_SUDDEN_LOSS",
+      "formula_name": "Sudden Financial Loss",
+      "description": "Child formula for Sudden Financial Loss",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "12th_house": {
+          "name": "12th_house",
+          "description": "12Th House factor for Sudden Financial Loss",
+          "purpose": "Evaluates 12th house in Sudden Financial Loss",
+          "default_value": 33.3,
+          "current_value": 33.3,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.3,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "12th_house",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "rahu_afflicts_2nd_lord": {
+          "name": "rahu_afflicts_2nd_lord",
+          "description": "Rahu Afflicts 2Nd Lord factor for Sudden Financial Loss",
+          "purpose": "Evaluates rahu afflicts 2nd lord in Sudden Financial Loss",
+          "default_value": 33.3,
+          "current_value": 33.3,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.3,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "rahu_afflicts_2nd_lord",
+          "display_order": 2,
+          "mandatory": false
+        },
+        "12th_lord_active": {
+          "name": "12th_lord_active",
+          "description": "12Th Lord Active factor for Sudden Financial Loss",
+          "purpose": "Evaluates 12th lord active in Sudden Financial Loss",
+          "default_value": 33.4,
+          "current_value": 33.4,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.4,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "12th_lord_active",
+          "display_order": 3,
+          "mandatory": false
+        }
+      }
+    },
+    "HLT_LONGEVITY_BASE": {
+      "formula_key": "HLT_LONGEVITY_BASE",
+      "formula_name": "Longevity Assessment Base",
+      "description": "Base formula for Longevity Assessment Base",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "lagna": {
+          "name": "lagna",
+          "description": "Lagna factor for Longevity Assessment Base",
+          "purpose": "Evaluates lagna in Longevity Assessment Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "lagna",
+          "display_order": 1,
+          "mandatory": true
+        },
+        "8th_house": {
+          "name": "8th_house",
+          "description": "8Th House factor for Longevity Assessment Base",
+          "purpose": "Evaluates 8th house in Longevity Assessment Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "8th_house",
+          "display_order": 2,
+          "mandatory": true
+        },
+        "8th_lord": {
+          "name": "8th_lord",
+          "description": "8Th Lord factor for Longevity Assessment Base",
+          "purpose": "Evaluates 8th lord in Longevity Assessment Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "8th_lord",
+          "display_order": 3,
+          "mandatory": true
+        },
+        "saturn": {
+          "name": "saturn",
+          "description": "Saturn factor for Longevity Assessment Base",
+          "purpose": "Evaluates saturn in Longevity Assessment Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "saturn",
+          "display_order": 4,
+          "mandatory": true
+        },
+        "lagna_lord": {
+          "name": "lagna_lord",
+          "description": "Lagna Lord factor for Longevity Assessment Base",
+          "purpose": "Evaluates lagna lord in Longevity Assessment Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "lagna_lord",
+          "display_order": 5,
+          "mandatory": false
+        }
+      }
+    },
+    "HLT_LONGEVITY_ASSESSMENT": {
+      "formula_key": "HLT_LONGEVITY_ASSESSMENT",
+      "formula_name": "Longevity Assessment",
+      "description": "Child formula for Longevity Assessment",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "8th_house_strength": {
+          "name": "8th_house_strength",
+          "description": "8Th House Strength factor for Longevity Assessment",
+          "purpose": "Evaluates 8th house strength in Longevity Assessment",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "8th_house_strength",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "saturn_dignity": {
+          "name": "saturn_dignity",
+          "description": "Saturn Dignity factor for Longevity Assessment",
+          "purpose": "Evaluates saturn dignity in Longevity Assessment",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "saturn_dignity",
+          "display_order": 2,
+          "mandatory": false
+        }
+      }
+    },
+    "HLT_VITALITY_BASE": {
+      "formula_key": "HLT_VITALITY_BASE",
+      "formula_name": "Health and Vitality Base",
+      "description": "Base formula for Health and Vitality Base",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "lagna": {
+          "name": "lagna",
+          "description": "Lagna factor for Health and Vitality Base",
+          "purpose": "Evaluates lagna in Health and Vitality Base",
+          "default_value": 12.5,
+          "current_value": 12.5,
+          "recommended_range": [
+            6,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 12.5,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "lagna",
+          "display_order": 1,
+          "mandatory": true
+        },
+        "lagna_lord": {
+          "name": "lagna_lord",
+          "description": "Lagna Lord factor for Health and Vitality Base",
+          "purpose": "Evaluates lagna lord in Health and Vitality Base",
+          "default_value": 12.5,
+          "current_value": 12.5,
+          "recommended_range": [
+            6,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 12.5,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "lagna_lord",
+          "display_order": 2,
+          "mandatory": true
+        },
+        "sun": {
+          "name": "sun",
+          "description": "Sun factor for Health and Vitality Base",
+          "purpose": "Evaluates sun in Health and Vitality Base",
+          "default_value": 12.5,
+          "current_value": 12.5,
+          "recommended_range": [
+            6,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 12.5,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "sun",
+          "display_order": 3,
+          "mandatory": true
+        },
+        "moon": {
+          "name": "moon",
+          "description": "Moon factor for Health and Vitality Base",
+          "purpose": "Evaluates moon in Health and Vitality Base",
+          "default_value": 12.5,
+          "current_value": 12.5,
+          "recommended_range": [
+            6,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 12.5,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "moon",
+          "display_order": 4,
+          "mandatory": true
+        },
+        "6th_house": {
+          "name": "6th_house",
+          "description": "6Th House factor for Health and Vitality Base",
+          "purpose": "Evaluates 6th house in Health and Vitality Base",
+          "default_value": 12.5,
+          "current_value": 12.5,
+          "recommended_range": [
+            6,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 12.5,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "6th_house",
+          "display_order": 5,
+          "mandatory": true
+        },
+        "6th_lord": {
+          "name": "6th_lord",
+          "description": "6Th Lord factor for Health and Vitality Base",
+          "purpose": "Evaluates 6th lord in Health and Vitality Base",
+          "default_value": 12.5,
+          "current_value": 12.5,
+          "recommended_range": [
+            6,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 12.5,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "6th_lord",
+          "display_order": 6,
+          "mandatory": true
+        },
+        "8th_house": {
+          "name": "8th_house",
+          "description": "8Th House factor for Health and Vitality Base",
+          "purpose": "Evaluates 8th house in Health and Vitality Base",
+          "default_value": 12.5,
+          "current_value": 12.5,
+          "recommended_range": [
+            6,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 12.5,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "8th_house",
+          "display_order": 7,
+          "mandatory": true
+        },
+        "12th_house": {
+          "name": "12th_house",
+          "description": "12Th House factor for Health and Vitality Base",
+          "purpose": "Evaluates 12th house in Health and Vitality Base",
+          "default_value": 12.5,
+          "current_value": 12.5,
+          "recommended_range": [
+            6,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 12.5,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "12th_house",
+          "display_order": 8,
+          "mandatory": true
+        }
+      }
+    },
+    "HLT_GENERAL_VITALITY": {
+      "formula_key": "HLT_GENERAL_VITALITY",
+      "formula_name": "General Health and Vitality",
+      "description": "Child formula for General Health and Vitality",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "lagna_strength": {
+          "name": "lagna_strength",
+          "description": "Lagna Strength factor for General Health and Vitality",
+          "purpose": "Evaluates lagna strength in General Health and Vitality",
+          "default_value": 33.3,
+          "current_value": 33.3,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.3,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "lagna_strength",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "sun_dignity": {
+          "name": "sun_dignity",
+          "description": "Sun Dignity factor for General Health and Vitality",
+          "purpose": "Evaluates sun dignity in General Health and Vitality",
+          "default_value": 33.3,
+          "current_value": 33.3,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.3,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "sun_dignity",
+          "display_order": 2,
+          "mandatory": false
+        },
+        "moon_dignity": {
+          "name": "moon_dignity",
+          "description": "Moon Dignity factor for General Health and Vitality",
+          "purpose": "Evaluates moon dignity in General Health and Vitality",
+          "default_value": 33.4,
+          "current_value": 33.4,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.4,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "moon_dignity",
+          "display_order": 3,
+          "mandatory": false
+        }
+      }
+    },
+    "HLT_ILLNESS_RISK": {
+      "formula_key": "HLT_ILLNESS_RISK",
+      "formula_name": "Illness Risk Assessment",
+      "description": "Child formula for Illness Risk Assessment",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "6th_lord_activation": {
+          "name": "6th_lord_activation",
+          "description": "6Th Lord Activation factor for Illness Risk Assessment",
+          "purpose": "Evaluates 6th lord activation in Illness Risk Assessment",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "6th_lord_activation",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "8th_lord_activation": {
+          "name": "8th_lord_activation",
+          "description": "8Th Lord Activation factor for Illness Risk Assessment",
+          "purpose": "Evaluates 8th lord activation in Illness Risk Assessment",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "8th_lord_activation",
+          "display_order": 2,
+          "mandatory": false
+        },
+        "12th_house_activation": {
+          "name": "12th_house_activation",
+          "description": "12Th House Activation factor for Illness Risk Assessment",
+          "purpose": "Evaluates 12th house activation in Illness Risk Assessment",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "12th_house_activation",
+          "display_order": 3,
+          "mandatory": false
+        },
+        "malefic_aspect_lagna": {
+          "name": "malefic_aspect_lagna",
+          "description": "Malefic Aspect Lagna factor for Illness Risk Assessment",
+          "purpose": "Evaluates malefic aspect lagna in Illness Risk Assessment",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "malefic_aspect_lagna",
+          "display_order": 4,
+          "mandatory": false
+        }
+      }
+    },
+    "HLT_RECOVERY_TIMING": {
+      "formula_key": "HLT_RECOVERY_TIMING",
+      "formula_name": "Recovery Timing",
+      "description": "Child formula for Recovery Timing",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "positive_dasha": {
+          "name": "positive_dasha",
+          "description": "Positive Dasha factor for Recovery Timing",
+          "purpose": "Evaluates positive dasha in Recovery Timing",
+          "default_value": 100.0,
+          "current_value": 100.0,
+          "recommended_range": [
+            50,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 100.0,
+          "enabled": true,
+          "engine_required": "DashaEngine",
+          "signal_name": "positive_dasha",
+          "display_order": 1,
+          "mandatory": false
+        }
+      }
+    },
+    "AST_VEHICLE_BASE": {
+      "formula_key": "AST_VEHICLE_BASE",
+      "formula_name": "Vehicle Asset Base",
+      "description": "Base formula for Vehicle Asset Base",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "4th_house": {
+          "name": "4th_house",
+          "description": "4Th House factor for Vehicle Asset Base",
+          "purpose": "Evaluates 4th house in Vehicle Asset Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "4th_house",
+          "display_order": 1,
+          "mandatory": true
+        },
+        "4th_lord": {
+          "name": "4th_lord",
+          "description": "4Th Lord factor for Vehicle Asset Base",
+          "purpose": "Evaluates 4th lord in Vehicle Asset Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "4th_lord",
+          "display_order": 2,
+          "mandatory": true
+        },
+        "venus": {
+          "name": "venus",
+          "description": "Venus factor for Vehicle Asset Base",
+          "purpose": "Evaluates venus in Vehicle Asset Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "venus",
+          "display_order": 3,
+          "mandatory": true
+        },
+        "jupiter": {
+          "name": "jupiter",
+          "description": "Jupiter factor for Vehicle Asset Base",
+          "purpose": "Evaluates jupiter in Vehicle Asset Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "jupiter",
+          "display_order": 4,
+          "mandatory": true
+        },
+        "11th_house": {
+          "name": "11th_house",
+          "description": "11Th House factor for Vehicle Asset Base",
+          "purpose": "Evaluates 11th house in Vehicle Asset Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "11th_house",
+          "display_order": 5,
+          "mandatory": true
+        }
+      }
+    },
+    "AST_PROPERTY_BASE": {
+      "formula_key": "AST_PROPERTY_BASE",
+      "formula_name": "Property Asset Base",
+      "description": "Base formula for Property Asset Base",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "4th_house": {
+          "name": "4th_house",
+          "description": "4Th House factor for Property Asset Base",
+          "purpose": "Evaluates 4th house in Property Asset Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "4th_house",
+          "display_order": 1,
+          "mandatory": true
+        },
+        "4th_lord": {
+          "name": "4th_lord",
+          "description": "4Th Lord factor for Property Asset Base",
+          "purpose": "Evaluates 4th lord in Property Asset Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "4th_lord",
+          "display_order": 2,
+          "mandatory": true
+        },
+        "mars": {
+          "name": "mars",
+          "description": "Mars factor for Property Asset Base",
+          "purpose": "Evaluates mars in Property Asset Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "mars",
+          "display_order": 3,
+          "mandatory": true
+        },
+        "jupiter": {
+          "name": "jupiter",
+          "description": "Jupiter factor for Property Asset Base",
+          "purpose": "Evaluates jupiter in Property Asset Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "jupiter",
+          "display_order": 4,
+          "mandatory": true
+        },
+        "2nd_house": {
+          "name": "2nd_house",
+          "description": "2Nd House factor for Property Asset Base",
+          "purpose": "Evaluates 2nd house in Property Asset Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "2nd_house",
+          "display_order": 5,
+          "mandatory": true
+        },
+        "11th_house": {
+          "name": "11th_house",
+          "description": "11Th House factor for Property Asset Base",
+          "purpose": "Evaluates 11th house in Property Asset Base",
+          "default_value": 16.5,
+          "current_value": 16.5,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.5,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "11th_house",
+          "display_order": 6,
+          "mandatory": true
+        }
+      }
+    },
+    "AST_PROP_PROMISE": {
+      "formula_key": "AST_PROP_PROMISE",
+      "formula_name": "Property Promise",
+      "description": "Child formula for Property Promise",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "4th_house_strength": {
+          "name": "4th_house_strength",
+          "description": "4Th House Strength factor for Property Promise",
+          "purpose": "Evaluates 4th house strength in Property Promise",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "4th_house_strength",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "mars_dignity": {
+          "name": "mars_dignity",
+          "description": "Mars Dignity factor for Property Promise",
+          "purpose": "Evaluates mars dignity in Property Promise",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "mars_dignity",
+          "display_order": 2,
+          "mandatory": false
+        }
+      }
+    },
+    "AST_PROP_TIMING": {
+      "formula_key": "AST_PROP_TIMING",
+      "formula_name": "Property Purchase Timing",
+      "description": "Child formula for Property Purchase Timing",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "dasha_activates_4th": {
+          "name": "dasha_activates_4th",
+          "description": "Dasha Activates 4Th factor for Property Purchase Timing",
+          "purpose": "Evaluates dasha activates 4th in Property Purchase Timing",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "DashaEngine",
+          "signal_name": "dasha_activates_4th",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "2nd_11th_lord_activation": {
+          "name": "2nd_11th_lord_activation",
+          "description": "2Nd 11Th Lord Activation factor for Property Purchase Timing",
+          "purpose": "Evaluates 2nd 11th lord activation in Property Purchase Timing",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "2nd_11th_lord_activation",
+          "display_order": 2,
+          "mandatory": false
+        }
+      }
+    },
+    "AST_PROP_LOSS_RISK": {
+      "formula_key": "AST_PROP_LOSS_RISK",
+      "formula_name": "Property Loss Risk",
+      "description": "Child formula for Property Loss Risk",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "4th_lord_in_8th_or_12th": {
+          "name": "4th_lord_in_8th_or_12th",
+          "description": "4Th Lord In 8Th Or 12Th factor for Property Loss Risk",
+          "purpose": "Evaluates 4th lord in 8th or 12th in Property Loss Risk",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "4th_lord_in_8th_or_12th",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "malefic_aspect_4th": {
+          "name": "malefic_aspect_4th",
+          "description": "Malefic Aspect 4Th factor for Property Loss Risk",
+          "purpose": "Evaluates malefic aspect 4th in Property Loss Risk",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "malefic_aspect_4th",
+          "display_order": 2,
+          "mandatory": false
+        }
+      }
+    },
+    "EDU_ACADEMIC_BASE": {
+      "formula_key": "EDU_ACADEMIC_BASE",
+      "formula_name": "Education Base",
+      "description": "Base formula for Education Base",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "4th_house": {
+          "name": "4th_house",
+          "description": "4Th House factor for Education Base",
+          "purpose": "Evaluates 4th house in Education Base",
+          "default_value": 12.5,
+          "current_value": 12.5,
+          "recommended_range": [
+            6,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 12.5,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "4th_house",
+          "display_order": 1,
+          "mandatory": true
+        },
+        "5th_house": {
+          "name": "5th_house",
+          "description": "5Th House factor for Education Base",
+          "purpose": "Evaluates 5th house in Education Base",
+          "default_value": 12.5,
+          "current_value": 12.5,
+          "recommended_range": [
+            6,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 12.5,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "5th_house",
+          "display_order": 2,
+          "mandatory": true
+        },
+        "9th_house": {
+          "name": "9th_house",
+          "description": "9Th House factor for Education Base",
+          "purpose": "Evaluates 9th house in Education Base",
+          "default_value": 12.5,
+          "current_value": 12.5,
+          "recommended_range": [
+            6,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 12.5,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "9th_house",
+          "display_order": 3,
+          "mandatory": true
+        },
+        "12th_house": {
+          "name": "12th_house",
+          "description": "12Th House factor for Education Base",
+          "purpose": "Evaluates 12th house in Education Base",
+          "default_value": 12.5,
+          "current_value": 12.5,
+          "recommended_range": [
+            6,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 12.5,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "12th_house",
+          "display_order": 4,
+          "mandatory": true
+        },
+        "mercury": {
+          "name": "mercury",
+          "description": "Mercury factor for Education Base",
+          "purpose": "Evaluates mercury in Education Base",
+          "default_value": 12.5,
+          "current_value": 12.5,
+          "recommended_range": [
+            6,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 12.5,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "mercury",
+          "display_order": 5,
+          "mandatory": true
+        },
+        "jupiter": {
+          "name": "jupiter",
+          "description": "Jupiter factor for Education Base",
+          "purpose": "Evaluates jupiter in Education Base",
+          "default_value": 12.5,
+          "current_value": 12.5,
+          "recommended_range": [
+            6,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 12.5,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "jupiter",
+          "display_order": 6,
+          "mandatory": true
+        },
+        "moon": {
+          "name": "moon",
+          "description": "Moon factor for Education Base",
+          "purpose": "Evaluates moon in Education Base",
+          "default_value": 12.5,
+          "current_value": 12.5,
+          "recommended_range": [
+            6,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 12.5,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "moon",
+          "display_order": 7,
+          "mandatory": true
+        },
+        "rahu": {
+          "name": "rahu",
+          "description": "Rahu factor for Education Base",
+          "purpose": "Evaluates rahu in Education Base",
+          "default_value": 12.5,
+          "current_value": 12.5,
+          "recommended_range": [
+            6,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 12.5,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "rahu",
+          "display_order": 8,
+          "mandatory": true
+        }
+      }
+    },
+    "EDU_ACADEMIC_SUCCESS": {
+      "formula_key": "EDU_ACADEMIC_SUCCESS",
+      "formula_name": "Academic Success",
+      "description": "Child formula for Academic Success",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "4th_house_strength": {
+          "name": "4th_house_strength",
+          "description": "4Th House Strength factor for Academic Success",
+          "purpose": "Evaluates 4th house strength in Academic Success",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "4th_house_strength",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "5th_house_strength": {
+          "name": "5th_house_strength",
+          "description": "5Th House Strength factor for Academic Success",
+          "purpose": "Evaluates 5th house strength in Academic Success",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "5th_house_strength",
+          "display_order": 2,
+          "mandatory": false
+        },
+        "mercury_dignity": {
+          "name": "mercury_dignity",
+          "description": "Mercury Dignity factor for Academic Success",
+          "purpose": "Evaluates mercury dignity in Academic Success",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "mercury_dignity",
+          "display_order": 3,
+          "mandatory": false
+        },
+        "moon_dignity": {
+          "name": "moon_dignity",
+          "description": "Moon Dignity factor for Academic Success",
+          "purpose": "Evaluates moon dignity in Academic Success",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "moon_dignity",
+          "display_order": 4,
+          "mandatory": false
+        }
+      }
+    },
+    "EDU_HIGHER_ACADEMICS": {
+      "formula_key": "EDU_HIGHER_ACADEMICS",
+      "formula_name": "Higher Academics",
+      "description": "Child formula for Higher Academics",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "9th_house_strength": {
+          "name": "9th_house_strength",
+          "description": "9Th House Strength factor for Higher Academics",
+          "purpose": "Evaluates 9th house strength in Higher Academics",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "9th_house_strength",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "jupiter_dignity": {
+          "name": "jupiter_dignity",
+          "description": "Jupiter Dignity factor for Higher Academics",
+          "purpose": "Evaluates jupiter dignity in Higher Academics",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "jupiter_dignity",
+          "display_order": 2,
+          "mandatory": false
+        }
+      }
+    },
+    "EDU_FOREIGN_STUDY": {
+      "formula_key": "EDU_FOREIGN_STUDY",
+      "formula_name": "Foreign Study",
+      "description": "Child formula for Foreign Study",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "12th_house_activation": {
+          "name": "12th_house_activation",
+          "description": "12Th House Activation factor for Foreign Study",
+          "purpose": "Evaluates 12th house activation in Foreign Study",
+          "default_value": 33.3,
+          "current_value": 33.3,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.3,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "12th_house_activation",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "9th_house_activation": {
+          "name": "9th_house_activation",
+          "description": "9Th House Activation factor for Foreign Study",
+          "purpose": "Evaluates 9th house activation in Foreign Study",
+          "default_value": 33.3,
+          "current_value": 33.3,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.3,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "9th_house_activation",
+          "display_order": 2,
+          "mandatory": false
+        },
+        "rahu_dignity": {
+          "name": "rahu_dignity",
+          "description": "Rahu Dignity factor for Foreign Study",
+          "purpose": "Evaluates rahu dignity in Foreign Study",
+          "default_value": 33.4,
+          "current_value": 33.4,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.4,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "rahu_dignity",
+          "display_order": 3,
+          "mandatory": false
+        }
+      }
+    },
+    "EDU_EXAM_SUCCESS_TIMING": {
+      "formula_key": "EDU_EXAM_SUCCESS_TIMING",
+      "formula_name": "Competitive Exam Timing",
+      "description": "Child formula for Competitive Exam Timing",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "6th_house": {
+          "name": "6th_house",
+          "description": "6Th House factor for Competitive Exam Timing",
+          "purpose": "Evaluates 6th house in Competitive Exam Timing",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "6th_house",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "dasha_activates_5th_6th": {
+          "name": "dasha_activates_5th_6th",
+          "description": "Dasha Activates 5Th 6Th factor for Competitive Exam Timing",
+          "purpose": "Evaluates dasha activates 5th 6th in Competitive Exam Timing",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "DashaEngine",
+          "signal_name": "dasha_activates_5th_6th",
+          "display_order": 2,
+          "mandatory": false
+        }
+      }
+    },
+    "FAM_PROGENY_BASE": {
+      "formula_key": "FAM_PROGENY_BASE",
+      "formula_name": "Progeny and Children Base",
+      "description": "Base formula for Progeny and Children Base",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "5th_house": {
+          "name": "5th_house",
+          "description": "5Th House factor for Progeny and Children Base",
+          "purpose": "Evaluates 5th house in Progeny and Children Base",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "5th_house",
+          "display_order": 1,
+          "mandatory": true
+        },
+        "5th_lord": {
+          "name": "5th_lord",
+          "description": "5Th Lord factor for Progeny and Children Base",
+          "purpose": "Evaluates 5th lord in Progeny and Children Base",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "5th_lord",
+          "display_order": 2,
+          "mandatory": true
+        },
+        "9th_house": {
+          "name": "9th_house",
+          "description": "9Th House factor for Progeny and Children Base",
+          "purpose": "Evaluates 9th house in Progeny and Children Base",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "9th_house",
+          "display_order": 3,
+          "mandatory": true
+        },
+        "jupiter": {
+          "name": "jupiter",
+          "description": "Jupiter factor for Progeny and Children Base",
+          "purpose": "Evaluates jupiter in Progeny and Children Base",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "jupiter",
+          "display_order": 4,
+          "mandatory": true
+        }
+      }
+    },
+    "FAM_CHILD_PROMISE": {
+      "formula_key": "FAM_CHILD_PROMISE",
+      "formula_name": "Child Promise",
+      "description": "Child formula for Child Promise",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "5th_house_strength": {
+          "name": "5th_house_strength",
+          "description": "5Th House Strength factor for Child Promise",
+          "purpose": "Evaluates 5th house strength in Child Promise",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "5th_house_strength",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "jupiter_dignity": {
+          "name": "jupiter_dignity",
+          "description": "Jupiter Dignity factor for Child Promise",
+          "purpose": "Evaluates jupiter dignity in Child Promise",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "jupiter_dignity",
+          "display_order": 2,
+          "mandatory": false
+        }
+      }
+    },
+    "FAM_CHILD_TIMING": {
+      "formula_key": "FAM_CHILD_TIMING",
+      "formula_name": "Childbirth Timing",
+      "description": "Child formula for Childbirth Timing",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "dasha_activates_5th_9th": {
+          "name": "dasha_activates_5th_9th",
+          "description": "Dasha Activates 5Th 9Th factor for Childbirth Timing",
+          "purpose": "Evaluates dasha activates 5th 9th in Childbirth Timing",
+          "default_value": 100.0,
+          "current_value": 100.0,
+          "recommended_range": [
+            50,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 100.0,
+          "enabled": true,
+          "engine_required": "DashaEngine",
+          "signal_name": "dasha_activates_5th_9th",
+          "display_order": 1,
+          "mandatory": false
+        }
+      }
+    },
+    "LIT_CONFLICT_BASE": {
+      "formula_key": "LIT_CONFLICT_BASE",
+      "formula_name": "Litigation and Conflict Base",
+      "description": "Base formula for Litigation and Conflict Base",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "1st_house": {
+          "name": "1st_house",
+          "description": "1St House factor for Litigation and Conflict Base",
+          "purpose": "Evaluates 1st house in Litigation and Conflict Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "1st_house",
+          "display_order": 1,
+          "mandatory": true
+        },
+        "1st_lord": {
+          "name": "1st_lord",
+          "description": "1St Lord factor for Litigation and Conflict Base",
+          "purpose": "Evaluates 1st lord in Litigation and Conflict Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "1st_lord",
+          "display_order": 2,
+          "mandatory": true
+        },
+        "6th_house": {
+          "name": "6th_house",
+          "description": "6Th House factor for Litigation and Conflict Base",
+          "purpose": "Evaluates 6th house in Litigation and Conflict Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "6th_house",
+          "display_order": 3,
+          "mandatory": true
+        },
+        "6th_lord": {
+          "name": "6th_lord",
+          "description": "6Th Lord factor for Litigation and Conflict Base",
+          "purpose": "Evaluates 6th lord in Litigation and Conflict Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "6th_lord",
+          "display_order": 4,
+          "mandatory": true
+        },
+        "mars": {
+          "name": "mars",
+          "description": "Mars factor for Litigation and Conflict Base",
+          "purpose": "Evaluates mars in Litigation and Conflict Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "mars",
+          "display_order": 5,
+          "mandatory": true
+        },
+        "saturn": {
+          "name": "saturn",
+          "description": "Saturn factor for Litigation and Conflict Base",
+          "purpose": "Evaluates saturn in Litigation and Conflict Base",
+          "default_value": 16.5,
+          "current_value": 16.5,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.5,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "saturn",
+          "display_order": 6,
+          "mandatory": true
+        }
+      }
+    },
+    "LIT_LEGAL_VICTORY": {
+      "formula_key": "LIT_LEGAL_VICTORY",
+      "formula_name": "Legal Victory Assessment",
+      "description": "Child formula for Legal Victory Assessment",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "1st_lord_stronger_than_6th_lord": {
+          "name": "1st_lord_stronger_than_6th_lord",
+          "description": "1St Lord Stronger Than 6Th Lord factor for Legal Victory Assessment",
+          "purpose": "Evaluates 1st lord stronger than 6th lord in Legal Victory Assessment",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "1st_lord_stronger_than_6th_lord",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "mars_dignity": {
+          "name": "mars_dignity",
+          "description": "Mars Dignity factor for Legal Victory Assessment",
+          "purpose": "Evaluates mars dignity in Legal Victory Assessment",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "mars_dignity",
+          "display_order": 2,
+          "mandatory": false
+        }
+      }
+    },
+    "LIT_DEBT_RISK": {
+      "formula_key": "LIT_DEBT_RISK",
+      "formula_name": "Debt Risk Assessment",
+      "description": "Child formula for Debt Risk Assessment",
       "total_weight_pct": 100.0,
       "enabled": true,
       "factors": {
         "2nd_house": {
           "name": "2nd_house",
-          "description": "2nd house strength and lordship",
-          "purpose": "Primary house for accumulated wealth",
+          "description": "2Nd House factor for Debt Risk Assessment",
+          "purpose": "Evaluates 2nd house in Debt Risk Assessment",
           "default_value": 25.0,
           "current_value": 25.0,
           "recommended_range": [
-            20,
-            30
+            12,
+            50
           ],
           "editable": true,
           "protected": true,
           "weight_pct": 25.0,
           "enabled": true,
-          "engine_required": "NatalPromiseEngine"
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "2nd_house",
+          "display_order": 1,
+          "mandatory": false
         },
         "11th_house": {
           "name": "11th_house",
-          "description": "11th house strength and lordship",
-          "purpose": "House of gains and income",
+          "description": "11Th House factor for Debt Risk Assessment",
+          "purpose": "Evaluates 11th house in Debt Risk Assessment",
           "default_value": 25.0,
           "current_value": 25.0,
           "recommended_range": [
-            20,
-            30
+            12,
+            50
           ],
           "editable": true,
           "protected": true,
           "weight_pct": 25.0,
           "enabled": true,
-          "engine_required": "NatalPromiseEngine"
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "11th_house",
+          "display_order": 2,
+          "mandatory": false
         },
-        "jupiter": {
-          "name": "jupiter",
-          "description": "Jupiter karaka for wealth",
-          "purpose": "Natural significator of wealth",
+        "6th_lord_in_2nd_or_11th": {
+          "name": "6th_lord_in_2nd_or_11th",
+          "description": "6Th Lord In 2Nd Or 11Th factor for Debt Risk Assessment",
+          "purpose": "Evaluates 6th lord in 2nd or 11th in Debt Risk Assessment",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "6th_lord_in_2nd_or_11th",
+          "display_order": 3,
+          "mandatory": false
+        },
+        "saturn_afflicts_lagna": {
+          "name": "saturn_afflicts_lagna",
+          "description": "Saturn Afflicts Lagna factor for Debt Risk Assessment",
+          "purpose": "Evaluates saturn afflicts lagna in Debt Risk Assessment",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "saturn_afflicts_lagna",
+          "display_order": 4,
+          "mandatory": false
+        }
+      }
+    },
+    "LIT_CONFLICT_TIMING": {
+      "formula_key": "LIT_CONFLICT_TIMING",
+      "formula_name": "Conflict Timing",
+      "description": "Child formula for Conflict Timing",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "dasha_activates_6th": {
+          "name": "dasha_activates_6th",
+          "description": "Dasha Activates 6Th factor for Conflict Timing",
+          "purpose": "Evaluates dasha activates 6th in Conflict Timing",
+          "default_value": 100.0,
+          "current_value": 100.0,
+          "recommended_range": [
+            50,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 100.0,
+          "enabled": true,
+          "engine_required": "DashaEngine",
+          "signal_name": "dasha_activates_6th",
+          "display_order": 1,
+          "mandatory": false
+        }
+      }
+    },
+    "TRV_RELOCATION_BASE": {
+      "formula_key": "TRV_RELOCATION_BASE",
+      "formula_name": "Travel and Relocation Base",
+      "description": "Base formula for Travel and Relocation Base",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "3rd_house": {
+          "name": "3rd_house",
+          "description": "3Rd House factor for Travel and Relocation Base",
+          "purpose": "Evaluates 3rd house in Travel and Relocation Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "3rd_house",
+          "display_order": 1,
+          "mandatory": true
+        },
+        "4th_house": {
+          "name": "4th_house",
+          "description": "4Th House factor for Travel and Relocation Base",
+          "purpose": "Evaluates 4th house in Travel and Relocation Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "4th_house",
+          "display_order": 2,
+          "mandatory": true
+        },
+        "9th_house": {
+          "name": "9th_house",
+          "description": "9Th House factor for Travel and Relocation Base",
+          "purpose": "Evaluates 9th house in Travel and Relocation Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "9th_house",
+          "display_order": 3,
+          "mandatory": true
+        },
+        "12th_house": {
+          "name": "12th_house",
+          "description": "12Th House factor for Travel and Relocation Base",
+          "purpose": "Evaluates 12th house in Travel and Relocation Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "12th_house",
+          "display_order": 4,
+          "mandatory": true
+        },
+        "moon": {
+          "name": "moon",
+          "description": "Moon factor for Travel and Relocation Base",
+          "purpose": "Evaluates moon in Travel and Relocation Base",
+          "default_value": 16.7,
+          "current_value": 16.7,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.7,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "moon",
+          "display_order": 5,
+          "mandatory": true
+        },
+        "rahu": {
+          "name": "rahu",
+          "description": "Rahu factor for Travel and Relocation Base",
+          "purpose": "Evaluates rahu in Travel and Relocation Base",
+          "default_value": 16.5,
+          "current_value": 16.5,
+          "recommended_range": [
+            8,
+            33
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 16.5,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "rahu",
+          "display_order": 6,
+          "mandatory": true
+        }
+      }
+    },
+    "TRV_SHORT_TRIP": {
+      "formula_key": "TRV_SHORT_TRIP",
+      "formula_name": "Short Trip Assessment",
+      "description": "Child formula for Short Trip Assessment",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "3rd_house_strength": {
+          "name": "3rd_house_strength",
+          "description": "3Rd House Strength factor for Short Trip Assessment",
+          "purpose": "Evaluates 3rd house strength in Short Trip Assessment",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "3rd_house_strength",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "moon_dignity": {
+          "name": "moon_dignity",
+          "description": "Moon Dignity factor for Short Trip Assessment",
+          "purpose": "Evaluates moon dignity in Short Trip Assessment",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "moon_dignity",
+          "display_order": 2,
+          "mandatory": false
+        }
+      }
+    },
+    "TRV_FOREIGN_SETTLEMENT": {
+      "formula_key": "TRV_FOREIGN_SETTLEMENT",
+      "formula_name": "Foreign Settlement Assessment",
+      "description": "Child formula for Foreign Settlement Assessment",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "12th_house_strength": {
+          "name": "12th_house_strength",
+          "description": "12Th House Strength factor for Foreign Settlement Assessment",
+          "purpose": "Evaluates 12th house strength in Foreign Settlement Assessment",
+          "default_value": 33.3,
+          "current_value": 33.3,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.3,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "12th_house_strength",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "rahu_dignity": {
+          "name": "rahu_dignity",
+          "description": "Rahu Dignity factor for Foreign Settlement Assessment",
+          "purpose": "Evaluates rahu dignity in Foreign Settlement Assessment",
+          "default_value": 33.3,
+          "current_value": 33.3,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.3,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "rahu_dignity",
+          "display_order": 2,
+          "mandatory": false
+        },
+        "4th_house_afflicted": {
+          "name": "4th_house_afflicted",
+          "description": "4Th House Afflicted factor for Foreign Settlement Assessment",
+          "purpose": "Evaluates 4th house afflicted in Foreign Settlement Assessment",
+          "default_value": 33.4,
+          "current_value": 33.4,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.4,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "4th_house_afflicted",
+          "display_order": 3,
+          "mandatory": false
+        }
+      }
+    },
+    "TRV_TIMING": {
+      "formula_key": "TRV_TIMING",
+      "formula_name": "Travel Timing",
+      "description": "Child formula for Travel Timing",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "dasha_activates_3rd_9th_12th": {
+          "name": "dasha_activates_3rd_9th_12th",
+          "description": "Dasha Activates 3Rd 9Th 12Th factor for Travel Timing",
+          "purpose": "Evaluates dasha activates 3rd 9th 12th in Travel Timing",
+          "default_value": 100.0,
+          "current_value": 100.0,
+          "recommended_range": [
+            50,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 100.0,
+          "enabled": true,
+          "engine_required": "DashaEngine",
+          "signal_name": "dasha_activates_3rd_9th_12th",
+          "display_order": 1,
+          "mandatory": false
+        }
+      }
+    },
+    "SPR_MOKSHA_BASE": {
+      "formula_key": "SPR_MOKSHA_BASE",
+      "formula_name": "Spirituality Base",
+      "description": "Base formula for Spirituality Base",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "5th_house": {
+          "name": "5th_house",
+          "description": "5Th House factor for Spirituality Base",
+          "purpose": "Evaluates 5th house in Spirituality Base",
           "default_value": 20.0,
           "current_value": 20.0,
           "recommended_range": [
-            15,
-            25
+            10,
+            40
           ],
           "editable": true,
           "protected": true,
           "weight_pct": 20.0,
           "enabled": true,
-          "engine_required": "PlanetStrengthEngine"
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "5th_house",
+          "display_order": 1,
+          "mandatory": true
         },
-        "d2": {
-          "name": "d2",
-          "description": "Hora (D2) chart dignity",
-          "purpose": "Wealth-specific varga assessment",
-          "default_value": 15.0,
-          "current_value": 15.0,
+        "9th_house": {
+          "name": "9th_house",
+          "description": "9Th House factor for Spirituality Base",
+          "purpose": "Evaluates 9th house in Spirituality Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
           "recommended_range": [
             10,
-            20
+            40
           ],
           "editable": true,
           "protected": true,
-          "weight_pct": 15.0,
+          "weight_pct": 20.0,
           "enabled": true,
-          "engine_required": "VargaEngine"
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "9th_house",
+          "display_order": 2,
+          "mandatory": true
         },
-        "dasha": {
-          "name": "dasha",
-          "description": "Dasha timing alignment",
-          "purpose": "Planetary period synchronization",
-          "default_value": 15.0,
-          "current_value": 15.0,
+        "12th_house": {
+          "name": "12th_house",
+          "description": "12Th House factor for Spirituality Base",
+          "purpose": "Evaluates 12th house in Spirituality Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
           "recommended_range": [
             10,
-            20
+            40
           ],
           "editable": true,
           "protected": true,
-          "weight_pct": 15.0,
+          "weight_pct": 20.0,
           "enabled": true,
-          "engine_required": "DashaEngine"
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "12th_house",
+          "display_order": 3,
+          "mandatory": true
+        },
+        "jupiter": {
+          "name": "jupiter",
+          "description": "Jupiter factor for Spirituality Base",
+          "purpose": "Evaluates jupiter in Spirituality Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "jupiter",
+          "display_order": 4,
+          "mandatory": true
+        },
+        "ketu": {
+          "name": "ketu",
+          "description": "Ketu factor for Spirituality Base",
+          "purpose": "Evaluates ketu in Spirituality Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "ketu",
+          "display_order": 5,
+          "mandatory": true
+        }
+      }
+    },
+    "SPR_SPIRITUAL_PROGRESS": {
+      "formula_key": "SPR_SPIRITUAL_PROGRESS",
+      "formula_name": "Spiritual Progress",
+      "description": "Child formula for Spiritual Progress",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "9th_house_strength": {
+          "name": "9th_house_strength",
+          "description": "9Th House Strength factor for Spiritual Progress",
+          "purpose": "Evaluates 9th house strength in Spiritual Progress",
+          "default_value": 33.3,
+          "current_value": 33.3,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.3,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "9th_house_strength",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "12th_house_strength": {
+          "name": "12th_house_strength",
+          "description": "12Th House Strength factor for Spiritual Progress",
+          "purpose": "Evaluates 12th house strength in Spiritual Progress",
+          "default_value": 33.3,
+          "current_value": 33.3,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.3,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "12th_house_strength",
+          "display_order": 2,
+          "mandatory": false
+        },
+        "ketu_dignity": {
+          "name": "ketu_dignity",
+          "description": "Ketu Dignity factor for Spiritual Progress",
+          "purpose": "Evaluates ketu dignity in Spiritual Progress",
+          "default_value": 33.4,
+          "current_value": 33.4,
+          "recommended_range": [
+            16,
+            66
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 33.4,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "ketu_dignity",
+          "display_order": 3,
+          "mandatory": false
+        }
+      }
+    },
+    "SPR_MANTRA_SIDDHI": {
+      "formula_key": "SPR_MANTRA_SIDDHI",
+      "formula_name": "Mantra Siddhi",
+      "description": "Child formula for Mantra Siddhi",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "5th_house_strength": {
+          "name": "5th_house_strength",
+          "description": "5Th House Strength factor for Mantra Siddhi",
+          "purpose": "Evaluates 5th house strength in Mantra Siddhi",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "5th_house_strength",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "jupiter_dignity": {
+          "name": "jupiter_dignity",
+          "description": "Jupiter Dignity factor for Mantra Siddhi",
+          "purpose": "Evaluates jupiter dignity in Mantra Siddhi",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "jupiter_dignity",
+          "display_order": 2,
+          "mandatory": false
+        }
+      }
+    },
+    "SPR_ISOLATION_TIMING": {
+      "formula_key": "SPR_ISOLATION_TIMING",
+      "formula_name": "Isolation/Pilgrimage Timing",
+      "description": "Child formula for Isolation/Pilgrimage Timing",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "dasha_activates_9th_12th": {
+          "name": "dasha_activates_9th_12th",
+          "description": "Dasha Activates 9Th 12Th factor for Isolation/Pilgrimage Timing",
+          "purpose": "Evaluates dasha activates 9th 12th in Isolation/Pilgrimage Timing",
+          "default_value": 100.0,
+          "current_value": 100.0,
+          "recommended_range": [
+            50,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 100.0,
+          "enabled": true,
+          "engine_required": "DashaEngine",
+          "signal_name": "dasha_activates_9th_12th",
+          "display_order": 1,
+          "mandatory": false
+        }
+      }
+    },
+    "REL_DYNAMICS_BASE": {
+      "formula_key": "REL_DYNAMICS_BASE",
+      "formula_name": "Relationship Dynamics Base",
+      "description": "Base formula for Relationship Dynamics Base",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "7th_house": {
+          "name": "7th_house",
+          "description": "7Th House factor for Relationship Dynamics Base",
+          "purpose": "Evaluates 7th house in Relationship Dynamics Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "7th_house",
+          "display_order": 1,
+          "mandatory": true
+        },
+        "7th_lord": {
+          "name": "7th_lord",
+          "description": "7Th Lord factor for Relationship Dynamics Base",
+          "purpose": "Evaluates 7th lord in Relationship Dynamics Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "7th_lord",
+          "display_order": 2,
+          "mandatory": true
+        },
+        "2nd_house": {
+          "name": "2nd_house",
+          "description": "2Nd House factor for Relationship Dynamics Base",
+          "purpose": "Evaluates 2nd house in Relationship Dynamics Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "2nd_house",
+          "display_order": 3,
+          "mandatory": true
+        },
+        "venus": {
+          "name": "venus",
+          "description": "Venus factor for Relationship Dynamics Base",
+          "purpose": "Evaluates venus in Relationship Dynamics Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "venus",
+          "display_order": 4,
+          "mandatory": true
+        },
+        "moon": {
+          "name": "moon",
+          "description": "Moon factor for Relationship Dynamics Base",
+          "purpose": "Evaluates moon in Relationship Dynamics Base",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            10,
+            40
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "moon",
+          "display_order": 5,
+          "mandatory": true
+        }
+      }
+    },
+    "REL_MARITAL_HARMONY": {
+      "formula_key": "REL_MARITAL_HARMONY",
+      "formula_name": "Marital Harmony",
+      "description": "Child formula for Marital Harmony",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "7th_house_strength": {
+          "name": "7th_house_strength",
+          "description": "7Th House Strength factor for Marital Harmony",
+          "purpose": "Evaluates 7th house strength in Marital Harmony",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "7th_house_strength",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "2nd_house_strength": {
+          "name": "2nd_house_strength",
+          "description": "2Nd House Strength factor for Marital Harmony",
+          "purpose": "Evaluates 2nd house strength in Marital Harmony",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine",
+          "signal_name": "2nd_house_strength",
+          "display_order": 2,
+          "mandatory": false
+        },
+        "venus_dignity": {
+          "name": "venus_dignity",
+          "description": "Venus Dignity factor for Marital Harmony",
+          "purpose": "Evaluates venus dignity in Marital Harmony",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "venus_dignity",
+          "display_order": 3,
+          "mandatory": false
+        },
+        "moon_dignity": {
+          "name": "moon_dignity",
+          "description": "Moon Dignity factor for Marital Harmony",
+          "purpose": "Evaluates moon dignity in Marital Harmony",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            12,
+            50
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "moon_dignity",
+          "display_order": 4,
+          "mandatory": false
+        }
+      }
+    },
+    "REL_DIVORCE_RISK": {
+      "formula_key": "REL_DIVORCE_RISK",
+      "formula_name": "Divorce Risk Assessment",
+      "description": "Child formula for Divorce Risk Assessment",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "7th_lord_in_6th_8th_12th": {
+          "name": "7th_lord_in_6th_8th_12th",
+          "description": "7Th Lord In 6Th 8Th 12Th factor for Divorce Risk Assessment",
+          "purpose": "Evaluates 7th lord in 6th 8th 12th in Divorce Risk Assessment",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "7th_lord_in_6th_8th_12th",
+          "display_order": 1,
+          "mandatory": false
+        },
+        "malefic_aspect_7th": {
+          "name": "malefic_aspect_7th",
+          "description": "Malefic Aspect 7Th factor for Divorce Risk Assessment",
+          "purpose": "Evaluates malefic aspect 7th in Divorce Risk Assessment",
+          "default_value": 50.0,
+          "current_value": 50.0,
+          "recommended_range": [
+            25,
+            99
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 50.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine",
+          "signal_name": "malefic_aspect_7th",
+          "display_order": 2,
+          "mandatory": false
         }
       }
     }
