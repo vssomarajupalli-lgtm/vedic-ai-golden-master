@@ -6,7 +6,7 @@ Supports business-oriented grouping with full parameter metadata.
 """
 
 from typing import Any, Dict, List, Optional, ClassVar
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import BaseModel, Field, field_validator, model_validator, ConfigDict
 from enum import Enum
 
 
@@ -45,6 +45,38 @@ class AdditionalFactorSchema(BaseModel):
     removable: bool = True
 
 
+class FormulaFactorSchema(BaseModel):
+    """Single formula factor with full metadata."""
+    name: str
+    description: str = ""
+    purpose: str = ""
+    default_value: float = 0.0
+    current_value: float = 0.0
+    recommended_range: Optional[List[float]] = None
+    editable: bool = True
+    protected: bool = True
+    weight_pct: float = 0.0
+    enabled: bool = True
+    engine_required: str = ""
+
+    @field_validator('name')
+    @classmethod
+    def validate_name(cls, v: str) -> str:
+        if not v or not v.strip():
+            raise ValueError("Factor name cannot be empty")
+        return v.strip()
+
+
+class FormulaCalibrationSection(BaseModel):
+    """Calibration section for a single formula."""
+    formula_key: str
+    formula_name: str = ""
+    description: str = ""
+    total_weight_pct: float = 100.0
+    enabled: bool = True
+    factors: Dict[str, FormulaFactorSchema] = Field(default_factory=dict)
+
+
 class SectionSchema(BaseModel):
     """Calibration section with business-oriented grouping."""
     name: str
@@ -53,6 +85,8 @@ class SectionSchema(BaseModel):
     parameters: Dict[str, ParameterSchema] = Field(default_factory=dict)
     additional_factor_1: Optional[AdditionalFactorSchema] = None
     additional_factor_2: Optional[AdditionalFactorSchema] = None
+
+    model_config = ConfigDict(extra='allow')
 
     @field_validator('total_weight_pct')
     @classmethod
@@ -94,6 +128,7 @@ class CalibrationProfile(BaseModel):
     """Complete calibration profile with business-oriented sections."""
     metadata: ProfileMetadata
     sections: Dict[str, SectionSchema] = Field(default_factory=dict)
+    formula_calibration: Dict[str, FormulaCalibrationSection] = Field(default_factory=dict)
     history: List[ProfileSnapshot] = Field(default_factory=list)
 
     # Required sections for v1.0
@@ -131,16 +166,24 @@ class CalibrationProfile(BaseModel):
                 param_names = list(section.parameters.keys())
                 if len(param_names) != len(set(param_names)):
                     raise ValueError(f"Duplicate parameter names found in section '{section_name}'")
-        else:
-            # Legacy flat format - validate presence of required top-level keys
-            # This allows v1.0.0_base and other legacy profiles to pass validation
-            legacy_keys = [
-                "master_probability", "planet_strength", "house_strength",
-                "rasi_strength", "varga", "dasha", "ashtakavarga",
-                "natal_promise", "transit"
-            ]
-            # We don't enforce legacy keys here - the registry handles transformation
-            pass
+
+        # Validate formula_calibration if present
+        if self.formula_calibration:
+            for formula_key, formula_section in self.formula_calibration.items():
+                if formula_section.factors:
+                    factor_weights = [f.weight_pct for f in formula_section.factors.values() if f.weight_pct is not None and f.enabled]
+                    if factor_weights and abs(sum(factor_weights) - 100.0) > 0.01:
+                        raise ValueError(f"Formula '{formula_key}' enabled factor weights sum to {sum(factor_weights)}%, expected 100%")
+
+                    # Check for duplicate factor names
+                    factor_names = list(formula_section.factors.keys())
+                    if len(factor_names) != len(set(factor_names)):
+                        raise ValueError(f"Duplicate factor names found in formula '{formula_key}'")
+
+                    # Validate engine_required engines exist (basic check - just ensure not empty string)
+                    for factor_name, factor in formula_section.factors.items():
+                        if factor.engine_required and not factor.engine_required.strip():
+                            raise ValueError(f"Formula '{formula_key}' factor '{factor_name}' has empty engine_required")
 
         return self
 

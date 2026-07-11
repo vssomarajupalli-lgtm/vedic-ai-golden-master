@@ -30,6 +30,8 @@ from .calibration_schema import (
     AdditionalFactorSchema,
     ProfileMetadata,
     ProfileSnapshot,
+    FormulaFactorSchema,
+    FormulaCalibrationSection,
     generate_override_schema,
 )
 
@@ -372,15 +374,50 @@ class CalibrationManager:
 
     @property
     def planet_strength(self) -> Dict[str, Any]:
-        return self._extract_section_values("planet_strength")
+        """Return planet strength calibration in engine-expected format (PLANET_SCORING_MATRIX).
+
+        Handles both new sections format and legacy flat format.
+        """
+        # Try new sections format first - return dict with PLANET_SCORING_MATRIX from constants
+        try:
+            from app.config.astrology_constants import PLANET_SCORING_MATRIX, NATURAL_BENEFICS, NATURAL_MALEFICS
+            return {
+                "PLANET_SCORING_MATRIX": PLANET_SCORING_MATRIX,
+                "NATURAL_BENEFICS": NATURAL_BENEFICS,
+                "NATURAL_MALEFICS": NATURAL_MALEFICS
+            }
+        except ImportError:
+            pass
+
+        # Fallback to legacy flat format
+        legacy_data = self.active_profile.get("planet_strength", {})
+        return legacy_data
 
     @property
     def house_strength(self) -> Dict[str, Any]:
-        return self._extract_section_values("house_strength")
+        """Return house strength calibration in engine-expected format (HOUSE_SCORING_MATRIX).
+
+        Handles both new sections format and legacy flat format.
+        """
+        # Try new sections format first - return dict with HOUSE_SCORING_MATRIX from constants
+        try:
+            from app.config.astrology_constants import HOUSE_SCORING_MATRIX
+            return {
+                "HOUSE_SCORING_MATRIX": HOUSE_SCORING_MATRIX
+            }
+        except ImportError:
+            pass
+
+        # Fallback to legacy flat format
+        legacy_data = self.active_profile.get("house_strength", {})
+        return legacy_data
 
     @property
     def rasi_strength(self) -> Dict[str, Any]:
-        return self._extract_section_values("rasi_strength")
+        """Return rasi strength calibration section in engine-expected format."""
+        rasi_cal = self.active_profile.get("sections", {}).get("rasi_strength", {})
+        # Return the full rasi_strength section so engines can extract RASI_SCORING_MATRIX
+        return rasi_cal
 
     @property
     def varga(self) -> Dict[str, Any]:
@@ -397,6 +434,37 @@ class CalibrationManager:
     @property
     def natal_promise(self) -> Dict[str, Any]:
         return self._extract_section_values("natal_promise")
+
+    @property
+    def formula_calibration(self) -> Dict[str, Any]:
+        """Return formula calibration in engine-expected format."""
+        formula_cal = self.active_profile.get("formula_calibration", {})
+        result = {}
+        for formula_key, formula_section in formula_cal.items():
+            if not formula_section.get("enabled", True):
+                continue
+            factors = formula_section.get("factors", {})
+            result[formula_key] = {
+                "enabled": formula_section.get("enabled", True),
+                "total_weight_pct": formula_section.get("total_weight_pct", 100.0),
+                "factors": {}
+            }
+            # Only include enabled factors, normalize weights
+            enabled_factors = {k: v for k, v in factors.items() if v.get("enabled", True)}
+            if enabled_factors:
+                total_weight = sum(f.get("weight_pct", 0) for f in enabled_factors.values())
+                if total_weight > 0:
+                    for fname, fdata in enabled_factors.items():
+                        weight = fdata.get("weight_pct", 0)
+                        normalized_weight = (weight / total_weight) * 100 if total_weight != 100 else weight
+                        result[formula_key]["factors"][fname] = {
+                            "weight": normalized_weight,
+                            "enabled": True,
+                            "engine_required": fdata.get("engine_required", ""),
+                            "description": fdata.get("description", ""),
+                            "purpose": fdata.get("purpose", "")
+                        }
+        return result
 
     # =====================================================================
     # CONTROL PLANE: PARAMETER INSPECTION
@@ -499,6 +567,33 @@ class CalibrationManager:
     # CONTROL PLANE: PARAMETER EDITING
     # =====================================================================
 
+    def _validate_section_weights(self, section_name: str) -> ValidationResult:
+        """Validate that section parameter weights sum to 100%."""
+        try:
+            sections = self.active_profile.get("sections", {})
+            if section_name not in sections:
+                return ValidationResult.fail([f"Section not found: {section_name}"])
+
+            section = sections[section_name]
+            params = section.get("parameters", {})
+
+            total = sum(p.get("weight_pct", 0) for p in params.values() if p.get("weight_pct") is not None)
+
+            if abs(total - 100.0) > 0.01:
+                return ValidationResult.fail([f"Section '{section_name}' weights sum to {total}%, expected 100%"])
+
+            return ValidationResult.ok({"total_weight": total})
+        except Exception as e:
+            return ValidationResult.fail([f"Error validating section weights: {e}"])
+
+    def _validate_full_profile(self) -> ValidationResult:
+        """Validate entire profile using schema."""
+        try:
+            SchemaCalibrationProfile.model_validate(self.active_profile)
+            return ValidationResult.ok({"validated": True})
+        except Exception as e:
+            return ValidationResult.fail([f"Profile validation failed: {e}"])
+
     def modify_weight(self, section_name: str, param_name: str, new_weight: float) -> ValidationResult:
         """Modify parameter weight within a section."""
         try:
@@ -563,7 +658,6 @@ class CalibrationManager:
                     if not (r[0] <= new_value <= r[1]):
                         return ValidationResult.fail([f"Value {new_value} outside recommended range [{r[0]}, {r[1]}]"])
 
-            
             old_value = param.get("current_value")
             param["current_value"] = new_value
 
@@ -742,7 +836,8 @@ class CalibrationManager:
             # Prepare output with proper structure
             output = {
                 "metadata": self.active_profile.get("metadata", {}),
-                "sections": self.active_profile.get("sections", {})
+                "sections": self.active_profile.get("sections", {}),
+                "formula_calibration": self.active_profile.get("formula_calibration", {})
             }
             output["metadata"]["last_modified"] = datetime.now().isoformat()
             output["metadata"]["modified_by"] = "Calibration Manager"
@@ -787,7 +882,8 @@ class CalibrationManager:
                     "last_modified": datetime.now().isoformat(),
                     "based_on": "v1.0_current",
                 },
-                "sections": self.active_profile.get("sections", {})
+                "sections": self.active_profile.get("sections", {}),
+                "formula_calibration": self.active_profile.get("formula_calibration", {})
             }
 
             with open(temp_path, 'w', encoding='utf-8') as f:

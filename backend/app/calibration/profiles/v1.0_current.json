@@ -11,7 +11,7 @@
   "sections": {
     "planet_strength": {
       "name": "planet_strength",
-      "description": "Core planetary capability scoring (0-100 per planet) \u2014 8 factors",
+      "description": "Core planetary capability scoring (0-100 per planet) — 8 factors",
       "total_weight_pct": 100.0,
       "parameters": {
         "dignity": {
@@ -144,7 +144,7 @@
     },
     "house_strength": {
       "name": "house_strength",
-      "description": "Bhava (house) structural strength scoring \u2014 6 pillars",
+      "description": "Bhava (house) structural strength scoring — 6 pillars",
       "total_weight_pct": 100.0,
       "parameters": {
         "sav": {
@@ -249,7 +249,7 @@
     },
     "rasi_strength": {
       "name": "rasi_strength",
-      "description": "Sign (Rasi) environmental strength scoring \u2014 4 factors",
+      "description": "Sign (Rasi) environmental strength scoring — 4 factors",
       "total_weight_pct": 100.0,
       "parameters": {
         "bhava": {
@@ -322,6 +322,33 @@
         "weight_pct": 0.0,
         "editable": true,
         "removable": true
+      },
+      "RASI_SCORING_MATRIX": {
+        "weights": {
+          "bhava": 0.35,
+          "bhavadhipati": 0.3,
+          "karaka": 0.2,
+          "varga": 0.15
+        },
+        "occupant_modifiers": {
+          "benefic": 15,
+          "malefic": -15,
+          "benefic_aspect": 5,
+          "malefic_aspect": -5,
+          "aspect_cap": 10
+        },
+        "dignity_modifiers": {
+          "exalted": 30,
+          "own sign": 20,
+          "moolatrikona": 20,
+          "friendly": 10,
+          "neutral": 0,
+          "enemy": -10,
+          "debilitated": -20,
+          "lord_own_bonus": 10
+        },
+        "empty_sign_baseline": 50,
+        "default_lord_score": 50
       }
     },
     "natal_promise": {
@@ -906,7 +933,7 @@
         "domain_keywords": {
           "name": "domain_keywords",
           "description": "Keyword-based domain routing",
-          "purpose": "12 domains \u00d7 keywords for routing",
+          "purpose": "12 domains × keywords for routing",
           "default_value": {
             "marriage": [
               "marriage",
@@ -1588,7 +1615,7 @@
         "conjunction_matrix": {
           "name": "conjunction_matrix",
           "description": "Transit conjunction scoring per planet per nature",
-          "purpose": "Conjunction scores per transit planet \u00d7 natal nature",
+          "purpose": "Conjunction scores per transit planet × natal nature",
           "default_value": {
             "jupiter_benefic": 12,
             "jupiter_malefic": 3,
@@ -2078,6 +2105,501 @@
         "weight_pct": 0.0,
         "editable": true,
         "removable": true
+      }
+    }
+  },
+  "formula_calibration": {
+    "MAR_TIMING_BASE": {
+      "formula_key": "MAR_TIMING_BASE",
+      "formula_name": "Marriage Timing Base",
+      "description": "Base formula for marriage timing assessment",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "7th_house": {
+          "name": "7th_house",
+          "description": "7th house strength and lordship",
+          "purpose": "Primary house for marriage timing",
+          "default_value": 30.0,
+          "current_value": 30.0,
+          "recommended_range": [
+            25,
+            35
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 30.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine"
+        },
+        "7th_lord": {
+          "name": "7th_lord",
+          "description": "7th lord strength and placement",
+          "purpose": "Lord of marriage house",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            20,
+            30
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine"
+        },
+        "venus": {
+          "name": "venus",
+          "description": "Venus karaka strength for marriage",
+          "purpose": "Natural significator of marriage",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            15,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine"
+        },
+        "d9": {
+          "name": "d9",
+          "description": "Navamsa (D9) chart dignity",
+          "purpose": "Marriage-specific varga assessment",
+          "default_value": 10.0,
+          "current_value": 10.0,
+          "recommended_range": [
+            5,
+            15
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 10.0,
+          "enabled": true,
+          "engine_required": "VargaEngine"
+        },
+        "yoga": {
+          "name": "yoga",
+          "description": "Marriage-related yogas",
+          "purpose": "Classical combination indicators",
+          "default_value": 8.0,
+          "current_value": 8.0,
+          "recommended_range": [
+            5,
+            12
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 8.0,
+          "enabled": true,
+          "engine_required": "YogaEngine"
+        },
+        "dasha": {
+          "name": "dasha",
+          "description": "Dasha timing alignment",
+          "purpose": "Planetary period synchronization",
+          "default_value": 5.0,
+          "current_value": 5.0,
+          "recommended_range": [
+            3,
+            8
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 5.0,
+          "enabled": true,
+          "engine_required": "DashaEngine"
+        },
+        "transit": {
+          "name": "transit",
+          "description": "Gochara transit triggers",
+          "purpose": "Transit activation timing",
+          "default_value": 2.0,
+          "current_value": 2.0,
+          "recommended_range": [
+            1,
+            5
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 2.0,
+          "enabled": true,
+          "engine_required": "TransitEngine"
+        }
+      }
+    },
+    "MAR_TIMING_NORMAL": {
+      "formula_key": "MAR_TIMING_NORMAL",
+      "formula_name": "Standard Marriage Timing",
+      "description": "Standard marriage timing assessment",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "7th_house": {
+          "name": "7th_house",
+          "description": "7th house strength and lordship",
+          "purpose": "Primary house for marriage timing",
+          "default_value": 30.0,
+          "current_value": 30.0,
+          "recommended_range": [
+            25,
+            35
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 30.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine"
+        },
+        "7th_lord": {
+          "name": "7th_lord",
+          "description": "7th lord strength and placement",
+          "purpose": "Lord of marriage house",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            20,
+            30
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine"
+        },
+        "venus": {
+          "name": "venus",
+          "description": "Venus karaka strength for marriage",
+          "purpose": "Natural significator of marriage",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            15,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine"
+        },
+        "d9": {
+          "name": "d9",
+          "description": "Navamsa (D9) chart dignity",
+          "purpose": "Marriage-specific varga assessment",
+          "default_value": 15.0,
+          "current_value": 15.0,
+          "recommended_range": [
+            10,
+            20
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 15.0,
+          "enabled": true,
+          "engine_required": "VargaEngine"
+        },
+        "dasha": {
+          "name": "dasha",
+          "description": "Dasha timing alignment",
+          "purpose": "Planetary period synchronization",
+          "default_value": 10.0,
+          "current_value": 10.0,
+          "recommended_range": [
+            5,
+            15
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 10.0,
+          "enabled": true,
+          "engine_required": "DashaEngine"
+        }
+      }
+    },
+    "MAR_TIMING_DELAY": {
+      "formula_key": "MAR_TIMING_DELAY",
+      "formula_name": "Delayed Marriage Timing",
+      "description": "Delayed marriage timing assessment",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "7th_house": {
+          "name": "7th_house",
+          "description": "7th house strength and lordship",
+          "purpose": "Primary house for marriage timing",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            20,
+            30
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine"
+        },
+        "7th_lord": {
+          "name": "7th_lord",
+          "description": "7th lord strength and placement",
+          "purpose": "Lord of marriage house",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            15,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine"
+        },
+        "venus": {
+          "name": "venus",
+          "description": "Venus karaka strength for marriage",
+          "purpose": "Natural significator of marriage",
+          "default_value": 15.0,
+          "current_value": 15.0,
+          "recommended_range": [
+            10,
+            20
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 15.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine"
+        },
+        "saturn": {
+          "name": "saturn",
+          "description": "Saturn delay influence",
+          "purpose": "Delay indicator for marriage",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            15,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine"
+        },
+        "d9": {
+          "name": "d9",
+          "description": "Navamsa (D9) chart dignity",
+          "purpose": "Marriage-specific varga assessment",
+          "default_value": 10.0,
+          "current_value": 10.0,
+          "recommended_range": [
+            5,
+            15
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 10.0,
+          "enabled": true,
+          "engine_required": "VargaEngine"
+        },
+        "dasha": {
+          "name": "dasha",
+          "description": "Dasha timing alignment",
+          "purpose": "Planetary period synchronization",
+          "default_value": 10.0,
+          "current_value": 10.0,
+          "recommended_range": [
+            5,
+            15
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 10.0,
+          "enabled": true,
+          "engine_required": "DashaEngine"
+        }
+      }
+    },
+    "CAR_GROWTH_BASE": {
+      "formula_key": "CAR_GROWTH_BASE",
+      "formula_name": "Career Growth Base",
+      "description": "Base formula for career growth assessment",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "10th_house": {
+          "name": "10th_house",
+          "description": "10th house strength and lordship",
+          "purpose": "Primary house for career",
+          "default_value": 30.0,
+          "current_value": 30.0,
+          "recommended_range": [
+            25,
+            35
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 30.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine"
+        },
+        "10th_lord": {
+          "name": "10th_lord",
+          "description": "10th lord strength and placement",
+          "purpose": "Lord of career house",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            20,
+            30
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine"
+        },
+        "saturn": {
+          "name": "saturn",
+          "description": "Saturn karaka for career",
+          "purpose": "Natural significator of career",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            15,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine"
+        },
+        "d10": {
+          "name": "d10",
+          "description": "Dashamsa (D10) chart dignity",
+          "purpose": "Career-specific varga assessment",
+          "default_value": 15.0,
+          "current_value": 15.0,
+          "recommended_range": [
+            10,
+            20
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 15.0,
+          "enabled": true,
+          "engine_required": "VargaEngine"
+        },
+        "dasha": {
+          "name": "dasha",
+          "description": "Dasha timing alignment",
+          "purpose": "Planetary period synchronization",
+          "default_value": 10.0,
+          "current_value": 10.0,
+          "recommended_range": [
+            5,
+            15
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 10.0,
+          "enabled": true,
+          "engine_required": "DashaEngine"
+        }
+      }
+    },
+    "WEA_ACCUMULATION_BASE": {
+      "formula_key": "WEA_ACCUMULATION_BASE",
+      "formula_name": "Wealth Accumulation Base",
+      "description": "Base formula for wealth accumulation assessment",
+      "total_weight_pct": 100.0,
+      "enabled": true,
+      "factors": {
+        "2nd_house": {
+          "name": "2nd_house",
+          "description": "2nd house strength and lordship",
+          "purpose": "Primary house for accumulated wealth",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            20,
+            30
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine"
+        },
+        "11th_house": {
+          "name": "11th_house",
+          "description": "11th house strength and lordship",
+          "purpose": "House of gains and income",
+          "default_value": 25.0,
+          "current_value": 25.0,
+          "recommended_range": [
+            20,
+            30
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 25.0,
+          "enabled": true,
+          "engine_required": "NatalPromiseEngine"
+        },
+        "jupiter": {
+          "name": "jupiter",
+          "description": "Jupiter karaka for wealth",
+          "purpose": "Natural significator of wealth",
+          "default_value": 20.0,
+          "current_value": 20.0,
+          "recommended_range": [
+            15,
+            25
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 20.0,
+          "enabled": true,
+          "engine_required": "PlanetStrengthEngine"
+        },
+        "d2": {
+          "name": "d2",
+          "description": "Hora (D2) chart dignity",
+          "purpose": "Wealth-specific varga assessment",
+          "default_value": 15.0,
+          "current_value": 15.0,
+          "recommended_range": [
+            10,
+            20
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 15.0,
+          "enabled": true,
+          "engine_required": "VargaEngine"
+        },
+        "dasha": {
+          "name": "dasha",
+          "description": "Dasha timing alignment",
+          "purpose": "Planetary period synchronization",
+          "default_value": 15.0,
+          "current_value": 15.0,
+          "recommended_range": [
+            10,
+            20
+          ],
+          "editable": true,
+          "protected": true,
+          "weight_pct": 15.0,
+          "enabled": true,
+          "engine_required": "DashaEngine"
+        }
       }
     }
   }
