@@ -1,7 +1,7 @@
 # VEDIC_AI_MASTER_DEVELOPMENT_ROADMAP.md
 # Master Development Roadmap — Golden Master v1.0
 
-**Last Updated:** 2026-07-10  
+**Last Updated:** 2026-07-11  
 **Status:** **AUTHORITATIVE ROADMAP** — All other roadmap documents are deprecated or archived.  
 **Program:** Program B — Golden Master v1.0 Delivery  
 
@@ -28,7 +28,7 @@ See [Roadmap Registry](#roadmap-registry) for the complete disposition list.
 | GM-004 | ✅ COMPLETE | `7345926` | Yoga Knowledge Consolidation |
 | GM-005 | ✅ COMPLETE | `7c1de47` | Repository Refinement (Docs, Backend Scratch, Binary Cleanup) |
 
-**Repository State:** Clean working tree | 2 commits ahead of `origin/main` | Tags: `gm-005-bkl008`, `gm-005-bkl009`, `gm-005-bkl010`, `gm-005-bkl011c`
+**Repository State:** Clean working tree | 7 commits ahead of `origin/main` | Tags: `gm-005-bkl011a-backend-scratch-utility-isolation`, `gm-005-bkl011c-ashtakavarga-scratch-removal`, `gm-006-bkl001b-calibration-framework`, `gm-006-bkl002-gochara-integration`, `gm-006-bkl003-formula-calibration-framework`, `gm-006-bkl004-question-engine-completion`, `gm-006-bkl005a-pipeline-formula-integration`, `gm-006-bkl005b-formula-calibration-population`
 
 ---
 
@@ -36,80 +36,187 @@ See [Roadmap Registry](#roadmap-registry) for the complete disposition list.
 
 ### 🚀 GM-006: Golden Master v1.0 Delivery
 
-**Program Phase:** Engineering Capability → Feature Completion → Validation → Packaging → Release  
+**Program Phase:** Engineering Capability → Feature Completion → Desktop Runtime → Server Runtime → Release Candidate → Feature Freeze → Real Horoscope Validation → Calibration → Final Release  
 **Program Lead:** Repository Engineering Team  
 **Target:** Production-ready Golden Master v1.0 (Desktop + Server)
+
+---
+
+## REVISED PROJECT PHILOSOPHY (Chief Architect Approved)
+
+The project philosophy has changed from the previous "Build → Validate Horoscopes → Continue Development" approach.
+
+**APPROVED NEW APPROACH:**
+
+```
+Build Complete Product
+       ↓
+Complete All Planned Features
+       ↓
+Desktop Runtime
+       ↓
+Server Runtime
+       ↓
+Release Candidate
+       ↓
+Feature Freeze
+       ↓
+Real Horoscope Validation
+       ↓
+Calibration
+       ↓
+Final Release
+```
+
+**Why This Change:**
+- The purpose of GM-006 is to complete the software
+- Real horoscope validation will NOT occur during active development
+- Validation will occur AFTER the product reaches Feature Complete
+- This prevents continuous formula changes, architecture drift, overfitting, and unnecessary repository modifications
+
+**NEW PROJECT PHILOSOPHY:**
+
+**BUILD FIRST**  
+Finish ALL planned software.
+
+**VALIDATE LATER**  
+Collect observations only after feature completion.
+
+**CALIBRATE ONCE**  
+Perform calibration after reviewing the complete validation dataset.
+
+**Release** only after engineering validation and calibration are complete.
+
+---
+
+## PERMANENT ENGINEERING RULE
+
+**Implement First → Validate Later → Calibrate Once**
+
+- Do NOT modify formulas after every horoscope
+- Do NOT change calibration during active development
+- Record observations
+- Complete the product
+- Perform batch validation
+- Then perform controlled calibration
 
 ---
 
 ## BACKLOG STRUCTURE (GM-006)
 
 ### BKL-001: Calibration Control Center
-**Priority:** CRITICAL | **Effort:** 2-3 days | **Owner:** Engineering
+**Priority:** CRITICAL | **Effort:** 2-3 days | **Owner:** Engineering  
+**Status:** ✅ **COMPLETE** (49089cc, tagged `gm-006-bkl001b-calibration-framework`)  
 **Description:** Single unified calibration interface replacing scattered constants.
-- **Formula Control Panel:** Toggle/override any formula weight or constant
-- **Percentage Control Panel:** Global and per-domain probability scaling
-- **Default Values:** Factory defaults from `v1.0.0_base.json`
-- **Override Values:** Per-deployment / per-user calibration profiles
-- **Reserved Future Factors:** Slots for future factors (Varga 24, 30, etc.)
-- **Constraint:** Zero Python editing required — pure JSON/YAML configuration
-- **Output:** `docs/calibration/` spec + `backend/app/calibration/control_center.py`
+- Formula Control Panel: Toggle/override any formula weight or constant
+- Percentage Control Panel: Global and per-domain probability scaling
+- Default Values: Factory defaults from `v1.0.0_base.json`
+- Override Values: Per-deployment / per-user calibration profiles
+- Reserved Future Factors: Slots for future factors (Varga 24, 30, etc.)
+- Constraint: Zero Python editing required — pure JSON/YAML configuration
+- **Output:** `backend/app/calibration/` — Control Plane, profiles, history
 
 ---
 
 ### BKL-002: Complete Existing Gochara
-**Priority:** CRITICAL | **Effort:** 3-4 days | **Owner:** Engineering
+**Priority:** CRITICAL | **Effort:** 3-4 days | **Owner:** Engineering  
+**Status:** ✅ **COMPLETE** (3664e81, tagged `gm-006-bkl002-gochara-integration`)  
 **Description:** Implement the Gochara system as already designed in the repository. **No redesign.**
-- **Moon-Centered Rasi Mandali** — 12 Mandalis × 9 Padas (per `GOCHARA_MANDALI_GOVERNANCE_v1.md`)
-- **Transit Engine** — 5 subsystems (House Activation 30%, BAV 20%, Planet 20%, Dasha Sync 20%, Vedha 10%)
-- **Mandali Generator** — `mandali_generator.py` (Moon-centered Pada grid, transit-to-Mandali resolution)
-- **Existing Governance** — Governance freeze from `GOCHARA_MANDALI_GOVERNANCE_v1.md` (8 frozen items)
-- **No Redesign** — Implement exactly as specified in `docs/GOCHARA_MANDALI_GOVERNANCE_v1.md`
-- **Integration:** Wire into `TransitEngine` → `MasterProbabilityEngine` → `QuestionEngine`
+- Moon-Centered Rasi Mandali — 12 Mandalis × 9 Padas (per `GOCHARA_MANDALI_GOVERNANCE_v1.md`)
+- Transit Engine — 5 subsystems (House Activation 30%, BAV 20%, Planet 20%, Dasha Sync 20%, Vedha 10%)
+- Mandali Generator — `mandali_generator.py` (Moon-centered Pada grid, transit-to-Mandali resolution)
+- Existing Governance — Governance freeze from `GOCHARA_MANDALI_GOVERNANCE_v1.md` (8 frozen items)
+- No Redesign — Implement exactly as specified in `docs/GOCHARA_MANDALI_GOVERNANCE_v1.md`
+- Integration: Wire into `TransitEngine` → `MasterProbabilityEngine` → `QuestionEngine`
+- **Validation:** 232 Gochara-relevant tests PASSING (65 Ashtakavarga, 65 Transit calibration, 131 Transit engine)
 
 ---
 
 ### BKL-003: Complete Question Engine
-**Priority:** CRITICAL | **Effort:** 4-5 days | **Owner:** Engineering
+**Priority:** CRITICAL | **Effort:** 4-5 days | **Owner:** Engineering  
+**Status:** ✅ **COMPLETE** (b2f8bc1, tagged `gm-006-bkl004-question-engine-completion`)  
 **Description:** Expand the existing question framework to full domain coverage. **Current repository knowledge only — no redesign.**
-- **Current State:** 40 questions across 13 domains, 40 formula keys mapped (`question_registry.json`)
-- **Expand To:** Full question coverage per domain (target: ~80-100 questions)
-- **Formula Registry:** Extend `registry_data.py` seed formulas per domain family (Marriage, Career, Wealth, Health, Property, Education, Children, Litigation, Travel, Spirituality, Compatibility, Health, Litigation, Travel, Spirituality, Compatibility)
+- **Current State:** 42 questions across 13 domains, 40 formula keys mapped (`question_registry.json`)
+- **Expanded To:** 83 questions across 13 domains (target: ~80-100 questions)
+- **Formula Registry:** Extend `registry_data.py` seed formulas per domain family (Marriage, Career, Wealth, Health, Property, Education, Children, Litigation, Travel, Spirituality, Compatibility)
 - **Answer Templates:** `timing_assessment_v1`, `multifactor_assessment_v1`, `strength_assessment_v1`, `risk_assessment_v1`
 - **No Redesign** — Extend existing `QuestionEngine`, `FormulaRepositoryLoader`, `FormulaEvaluator` patterns
+- **Result:** 83 questions across 13 domains, 30/43 formulas used by questions, 0 new formulas created
 
 ---
 
-### BKL-004: System Integration
-**Priority:** CRITICAL | **Effort:** 5-7 days | **Owner:** Engineering
-**Description:** End-to-end pipeline integration — the "steel thread" connecting all engines.
-```
-Canonical JSON (machine_index + canonical_content)
-        ↓
-HoroscopeSourceLoader → JsonNormalizer
-        ↓
-All Engines (Planet, Rasi, House, Varga, Ashtakavarga, Dasha, Yoga, Dasha, Transit, Gochara)
-        ↓
-MasterProbabilityEngine (weighted synthesis)
-        ↓
-QuestionEngine (domain routing + answer composition)
-        ↓
-Gochara (Mandali + Transit + Dasha Sync)
-        ↓
-Results (JSON + PWA + PDF)
-```
-- **Canonical JSON Ingestion:** `HoroscopeSourceLoader` → `JsonNormalizer` (fully implemented)
-- **Engine Pipeline:** All 14 engines wired in `PipelineRunner` (fully implemented)
-- **Probability Synthesis:** `MasterProbabilityEngine` (fully implemented)
-- **Question Engine:** Domain routing + `compose_response` (fully implemented)
-- **Gochara Integration:** Wire `TransitEngine` + `MandaliGenerator` → `MasterProbabilityEngine` → `QuestionEngine`
-- **Results Output:** JSON API + PWA rendering + PDF generation (`reports/builder.py`, `html_generator.py`, `pdf_generator.py`)
+### BKL-003: Formula Calibration Framework
+**Priority:** CRITICAL | **Effort:** 3-4 days | **Owner:** Engineering  
+**Status:** ✅ **COMPLETE** (bd09636, tagged `gm-006-bkl003-formula-calibration-framework`)  
+**Description:** Implement Formula Calibration layer between Formula Registry (WHAT) and Engine Calibration (HOW).
+- Formula Factor Schema: weight_pct, enabled, engine_required, description, purpose
+- Formula Calibration Section: Added to CalibrationProfile (formula_calibration dict)
+- Profile JSON: 5 formulas in v1.0_default.json with full factor metadata
+- Automatic Weight Normalization: Enabled factors auto-normalize to 100%
+- Engine Integration: FormulaEvaluator uses formula_calibration for weighted fulfillment
+- Control Plane: get_formula_factors, modify_formula_factor, add/remove_formula_factor
+- Validation: Unknown formula/factor rejected, engine_required checked
+- **Result:** Formula Calibration Framework complete — Formula Registry (WHAT) → Formula Calibration (HOW MUCH) → Engine Calibration (HOW) → Master Probability
 
 ---
 
-### BKL-005: Desktop Runtime
-**Priority:** HIGH | **Effort:** 3-4 days | **Owner:** Engineering
-**Description:** Package as installable desktop application (Electron/Tauri or PyInstaller).
+### BKL-004: Pipeline & Formula Integration
+**Priority:** CRITICAL | **Effort:** 3-4 days | **Owner:** Engineering  
+**Status:** ✅ **COMPLETE** (89fb92b, tagged `gm-006-bkl005a-pipeline-formula-integration`)  
+**Description:** Implement DR-009 — FormulaEvaluator executes ONLY in `PipelineRunner.answer_question()`, never in `process()`.
+- FormulaEvaluator runs ONLY in `PipelineRunner.answer_question()` — NEVER in `PipelineRunner.process()`
+- Zero duplicate calculations — FormulaEvaluator reuses pre-computed engine outputs
+- Pipeline remains deterministic — `process()` computes engines once; `answer_question()` adds formula evaluation per question
+- QuestionRouter → FormulaRegistry → FormulaCalibration → FormulaEvaluator → QuestionEngine flow works
+- **Validation:** 66 Question Engine/Router tests PASSING
+
+---
+
+### BKL-005: Formula Calibration Population
+**Priority:** CRITICAL | **Effort:** 4-5 days | **Owner:** Engineering  
+**Status:** ✅ **COMPLETE** (f967bda, tagged `gm-006-bkl005b-formula-calibration-population`)  
+**Description:** Populate Formula Calibration for ALL 43 formulas (was 5/43).
+- 43/43 formulas calibrated (11 base + 32 child)
+- Inheritance preserved: Base formulas = common factors; Child formulas = ONLY additional factors
+- Equal-weight neutral defaults for structural calibration (Chief Astrologer adjusts post-validation)
+- FormulaEvaluator merges Base + Child factors → normalizes to 100%
+- All 83 questions mapped to calibrated formulas
+- Zero duplicate factors across inheritance chain
+
+| Family | Base | Child Formulas | Total |
+|--------|------|----------------|-------|
+| Marriage (MAR) | 1 | 2 | 3 |
+| Career (CAR) | 1 | 2 | 3 |
+| Wealth (WEA) | 1 | 2 | 3 |
+| Health (HLT) | 2 | 4 | 6 |
+| Property (AST) | 2 | 3 | 5 |
+| Education (EDU) | 1 | 4 | 5 |
+| Children (FAM) | 1 | 2 | 3 |
+| Litigation (LIT) | 1 | 3 | 4 |
+| Travel (TRV) | 1 | 3 | 4 |
+| Spirituality (SPR) | 1 | 3 | 4 |
+| Compatibility (REL) | 1 | 2 | 3 |
+| **Total** | **11** | **32** | **43** |
+
+---
+
+### BKL-005C: System Integration Validation
+**Priority:** CRITICAL | **Effort:** 3-4 sessions | **Owner:** Engineering  
+**Status:** **NEXT**  
+**Description:** End-to-end pipeline validation, integration tests for full formula pipeline.
+- Create comprehensive integration test suite for full formula pipeline
+- Test all 11 formula families with various question IDs
+- Verify formula evaluation + calibration + inheritance flow
+- Verify pipeline determinism (`process()` unchanged, `answer_question()` adds formula evaluation)
+- **Estimated Effort:** 3-4 sessions
+- **Dependencies:** BKL-005B complete ✅
+
+---
+
+### BKL-006: Desktop Runtime Integration
+**Priority:** HIGH | **Effort:** 3-4 days | **Owner:** Engineering  
+**Status:** PENDING (after BKL-005C)  
+**Description:** Package as installable desktop application (Tauri/Electron or PyInstaller).
 - **Frontend:** Vite + React + TypeScript + Tailwind (PWA already configured)
 - **Backend:** FastAPI + Uvicorn (single binary or bundled)
 - **Packaging:** Tauri (Rust) or PyInstaller (Python) — evaluate and pick
@@ -119,8 +226,9 @@ Results (JSON + PWA + PDF)
 
 ---
 
-### BKL-006: Server Runtime
-**Priority:** HIGH | **Effort:** 3-4 days | **Owner:** Engineering
+### BKL-007: Server Runtime Integration
+**Priority:** HIGH | **Effort:** 3-4 days | **Owner:** Engineering  
+**Status:** PENDING (after BKL-006)  
 **Description:** Production-grade server deployment (Docker + FastAPI).
 - **Containerization:** Multi-stage Dockerfile (build → runtime)
 - **Orchestration:** Docker Compose (API + Redis + optional Postgres for auth)
@@ -132,21 +240,23 @@ Results (JSON + PWA + PDF)
 
 ---
 
-### BKL-007: Real Horoscope Validation
-**Priority:** CRITICAL | **Effort:** 5-7 days | **Owner:** Engineering + Domain Expert
-**Description:** Validate against ~20 real horoscopes using the Calibration Control Center.
-- **Corpus:** ~20 real horoscopes (diverse: genders, birth times, locations, life outcomes)
-- **Process:** Load → Run Pipeline → Compare Outputs vs Known Outcomes → Adjust Calibration
-- **Tooling:** Use **Calibration Control Center (BKL-001)** — zero Python editing
-- **Freeze Point:** After validation passes, freeze `v1.0.0_base.json` as **immutable v1.0 calibration**
-- **Output:** Validation report + frozen `v1.0.0_frozen.json` (tagged `gm-006-v1.0-calibration-freeze`)
+### BKL-008: End-to-End Product Completion
+**Priority:** CRITICAL | **Effort:** 3-4 days | **Owner:** Engineering  
+**Status:** PENDING (after BKL-007)  
+**Description:** Runtime validation, UI validation, export validation, API validation.
+- Desktop Runtime Validation: Install, launch, offline operation, calibration persistence
+- Server Runtime Validation: Docker image, health checks, API response times
+- UI Validation: PWA install, responsive layout, calibration panel, question flow
+- Export Validation: JSON API, PDF generation, report builder
+- API Validation: All endpoints, auth, rate limiting, error handling
 
 ---
 
-### BKL-008: Golden Master v1.0 Release Candidate
-**Priority:** CRITICAL | **Effort:** 2-3 days | **Owner:** Engineering
+### BKL-009: Release Candidate Build
+**Priority:** CRITICAL | **Effort:** 2-3 days | **Owner:** Engineering  
+**Status:** PENDING (after BKL-008)  
 **Description:** RC build incorporating all validation feedback.
-- **Scope:** All BKL-001 through BKL-007 complete and passing
+- **Scope:** All BKL-001 through BKL-008 complete and passing
 - **Quality Gates:** 
   - All unit/integration tests pass (backend + frontend)
   - 20 horoscopes validated, calibration frozen
@@ -160,8 +270,9 @@ Results (JSON + PWA + PDF)
 
 ---
 
-### BKL-009: Golden Master v1.0 Release
-**Priority:** CRITICAL | **Effort:** 1 day | **Owner:** Engineering + Release Manager
+### BKL-010: Feature Freeze / Golden Master Release
+**Priority:** CRITICAL | **Effort:** 1 day | **Owner:** Engineering + Release Manager  
+**Status:** PENDING (after BKL-009)  
 **Description:** Final release — production ready.
 - **Tag:** `v1.0.0` (semver)
 - **Docker:** `samartha/golden-master:v1.0.0`
@@ -169,6 +280,28 @@ Results (JSON + PWA + PDF)
 - **Documentation:** User guide, API reference, calibration guide, developer guide
 - **Announcement:** Release notes + migration notes (none for v1.0)
 - **Support:** 6-month maintenance window (bug fixes only, no features)
+
+---
+
+## POST GM-006: VALIDATION PROGRAM
+
+After Feature Completion, ONLY then begin:
+
+### Validation Register
+- Collect observations from 20 real horoscopes
+- No immediate formula changes
+- Record all discrepancies systematically
+
+### Calibration Cycle
+- Review complete validation evidence
+- Identify common patterns
+- Apply calibration
+- Run regression
+- Repeat if necessary
+
+### Golden Master Version 1.0
+- Final Release
+- Tagged `v1.0.0`
 
 ---
 
@@ -210,6 +343,7 @@ The following are **explicitly deferred** to Version 2.0. No work on these in GM
 | **Calibration Profile** | `v1.0.0_base.json` → frozen as `v1.0.0_frozen.json` post-BKL-007 | 🔒 FROZEN |
 
 ### ✅ ALLOWED (No Review Required)
+
 | Category | Examples |
 |----------|----------|
 | **Implementation** | Engine logic improvements, bug fixes, performance optimization |
@@ -220,6 +354,7 @@ The following are **explicitly deferred** to Version 2.0. No work on these in GM
 | **Documentation** | User guides, API docs, calibration guides (non-architecture) |
 
 ### 🚫 FORBIDDEN (Requires Architecture Review Board)
+
 | Category | Examples |
 |----------|----------|
 | **Interface Changes** | Adding/removing engine methods, changing `FormulaSchema`, modifying `PipelineRunner` contract |
@@ -239,15 +374,15 @@ The following are **explicitly deferred** to Version 2.0. No work on these in GM
 | 1 | **Calibration Control Center Complete** | `BKL-001` done; config-driven calibration works end-to-end |
 | 2 | **Existing Gochara Complete** | `BKL-002` done; Moon-Centered Mandali + Transit Engine + Dasha Sync wired |
 | 3 | **Question Engine Complete** | `BKL-003` done; full question coverage, formula registry populated |
-| 4 | **System Integration** | `BKL-004` done; canonical JSON → engines → probability → question → gochara → results |
-| 4 | **Desktop Runtime Works** | `BKL-005` done; installable, runs offline, no Python editing |
-| 5 | **Server Runtime Works** | `BKL-006` done; Docker image runs, health checks pass, API serves |
-| 5 | **20 Real Horoscopes Validated** | `BKL-007` done; calibration frozen as `v1.0.0_frozen.json` |
-| 6 | **Calibration Frozen** | `v1.0.0_frozen.json` committed, tagged `gm-006-v1.0-calibration-freeze` |
-| 7 | **RC Built & Tested** | `golden-master-v1.0-rc1` tag; all quality gates pass |
-| 8 | **Release Artifacts Ready** | Desktop installers, Docker image, release notes, docs |
+| 4 | **System Integration** | `BKL-005C` done; canonical JSON → engines → probability → question → gochara → results |
+| 5 | **Desktop Runtime Works** | `BKL-006` done; installable, runs offline, no Python editing |
+| 6 | **Server Runtime Works** | `BKL-007` done; Docker image runs, health checks pass, API serves |
+| 7 | **20 Real Horoscopes Validated** | `BKL-008` done; calibration frozen as `v1.0.0_frozen.json` |
+| 7 | **Calibration Frozen** | `v1.0.0_frozen.json` committed, tagged `gm-006-v1.0-calibration-freeze` |
+| 8 | **RC Built & Tested** | `golden-master-v1.0-rc1` tag; all quality gates pass |
+| 9 | **Release Artifacts Ready** | Desktop installers, Docker image, release notes, docs |
 
-**ALL 8 MUST BE TRUE FOR GM-006 COMPLETION.**
+**ALL MUST BE TRUE FOR GM-006 COMPLETION.**
 
 ---
 
@@ -257,13 +392,14 @@ The following are **explicitly deferred** to Version 2.0. No work on these in GM
 |----------|--------|-------------|
 | `docs/knowledge/VEDIC_AI_MASTER_DEVELOPMENT_ROADMAP.md` | **UPDATED** | **AUTHORITATIVE ROADMAP** (this document) |
 | `docs/status/PHASE_ROADMAP.md` | **ARCHIVED** | Superseded by this document; move to `docs/archive/roadmaps/` |
-| `docs/engineering/validation/ASTROLOGY_VALIDATION_MASTER_PLAN.md` | **ARCHIVED** | Validation plan absorbed into BKL-007; move to `docs/archive/roadmaps/` |
+| `docs/engineering/validation/ASTROLOGY_VALIDATION_MASTER_PLAN.md` | **ARCHIVED** | Validation plan absorbed into BKL-008; move to `docs/archive/roadmaps/` |
 | `docs/status/PHASE_ROADMAP.md` | **ARCHIVED** | Phase-based view superseded by milestone/backlog view |
 | `docs/architecture/REPOSITORY_REFINEMENT_ACTION_PLAN_v1.0.md` | **ARCHIVED** | GM-005 complete; move to `docs/archive/roadmaps/` |
 | `docs/architecture/FORMULA_MASTER_INDEX_PLAN.md` | **ARCHIVED** | Superseded by `backend/app/formulas/registry_data.py` + `schema.py` |
 | `docs/architecture/REPOSITORY_REFINEMENT_ACTION_PLAN_v1.0.md` | **ARCHIVED** | GM-005 complete |
+| `docs/architecture/FORMULA_MASTER_INDEX_PLAN.md` | **ARCHIVED** | Superseded by `backend/app/formulas/registry_data.py` + `schema.py` |
 | `docs/architecture/PHASE10A_FORMULA_LOADER_BLUEPRINT_2026-06-19.md` | **ARCHIVED** | Completed in GM-005 |
-| `docs/engineering/validation/ASTROLOGY_VALIDATION_MASTER_PLAN.md` | **ARCHIVED** | Validation plan absorbed into BKL-007 |
+| `docs/engineering/validation/ASTROLOGY_VALIDATION_MASTER_PLAN.md` | **ARCHIVED** | Validation plan absorbed into BKL-008 |
 | `docs/status/PHASE_ROADMAP.md` | **ARCHIVED** | Phase-based view deprecated |
 | All `docs/archive/handovers/*/PHASE*_ROADMAP*.md` | **ARCHIVED** | Historical only |
 
@@ -296,7 +432,7 @@ The following are **explicitly deferred** to Version 2.0. No work on these in GM
 - All knowledge for v1.0 delivery **EXISTS IN REPOSITORY**.
 - No architectural blockers remain.
 
-**Next Step:** Chief Architect approval → Create `GM-006` milestone → Assign `BKL-001` → Begin implementation.
+**Next Step:** Chief Architect approval → Create `GM-006` milestone → Assign `BKL-005C` → Begin implementation.
 
 ---
 
@@ -314,8 +450,8 @@ The following are **explicitly deferred** to Version 2.0. No work on these in GM
 
 ---
 
-**Report Generated:** 2026-07-10 15:45 IST  
-**Report Location:** `C:\Users\vssom\Desktop\HERMES_WORKSPACE\Reports\GM-006\2026-07-10_GM006_ROADMAP_REALIGNMENT.md`  
+**Report Generated:** 2026-07-11 14:30 IST  
+**Report Location:** `C:\Users\vssom\Desktop\HERMES_WORKSPACE\Reports\GM-006\2026-07-11_GM006_ROADMAP_REALIGNMENT.md`  
 **Repository Modified:** NO  
 **Git Modified:** NO  
 

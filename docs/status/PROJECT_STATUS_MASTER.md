@@ -1,28 +1,68 @@
 # Project Status Master
 
-**Last Updated:** 2026-07-11 (BKL-004 Complete Question Engine)
+**Last Updated:** 2026-07-11 (BKL-005B Complete Formula Calibration Population)
 
 ## Executive Summary
 The Vedic AI System has successfully completed:
-- **BKL-004: Complete Question Engine** — 83 questions across 13 domains, all 43 formulas reused, 0 new formulas
-- **Formula Calibration Framework** — New calibration layer between Formula Registry (WHAT) and Engine Calibration (HOW), enabling astrologers to configure factor weights per formula without Python changes
+- **BKL-005B: Formula Calibration Population** — 43/43 formulas calibrated (11 base + 32 child)
+- **BKL-005A: Pipeline & Formula Integration** — FormulaEvaluator wired into answer_question()
+- **BKL-004: Complete Question Engine** — 83 questions across 13 domains, all 43 formulas reused
+- **Formula Calibration Framework** — New calibration layer between Formula Registry (WHAT) and Engine Calibration (HOW)
 - **BKL-002: Gochara Integration Verification** — All existing Gochara components verified working (232 tests passing)
 - **BKL-001B: Calibration Control Center** — Complete calibration subsystem with Control Plane, profiles, and history
+
+## Revised Project Philosophy (Chief Architect Approved)
+
+**NEW APPROACH: Build First, Validate Later, Calibrate Once**
+
+```
+Build Complete Product
+       ↓
+Complete All Planned Features
+       ↓
+Desktop Runtime
+       ↓
+Server Runtime
+       ↓
+Release Candidate
+       ↓
+Feature Freeze
+       ↓
+Real Horoscope Validation
+       ↓
+Calibration
+       ↓
+Final Release
+```
+
+**Why This Change:**
+- The purpose of GM-006 is to complete the software
+- Real horoscope validation will NOT occur during active development
+- Validation occurs AFTER the product reaches Feature Complete
+- This prevents continuous formula changes, architecture drift, overfitting, and unnecessary repository modifications
+
+**Permanent Engineering Rule:**
+- Implement First → Validate Later → Calibrate Once
+- Do NOT modify formulas after every horoscope
+- Do NOT change calibration during active development
+- Record observations → Complete the product → Batch validation → Controlled calibration
 
 ## Phase Status
 * **GM-001 through GM-005:** COMPLETE & FROZEN
 * **GM-006 (Active):**
   * BKL-001A (Calibration Discovery): ✅ COMPLETE
-  * BKL-001B (Calibration Control Center): ✅ COMMITTED (49089cc)
-  * BKL-002 (Gochara Integration Verification): ✅ COMPLETE
-  * BKL-003 (Formula Calibration Framework): ✅ COMPLETE
-  * **BKL-004 (Complete Question Engine): ✅ COMPLETE**
-  * BKL-005 (System Integration): PENDING
-  * BKL-006 (Desktop Runtime): PENDING
-  * BKL-007 (Server Runtime): PENDING
-  * BKL-008 (20 Real Horoscopes Validation): PENDING
-  * BKL-009 (v1.0 RC Build): PENDING
-  * BKL-010 (v1.0 Release): PENDING
+  * BKL-001B (Calibration Control Center): ✅ COMPLETE (49089cc)
+  * BKL-002 (Gochara Integration Verification): ✅ COMPLETE (3664e81)
+  * BKL-003 (Formula Calibration Framework): ✅ COMPLETE (bd09636)
+  * BKL-004 (Complete Question Engine): ✅ COMPLETE (b2f8bc1)
+  * BKL-005A (Pipeline & Formula Integration): ✅ COMPLETE (89fb92b)
+  * BKL-005B (Formula Calibration Population): ✅ COMPLETE (f967bda)
+  * **BKL-005C (System Integration Validation): NEXT**
+  * BKL-006 (Desktop Runtime Integration): PENDING
+  * BKL-007 (Server Runtime Integration): PENDING
+  * BKL-008 (End-to-End Product Completion): PENDING
+  * BKL-009 (Release Candidate Build): PENDING
+  * BKL-010 (Feature Freeze / Golden Master): PENDING
 
 ## Formula Calibration Framework (Architectural Extension)
 **Added as calibrated extension to existing Calibration Framework:**
@@ -31,18 +71,16 @@ The Vedic AI System has successfully completed:
 |-----------|--------|---------|
 | Formula Factor Schema | ✅ | Pydantic model with weight_pct, enabled, engine_required |
 | Formula Calibration Section | ✅ | Added to CalibrationProfile (formula_calibration dict) |
-| Profile JSON | ✅ | 5 formulas in v1.0_default.json with full factor metadata |
+| Profile JSON | ✅ | 43 formulas in v1.0_default.json with full factor metadata |
 | Automatic Weight Normalization | ✅ | Enabled factors auto-normalize to 100% |
 | Engine Integration | ✅ | FormulaEvaluator uses formula_calibration for weighted fulfillment |
 | Control Plane | ✅ | get_formula_factors, modify_formula_factor, add/remove_formula_factor |
 | Validation | ✅ | Unknown formula/factor rejected, engine_required checked |
 
-**Formulas Implemented (5 of 43):**
-- MAR_TIMING_BASE (7 factors)
-- MAR_TIMING_NORMAL (5 factors)
-- MAR_TIMING_DELAY (6 factors)
-- CAR_GROWTH_BASE (5 factors)
-- WEA_ACCUMULATION_BASE (5 factors)
+**Formulas Implemented (43 of 43 — 100%):**
+- 11 Base Formulas (common factors per family)
+- 32 Child Formulas (additional factors only — no duplication)
+- All weights auto-normalize to 100%
 
 ## Question Engine Completion (BKL-004)
 **Expanded from 42 to 83 questions across all 13 domains:**
@@ -54,19 +92,42 @@ The Vedic AI System has successfully completed:
 | Wealth | 2 | 8 | Investment Timing, Debt Resolution, Loan Recovery, Inheritance, Windfall, Financial Loss |
 | Property | 6 | 11 | Land, Apartment, Vehicle, Sale, Inheritance |
 | Health | 5 | 8 | Mental Health, Surgery Timing, Specific Disease Risk |
-| Children | 3 | 7 | Number of Children, Delay in Childbirth, Child Health, Child Education |
+| Children | 3 | 7 | Number of Children, Delay, Child Health, Child Education |
 | Education | 6 | 8 | Scholarship, Competitive Exams |
 | Litigation | 4 | 6 | Property Litigation, Conflict Resolution Timing |
 | Travel | 4 | 6 | Pilgrimage Timing, Business Travel |
 | Spirituality | 4 | 7 | Guru/Diksha, Temple Service, Meditation Progress |
 | Compatibility | 3 | 6 | Business Partnership, Friendship, Relationship Stability |
 
-**Formula Reuse:** 27/43 formulas used by questions (30 unique leaf formulas), 0 new formulas created
+**Formula Reuse:** 30/43 leaf formulas used by questions, 0 new formulas created
+
+## Formula Calibration Population (BKL-005B)
+**43/43 formulas calibrated (100%) — was 5/43**
+
+| Family | Base | Child Formulas | Total |
+|--------|------|----------------|-------|
+| Marriage (MAR) | 1 | 2 | 3 |
+| Career (CAR) | 1 | 2 | 3 |
+| Wealth (WEA) | 1 | 2 | 3 |
+| Health (HLT) | 2 | 4 | 6 |
+| Property (AST) | 2 | 3 | 5 |
+| Education (EDU) | 1 | 4 | 5 |
+| Children (FAM) | 1 | 2 | 3 |
+| Litigation (LIT) | 1 | 3 | 4 |
+| Travel (TRV) | 1 | 3 | 4 |
+| Spirituality (SPR) | 1 | 3 | 4 |
+| Compatibility (REL) | 1 | 2 | 3 |
+| **Total** | **11** | **32** | **43** |
+
+**Inheritance Verified:** Base formulas contain common factors; Child formulas contain ONLY additional factors — merged and normalized to 100% in FormulaEvaluator.
 
 ## Current System State
-* **Backend:** Stable. Calibration Framework, Gochara Integration, Formula Calibration, and Question Engine all verified.
-* **Test Coverage:** 214 core tests passing, 1 skipped, zero new regressions.
+* **Backend:** Stable. All calibration frameworks, Gochara integration, formula calibration, question engine verified.
+* **Test Coverage:** 214 core tests passing (Question Engine + Gochara/Ashtakavarga/Transit), 1 skipped, zero new regressions.
 * **Architecture:** FROZEN — No changes without Architecture Review Board approval.
+* **Formula Registry:** 43 unique formulas, 11 base + 32 child
+* **Question Registry:** 83 questions, all mapped to calibrated formulas
+* **Calibration Profiles:** v1.0_default (IMMUTABLE), v1.0_current (mutable), v1.0_frozen (production)
 
 ## Next Immediate Goal
-**BKL-005: System Integration** — Expand Formula Calibration to all 43 formulas, integrate with full pipeline validation, prepare for 20-horoscope validation (BKL-008).
+**BKL-005C: System Integration Validation** — End-to-end pipeline validation, integration tests for full formula pipeline, prepare for end-to-end product completion (BKL-008).
