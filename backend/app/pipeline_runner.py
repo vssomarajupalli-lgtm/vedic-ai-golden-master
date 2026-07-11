@@ -11,19 +11,22 @@ from app.engines.transit_engine import TransitEngine
 from app.engines.yoga_engine import YogaEngine
 from app.engines.question_engine import QuestionEngine
 from app.engines.functional_nature_engine import FunctionalNatureEngine
+from app.formulas.loader import formula_repository_loader
+from app.formulas.evaluator import FormulaEvaluator
 from app.utils.ephemeris_service import EphemerisService
 from app.config.astrology_constants import (
-    SIGNS_IN_ORDER, 
+    SIGNS_IN_ORDER,
     PROBABILITY_GRADES,
     EXALTATION_MAP,
     DEBILITATION_MAP,
     OWN_SIGN_MAP
 )
 
+
 class PipelineRunner:
     """
     Lightweight deterministic execution pipeline prototype.
-    Connects the extraction normalizer and calculation engines 
+    Connects the extraction normalizer and calculation engines
     into a predictable, stateless execution flow.
     """
 
@@ -47,22 +50,22 @@ class PipelineRunner:
     def process(self, raw_input_data: dict) -> dict:
         """
         Executes the strict calculation pipeline sequentially.
-        
+
         Args:
             raw_input_data (dict): The messy, unformatted dictionary scraped from the PDF.
-            
+
         Returns:
             dict: The unified deterministic output payload containing all engine results.
         """
         # 1. Normalize the raw data into our strict deterministic schema
         normalized_payload = self.normalizer.normalize(raw_input_data)
-        
+
         # 1.2. Dignity Derivation Enrichment (Mathematical Calculation)
         for planet_id, planet_data in normalized_payload.get("planets", {}).items():
             sign = planet_data.get("sign")
             if not sign:
                 continue
-                
+
             # Priority: Exalted -> Own Sign -> Debilitated -> Neutral
             dignity = "neutral"
             if EXALTATION_MAP.get(planet_id) == sign:
@@ -71,39 +74,38 @@ class PipelineRunner:
                 dignity = "own_sign"
             elif DEBILITATION_MAP.get(planet_id) == sign:
                 dignity = "debilitated"
-                
+
             planet_data["dignity"] = dignity
 
-        
         # 1.5 Functional Nature Mapping (Structural layer)
         lagna = normalized_payload.get("metadata", {}).get("ascendant_sign", "aries")
         functional_map = self.functional_nature_engine.get_functional_nature(lagna)
-        
+
         # 2. Planet Engine Execution (Foundation Layer)
         planet_results = {}
         shadbala_payload = normalized_payload.get("shadbala", {})
-        
+
         for planet_id, planet_data in normalized_payload.get("planets", {}).items():
             planet_results[planet_id] = self.planet_engine.calculate_strength(
-                planet_data, 
+                planet_data,
                 shadbala_data=shadbala_payload
             )
-            
+
         # 3. Safe Dependency Passing & House Engine Execution
         house_results = {}
         bhava_bala_payload = normalized_payload.get("bhava_bala", {})
-        
+
         for house_id, house_data in normalized_payload.get("houses", {}).items():
-            
+
             # Result-passing strategy: Extract the lord's name (e.g., "mars", "sun")
             lord_name = house_data.get("lord", "unknown")
-            
+
             # Fetch the previously calculated lord score safely.
             # If the lord is missing due to a parser error, fallback to a neutral 50.
             lord_score = 50
             if lord_name in planet_results:
                 lord_score = planet_results[lord_name].get("final_score", 50)
-            
+
             # Create a shallow copy to preserve D1 immutability
             house_eval_payload = dict(house_data)
             house_eval_payload["lord_strength_score"] = lord_score
@@ -117,7 +119,7 @@ class PipelineRunner:
         # 3.5. Yoga Engine Execution
         # Requires pre-computed planet results to calculate true yoga potency
         yoga_results = self.yoga_engine.evaluate(normalized_payload, planet_results, house_results)
-            
+
         # 4. Varga Engine Execution (Phase 5 Refinement)
         # Safely pass the D1 planet scores as read-only dependencies
         varga_results = self.varga_engine.evaluate(normalized_payload, dependency_scores=planet_results)
@@ -187,7 +189,7 @@ class PipelineRunner:
         # 7.75 Transit Engine (Timing Layer)
         # 1. Fetch stateless sidereal planet transits for "right now"
         raw_transits = self.ephemeris.generate_transit_snapshot()
-        
+
         # 2. Contextualize transits using the native's D1 Lagna
         # Formula: house = ((transit_sign - lagna_sign + 12) % 12) + 1
         asc_sign = normalized_payload.get("metadata", {}).get("ascendant_sign", "aries").lower()
@@ -195,7 +197,7 @@ class PipelineRunner:
             lagna_idx = SIGNS_IN_ORDER.index(asc_sign)
         except ValueError:
             lagna_idx = 0
-            
+
         contextual_transits = {"planets": {}}
         for p, data in raw_transits.get("planets", {}).items():
             try:
@@ -215,7 +217,7 @@ class PipelineRunner:
             natal_promise_results = natal_results,
         )
         engine_outputs["transit"] = transit_results
-        
+
         # Add yoga results to outputs for the master engine
         engine_outputs["yogas"] = yoga_results
 
@@ -296,23 +298,58 @@ class PipelineRunner:
     # Question Orchestration (DR-007 Fix)
     # -------------------------------------------------------------------------
 
-    def answer_question(self, question: str, pipeline_output: dict) -> dict:
+    def answer_question(self, question_or_id: str, pipeline_output: dict) -> dict:
         """
-        Orchestrates domain routing, probability recalculation, and response 
-        composition for a specific user question.
-        
+        Orchestrates domain routing, probability recalculation, formula evaluation,
+        and response composition for a specific user question.
+
         Args:
-            question (str): The natural language query.
+            question_or_id (str): The question identifier from Question Registry (e.g., "7.1")
+                                  OR a free-text natural language question.
             pipeline_output (dict): The output from self.process().
-            
+
         Returns:
             dict: Structured answer payload from QuestionEngine.
         """
-        domain = self.question_engine.route_domain(question)
-        
+        # Detect if input is a question_id (e.g., "7.1") or free-text question
+        is_question_id = False
+        question_text = ""
+        question_id = question_or_id
+
+        # Check if it's a question_id format (e.g., "7.1", "10.2", etc.)
+        import re
+        if re.match(r'^\d+\.\d+$', question_or_id.strip()):
+            is_question_id = True
+            question_id = question_or_id.strip()
+        else:
+            question_text = question_or_id.strip()
+
+        # 1. Route question through Question Router
+        from app.core.question_router import QuestionRouter
+        question_router = QuestionRouter()
+
+        if is_question_id:
+            route_result = question_router.route_question(question_id)
+            if route_result.get("status") != "success":
+                return {
+                    "question_id": question_id,
+                    "error": route_result.get("message", "Question routing failed"),
+                    "status": "error"
+                }
+            registry_record = route_result["registry_record"]
+            formula_key = route_result["formula_key"]
+            domain = registry_record.get("domain_name")
+            question_text = registry_record.get("question_name", "")
+        else:
+            # Use legacy route_domain for free-text questions (backward compatibility)
+            domain = self.question_engine.route_domain(question_text)
+            formula_key = None
+            question_text = question_or_id.strip()
+            # For free-text, we don't fail - we just continue with domain=None
+
         engine_outputs = pipeline_output.get("engine_outputs", {})
         natal_results = engine_outputs.get("natal_promise", {})
-        
+
         if domain and domain in natal_results:
             natal_promise = natal_results[domain]
         else:
@@ -320,19 +357,19 @@ class PipelineRunner:
             scores = [d["score"] for d in natal_results.values() if isinstance(d, dict) and "score" in d]
             avg_score = round(sum(scores) / len(scores), 2) if scores else 50.0
             natal_promise = {"score": avg_score}
-            
+
         dasha_activation = engine_outputs.get("dashas", {})
         transit_activation = engine_outputs.get("transit", {})
         av_results = engine_outputs.get("ashtakavarga", {})
         bav_confidence = av_results.get("dasha_bav_support", {}).get("timing_confidence", "unknown")
-        
+
         # Recalculate Master Probability if routed
         if domain:
             domain_score = natal_promise.get("score", 50.0)
             dasha_score = dasha_activation.get("synthesis", {}).get("dasha_strength", 50.0)
-            
+
             final_score = round((domain_score * 0.60) + (dasha_score * 0.40))
-            
+
             calculated_grade = "UNKNOWN"
             for threshold, label in PROBABILITY_GRADES:
                 if final_score >= threshold:
@@ -351,22 +388,159 @@ class PipelineRunner:
             }
         else:
             final_probability = pipeline_output.get("master_probability", {})
-            
+
+        # 4. Formula Evaluation with Calibration
+        formula_evaluation = None
+        if formula_key:
+            try:
+                formula = formula_repository_loader.get_formula(formula_key)
+
+                # Get formula calibration
+                formula_calibration = formula_repository_loader.get_formula_calibration(formula_key)
+
+                # Build isolated signals from engine outputs
+                isolated_signals = self._build_isolated_signals(engine_outputs, formula)
+
+                # Evaluate formula with calibration
+                formula_evaluation = FormulaEvaluator.evaluate(
+                    formula=formula,
+                    engine_outputs=pipeline_output.get("engine_outputs", {}),
+                    isolated_signals=isolated_signals,
+                    formula_calibration=formula_calibration
+                )
+            except Exception as e:
+                # Log error but don't crash - formula evaluation is supplementary
+                formula_evaluation = None
+                print(f"Formula evaluation error for {formula_key}: {e}")
+
         return self.question_engine.compose_response(
-            question=question,
+            question=question_id if is_question_id else question_text,
             domain=domain,
             natal_promise=natal_promise,
             dasha_activation=dasha_activation,
             transit_activation=transit_activation,
             final_probability=final_probability,
             bav_timing_confidence=bav_confidence,
-            yogas=engine_outputs.get("yogas", {})
+            yogas=engine_outputs.get("yogas", {}),
+            formula_evaluation=formula_evaluation,
+            formula_key=formula_key
         )
+
+    def _build_isolated_signals(self, engine_outputs: dict, formula: "FormulaSchema") -> dict:
+        """
+        Extracts only the signals required by the formula from engine outputs.
+        Returns a minimized payload for the Formula Evaluator.
+        """
+        isolated = {}
+        payload = {
+            "planets": engine_outputs.get("planets", {}),
+            "houses": engine_outputs.get("houses", {}),
+            "vargas": engine_outputs.get("vargas", {}),
+            "dashas": engine_outputs.get("dashas", {}),
+            "rasis": engine_outputs.get("rasis", {}),
+            "ashtakavarga": engine_outputs.get("ashtakavarga", {}),
+            "natal_promise": engine_outputs.get("natal_promise", {}),
+            "transit": engine_outputs.get("transit", {}),
+            "yogas": engine_outputs.get("yogas", {}),
+        }
+
+        for sig in formula.required_signals:
+            # Try to extract signal from various engine outputs
+            value = self._extract_signal(payload, sig)
+            if value is not None:
+                isolated[sig] = value
+        return isolated
+
+    def _extract_signal(self, payload: dict, signal: str):
+        """Extract a specific signal from engine outputs."""
+        # Signal mapping to engine output paths
+        signal_paths = {
+            "7th_house": ("houses", "7", "final_score"),
+            "7th_lord": ("houses", "7", "lord_strength_score"),
+            "venus": ("planets", "venus", "final_score"),
+            "d9": ("vargas", "D9", "planets", "venus", "final_score"),
+            "yoga": ("yogas", "marriage_yoga", "strength"),
+            "dasha": ("dashas", "synthesis", "dasha_strength"),
+            "transit": ("transit", "activation_score"),
+            "10th_house": ("houses", "10", "final_score"),
+            "10th_lord": ("houses", "10", "lord_strength_score"),
+            "saturn": ("planets", "saturn", "final_score"),
+            "d10": ("vargas", "D10", "planets", "saturn", "final_score"),
+            "dasha": ("dashas", "synthesis", "dasha_strength"),
+            "11th_house": ("houses", "11", "final_score"),
+            "jupiter": ("planets", "jupiter", "final_score"),
+            "2nd_house": ("houses", "2", "final_score"),
+            "d2": ("vargas", "D2", "planets", "jupiter", "final_score"),
+            "5th_house": ("houses", "5", "final_score"),
+            "9th_house": ("houses", "9", "final_score"),
+            "dasha": ("dashas", "synthesis", "dasha_strength"),
+            "8th_house": ("houses", "8", "final_score"),
+            "rahu": ("planets", "rahu", "final_score"),
+            "2nd_house": ("houses", "2", "final_score"),
+            "12th_house": ("houses", "12", "final_score"),
+            "dasha": ("dashas", "synthesis", "dasha_strength"),
+            "lagna": ("houses", "1", "final_score"),
+            "8th_house": ("houses", "8", "final_score"),
+            "8th_lord": ("houses", "8", "lord_strength_score"),
+            "sun": ("planets", "sun", "final_score"),
+            "moon": ("planets", "moon", "final_score"),
+            "6th_house": ("houses", "6", "final_score"),
+            "12th_house": ("houses", "12", "final_score"),
+            "dasha": ("dashas", "synthesis", "dasha_strength"),
+            "5th_house": ("houses", "5", "final_score"),
+            "5th_lord": ("houses", "5", "lord_strength_score"),
+            "9th_house": ("houses", "9", "final_score"),
+            "mercury": ("planets", "mercury", "final_score"),
+            "jupiter": ("planets", "jupiter", "final_score"),
+            "rahu": ("planets", "rahu", "final_score"),
+            "d2": ("vargas", "D2", "planets", "jupiter", "final_score"),
+            "4th_house": ("houses", "4", "final_score"),
+            "4th_lord": ("houses", "4", "lord_strength_score"),
+            "mars": ("planets", "mars", "final_score"),
+            "d4": ("vargas", "D4", "planets", "mars", "final_score"),
+            "1st_house": ("houses", "1", "final_score"),
+            "1st_lord": ("houses", "1", "lord_strength_score"),
+            "6th_house": ("houses", "6", "final_score"),
+            "6th_lord": ("houses", "6", "lord_strength_score"),
+            "ketu": ("planets", "ketu", "final_score"),
+            "d20": ("vargas", "D20", "planets", "jupiter", "final_score"),
+            "7th_house": ("houses", "7", "final_score"),
+            "7th_lord": ("houses", "7", "lord_strength_score"),
+            "2nd_house": ("houses", "2", "final_score"),
+            "venus": ("planets", "venus", "final_score"),
+            "moon": ("planets", "moon", "final_score"),
+            "d9": ("vargas", "D9", "planets", "venus", "final_score"),
+            "dasha": ("dashas", "synthesis", "dasha_strength"),
+            "3rd_house": ("houses", "3", "final_score"),
+            "4th_house": ("houses", "4", "final_score"),
+            "9th_house": ("houses", "9", "final_score"),
+            "12th_house": ("houses", "12", "final_score"),
+            "rahu": ("planets", "rahu", "final_score"),
+            "d10": ("vargas", "D10", "planets", "saturn", "final_score"),
+            "d9": ("vargas", "D9", "planets", "venus", "final_score"),
+            "d24": ("vargas", "D24", "planets", "mercury", "final_score"),
+            "d7": ("vargas", "D7", "planets", "jupiter", "final_score"),
+            "d2": ("vargas", "D2", "planets", "jupiter", "final_score"),
+            "d6": ("vargas", "D6", "planets", "sun", "final_score"),
+        }
+
+        path = signal_paths.get(signal)
+        if not path:
+            return None
+
+        current = engine_outputs
+        for key in path:
+            if isinstance(current, dict) and key in current:
+                current = current[key]
+            else:
+                return None
+        return current
+
 
 # --- Sample Execution Example ---
 if __name__ == "__main__":
     import json
-    
+
     # Simulated raw extraction payload (Before Phase 1 PDF integration)
     sample_raw_pdf_data = {
         "raw_metadata": {
@@ -402,8 +576,8 @@ if __name__ == "__main__":
             }
         }
     }
-    
+
     runner = PipelineRunner()
     unified_output = runner.process(sample_raw_pdf_data)
-    
+
     print(json.dumps(unified_output, indent=2))

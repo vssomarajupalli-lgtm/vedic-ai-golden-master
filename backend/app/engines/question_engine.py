@@ -111,124 +111,143 @@ class QuestionEngine:
         return None
 
     def compose_response(
-        self,
-        question: str,
-        domain: str | None,
-        natal_promise: dict,
-        dasha_activation: dict,
-        transit_activation: dict,
-        final_probability: dict,
-        bav_timing_confidence: str = "UNKNOWN",
-        yogas: dict = None
-    ) -> dict:
-        """
-        Takes separated domain components from the orchestrator and composes the final 
-        response dict without performing any recalculation or collapsing layers.
+            self,
+            question: str,
+            domain: str | None,
+            natal_promise: dict,
+            dasha_activation: dict,
+            transit_activation: dict,
+            final_probability: dict,
+            bav_timing_confidence: str = "UNKNOWN",
+            yogas: dict = None,
+            formula_evaluation: "FormulaEvaluationResult" = None,
+            formula_key: str = None
+        ) -> dict:
+            """
+            Takes separated domain components from the orchestrator and composes the final
+            response dict without performing any recalculation or collapsing layers.
         
-        Args:
-            question (str): Free-text question from the user.
-            domain (str | None): The routed domain.
-            natal_promise (dict): The specific domain promise block.
-            dasha_activation (dict): The dasha engine outputs.
-            transit_activation (dict): The transit engine outputs.
-            final_probability (dict): The master probability block re-calculated for this domain.
-            bav_timing_confidence (str): Ashtakavarga confidence string.
-            yogas (dict): Detected yogas.
+            Args:
+                question (str): Free-text question from the user.
+                domain (str | None): The routed domain.
+                natal_promise (dict): The specific domain promise block.
+                dasha_activation (dict): The dasha engine outputs.
+                transit_activation (dict): The transit engine outputs.
+                final_probability (dict): The master probability block re-calculated for this domain.
+                bav_timing_confidence (str): Ashtakavarga confidence string.
+                yogas (dict): Detected yogas.
+                formula_evaluation (FormulaEvaluationResult): Formula evaluation result with calibration.
+                formula_key (str): The formula key used for this question.
             
-        Returns:
-            dict: Structured answer with probability, grade, and separated components.
-        """
-        routed = bool(domain)
-        natal_score = natal_promise.get("score", 50.0)
+            Returns:
+                dict: Structured answer with probability, grade, and separated components.
+            """
+            routed = bool(domain)
+            natal_score = natal_promise.get("score", 50.0)
 
-        # Step 1: Extract dasha timing evidence
-        synthesis = dasha_activation.get("synthesis", {})
-        active_md = synthesis.get("active_md", "unknown")
-        active_ad = synthesis.get("active_ad", "unknown")
-        active_pd = synthesis.get("active_pd", "unknown")
-        dasha_strength = synthesis.get("dasha_strength", 50.0)
+            # Step 1: Extract dasha timing evidence
+            synthesis = dasha_activation.get("synthesis", {})
+            active_md = synthesis.get("active_md", "unknown")
+            active_ad = synthesis.get("active_ad", "unknown")
+            active_pd = synthesis.get("active_pd", "unknown")
+            dasha_strength = synthesis.get("dasha_strength", 50.0)
 
-        timing = {
-            "mahadasha": active_md,
-            "antardasha": active_ad,
-            "pratyantardasha": active_pd,
-            "dasha_strength": dasha_strength,
-            "bav_timing_confidence": bav_timing_confidence,
-            "activation_level": self._activation_label(dasha_strength / 50.0),
-        }
+            timing = {
+                "mahadasha": active_md,
+                "antardasha": active_ad,
+                "pratyantardasha": active_pd,
+                "dasha_strength": dasha_strength,
+                "bav_timing_confidence": bav_timing_confidence,
+                "activation_level": self._activation_label(dasha_strength / 50.0),
+            }
 
-        # Step 2: Extract transit evidence
-        transit_score = transit_activation.get("activation_score", 50.0)
+            # Step 2: Extract transit evidence
+            transit_score = transit_activation.get("activation_score", 50.0)
 
-        # Step 3: Compose text
-        prob_score = final_probability.get("final_score", 50)
-        prob_grade = final_probability.get("grade", "UNKNOWN")
-        promise    = self._promise_grade(natal_score)
+            # Step 3: Compose text
+            prob_score = final_probability.get("final_score", 50)
+            prob_grade = final_probability.get("grade", "UNKNOWN")
+            promise    = self._promise_grade(natal_score)
 
-        if not routed:
-            answer_text = (
-                f"Domain could not be determined from: '{question}'. "
-                f"General probability: {prob_score}/100 ({prob_grade}). "
-                f"Active dasha: {active_md.capitalize()} MD / {active_ad.capitalize()} AD / {active_pd.capitalize()} PD."
-            )
-        else:
-            domain_label = domain.capitalize()
-            lines = [
-                f"{domain_label} promise from natal chart: {natal_score}/100 ({promise}).",
-                f"Combined probability: {prob_score}/100 ({prob_grade}).",
-                f"Active dasha: {active_md.capitalize()} Mahadasha / {active_ad.capitalize()} Antardasha / {active_pd.capitalize()} Pratyantardasha.",
-                f"Dasha strength: {dasha_strength}/100 (level: {timing['activation_level']}).",
-                f"Ashtakavarga timing confidence: {bav_timing_confidence.upper()}.",
-                f"Transit activation score: {transit_score}/100."
-            ]
-            answer_text = " ".join(lines)
+            if not routed:
+                answer_text = (
+                    f"Domain could not be determined from: '{question}'. "
+                    f"General probability: {prob_score}/100 ({prob_grade}). "
+                    f"Active dasha: {active_md.capitalize()} MD / {active_ad.capitalize()} AD / {active_pd.capitalize()} PD."
+                )
+            else:
+                domain_label = domain.capitalize()
+                lines = [
+                    f"{domain_label} promise from natal chart: {natal_score}/100 ({promise}).",
+                    f"Combined probability: {prob_score}/100 ({prob_grade}).",
+                    f"Active dasha: {active_md.capitalize()} Mahadasha / {active_ad.capitalize()} Antardasha / {active_pd.capitalize()} Pratyantardasha.",
+                    f"Dasha strength: {dasha_strength}/100 (level: {timing['activation_level']}).",
+                    f"Ashtakavarga timing confidence: {bav_timing_confidence.upper()}.",
+                    f"Transit activation score: {transit_score}/100."
+                ]
+                answer_text = " ".join(lines)
 
-        # Step 4: Extract Top Future Opportunities (from MasterProbabilityEngine projection)
-        import datetime
-        now = datetime.datetime.now().strftime('%Y-%m-%d')
-        
-        lifetime_projection = final_probability.get("lifetime_projection", [])
-        future_opps = []
-        for record in lifetime_projection:
-            start_date = record.get("start_date", "1900-01-01")
-            if start_date >= now:
-                future_opps.append({
-                    "period": f"{start_date} to {record.get('end_date', 'Unknown')}",
-                    "activation_pct": record.get("activation_pct", 50.0),
-                    "final_probability_pct": record.get("final_probability_pct", 50.0),
-                    "grade": record.get("grade", "UNKNOWN"),
-                    "md": record.get("md", "unknown"),
-                    "ad": record.get("ad", "unknown"),
-                    "pd": record.get("pd", "unknown")
-                })
-        
-        future_opps.sort(key=lambda x: x["final_probability_pct"], reverse=True)
-        top_opportunities = future_opps[:5]
+            # Step 4: Extract Top Future Opportunities (from MasterProbabilityEngine projection)
+            import datetime
+            now = datetime.datetime.now().strftime('%Y-%m-%d')
 
-        return {
-            "question":      question,
-            "domain":        domain,
-            "routed":        routed,
-            "probability": {
-                "score": prob_score,
-                "grade": prob_grade,
-                "raw":   final_probability.get("raw_score", 50.0),
-            },
-            "natal_promise": {
-                "score":    natal_score,
-                "promise":  promise,
-                "karaka":   natal_promise.get("karaka", ""),
-                "afflictions": natal_promise.get("afflictions", []),
-            },
-            "timing": timing,
-            "transit": {
-                "activation_score": transit_score
-            },
-            "yogas": yogas or {},
-            "factor_breakdown": final_probability.get("breakdown", {}),
-            "top_opportunities": top_opportunities,
-            "answer_text": answer_text,
-        }
+            lifetime_projection = final_probability.get("lifetime_projection", [])
+            future_opps = []
+            for record in lifetime_projection:
+                start_date = record.get("start_date", "1900-01-01")
+                if start_date >= now:
+                    future_opps.append({
+                        "period": f"{start_date} to {record.get('end_date', 'Unknown')}",
+                        "activation_pct": record.get("activation_pct", 50.0),
+                        "final_probability_pct": record.get("final_probability_pct", 50.0),
+                        "grade": record.get("grade", "UNKNOWN"),
+                        "md": record.get("md", "unknown"),
+                        "ad": record.get("ad", "unknown"),
+                        "pd": record.get("pd", "unknown")
+                    })
+
+            future_opps.sort(key=lambda x: x["final_probability_pct"], reverse=True)
+            top_opportunities = future_opps[:5]
+
+            # Build formula breakdown if available
+            formula_breakdown = {}
+            if formula_evaluation:
+                formula_breakdown = {
+                    "final_state": formula_evaluation.final_state,
+                    "fulfilled_layers": formula_evaluation.fulfilled_layers,
+                    "total_layers": formula_evaluation.total_layers,
+                    "promise_score": formula_evaluation.promise_score,
+                    "factor_fulfillment": formula_evaluation.factor_fulfillment,
+                    "factor_weights": formula_evaluation.factor_weights,
+                    "system_warnings": formula_evaluation.system_warnings
+                }
+
+            return {
+                "question":      question,
+                "domain":        domain,
+                "routed":        routed,
+                "probability": {
+                    "score": prob_score,
+                    "grade": prob_grade,
+                    "raw":   final_probability.get("raw_score", 50.0),
+                },
+                "natal_promise": {
+                    "score":    natal_score,
+                    "promise":  promise,
+                    "karaka":   natal_promise.get("karaka", ""),
+                    "afflictions": natal_promise.get("afflictions", []),
+                },
+                "timing": timing,
+                "transit": {
+                    "activation_score": transit_score
+                },
+                "yogas": yogas or {},
+                "factor_breakdown": final_probability.get("breakdown", {}),
+                "top_opportunities": top_opportunities,
+                "answer_text": answer_text,
+                "formula_key": formula_key,
+                "formula_evaluation": formula_breakdown
+            }
 
     # -------------------------------------------------------------------------
     # Helpers

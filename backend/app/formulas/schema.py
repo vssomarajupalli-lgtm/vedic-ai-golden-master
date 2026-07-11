@@ -24,6 +24,11 @@ class FormulaEvaluationResult(BaseModel):
     isolated_signals: Dict[str, Any] = Field(..., description="Minimized payload of only the requested signals")
     answer_template_key: str = Field(..., description="Template to use in the Answer Composer")
     system_warnings: List[str] = Field(default_factory=list, description="Warnings like engine degradation")
+    factor_fulfillment: Dict[str, bool] = Field(default_factory=dict, description="Which factors were fulfilled")
+    factor_weights: Dict[str, float] = Field(default_factory=dict, description="Calibrated weights per factor")
+    fulfilled_layers: int = Field(default=0, description="Number of fulfilled confidence layers")
+    total_layers: int = Field(default=0, description="Total confidence layers")
+    promise_score: float = Field(default=50.0, description="Natal promise score for the domain")
 
 class ComposerPromptPackage(BaseModel):
     prompt_template_id: str = Field(..., description="The ID of the template loaded (e.g., timing_assessment_v1_favorable)")
