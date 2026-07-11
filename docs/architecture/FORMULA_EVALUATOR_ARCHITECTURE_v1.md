@@ -24,7 +24,7 @@ The Evaluator acts as a "dumb consumer" of engine payloads.
 
 ## 4. Confidence Layer Evaluation Model
 The Confidence Layer evaluation uses a strict boolean resolution matrix rather than a numeric score to prevent arbitrary weights.
-- **Fatal Denials:** If the Natal Promise (D1) layer explicitly denies the event (e.g., severe affliction with no rescue yogas), the result is hardcoded to `UNFAVORABLE`, bypassing subsequent layers.
+- **Fatal Denials:** If the Natal Promise (D1) layer explicitly denies the event (e.g., severe affliction with no rescue factors), the result is hardcoded to `UNFAVORABLE`, bypassing subsequent layers.
 - **Positive Matrix:** If Natal Promise is supportive, and active Dasha aligns, and Transit aligns, the result is `FAVORABLE`.
 - **Mixed Matrix:** If Natal Promise is supportive, but active Dasha does NOT align, the result is forced to `MIXED` (indicating delay or effort required).
 - *Implementation detail:* The evaluator uses pure logical `AND`/`OR` gating mapped to the specific conditions in `required_confidence_layers`.

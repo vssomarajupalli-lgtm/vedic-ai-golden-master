@@ -34,7 +34,7 @@ Supporting references may reference the engine but shall never redefine its logi
 | **Planet Engine** | `PLANET_INTELLIGENCE_KNOWLEDGE_PACKAGE.md` | `ENGINE_OWNERSHIP_AND_DATA_CONTRACT_REGISTRY_v1.0.md` | Core Astrological Architecture | House, Yoga, Varga, Dosha | Formula catalogs | Canonical | Active |
 | **House Engine** | `HOUSE_INTELLIGENCE_KNOWLEDGE_PACKAGE.md` | `ENGINE_OWNERSHIP_AND_DATA_CONTRACT_REGISTRY_v1.0.md` | Core Astrological Architecture | Yoga, Dosha, Varga | Formula catalogs | Canonical | Active |
 | **Dasha Engine** | `DASHA_INTELLIGENCE_KNOWLEDGE_PACKAGE.md` | `ENGINE_OWNERSHIP_AND_DATA_CONTRACT_REGISTRY_v1.0.md` | Master Probability | None | Formula catalogs | Canonical | Active |
-| **Yoga Engine** | `YOGA_INTELLIGENCE_KNOWLEDGE_PACKAGE.md` | `ENGINE_OWNERSHIP_AND_DATA_CONTRACT_REGISTRY_v1.0.md` | Master Probability | None | `FORMULA_REPOSITORY_DATA_MODEL_v1.md` | Canonical | Active |
+| **Yoga Engine** | `YOGA_INTELLIGENCE_KNOWLEDGE_PACKAGE.md` | `ENGINE_OWNERSHIP_AND_DATA_CONTRACT_REGISTRY_v1.0.md` | **Information Layer Only** (Reporting, Explanation, Question Engine context, Frontend UI) | **None** — Yoga does not contribute to any deterministic engine | `FORMULA_REPOSITORY_DATA_MODEL_v1.md` | Canonical | Active |
 | **Dosha Engine** | `DOSHA_INTELLIGENCE_KNOWLEDGE_PACKAGE.md` | `ENGINE_OWNERSHIP_AND_DATA_CONTRACT_REGISTRY_v1.0.md` | Master Probability | None | Formula catalogs | Canonical | Active |
 | **Varga Engine** | `VARGA_INTELLIGENCE_KNOWLEDGE_PACKAGE.md` | `ENGINE_OWNERSHIP_AND_DATA_CONTRACT_REGISTRY_v1.0.md` | Dasha Engine | None | Phase 9 Varga Governance | Canonical | Active |
 | **Functional Nature Engine** | `FUNCTIONAL_NATURE_ENGINE_KNOWLEDGE_PACKAGE.md` | `ENGINE_OWNERSHIP_AND_DATA_CONTRACT_REGISTRY_v1.0.md` | Master Probability | None | None | Canonical | Active |
@@ -72,7 +72,7 @@ The analysis identifies the following strict conditions and existing conflicts w
 * Archive legacy Phase 8-16 implementation readouts to eliminate duplicate/historical engine descriptions.
 * Strip probability synthesis mathematics from the Question Engine package.
 
-*(Note: No conflicts are resolved by this document).*
+*(Note: No conflicts are resolved by this document.)*
 
 ---
 

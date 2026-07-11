@@ -34,10 +34,10 @@ This document explicitly defines the boundaries, dependencies, and handoffs betw
 
 ### 5. Yoga Engine
 *   **Inputs**: `normalized_payload`, `planet_results`, `house_results`.
-*   **Outputs**: Yoga `final_score` and identified classical combinations.
+*   **Outputs**: **Detected Yoga list only** (binary Present/Absent per yoga). No numeric scores.
 *   **Dependencies**: Planet Strength Engine, House Strength Engine.
 *   **Upstream Sources**: Data Layer, Planet & House Engines.
-*   **Downstream Consumers**: Natal Promise Engine, Master Synthesis Engine.
+*   **Downstream Consumers**: **Information Layer Only** — Reporting, Explanation Layers, Question Engine context, Frontend UI. **Never** consumed by Master Probability, Natal Promise, or any deterministic engine.
 
 ### 6. Shodasavarga Engine (`VargaEngine`)
 *   **Inputs**: `normalized_payload["vargas"]`, `planet_results`.

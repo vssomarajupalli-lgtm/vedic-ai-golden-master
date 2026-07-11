@@ -141,6 +141,137 @@ During that period, knowledge evolves, while the deterministic engine remains st
 
 ---
 
+## YOGA GOVERNANCE (Final Chief Architect Decision)
+
+**Yoga SHALL NOT participate in deterministic strength calculations.**
+
+Yoga SHALL NOT contribute to:
+
+- Planet Strength
+- Bhava Strength
+- House Strength
+- Rasi Strength
+- Dasha
+- Gochara
+- Ashtakavarga
+- Natal Promise
+- Master Probability
+- Formula Evaluation
+- Question Probability
+
+or any deterministic scoring engine.
+
+Yoga SHALL NOT require:
+
+- weights
+- percentages
+- calibration
+- parameter configuration
+- future Parameter-Driven Evolution
+- or engineering tuning.
+
+---
+
+## NEW ROLE OF YOGA
+
+Yoga becomes an **INFORMATION LAYER ONLY**.
+
+Yoga exists **to inform**, not **to calculate**.
+
+---
+
+## DISPLAY GOVERNANCE
+
+Display ONLY the Yogas that actually exist inside the canonical JSON.
+
+Example
+
+Canonical JSON contains:
+
+• Gaja Kesari Yoga
+
+• Neecha Bhanga Raja Yoga
+
+Display
+
+Detected Yogas
+
+• Gaja Kesari Yoga
+
+• Neecha Bhanga Raja Yoga
+
+Do NOT display
+
+• hundreds of absent Yogas
+
+• False
+
+• No
+
+• Not Present
+
+• Empty
+
+• Cross marks
+
+• Long checklists
+
+If no Yoga exists
+
+display
+
+"No classical Yoga detected."
+
+Nothing more.
+
+---
+
+## PARAMETER-DRIVEN EVOLUTION
+
+The following deterministic subsystems remain part of the Parameter-Driven Evolution philosophy.
+
+✓ Planet Strength
+
+✓ Bhava Strength
+
+✓ House Strength
+
+✓ Rasi Strength
+
+✓ Gochara
+
+✓ Dasha
+
+✓ Ashtakavarga
+
+✓ Natal Promise
+
+✓ Master Probability
+
+✓ Formula Calibration
+
+✓ Question Engine
+
+Yoga is intentionally excluded.
+
+Yoga is NOT part of Parameter-Driven Evolution.
+
+---
+
+## CONFIGURATION OWNERSHIP PRINCIPLE
+
+Deterministic Python engines own calculations.
+
+Configuration files own parameters.
+
+Configuration SHALL NEVER contain business logic.
+
+Yoga owns neither deterministic calculations nor configurable parameters.
+
+Yoga remains a descriptive information layer.
+
+---
+
 ## BACKLOG STRUCTURE (GM-006)
 
 ### BKL-001: Calibration Control Center
@@ -172,6 +303,19 @@ During that period, knowledge evolves, while the deterministic engine remains st
 ---
 
 ### BKL-003: Complete Question Engine
+**Priority:** CRITICAL | **Effort:** 4-5 days | **Owner:** Engineering  
+**Status:** ✅ **COMPLETE** (b2f8bc1, tagged `gm-006-bkl004-question-engine-completion`)  
+**Description:** Expand the existing question framework to full domain coverage. **Current repository knowledge only — no redesign.**
+- **Current State:** 42 questions across 13 domains, 40 formula keys mapped (`question_registry.json`)
+- **Expanded To:** 83 questions across 13 domains (target: ~80-100 questions)
+- **Formula Registry:** Extend `registry_data.py` seed formulas per domain family (Marriage, Career, Wealth, Health, Property, Education, Children, Litigation, Travel, Spirituality, Compatibility)
+- **Answer Templates:** `timing_assessment_v1`, `multifactor_assessment_v1`, `strength_assessment_v1`, `risk_assessment_v1`
+- **No Redesign** — Extend existing `QuestionEngine`, `FormulaRepositoryLoader`, `FormulaEvaluator` patterns
+- **Result:** 83 questions across 13 domains, 30/43 formulas used by questions, 0 new formulas created
+
+---
+
+### BKL-004: Complete Question Engine
 **Priority:** CRITICAL | **Effort:** 4-5 days | **Owner:** Engineering  
 **Status:** ✅ **COMPLETE** (b2f8bc1, tagged `gm-006-bkl004-question-engine-completion`)  
 **Description:** Expand the existing question framework to full domain coverage. **Current repository knowledge only — no redesign.**

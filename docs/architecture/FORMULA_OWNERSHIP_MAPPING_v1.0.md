@@ -32,7 +32,7 @@ The Golden Master repository strictly enforces the following formula ownership p
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Planet Strength** | Planet Engine | `FORMULA_CATEGORY_CATALOG_v1.md` | House, Yoga, Varga, Dosha | `PLANET_INTELLIGENCE_KNOWLEDGE_PACKAGE.md` | Canonical | Active |
 | **House Strength** | House Engine | `FORMULA_CATEGORY_CATALOG_v1.md` | Yoga, Dosha, Varga | `HOUSE_INTELLIGENCE_KNOWLEDGE_PACKAGE.md` | Canonical | Active |
-| **Yoga Detection** | Yoga Engine | `docs/architecture/FORMULA_MASTER_INDEX_PLAN.md` | Master Probability | `YOGA_INTELLIGENCE_KNOWLEDGE_PACKAGE.md` | Canonical | Active |
+| **Yoga Detection** | Yoga Engine | `docs/architecture/FORMULA_MASTER_INDEX_PLAN.md` | **Information Layer Only** (Question Engine context, Frontend UI, Reporting) | `YOGA_INTELLIGENCE_KNOWLEDGE_PACKAGE.md` | Canonical | Active |
 | **Dosha Detection** | Dosha Engine | `FORMULA_CATEGORY_CATALOG_v1.md` | Master Probability | `DOSHA_INTELLIGENCE_KNOWLEDGE_PACKAGE.md` | Canonical | Active |
 | **Varga Refinement** | Varga Engine | None | Dasha | `VARGA_INTELLIGENCE_KNOWLEDGE_PACKAGE.md` | Canonical | Active |
 | **Dasha Activation** | Dasha Engine | `docs/architecture/FORMULA_MASTER_INDEX_PLAN.md` | Master Probability | `DASHA_INTELLIGENCE_KNOWLEDGE_PACKAGE.md` | Canonical | Active |
@@ -45,13 +45,13 @@ The Golden Master repository strictly enforces the following formula ownership p
 
 ---
 
-## SECTION 4: Ownership Dependency Matrix
+--- Ownership Dependency Matrix ---
 
 The flow of mathematical authority dictates strict boundary rules:
 
 * **Planet Strength**: Owned by Planet Engine. Consumed by House/Yoga/Dosha/Varga. Referenced by Master Index. Must never be modified by Consumers.
 * **House Strength**: Owned by House Engine. Consumed by Yoga/Dosha/Varga. Referenced by Master Index. Must never be modified by Yoga Engine.
-* **Yoga Detection**: Owned by Yoga Engine. Consumed by Master Probability. Referenced by Question Router. Must never be modified by Probability Framework.
+* **Yoga Detection**: Owned by Yoga Engine. Consumed by **Information Layer Only** (Question Engine context, Frontend UI, Reporting). Referenced by Question Router. Must never be modified by Probability Framework.
 * **Dosha Detection**: Owned by Dosha Engine. Consumed by Master Probability. Referenced by Question Router. Must never be modified by Probability Framework.
 * **Master Probability**: Owned by Master Probability Engine. Consumed by Question Engine. Referenced by API Layer. Must never be modified by Question Engine.
 * **Calibration Formula**: Owned by Calibration Framework. Consumed by Master Probability. Referenced by Pipeline Runner. Must never be modified by Astrology Engines (Planet, House, Yoga, etc.).

@@ -88,7 +88,109 @@ During that period, knowledge evolves, while the deterministic engine remains st
 
 ---
 
+## YOGA GOVERNANCE (Final Chief Architect Decision)
+
+**Yoga SHALL NOT participate in deterministic strength calculations.**
+
+Yoga SHALL NOT contribute to:
+
+- Planet Strength
+- Bhava Strength
+- House Strength
+- Rasi Strength
+- Dasha
+- Gochara
+- Ashtakavarga
+- Natal Promise
+- Master Probability
+- Formula Evaluation
+- Question Probability
+
+or any deterministic scoring engine.
+
+Yoga SHALL NOT require:
+
+- weights
+- percentages
+- calibration
+- parameter configuration
+- future Parameter-Driven Evolution
+- or engineering tuning.
+
+---
+
+## NEW ROLE OF YOGA
+
+Yoga becomes an **INFORMATION LAYER ONLY**.
+
+Yoga exists **to inform**, not **to calculate**.
+
+---
+
+## DISPLAY GOVERNANCE
+
+Display ONLY the Yogas that actually exist in the canonical JSON.
+
+Example:
+
+Canonical JSON contains:
+- Gaja Kesari Yoga
+- Neecha Bhanga Raja Yoga
+
+Display:
+Detected Yogas:
+- Gaja Kesari Yoga
+- Neecha Bhanga Raja Yoga
+
+Do NOT display:
+- hundreds of absent Yogas
+- False
+- No
+- Not Present
+- Empty
+- Cross marks
+- Long checklists
+
+If no Yoga exists, display: "No classical Yoga detected." Nothing more.
+
+---
+
+## PARAMETER-DRIVEN EVOLUTION
+
+The following deterministic subsystems remain part of the Parameter-Driven Evolution philosophy:
+
+✓ Planet Strength
+✓ Bhava Strength
+✓ House Strength
+✓ Rasi Strength
+✓ Gochara
+✓ Dasha
+✓ Ashtakavarga
+✓ Natal Promise
+✓ Master Probability
+✓ Formula Calibration
+✓ Question Engine
+
+Yoga is intentionally excluded. Yoga is NOT part of Parameter-Driven Evolution.
+
+---
+
+## CONFIGURATION OWNERSHIP PRINCIPLE
+
+Deterministic Python engines own calculations.
+
+Configuration files own parameters.
+
+Configuration SHALL NEVER contain business logic.
+
+Yoga owns neither deterministic calculations nor configurable parameters.
+
+Yoga remains a descriptive information layer.
+
+---
+
 ## Phase Status
+
 * **GM-001 through GM-005:** COMPLETE & FROZEN
 * **GM-006 (Active):**
   * BKL-001A (Calibration Discovery): ✅ COMPLETE
@@ -106,6 +208,7 @@ During that period, knowledge evolves, while the deterministic engine remains st
   * BKL-010 (Feature Freeze / Golden Master): PENDING
 
 ## Formula Calibration Framework (Architectural Extension)
+
 **Added as calibrated extension to existing Calibration Framework:**
 
 | Component | Status | Details |
@@ -124,6 +227,7 @@ During that period, knowledge evolves, while the deterministic engine remains st
 - All weights auto-normalize to 100%
 
 ## Question Engine Completion (BKL-004)
+
 **Expanded from 42 to 83 questions across all 13 domains:**
 
 | Domain | Before | After | Life Events Added |
@@ -143,6 +247,7 @@ During that period, knowledge evolves, while the deterministic engine remains st
 **Formula Reuse:** 30/43 leaf formulas used by questions, 0 new formulas created
 
 ## Formula Calibration Population (BKL-005B)
+
 **43/43 formulas calibrated (100%) — was 5/43**
 
 | Family | Base | Child Formulas | Total |
@@ -163,6 +268,7 @@ During that period, knowledge evolves, while the deterministic engine remains st
 **Inheritance Verified:** Base formulas contain common factors; Child formulas contain ONLY additional factors — merged and normalized to 100% in FormulaEvaluator.
 
 ## Current System State
+
 * **Backend:** Stable. All calibration frameworks, Gochara integration, formula calibration, question engine verified.
 * **Test Coverage:** 214 core tests passing (Question Engine + Gochara/Ashtakavarga/Transit), 1 skipped, zero new regressions.
 * **Architecture:** FROZEN — No changes without Architecture Review Board approval.
@@ -171,4 +277,5 @@ During that period, knowledge evolves, while the deterministic engine remains st
 * **Calibration Profiles:** v1.0_default (IMMUTABLE), v1.0_current (mutable), v1.0_frozen (production)
 
 ## Next Immediate Goal
+
 **BKL-005C: System Integration Validation** — End-to-end pipeline validation, integration tests for full formula pipeline, prepare for end-to-end product completion (BKL-008).
