@@ -26,14 +26,16 @@ SEED_FORMULAS = [
         answer_template_key="timing_assessment_v1"
     ),
     FormulaSchema(
-        formula_key="MAR_TIMING_DELAY",
-        formula_name="Delayed Marriage Timing",
-        formula_category="Timing Assessment",
-        parent_formula_key="MAR_TIMING_BASE",
-        required_signals=["saturn"],
-        required_confidence_layers=["saturn_aspect_7th"],
-        answer_template_key="timing_assessment_v1"
-    ),
+                formula_key="MAR_TIMING_DELAY",
+                formula_name="Delayed Marriage Timing",
+                formula_category="Timing Assessment",
+                parent_formula_key="MAR_TIMING_BASE",
+                required_engines=["TransitEngine"],
+                required_signals=["saturn"],
+                required_confidence_layers=["saturn_aspect_7th"],
+                future_gochara_required=True,
+                answer_template_key="timing_assessment_v1"
+            ),
 
     # ---------------------------------------------------------
     # CAREER FAMILY

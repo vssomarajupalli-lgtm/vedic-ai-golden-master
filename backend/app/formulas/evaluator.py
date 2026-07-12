@@ -41,28 +41,28 @@ class FormulaEvaluator:
                 payload = engine_outputs.model_dump()
             except AttributeError:
                 payload = dict(engine_outputs)
-           
+          
         system_warnings = FormulaEvaluator.check_engine_degradation(formula, payload)
-       
+      
         # Missing payload handling (Risk-FR-05)
         for sig in formula.required_signals:
             if sig not in isolated_signals:
                 system_warnings.append(f"Missing Payload: requested signal '{sig}' not found.")
-       
+      
         # Boolean condition evaluation
         fulfilled_layers = 0
         total_layers = len(formula.required_confidence_layers)
-       
+      
         for layer in formula.required_confidence_layers:
             is_fulfilled = True
-           
+          
             # Simulated boolean mapping: if degradation impacts the layer, mark False
             if "dasha" in layer.lower() and any("DashaEngine" in w for w in system_warnings):
                 is_fulfilled = False
-               
+              
             if is_fulfilled:
                 fulfilled_layers += 1
-               
+              
         # Domain prefix mapping to extract accurate promise score
         PREFIX_TO_DOMAIN = {
             "MAR": "marriage", "CAR": "career", "WEA": "wealth",
@@ -73,11 +73,11 @@ class FormulaEvaluator:
         domain_prefix = formula.formula_key.split("_")[0]
         domain_name = PREFIX_TO_DOMAIN.get(domain_prefix)
         promise_score = payload.get("natal_promise", {}).get(domain_name, {}).get("score", 50) if domain_name else 50
-       
+      
         # Confidence layer evaluation & Matrix Resolution (Pure Boolean Gating)
         final_state = "MIXED"
         is_degraded = len(system_warnings) > 0
-       
+      
         if total_layers > 0:
             if is_degraded:
                 final_state = "MIXED"  # Force neutral if degraded
@@ -87,28 +87,34 @@ class FormulaEvaluator:
                 final_state = "UNFAVORABLE"
             else:
                 final_state = "MIXED"
-               
+              
         # Primary Promise Gate Application (Hard Governance)
         if promise_score < 35:
             final_state = "UNFAVORABLE"
         elif promise_score < 50 and final_state == "FAVORABLE":
             final_state = "MIXED"
-       
+      
         # Calculate factor fulfillment with calibration weights
         factor_fulfillment = {}
         factor_weights = {}
         if formula_calibration and "factors" in formula_calibration:
             for fname, fdata in formula_calibration["factors"].items():
-                factor_weights[fname] = fdata.get("weight", 0)
+                factor_weights[fname] = fdata.get("weight_pct", 0)
                 # Signal exists if it's in isolated_signals
                 factor_fulfillment[fname] = fname in isolated_signals
+            
+            # Normalize weights to 100% if they don't sum to 100
+            total_weight = sum(factor_weights.values())
+            if total_weight > 0 and abs(total_weight - 100.0) > 0.01:
+                for fname in factor_weights:
+                    factor_weights[fname] = (factor_weights[fname] / total_weight) * 100.0
         else:
             # Fallback: equal weights for all required_signals
             equal_weight = 100.0 / len(formula.required_signals) if formula.required_signals else 0
             for sig in formula.required_signals:
                 factor_weights[sig] = equal_weight
                 factor_fulfillment[sig] = sig in isolated_signals
-       
+      
         return FormulaEvaluationResult(
             final_state=final_state,
             isolated_signals=isolated_signals,
