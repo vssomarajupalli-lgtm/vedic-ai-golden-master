@@ -27,10 +27,10 @@ export default function QuestionEngine() {
         }
       }
       
-      // Clear location state so refresh doesn't refetch
-      window.history.replaceState({}, document.title);
+      // Clear location state so refresh doesn't refetch - use React Router navigation to properly clear state
+      navigate('.', { replace: true });
     }
-  }, [location.state]);
+  }, [location.state, navigate]);
 
   // Guard clause
   if (!rawOutputs) {
