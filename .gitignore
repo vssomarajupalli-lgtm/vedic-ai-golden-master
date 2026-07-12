@@ -16,6 +16,9 @@ dist/
 dist-ssr/
 frontend/.vite/
 
+# Tauri Build Artifacts
+frontend/src-tauri/target/
+
 # OS Generated Files
 .DS_Store
 Thumbs.db
