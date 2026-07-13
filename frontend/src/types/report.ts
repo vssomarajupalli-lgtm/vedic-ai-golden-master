@@ -1,3 +1,5 @@
+import type { ConsultationStructure, BirthData, ClientProfile, ReportFormatting, ReportVersion, ReportMetadata } from './consultation';
+
 export interface ConsultationReport {
   id: string;
   consultationId: string;
@@ -125,6 +127,139 @@ export interface FormulaFactor {
   weight: number;
   value: number;
   contribution: number;
+}
+
+export interface ChapterSummary {
+  overallProbability: number;
+  overallGrade: string;
+  keyInsights: string[];
+}
+
+export interface ComputedAppendixData {
+  birthChart: BirthChartData;
+  planetaryPositions: PlanetaryPosition[];
+  dashaTimeline: DashaPeriod[];
+  transitCalendar: TransitEvent[];
+  vimshottariDetails: VimshottariDetail[];
+  ashtakavargaGrid: AshtakavargaData[];
+}
+
+export interface EvidenceIndex {
+  items: EvidenceItem[];
+  byQuestion: Record<string, EvidenceItem[]>;
+  byFactor: Record<string, EvidenceItem[]>;
+}
+
+export interface EvidenceItem {
+  id: string;
+  label: string;
+  factor: string;
+  weight: number;
+  value: number;
+  description: string;
+}
+
+export interface QuestionResult {
+  questionId: string;
+  probability: ProbabilityData;
+  timing: TimingData;
+  evidence: EvidenceItem[];
+  formulaVerification: FormulaVerificationData;
+}
+
+export interface ProbabilityData {
+  score: number;
+  grade: 'weak' | 'moderate' | 'high';
+  confidence: number;
+}
+
+export interface TimingData {
+  mahadasha: string;
+  antardasha: string;
+  pratyantardasha: string;
+  windows: TimingWindow[];
+  confidence: 'high' | 'moderate' | 'low';
+}
+
+export interface TimingWindow {
+  startDate: string;
+  endDate: string;
+  probability: number;
+  label: string;
+}
+
+export interface FormulaVerificationData {
+  formulaId: string;
+  version: string;
+  factors: FormulaFactor[];
+  weights: Record<string, number>;
+}
+
+export interface FormulaFactor {
+  factorId: string;
+  name: string;
+  weight: number;
+  value: number;
+  contribution: number;
+}
+
+export interface ChapterSummary {
+  overallProbability: number;
+  overallGrade: string;
+  keyInsights: string[];
+}
+
+export interface ComputedAppendixData {
+  birthChart: BirthChartData;
+  planetaryPositions: PlanetaryPosition[];
+  dashaTimeline: DashaPeriod[];
+  transitCalendar: TransitEvent[];
+  vimshottariDetails: VimshottariDetail[];
+  ashtakavargaGrid: AshtakavargaData[];
+}
+
+export interface EvidenceIndex {
+  items: EvidenceItem[];
+  byQuestion: Record<string, EvidenceItem[]>;
+  byFactor: Record<string, EvidenceItem[]>;
+}
+
+export interface EvidenceItem {
+  id: string;
+  label: string;
+  factor: string;
+  weight: number;
+  value: number;
+  description: string;
+}
+
+export interface QuestionResult {
+  questionId: string;
+  probability: ProbabilityData;
+  timing: TimingData;
+  evidence: EvidenceItem[];
+  formulaVerification: FormulaVerificationData;
+}
+
+export interface ProbabilityData {
+  score: number;
+  grade: 'weak' | 'moderate' | 'high';
+  confidence: number;
+}
+
+export interface TimingData {
+  mahadasha: string;
+  antardasha: string;
+  pratyantardasha: string;
+  windows: TimingWindow[];
+  confidence: 'high' | 'moderate' | 'low';
+}
+
+export interface TimingWindow {
+  startDate: string;
+  endDate: string;
+  probability: number;
+  label: string;
 }
 
 export interface FormulaVerificationData {

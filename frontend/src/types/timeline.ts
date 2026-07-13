@@ -40,8 +40,6 @@ export interface TimelineOptions {
   zoomLevel: 'year' | 'month' | 'week' | 'day';
   minZoom: 'year' | 'month' | 'week';
   maxZoom: 'year' | 'month' | 'week' | 'day';
-  showCurrentMarker: boolean;
-  showFutureMarkers: boolean;
   showPastMarkers: boolean;
   markerStyle: 'line' | 'dot' | 'flag';
   syncTracks: boolean;
@@ -138,14 +136,4 @@ interface CombinedTimelineData {
   futureEvents: FutureEvent[];
   transits: GocharaWindow[];
   currentTransits: PlanetTransit[];
-}
-
-interface FutureEvent {
-  event: string;
-  domain: string;
-  startDate: string;
-  endDate: string;
-  probability: number;
-  confidence: 'high' | 'moderate' | 'low';
-  triggers: string[];
 }

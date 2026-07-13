@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Heart, Clock, ChevronDown, ChevronRight, MessageCircle, AlertCircle } from 'lucide-react';
+import { FileText, ArrowRight } from 'lucide-react';
 import { apiService } from '../api/backend';
 import { useChartStore } from '../store/useChartStore';
 
@@ -102,6 +103,17 @@ export default function QuestionBrowser() {
   const handleAsk = () => {
     if (!selectedQuestion) return;
     navigate('/engine', {
+      state: {
+        initialQuestionId: selectedQuestion.question_id,
+        initialQuestionText: selectedQuestion.question_name
+      }
+    });
+  };
+
+  const handleOpenInWorkspace = () => {
+    if (!selectedQuestion) return;
+    // Navigate to consultation workspace with the selected question pre-selected
+    navigate('/consultation', {
       state: {
         initialQuestionId: selectedQuestion.question_id,
         initialQuestionText: selectedQuestion.question_name
@@ -263,6 +275,36 @@ export default function QuestionBrowser() {
               Please calculate your chart first.
             </div>
           )}
+        </div>
+      )}
+      {selectedQuestion && rawOutputs && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-50">
+          <div className="max-w-2xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="flex-1 text-center sm:text-left">
+              <div className="text-xs text-indigo-600 font-bold uppercase tracking-wider mb-1">
+                Selected Question • {selectedQuestion.question_id}
+              </div>
+              <div className="text-lg font-medium text-slate-800">
+                "{selectedQuestion.question_name}"
+              </div>
+            </div>
+            <div className="flex gap-2 w-full sm:w-auto">
+              <button
+                onClick={handleOpenInWorkspace}
+                className="w-full sm:w-auto px-6 py-3 bg-indigo-100 text-indigo-700 font-medium rounded-lg hover:bg-indigo-200 transition-colors flex items-center justify-center gap-2"
+              >
+                <FileText className="w-4 h-4" />
+                Open in Workspace
+              </button>
+              <button
+                onClick={handleAsk}
+                className="w-full sm:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg shadow-md transition-colors flex items-center justify-center gap-2"
+              >
+                Ask Question
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

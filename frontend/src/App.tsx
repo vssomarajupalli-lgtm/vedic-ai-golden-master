@@ -8,6 +8,7 @@ import QuestionEngine from './pages/QuestionEngine';
 import QuestionBrowser from './pages/QuestionBrowser';
 import ExportReport from './pages/ExportReport';
 import VerificationConsole from './pages/VerificationConsole';
+import ConsultationWorkspace from './components/consultation/ConsultationWorkspace';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="ask" element={<Navigate to="/browse" replace />} />
           <Route path="export" element={<ExportReport />} />
           <Route path="verify" element={<VerificationConsole />} />
+          <Route path="consultation" element={<ConsultationWorkspace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

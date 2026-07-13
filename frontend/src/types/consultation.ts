@@ -143,3 +143,55 @@ export interface BirthData {
   longitude: number;
   place: string;
 }
+
+export interface ReportVersion {
+  version: number;
+  timestamp: Date;
+  author: string;
+  changes: string;
+  reportSnapshotId: string;
+}
+
+export interface ReportMetadata {
+  reportId: string;
+  reportVersion: number;
+  reportType: 'consultation' | 'comparison' | 'template';
+  generationDate: Date;
+  generatedBy: string;
+  generationDurationMs: number;
+  engineVersions: Record<string, string>;
+  formulaRegistryVersion: string;
+  questionCatalogVersion: string;
+  calibrationProfileVersion: string;
+  desktopRuntimeVersion?: string;
+  serverRuntimeVersion?: string;
+  browserRuntimeVersion?: string;
+  chartId: string;
+  chartName: string;
+  birthDataHash: string;
+  pageCount: number;
+  wordCount: number;
+  questionCount: number;
+  domainCount: number;
+  checksum: string;
+  signature?: string;
+  consultationSnapshotId: string;
+  reproductionInstructions: string;
+}
+
+export interface ClientProfile {
+  name: string;
+  email?: string;
+  phone?: string;
+  notes?: string;
+  tags: string[];
+}
+
+export interface BirthData {
+  date: string;
+  time: string;
+  timezone: string;
+  latitude: number;
+  longitude: number;
+  place: string;
+}
