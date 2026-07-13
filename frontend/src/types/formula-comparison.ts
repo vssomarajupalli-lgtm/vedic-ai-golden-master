@@ -1,6 +1,3 @@
-import type { EvidenceItem } from './report';
-import type { TimingData } from './report';
-
 export interface FormulaComparison {
   id: string;
   name: string;
@@ -21,8 +18,8 @@ interface FormulaSnapshot {
   outputs: FormulaOutputs;
   probability: number;
   factors: FactorSnapshot[];
-  evidence: EvidenceItem[];
-  timing: TimingData;
+  evidence: any[];
+  timing: any;
   metadata: SnapshotMetadata;
 }
 

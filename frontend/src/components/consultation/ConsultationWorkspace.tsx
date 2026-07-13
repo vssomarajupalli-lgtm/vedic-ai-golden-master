@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useChartStore } from '../../store/useChartStore';
 import { apiService } from '../../api/backend';
 import { QUESTIONNAIRE_SCHEMA } from '../../config/questionnaireSchema';
 import { QuestionSelectionPanel } from './QuestionSelectionPanel';
 import { ReportStructurePanel } from './ReportStructurePanel';
-import { PRINT_PROFILES } from '../../types/print-profiles';
-import { FileText, Download, Printer, Eye, MessageCircle } from 'lucide-react';
+import { FileText, Eye, MessageCircle } from 'lucide-react';
 
 interface ConsultationWorkspaceProps {
   initialQuestionId?: string;
@@ -22,15 +21,15 @@ export const ConsultationWorkspace: React.FC<ConsultationWorkspaceProps> = ({
   const [activeTab, setActiveTab] = useState<'selection' | 'structure' | 'notes' | 'preview'>('selection');
   const [searchQuery, setSearchQuery] = useState('');
   const [filterDomain, setFilterDomain] = useState<string | null>(null);
-  const [showFavorites, setShowFavorites] = useState(false);
-  const [mode, setMode] = useState<'standard' | 'professional' | 'expert' | 'study'>('professional');
-  const [consultationTitle, setConsultationTitle] = useState('New Consultation');
+  const [consultationTitle] = useState('New Consultation');
   
   useEffect(() => {
     if (location.state?.initialQuestionId) {
       setSelectedQuestions(new Set([location.state.initialQuestionId]));
+    } else if (initialQuestionId) {
+      setSelectedQuestions(new Set([initialQuestionId]));
     }
-  }, [location.state]);
+  }, [location.state, initialQuestionId]);
   
   const consultation = useMemo(() => ({
     id: `consultation-${Date.now()}`,
@@ -75,13 +74,6 @@ export const ConsultationWorkspace: React.FC<ConsultationWorkspaceProps> = ({
     createdAt: new Date(),
     updatedAt: new Date(),
   }), [selectedQuestions, consultationTitle]);
-
-  const handleQuestionToggle = (questionId: string) => {
-    const next = new Set(selectedQuestions);
-    if (next.has(questionId)) next.delete(questionId);
-    else next.add(questionId);
-    setSelectedQuestions(next);
-  };
 
   const onGenerateReport = async () => {
     if (!canonicalContent || !machineIndex) return;
@@ -130,61 +122,130 @@ export const ConsultationWorkspace: React.FC<ConsultationWorkspaceProps> = ({
           <h1 className="text-2xl font-bold text-gray-800">Consultation Workspace</h1>
         </div>
         <div className="flex items-center space-x-2">
-          <button onClick={() => {}} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Save</button>
-          <button onClick={() => {}} className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">Preview</button>
-          <button onClick={() => {}} className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Generate Report</button>
+          <button onClick={onSave} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Save</button>
+          <button onClick={onPreview} className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">
+            <Eye className="w-4 h-4 mr-1" /> Preview
+          </button>
+          <button onClick={onGenerateReport} className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Generate Report</button>
         </div>
       </div>
 
       <div className="flex-1 flex overflow-hidden">
         <div className="w-64 border-r border-gray-200 bg-white flex flex-col">
           <nav className="flex-1 p-4 space-y-2">
-            <button className="w-full text-left px-4 py-2 rounded-md transition-colors bg-blue-50 text-blue-700">
+            <button
+              className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
+                activeTab === 'selection' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'
+              }`}
+              onClick={() => setActiveTab('selection')}
+            >
+              <MessageCircle className="w-5 h-5 mr-2 inline" />
               Question Selection
             </button>
-            <button className="w-full text-left px-4 py-2 rounded-md transition-colors text-gray-700 hover:bg-gray-50">
+            <button
+              className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
+                activeTab === 'structure' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'
+              }`}
+              onClick={() => setActiveTab('structure')}
+            >
+              <FileText className="w-5 h-5 mr-2 inline" />
               Report Structure
             </button>
-            <button className="w-full text-left px-4 py-2 rounded-md transition-colors text-gray-700 hover:bg-gray-50">
+            <button
+              className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
+                activeTab === 'notes' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'
+              }`}
+              onClick={() => setActiveTab('notes')}
+            >
+              <MessageCircle className="w-5 h-5 mr-2 inline" />
               Notes & Bookmarks
             </button>
-            <button className="w-full text-left px-4 py-2 rounded-md transition-colors text-gray-700 hover:bg-gray-50">
+            <button
+              className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
+                activeTab === 'preview' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'
+              }`}
+              onClick={onPreview}
+            >
+              <Eye className="w-5 h-5 mr-2 inline" />
               Preview Report
             </button>
           </nav>
           <div className="p-4 border-t border-gray-200">
-            <div className="text-sm text-gray-500">0 questions selected</div>
+            <div className="text-sm text-gray-500">
+              {selectedQuestions.size} questions selected
+            </div>
           </div>
         </div>
 
         <div className="flex-1 flex flex-col overflow-hidden">
           <div className="flex-1 overflow-auto p-4">
-            <QuestionSelectionPanel
-              selectedQuestions={new Set()}
-              onQuestionToggle={() => {}}
-              onPackageSelect={() => {}}
-              onSearch={() => {}}
-              onDomainFilter={() => {}}
-              onSelectAll={() => {}}
-              onClear={() => {}}
-              onFavoritesToggle={() => {}}
-              showFavorites={false}
-              packages={[]}
-              searchQuery=""
-              filterDomain={null}
+            {activeTab === 'selection' && (
+              <QuestionSelectionPanel
+                onPackageSelect={() => {}}
+                onSearch={setSearchQuery}
+                onDomainFilter={setFilterDomain}
+                onSelectAll={() => {}}
+                onClear={() => setSelectedQuestions(new Set())}
+                packages={packages}
+                searchQuery={searchQuery}
+                filterDomain={filterDomain}
               />
+            )}
+
+            {activeTab === 'structure' && (
+              <ReportStructurePanel
+                consultation={consultation}
+                onConsultationChange={(updated) => console.log('Consultation updated:', updated)}
+              />
+            )}
+
+            {activeTab === 'notes' && (
+              <div className="h-full bg-white p-4">
+                <p className="text-gray-500">Notes & Bookmarks panel - to be implemented</p>
               </div>
+            )}
+
+            {activeTab === 'preview' && (
+              <div className="h-full bg-white p-4">
+                <div className="max-w-3xl mx-auto">
+                  <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h2 className="text-xl font-bold mb-4">Report Preview</h2>
+                    <p className="text-gray-600">Preview of the generated consultation report will appear here.</p>
+                    <div className="mt-4 p-4 bg-white border border-gray-200 rounded">
+                      <h3 className="font-bold">{consultationTitle}</h3>
+                      <p className="text-gray-600 mt-2">Selected Questions: {selectedQuestions.size}</p>
+                      <p className="text-gray-600 mt-1">Estimated Pages: {Math.ceil(selectedQuestions.size * 1.2 + 3)}</p>
+                      <div className="mt-4 space-y-2">
+                        {Array.from(selectedQuestions).slice(0, 5).map(qId => (
+                          <div key={qId} className="text-sm text-gray-700 border-b border-gray-100 pb-2">
+                            {qId}
+                          </div>
+                        ))}
+                        {selectedQuestions.size > 5 && <p className="text-sm text-gray-500">... and {selectedQuestions.size - 5} more</p>}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
 
           <div className="p-4 border-t border-gray-200 bg-white flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-500">0 questions selected</span>
+              <span className="text-sm text-gray-500">
+                {selectedQuestions.size} questions selected · Est. {Math.ceil(selectedQuestions.size * 1.2 + 3)} pages
+              </span>
             </div>
             <div className="flex items-center space-x-2">
-              <select className="px-3 py-1 border border-gray-300 rounded-md text-sm">
+              <select
+                value="professional-consultation"
+                onChange={() => {}}
+                className="px-3 py-1 border border-gray-300 rounded-md text-sm"
+              >
                 <option value="professional-consultation">Professional Consultation</option>
               </select>
-              <button className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">Print</button>
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Export PDF</button>
+              <button onClick={onPrint} className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">Print</button>
+              <button onClick={onExportPDF} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Export PDF</button>
             </div>
           </div>
         </div>

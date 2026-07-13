@@ -1,58 +1,26 @@
-import React, { useMemo } from 'react';
-import { QUESTIONNAIRE_SCHEMA } from '../../config/questionnaireSchema';
+import React from 'react';
 
 interface QuestionSelectionPanelProps {
-  selectedQuestions: Set<string>;
-  onQuestionToggle: (questionId: string) => void;
   onPackageSelect: (packageId: string, replace?: boolean) => void;
   onSearch: (query: string) => void;
   onDomainFilter: (domainId: string | null) => void;
   onSelectAll: () => void;
   onClear: () => void;
-  onFavoritesToggle: () => void;
-  showFavorites: boolean;
   packages: Array<{id: string; name: string; questions: number}>;
   searchQuery: string;
   filterDomain: string | null;
 }
 
 export const QuestionSelectionPanel: React.FC<QuestionSelectionPanelProps> = ({
-  selectedQuestions,
-  onQuestionToggle,
   onPackageSelect,
   onSearch,
   onDomainFilter,
   onSelectAll,
   onClear,
-  onFavoritesToggle,
-  showFavorites,
   packages,
   searchQuery,
   filterDomain,
 }) => {
-  const visibleQuestions = useMemo(() => {
-    let questions: Array<{
-      id: string;
-      label: string;
-      domainId: string;
-      domainLabel: string;
-    }> = [];
-
-    QUESTIONNAIRE_SCHEMA.forEach(domain => {
-      if (filterDomain && domain.domainId !== filterDomain) return;
-      domain.questions.forEach(q => {
-        if (searchQuery && !q.label.toLowerCase().includes(searchQuery.toLowerCase())) return;
-        questions.push({
-          id: q.id,
-          label: q.label,
-          domainId: domain.domainId,
-          domainLabel: domain.domainLabel
-        });
-      });
-    });
-    return questions;
-  }, [filterDomain, searchQuery]);
-
   return (
     <div className="h-full flex flex-col bg-white">
       <div className="p-4 border-b border-gray-200 bg-gray-50 flex flex-wrap gap-2">
@@ -76,8 +44,12 @@ export const QuestionSelectionPanel: React.FC<QuestionSelectionPanelProps> = ({
             <option value="career">Career</option>
             <option value="wealth">Wealth</option>
           </select>
-          <button onClick={onSelectAll} className="px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700">Select All Visible</button>
-          <button onClick={onClear} className="px-3 py-1.5 text-sm bg-gray-600 text-white rounded-md hover:bg-gray-700">Clear All</button>
+          <button onClick={onSelectAll} className="px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700">
+            Select All Visible
+          </button>
+          <button onClick={onClear} className="px-3 py-1.5 text-sm bg-gray-600 text-white rounded-md hover:bg-gray-700">
+            Clear All
+          </button>
         </div>
       </div>
 
@@ -103,20 +75,10 @@ export const QuestionSelectionPanel: React.FC<QuestionSelectionPanelProps> = ({
       <div className="p-3 border-b border-gray-200">
         <div className="mb-2 text-sm font-medium text-gray-700">Quick Packages</div>
         <div className="flex flex-wrap gap-2">
-          {[
-            { id: 'marriage-complete', name: '💍 Marriage Complete', questions: 8 },
-            { id: 'career-complete', name: '💼 Career Complete', questions: 8 },
-            { id: 'wealth-complete', name: '💰 Wealth Complete', questions: 8 },
-            { id: 'health-complete', name: '🏥 Health Complete', questions: 8 },
-            { id: 'property-complete', name: '🏠 Property Complete', questions: 11 },
-            { id: 'children-complete', name: '👶 Children Complete', questions: 7 },
-            { id: 'education-complete', name: '🎓 Education Complete', questions: 8 },
-            { id: 'travel-complete', name: '🌍 Travel Complete', questions: 6 },
-            { id: 'spiritual-complete', name: '🕉 Spiritual Complete', questions: 7 },
-            { id: 'complete-horoscope', name: '📚 Complete Horoscope', questions: 83 },
-          ].map((pkg) => (
+          {packages.map((pkg) => (
             <button
               key={pkg.id}
+              onClick={() => onPackageSelect(pkg.id)}
               className="px-3 py-1.5 text-xs bg-blue-50 text-blue-700 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors"
             >
               {pkg.name} ({pkg.questions})

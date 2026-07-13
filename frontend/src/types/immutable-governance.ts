@@ -1,5 +1,3 @@
-import type { ConsultationReport } from './report';
-
 export interface ImmutableReportGovernance {
   principle: string;
   rules: ImmutableRule[];
@@ -10,101 +8,63 @@ export interface ImmutableReportGovernance {
 interface ImmutableRule {
   id: string;
   description: string;
-  enforcement: 'hard' | 'soft';
-  scope: 'report' | 'pdf' | 'snapshot' | 'version_history';
+  scope: 'reports' | 'pdfs' | 'snapshots' | 'version_history' | 'all';
+  appliesTo: string[];
+  violations: ViolationType[];
 }
 
 interface EnforcementLevel {
-  level: 'hard' | 'soft' | 'advisory';
-  automated: boolean;
-  auditTrail: boolean;
+  level: 'strict' | 'advisory' | 'logged';
+  actions: ('block' | 'warn' | 'audit' | 'revert')[];
+  requiresApproval: boolean;
 }
 
 interface Exception {
-  condition: string;
-  justification: string;
-  approvedBy: string;
+  id: string;
+  description: string;
+  allowedBy: string;
   expiresAt?: Date;
+  reason: string;
 }
 
-export const IMMUTABLE_REPORT_GOVERNANCE: ImmutableReportGovernance = {
-  principle: 'Generated Reports Are Immutable. If formulas, calibration, questions, or decision layer change, previous reports SHALL NEVER change. A completely NEW report shall be generated.',
-  rules: [
-    {
-      id: 'IRG-001',
-      description: 'Generated reports shall never be modified after generation',
-      enforcement: 'hard',
-      scope: 'report',
-    },
-    {
-      id: 'IRG-002',
-      description: 'PDF exports are immutable once generated',
-      enforcement: 'hard',
-      scope: 'pdf',
-    },
-    {
-      id: 'IRG-003',
-      description: 'Consultation snapshots are immutable once created',
-      enforcement: 'hard',
-      scope: 'snapshot',
-    },
-    {
-      id: 'IRG-004',
-      description: 'Version history entries are immutable once created',
-      enforcement: 'hard',
-      scope: 'version_history',
-    },
-    {
-      id: 'IRG-005',
-      description: 'If formulas change, previous reports must not change; new report version must be generated',
-      enforcement: 'hard',
-      scope: 'report',
-    },
-    {
-      id: 'IRG-006',
-      description: 'If calibration changes, previous reports must not change; new report version must be generated',
-      enforcement: 'hard',
-      scope: 'report',
-    },
-    {
-      id: 'IRG-007',
-      description: 'If question registry changes, previous reports must not change; new report version must be generated',
-      enforcement: 'hard',
-      scope: 'report',
-    },
-    {
-      id: 'IRG-008',
-      description: 'If decision layer changes, previous reports must not change; new report version must be generated',
-      enforcement: 'hard',
-      scope: 'report',
-    },
-  ],
-  enforcement: {
-    level: 'hard',
-    automated: true,
-    auditTrail: true,
-  },
-  exceptions: [],
-};
+type ViolationType = 
+  | 'content_modification'
+  | 'formula_override'
+  | 'calibration_override'
+  | 'decision_override'
+  | 'timestamp_tampering'
+  | 'checksum_mismatch';
 
-export function validateImmutability(report: ConsultationReport, newVersion: ConsultationReport): ValidationResult {
-  const errors: string[] = [];
-  
-  if (report.metadata.reportId !== newVersion.metadata.reportId) {
-    errors.push('Report ID must remain the same for version increments');
-  }
-  
-  if (report.metadata.reportVersion >= newVersion.metadata.reportVersion) {
-    errors.push('New version must have higher version number');
-  }
-  
-  return {
-    valid: errors.length === 0,
-    errors,
-  };
+interface Violation {
+  ruleId: string;
+  type: ViolationType;
+  severity: 'critical' | 'high' | 'medium' | 'low';
+  detectedAt: Date;
+  details: string;
+  autoRemediated: boolean;
+  remediationAction?: string;
 }
 
-interface ValidationResult {
-  valid: boolean;
-  errors: string[];
+export interface ImmutableReportGovernanceState {
+  violations: Violation[];
+  lastAudit: Date;
+  auditResults: AuditResult[];
+}
+
+interface AuditResult {
+  timestamp: Date;
+  reportId: string;
+  passed: boolean;
+  violations: Violation[];
+}
+
+export interface ImmutableReportGovernanceContextType {
+  governance: ImmutableReportGovernance;
+  state: ImmutableReportGovernanceState;
+  validateReport: (reportId: string) => Promise<boolean>;
+  validatePDF: (pdfPath: string) => Promise<boolean>;
+  validateSnapshot: (snapshotId: string) => Promise<boolean>;
+  validateVersionHistory: (historyId: string) => Promise<boolean>;
+  reportViolation: (violation: Violation) => void;
+  requestException: (exception: Exception) => Promise<boolean>;
 }

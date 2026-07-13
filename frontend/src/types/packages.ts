@@ -1,5 +1,3 @@
-import type { ReportFormatting } from './consultation';
-
 export interface QuestionPackage {
   id: string;
   name: string;
@@ -8,52 +6,27 @@ export interface QuestionPackage {
   tags: string[];
   icon: string;
   questionIds: string[];
-  structure: PackageStructure;
-  formatting?: Partial<ReportFormatting>;
-  estimatedPages: number;
-  estimatedTimeMinutes: number;
   isCustom: boolean;
   createdBy?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
   shareable: boolean;
-  version: number;
-}
-
-interface PackageStructure {
-  chapters: PackageChapter[];
-}
-
-interface PackageChapter {
-  title: string;
-  questionIds: string[];
-  customIntro?: string;
+  exportPackage(): string;
+  importPackage(json: string): Promise<QuestionPackage>;
 }
 
 export interface PackageManager {
-  getAllPackages(): QuestionPackage[];
-  getPackageById(id: string): QuestionPackage | undefined;
-  createCustomPackage(data: CreateCustomPackageData): Promise<QuestionPackage>;
-  updateCustomPackage(id: string, data: Partial<QuestionPackage>): Promise<QuestionPackage>;
-  deleteCustomPackage(id: string): Promise<void>;
-  exportPackage(id: string): string;
-  importPackage(json: string): Promise<QuestionPackage>;
-  duplicatePackage(id: string, newName: string): Promise<QuestionPackage>;
+  packages: QuestionPackage[];
+  getPackage(id: string): QuestionPackage | undefined;
+  addPackage(pkg: QuestionPackage): void;
+  removePackage(id: string): boolean;
+  createCustomPackage(name: string, description: string, questionIds: string[], tags: string[], icon: string): QuestionPackage;
+  importPackage(json: string): QuestionPackage;
+  exportPackage(id: string): string | null;
 }
 
-interface CreateCustomPackageData {
+export interface CreateCustomPackageData {
   name: string;
   description: string;
-  category: 'custom';
-  tags: string[];
   questionIds: string[];
-  structure: PackageStructure;
-  formatting?: Partial<ReportFormatting>;
+  tags?: string[];
   icon?: string;
-}
-
-export interface PackageSelectorProps {
-  selectedQuestions: Set<string>;
-  onPackageSelect: (packageId: string, replace?: boolean) => void;
-  onCustomPackageCreate: (data: CreateCustomPackageData) => void;
 }
