@@ -5,7 +5,8 @@ import { apiService } from '../../api/backend';
 import { QUESTIONNAIRE_SCHEMA } from '../../config/questionnaireSchema';
 import { QuestionSelectionPanel } from './QuestionSelectionPanel';
 import { ReportStructurePanel } from './ReportStructurePanel';
-import { FileText, Eye, MessageCircle } from 'lucide-react';
+import { ActivationTimeline } from './ActivationTimeline';
+import { FileText, Eye, MessageCircle, Clock, TrendingUp } from 'lucide-react';
 
 interface ConsultationWorkspaceProps {
   initialQuestionId?: string;
@@ -18,7 +19,7 @@ export const ConsultationWorkspace: React.FC<ConsultationWorkspaceProps> = ({
   const { canonicalContent, machineIndex } = useChartStore();
   
   const [selectedQuestions, setSelectedQuestions] = useState<Set<string>>(new Set());
-  const [activeTab, setActiveTab] = useState<'selection' | 'structure' | 'notes' | 'preview'>('selection');
+  const [activeTab, setActiveTab] = useState<'selection' | 'structure' | 'notes' | 'preview' | 'timeline'>('selection');
   const [searchQuery, setSearchQuery] = useState('');
   const [filterDomain, setFilterDomain] = useState<string | null>(null);
   const [consultationTitle] = useState('New Consultation');
@@ -52,7 +53,7 @@ export const ConsultationWorkspace: React.FC<ConsultationWorkspaceProps> = ({
         });
         return {
           id: `chapter-${domainId}`,
-          title: domainId ? `${domainId}. ${QUESTIONNAIRE_SCHEMA.find(d => parseInt(d.domainId.replace(/\D/g,'')) === domainId)?.domainLabel || `Domain ${domainId}`}` : `Chapter ${index + 1}`,
+          title: domainId ? `${domainId}. ${QUESTIONNAIRE_SCHEMA.find(d => parseInt(d.domainId.replace(/\\D/g,'')) === domainId)?.domainLabel || `Domain ${domainId}`}` : `Chapter ${index + 1}`,
           order: index + 1,
           included: true,
           questions: [{ questionId: qId, domainId, order: 1, included: true, customLabel: label }],
@@ -87,7 +88,7 @@ export const ConsultationWorkspace: React.FC<ConsultationWorkspaceProps> = ({
   };
 
   const onPreview = () => {
-    // Preview logic
+    setActiveTab('preview');
   };
 
   const onPrint = () => {
@@ -169,6 +170,16 @@ export const ConsultationWorkspace: React.FC<ConsultationWorkspaceProps> = ({
               <Eye className="w-5 h-5 mr-2 inline" />
               Preview Report
             </button>
+            <button
+              className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
+                activeTab === 'timeline' ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700 hover:bg-gray-50'
+              }`}
+              onClick={() => setActiveTab('timeline')}
+            >
+              <Clock className="w-5 h-5 mr-2 inline" />
+              <TrendingUp className="w-5 h-5 mr-2 inline" />
+              Activation Timeline
+            </button>
           </nav>
           <div className="p-4 border-t border-gray-200">
             <div className="text-sm text-gray-500">
@@ -226,6 +237,15 @@ export const ConsultationWorkspace: React.FC<ConsultationWorkspaceProps> = ({
                     </div>
                   </div>
                 </div>
+              </div>
+            )}
+
+            {activeTab === 'timeline' && (
+              <div className="h-full bg-white p-4">
+                <ActivationTimeline 
+                  rawOutputs={{ breakdown: { engine_outputs: {} } }} 
+                  mode="standard"
+                />
               </div>
             )}
           </div>
