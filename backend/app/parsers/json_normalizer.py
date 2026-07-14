@@ -393,7 +393,15 @@ class JsonNormalizer:
         if not date_str or str(date_str).strip().lower() == "unknown":
             return "Unknown"
         import datetime
+        import re
         val = str(date_str).strip()
+        
+        # Clean out non-ASCII and fix spacing for OCR artifacts
+        val = re.sub(r'[^\x00-\x7F]+', '', val)
+        val = re.sub(r'\s*-\s*', '-', val)
+        val = re.sub(r'\s*/\s*', '/', val)
+        val = re.sub(r'\s+', ' ', val).strip()
+
         formats = ["%Y-%m-%d", "%d-%m-%Y", "%d/%m/%Y", "%Y/%m/%d", "%d %b %Y", "%d %B %Y"]
         for fmt in formats:
             try:
@@ -401,7 +409,7 @@ class JsonNormalizer:
                 return dt.strftime("%Y-%m-%d")
             except ValueError:
                 pass
-        return val
+        return str(date_str).strip()
 
     def _clean_name(self, val: str, mapping_dict: dict) -> str:
         cleaned = self._clean_string(val)

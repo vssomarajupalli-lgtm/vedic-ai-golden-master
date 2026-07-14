@@ -37,11 +37,21 @@ class DashaEngine:
         if not timeline:
             return results
             
+        # Filter out rows with unparseable dates to prevent strptime crashes
+        clean_timeline = []
+        for x in timeline:
+            try:
+                datetime.datetime.strptime(x.get('start_date', ''), '%Y-%m-%d')
+                clean_timeline.append(x)
+            except ValueError:
+                pass
+                
+        timeline = clean_timeline
+        if not timeline:
+            return results
+            
         # Sort timeline chronologically
-        try:
-            timeline.sort(key=lambda x: datetime.datetime.strptime(x['start_date'], '%Y-%m-%d'))
-        except Exception:
-            pass # Failsafe against bad strings, but data is canonical
+        timeline.sort(key=lambda x: datetime.datetime.strptime(x['start_date'], '%Y-%m-%d'))
             
         target_dt = datetime.datetime.strptime(target_date, '%Y-%m-%d')
         active_record = None
