@@ -1,12 +1,9 @@
 // @ts-nocheck
 import React, { useMemo } from 'react';
 import { 
-  ChevronDown, ChevronRight,
-  Calendar, CheckCircle, Zap,
-  Users, Sun, Moon, AlertCircle,
-  Shield, Target, TrendingUp, TrendingDown,
-  ArrowUpRight, Saturn, AlertTriangle, Target as TargetIcon,
-  MapPin, Crown, Sparkles, BookOpen
+  ChevronDown, ChevronRight, Calendar, CheckCircle, Zap,
+  Users, Sun, Moon, AlertCircle, Shield, Target, TrendingUp, TrendingDown,
+  AlertTriangle, Target as TargetIcon, MapPin
 } from 'lucide-react';
 
 interface GocharaPresentationProps {
@@ -485,38 +482,10 @@ function formatDate(dateStr: string): string {
   }
 }
 
-const ArrowUpRight = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M7 17L17 7M17 7h-10M17 7v10" />
-  </svg>
-);
 
-const Saturn = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <circle cx="12" cy="12" r="5" />
-    <path d="M12 2a10 10 0 0 1 0 20M12 2a10 10 0 0 0 0 20" />
-    <ellipse cx="12" cy="12" rx="14" ry="3" />
-  </svg>
-);
 
-const Crown = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-  </svg>
-);
 
-const Sparkles = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M12 3v2m0 14v2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41M3 12h2m14 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41" />
-  </svg>
-);
 
-const BookOpen = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-  </svg>
-);
 
 // ============================================
 // SECTION COMPONENTS
