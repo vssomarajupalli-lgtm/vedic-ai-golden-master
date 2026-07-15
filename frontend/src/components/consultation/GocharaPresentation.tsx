@@ -6,7 +6,7 @@ import {
   Users, Sun, Moon, AlertCircle,
   Shield, Target, TrendingUp, TrendingDown,
   ArrowUpRight, Saturn, AlertTriangle, Target as TargetIcon,
-  MapPin
+  MapPin, Crown, Sparkles, BookOpen
 } from 'lucide-react';
 
 interface GocharaPresentationProps {
@@ -31,24 +31,21 @@ export const GocharaPresentation: React.FC<GocharaPresentationProps> = ({
     const dashas = rawOutputs.breakdown.engine_outputs.dashas?.synthesis || {};
     const natalPromise = rawOutputs.breakdown.engine_outputs.natal_promise || {};
     
-    // Build current transits from supporting/obstructing factors
-    const currentTransits = buildCurrentTransits(transit, planets, dashas);
-    const mandaliPositions = buildMandaliPositions(transit);
-    const affectedDomains = buildAffectedDomains(transit, natalPromise);
-    const sadeSati = buildSadeSati(transit, planets);
-    const upcomingWindows = buildUpcomingWindows(transit, dashas);
-    
     return {
       transit,
       planets,
       houses,
       dashas,
       natalPromise,
-      currentTransits,
-      upcomingWindows,
-      sadeSati,
-      mandaliPositions,
-      affectedDomains
+      currentTransits: buildCurrentTransits(transit, planets, dashas),
+      mandaliPositions: buildMandaliPositions(transit),
+      affectedDomains: buildAffectedDomains(transit, natalPromise),
+      sadeSati: buildSadeSati(transit, planets),
+      ashtamaShani: buildAshtamaShani(transit, planets),
+      ardhaAshtamaShani: buildArdhaAshtamaShani(transit, planets),
+      jupiterTransits: buildJupiterTransits(transit, planets),
+      rahuKetuAxis: buildRahuKetuAxis(transit, planets),
+      nextMajorEvent: buildNextMajorEvent(transit),
     };
   }, [rawOutputs]);
 
@@ -65,14 +62,17 @@ export const GocharaPresentation: React.FC<GocharaPresentationProps> = ({
   const { 
     transit, 
     planets, 
-    houses, 
     dashas, 
     natalPromise,
     currentTransits, 
-    upcomingWindows,
-    sadeSati,
     mandaliPositions,
-    affectedDomains
+    affectedDomains,
+    sadeSati,
+    ashtamaShani,
+    ardhaAshtamaShani,
+    jupiterTransits,
+    rahuKetuAxis,
+    nextMajorEvent
   } = gocharaData;
 
   const activationScore = transit.activation_score || 0;
@@ -87,18 +87,14 @@ export const GocharaPresentation: React.FC<GocharaPresentationProps> = ({
             <h2 className="text-2xl font-bold">Gochara (Transit) Presentation</h2>
             <p className="text-purple-100 text-sm">Deterministic Transit Analysis · Classical Parashari Gochara</p>
           </div>
-          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-            mode === 'expert' ? 'bg-yellow-200 text-yellow-900' : 
-            mode === 'professional' ? 'bg-blue-200 text-blue-900' : 
-            mode === 'study' ? 'bg-green-200 text-green-900' : 'bg-gray-200 text-gray-900'
-          }`}>
+          <span className={`px-3 py-1 rounded-full text-xs font-medium ${mode === 'expert' ? 'bg-yellow-200 text-yellow-900' : mode === 'professional' ? 'bg-blue-200 text-blue-900' : mode === 'study' ? 'bg-green-200 text-green-900' : 'bg-gray-200 text-gray-900'}`}>
             {mode.toUpperCase()} MODE
           </span>
         </div>
         
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           <GocharaMetric label="TRANSIT ACTIVATION" value={`${activationScore}%`} icon={Zap} grade={getGrade(activationScore)} />
-          <GocharaMetric label="OVERALL STRENGTH" value={`${transit.activated_domains ? averageDomainStrength(transit.activated_domains) : 0}%`} icon={TrendingUp} grade={getGrade(transit.activated_domains ? averageDomainStrength(transit.activated_domains) : 0)} />
+          <GocharaMetric label="OVERALL STRENGTH" value={`${averageDomainStrength(transit.activated_domains)}%`} icon={TrendingUp} grade={getGrade(averageDomainStrength(transit.activated_domains))} />
           <GocharaMetric label="MD LORD TRANSIT" value={transit.breakdown?.dasha_sync ? `${transit.breakdown.dasha_sync}%` : '—'} icon={Sun} grade={transit.breakdown?.dasha_sync ? getGrade(transit.breakdown.dasha_sync) : '—'} />
           <GocharaMetric label="DASHA SYNC" value={`${transit.breakdown?.dasha_sync || 0}%`} icon={Target} grade={getGrade(transit.breakdown?.dasha_sync || 0)} />
           <GocharaMetric label="TIMING CONFIDENCE" value={getTimingConfidence(transit)} icon={Shield} grade={getTimingConfidence(transit)} />
@@ -140,15 +136,15 @@ export const GocharaPresentation: React.FC<GocharaPresentationProps> = ({
         {/* SECTION E: CURRENT TRANSIT SUMMARY */}
         <TransitSummaryDashboard 
           transit={transit} 
-          natalPromise={natalPromise}
+          natalPromise={rawOutputs?.breakdown?.engine_outputs?.natal_promise || {}}
           mode={mode}
         />
 
         {/* SECTION F: QUESTION SPECIFIC GOCHARA */}
         {questionResults.length > 0 && (
           <QuestionSpecificGochara 
-            transit={transit} 
-            natalPromise={natalPromise}
+            transit={rawOutputs.breakdown.engine_outputs.transit} 
+            natalPromise={rawOutputs.breakdown.engine_outputs.natal_promise || {}}
             dashas={dashas}
             questionResults={questionResults}
             mode={mode}
@@ -157,7 +153,7 @@ export const GocharaPresentation: React.FC<GocharaPresentationProps> = ({
 
         {/* SECTION G: DETERMINISTIC TRANSIT EVIDENCE */}
         {mode === 'expert' && (
-          <ExpertTransitDetails transit={transit} planets={planets} houses={houses} dashas={dashas} />
+          <ExpertTransitDetails transit={transit} planets={planets} houses={rawOutputs.breakdown.engine_outputs.houses || {}} dashas={dashas} />
         )}
 
         {mode === 'study' && (
@@ -193,7 +189,6 @@ function buildCurrentTransits(transit: any, planets: any, dashas: any) {
     }
   });
 
-  // Add planets from engine outputs that might not be in factors
   Object.keys(planets).forEach(p => {
     if (!planetMap.has(p.toLowerCase()) && p !== 'ascendant' && p !== 'lagna') {
       const planetData = planets[p];
@@ -219,7 +214,6 @@ function buildCurrentTransits(transit: any, planets: any, dashas: any) {
 }
 
 function buildMandaliPositions(transit: any) {
-  // Use supporting/obstructing factors which already have mandali info
   const factors = [...(transit.supporting_factors || []), ...(transit.obstructing_factors || [])];
   const map = new Map<string, any>();
   
@@ -248,28 +242,22 @@ function buildAffectedDomains(transit: any, natalPromise: any) {
     net_influence: score >= 65 ? 'positive' : score >= 35 ? 'neutral' : 'negative',
     netInfluence: score >= 65 ? 'positive' : score >= 35 ? 'neutral' : 'negative',
     planets: getDomainPlanets(domain, transit),
-    confidence: Math.min(95, Math.max(50, score + 10)),
+    confidence: Math.min(95, Math.max(50, (score as number) + 10)),
     transit_strength: score
   }));
 }
 
 function buildSadeSati(transit: any, planets: any) {
   const moon = planets.moon || {};
-  const moonSign = moon?.sign || 'taurus';
   const saturn = planets.saturn || {};
   const saturnHouse = saturn?.house || 0;
   
-  // Sade Sati is Saturn in 12th, 1st, or 2nd from Moon
-  // Using sign-based calculation would be more accurate but we use house approximation
   const isSadeSati = transit.confidence_flags?.includes('saturn_sadesati') || false;
   
   if (!isSadeSati) {
     return { is_active: false };
   }
   
-  // Determine phase based on Saturn's house relative to Moon
-  // Simplified: if Saturn in same house as Moon = Phase 2 (Janma)
-  // This is a placeholder - real calculation needs sign positions
   let phase = 2;
   if (saturnHouse === 12) phase = 1;
   else if (saturnHouse === 2) phase = 3;
@@ -283,23 +271,94 @@ function buildSadeSati(transit: any, planets: any) {
   };
 }
 
-function buildUpcomingWindows(transit: any, dashas: any) {
-  // Generate from dasha timeline and confidence flags
-  const timeline = dashas.timeline || [];
-  return timeline.slice(0, 3).map((t: any, idx: number) => ({
-    planet: t.mahadasha || 'Unknown',
-    mandali: `${idx + 1}`,
-    start_date: t.start_date || 'Unknown',
-    end_date: t.end_date || 'Unknown',
-    duration_days: 30,
-    type: 'favorable',
-    intensity: 'moderate',
-    affected_domains: [7, 10],
-    activation_window: { is_active: idx === 0, days_remaining: 30 },
-    timing_confidence: { overall: 'moderate' },
-    expected_influence: [],
-    recommendations: []
-  }));
+function buildAshtamaShani(transit: any, planets: any) {
+  const moon = planets.moon || {};
+  const saturn = planets.saturn || {};
+  const moonSign = moon?.sign || 'taurus';
+  const saturnSign = saturn?.sign || 'aquarius';
+  
+  // 8th from Moon
+  const signs = ['aries','taurus','gemini','cancer','leo','virgo','libra','scorpio','sagittarius','capricorn','aquarius','pisces'];
+  const moonIdx = signs.indexOf(moonSign.toLowerCase());
+  const ashtamaIdx = (moonIdx + 7) % 12;
+  const ashtamaSign = signs[ashtamaIdx];
+  const isActive = saturnSign.toLowerCase() === ashtamaSign.toLowerCase();
+  
+  return {
+    is_active: isActive,
+    occurrences: [
+      { phase: 1, start_date: 'Requires ephemeris', end_date: 'Requires ephemeris' },
+      { phase: 2, start_date: 'Requires ephemeris', end_date: 'Requires ephemeris' },
+      { phase: 3, start_date: 'Requires ephemeris', end_date: 'Requires ephemeris' }
+    ],
+    current_occurrence: isActive ? 1 : null
+  };
+}
+
+function buildArdhaAshtamaShani(transit: any, planets: any) {
+  const moon = planets.moon || {};
+  const saturn = planets.saturn || {};
+  const moonSign = moon?.sign || 'taurus';
+  const saturnSign = saturn?.sign || 'aquarius';
+  
+  const signs = ['aries','taurus','gemini','cancer','leo','virgo','libra','scorpio','sagittarius','capricorn','aquarius','pisces'];
+  const moonIdx = signs.indexOf(moonSign.toLowerCase());
+  const ardhaIdx = (moonIdx + 3) % 12;
+  const ardhaSign = signs[ardhaIdx];
+  const isActive = saturnSign.toLowerCase() === ardhaSign.toLowerCase();
+  
+  return {
+    is_active: isActive,
+    occurrences: [
+      { phase: 1, start_date: 'Requires ephemeris', end_date: 'Requires ephemeris' },
+      { phase: 2, start_date: 'Requires ephemeris', end_date: 'Requires ephemeris' },
+      { phase: 3, start_date: 'Requires ephemeris', end_date: 'Requires ephemeris' }
+    ],
+    current_occurrence: isActive ? 1 : null
+  };
+}
+
+function buildJupiterTransits(transit: any, planets: any) {
+  const jupiterFactors = (transit.supporting_factors || [])
+    .filter(f => f.planet?.toLowerCase() === 'jupiter');
+  
+  const jupiter = planets.jupiter || {};
+  const jupiterStrength = jupiter?.final_score || jupiter?.score || 50;
+  
+  const favourableHouses = [2, 5, 7, 9, 11]; // from Moon/Lagna
+  
+  return {
+    planet_strength: Math.round(jupiterStrength),
+    favourable_houses: favourableHouses.map(h => ({
+      house: h,
+      label: `${h}th from Moon`,
+      areas: getAreasForHouse(h),
+      status: jupiterFactors.some(f => f.house === h) ? 'active' : 'upcoming'
+    }))
+  };
+}
+
+function buildRahuKetuAxis(transit: any, planets: any) {
+  const rahu = planets.rahu || {};
+  const ketu = planets.ketu || {};
+  const rahuStrength = rahu?.final_score || rahu?.score || 50;
+  const ketuStrength = ketu?.final_score || ketu?.score || 50;
+  
+  return {
+    current_axis: `${rahu?.house || '?'} / ${ketu?.house || '?'} Axis`,
+    rahu_strength: Math.round(rahuStrength),
+    ketu_strength: Math.round(ketuStrength),
+    affected_domains: getAffectedDomainsForHouse(rahu?.house || 0).concat(getAffectedDomainsForHouse(ketu?.house || 0)),
+    previous_axis: 'Requires ephemeris',
+    next_axis: 'Requires ephemeris'
+  };
+}
+
+function buildNextMajorEvent(transit: any) {
+  if (transit.confidence_flags?.includes('saturn_sadesati')) return 'Sade Sati Phase Transition';
+  if (transit.confidence_flags?.includes('jupiter_transit_positive')) return 'Jupiter Favourable Transit';
+  if (transit.confidence_flags?.includes('dasha_lord_transiting')) return 'Dasha Lord Transit';
+  return 'Next Planetary Ingress';
 }
 
 function averageDomainStrength(domains: Record<string, number>): number {
@@ -356,18 +415,121 @@ function getMandaliInterpretation(planet: string, house: number): string {
   return interpretations[planet.toLowerCase()]?.[house] || `Transit in house ${house}`;
 }
 
+function getAreasForHouse(house: number): string {
+  const areas: Record<number, string> = {
+    2: 'Wealth, Family', 5: 'Children, Education', 7: 'Marriage, Partnership',
+    9: 'Fortune, Dharma', 11: 'Income, Gains'
+  };
+  return areas[house] || '';
+}
+
+function getSupportedAreas(domains: Record<string, number>, natalPromise: any) {
+  return Object.entries(domains)
+    .filter(([_, score]) => score >= 65)
+    .map(([name, score]) => ({ name: name.charAt(0).toUpperCase() + name.slice(1), score: Math.round(score) }));
+}
+
+function getCautionAreas(domains: Record<string, number>, natalPromise: any) {
+  return Object.entries(domains)
+    .filter(([_, score]) => score < 40)
+    .map(([name, score]) => ({ name: name.charAt(0).toUpperCase() + name.slice(1), score: Math.round(score) }));
+}
+
+function getNextTransitEvent(transit: any): string {
+  if (transit.confidence_flags?.includes('saturn_sadesati')) return 'Sade Sati Phase Transition';
+  if (transit.confidence_flags?.includes('jupiter_transit_positive')) return 'Jupiter Favourable Transit';
+  if (transit.confidence_flags?.includes('dasha_lord_transiting')) return 'Dasha Lord Transit';
+  return 'Next Planetary Ingress';
+}
+
+function getPrimaryDomainForNextEvent(transit: any): string {
+  const domains = transit.activated_domains || {};
+  const maxEntry = Object.entries(domains).reduce((a, b) => a[1] > b[1] ? a : b, ['', 0]);
+  return maxEntry[0] ? maxEntry[0].charAt(0).toUpperCase() + maxEntry[0].slice(1) : 'General';
+}
+
+function getSupportedHousesForDomain(domain: string, transit: any): string[] {
+  const factors = [...(transit.supporting_factors || [])];
+  const houses = new Set<number>();
+  factors.forEach(f => {
+    if (f.house && f.house > 0 && f.house <= 12) houses.add(f.house);
+  });
+  return Array.from(houses).map(h => `${h}H`).slice(0, 4);
+}
+
+function getGrade(value: number): string {
+  if (value >= 80) return 'EXCELLENT';
+  if (value >= 65) return 'VERY GOOD';
+  if (value >= 50) return 'GOOD';
+  if (value >= 35) return 'WEAK';
+  return 'TOO WEAK';
+}
+
+function getGradeColor(grade: string): string {
+  switch (grade) {
+    case 'EXCELLENT': return 'bg-emerald-100 text-emerald-800';
+    case 'VERY GOOD': return 'bg-blue-100 text-blue-800';
+    case 'GOOD': return 'bg-green-100 text-green-800';
+    case 'WEAK': return 'bg-yellow-100 text-yellow-800';
+    case 'TOO WEAK': return 'bg-red-100 text-red-800';
+    default: return 'bg-gray-100 text-gray-800';
+  }
+}
+
+function formatDate(dateStr: string): string {
+  if (!dateStr || dateStr === 'Unknown') return 'Unknown';
+  try {
+    return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch {
+    return dateStr;
+  }
+}
+
+const ArrowUpRight = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M7 17L17 7M17 7h-10M17 7v10" />
+  </svg>
+);
+
+const Saturn = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <circle cx="12" cy="12" r="5" />
+    <path d="M12 2a10 10 0 0 1 0 20M12 2a10 10 0 0 0 0 20" />
+    <ellipse cx="12" cy="12" rx="14" ry="3" />
+  </svg>
+);
+
+const Crown = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+  </svg>
+);
+
+const Sparkles = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M12 3v2m0 14v2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41M3 12h2m14 0h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41" />
+  </svg>
+);
+
+const BookOpen = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+  </svg>
+);
+
 // ============================================
 // SECTION COMPONENTS
 // ============================================
 
-interface SectionHeaderProps {
+interface SectionCardProps {
   title: string;
   icon: React.ComponentType<{ className?: string }>;
   color?: string;
   children: React.ReactNode;
 }
 
-const SectionCard: React.FC<SectionHeaderProps> = ({ title, icon: Icon, color = 'blue', children }) => (
+const SectionCard: React.FC<SectionCardProps> = ({ title, icon: Icon, color = 'blue', children }) => (
   <section className="bg-white border border-gray-200 rounded-xl overflow-hidden">
     <div className={`bg-${color}-600 text-white p-4`}>
       <h3 className="text-lg font-bold flex items-center gap-2">
@@ -534,6 +696,8 @@ const MandaliGridView: React.FC<{ currentTransits: any[] }> = ({ currentTransits
 // SECTION B: SATURN TRANSIT CYCLES
 const SaturnTransitCycles: React.FC<{ transit: any; planets: any; mode: string }> = ({ transit, planets, mode }) => {
   const sadeSati = buildSadeSati(transit, planets);
+  const ashtamaShani = buildAshtamaShani(transit, planets);
+  const ardhaAshtamaShani = buildArdhaAshtamaShani(transit, planets);
   
   return (
     <SectionCard title="Major Saturn Transit Cycles" icon={Saturn} color="amber">
@@ -545,9 +709,7 @@ const SaturnTransitCycles: React.FC<{ transit: any; planets: any; mode: string }
               <Saturn className="w-5 h-5 text-orange-600" />
               Sade Sati (Elinati Shani)
             </h4>
-            <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-              sadeSati.is_active ? 'bg-amber-100 text-amber-800' : 'bg-gray-100 text-gray-600'
-            }`}>
+            <span className={`px-3 py-1 rounded-full text-xs font-bold ${sadeSati.is_active ? 'bg-amber-100 text-amber-800' : 'bg-gray-100 text-gray-600'}`}>
               {sadeSati.is_active ? 'ACTIVE' : 'INACTIVE'}
             </span>
           </div>
@@ -898,7 +1060,6 @@ const QuestionGocharaCard: React.FC<{
       </div>
     </div>
   );
-};
 
 // SECTION G: DETERMINISTIC TRANSIT EVIDENCE
 const ExpertTransitDetails: React.FC<{ transit: any; planets: any; houses: any; dashas: any }> = ({ 
@@ -1134,10 +1295,4 @@ function formatDate(dateStr: string): string {
   } catch {
     return dateStr;
   }
-}
-
-const ArrowUpRight = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M7 17L17 7M17 7h-10M17 7v10" />
-  </svg>
-);
+}}
