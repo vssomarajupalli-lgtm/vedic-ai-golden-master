@@ -64,24 +64,32 @@ export const apiService = {
   /**
    * Triggers a browser download for the generated PDF or HTML report
    */
-  async downloadReport(canonical: any, machine: any, format: 'pdf' | 'html'): Promise<void> {
-    const response = await backendApi.post(`/generate-report?format=${format}`, {
-      canonical_content: canonical,
-      machine_index: machine
-    }, {
-      responseType: 'blob' // Important for file downloads
-    });
+   async getReportBlob(canonical: any, machine: any, format: 'pdf' | 'html'): Promise<Blob> {
+     const response = await backendApi.post(`/generate-report?format=${format}`, {
+       canonical_content: canonical,
+       machine_index: machine
+     }, {
+       responseType: 'blob' // Important for file downloads
+     });
 
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', `vedic_ai_report.${format}`);
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  },
+     return response.data as Blob;
+   },
 
-  // --- Browser Endpoints ---
+   /**
+    * Triggers a browser download for the generated PDF or HTML report
+    */
+   async downloadReport(canonical: any, machine: any, format: 'pdf' | 'html'): Promise<void> {
+     const blob = await this.getReportBlob(canonical, machine, format);
+     const url = window.URL.createObjectURL(blob);
+     const link = document.createElement('a');
+     link.href = url;
+     link.setAttribute('download', `vedic_ai_report.${format}`);
+     document.body.appendChild(link);
+     link.click();
+     link.remove();
+   },
+
+   // --- Browser Endpoints ---
 
   async fetchRegistry(): Promise<any[]> {
     const response = await backendApi.get<any[]>('/browser/registry');

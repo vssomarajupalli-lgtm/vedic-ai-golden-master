@@ -116,7 +116,13 @@ export interface FinalReportSchema {
     lifetime_intelligence: LifetimeIntelligenceDashboard;
     question_responses: any[];
     formula_verification: Record<string, any>;
+    engine_outputs: Record<string, any>;
+    master_probability: {
+        breakdown: Record<string, any>;
+        lifetime_projection: any[];
+    };
 }
+
 
 export interface ChartProcessResponse {
     status: string;
