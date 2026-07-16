@@ -1,0 +1,2706 @@
+{
+  "nodes": [
+    {
+      "id": "22931b01-666b-4678-a268-79e64879db94",
+      "type": "planet",
+      "label": "Sun",
+      "description": "Sun — Planet",
+      "source": "engine",
+      "domain": "general",
+      "properties": {
+        "significance": "Soul, authority, father, government"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "bdb68d84-2b7f-4a5e-9bcf-d0ec186f5458",
+      "type": "planet",
+      "label": "Moon",
+      "description": "Moon — Planet",
+      "source": "engine",
+      "domain": "general",
+      "properties": {
+        "significance": "Mind, emotions, mother, public"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "8b7c45d9-cc9f-4d55-bca0-f4a58dedc829",
+      "type": "planet",
+      "label": "Mars",
+      "description": "Mars — Planet",
+      "source": "engine",
+      "domain": "general",
+      "properties": {
+        "significance": "Energy, courage, siblings, property"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "a849b2a7-58e0-4fdc-a0ef-8555356bf967",
+      "type": "planet",
+      "label": "Mercury",
+      "description": "Mercury — Planet",
+      "source": "engine",
+      "domain": "general",
+      "properties": {
+        "significance": "Intellect, communication, business"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "a6913666-2a01-4034-9857-c9ab902cb1ae",
+      "type": "planet",
+      "label": "Jupiter",
+      "description": "Jupiter — Planet",
+      "source": "engine",
+      "domain": "general",
+      "properties": {
+        "significance": "Wisdom, wealth, children, fortune"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "eeea1a5a-aa1c-4ed5-831c-1141f8d07db9",
+      "type": "planet",
+      "label": "Venus",
+      "description": "Venus — Planet",
+      "source": "engine",
+      "domain": "general",
+      "properties": {
+        "significance": "Love, beauty, luxury, arts"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "2dd7aae4-8419-4944-a778-fba1f0fcb136",
+      "type": "planet",
+      "label": "Saturn",
+      "description": "Saturn — Planet",
+      "source": "engine",
+      "domain": "general",
+      "properties": {
+        "significance": "Discipline, longevity, suffering, delay"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "6222b7bd-fe71-49ac-aa2c-7602435a60e7",
+      "type": "planet",
+      "label": "Rahu",
+      "description": "Rahu — Planet",
+      "source": "engine",
+      "domain": "general",
+      "properties": {
+        "significance": "Obsession, foreign, unconventional"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "552da8da-31aa-4ae5-98f8-53011d9fb75d",
+      "type": "planet",
+      "label": "Ketu",
+      "description": "Ketu — Planet",
+      "source": "engine",
+      "domain": "general",
+      "properties": {
+        "significance": "Detachment, spirituality, past life"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "b2af3d6f-21bc-4e89-9209-af8849f47acb",
+      "type": "house",
+      "label": "House 1",
+      "description": "Bhava — Lagna/Ascendant",
+      "source": "engine",
+      "domain": "house",
+      "properties": {
+        "house_number": 1
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "df047263-8561-4b92-ab6c-1324da805852",
+      "type": "house",
+      "label": "House 2",
+      "description": "Bhava — Dhana",
+      "source": "engine",
+      "domain": "house",
+      "properties": {
+        "house_number": 2
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "b73173c5-ddda-44f9-a29c-244fb3927f1c",
+      "type": "house",
+      "label": "House 3",
+      "description": "Bhava — Sahaja",
+      "source": "engine",
+      "domain": "house",
+      "properties": {
+        "house_number": 3
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "892ead8b-f8a0-4dee-a17d-d5785e340248",
+      "type": "house",
+      "label": "House 4",
+      "description": "Bhava — Sukha",
+      "source": "engine",
+      "domain": "house",
+      "properties": {
+        "house_number": 4
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "6bb7751c-80ed-4491-895f-4f50733ec3b6",
+      "type": "house",
+      "label": "House 5",
+      "description": "Bhava — Putra",
+      "source": "engine",
+      "domain": "house",
+      "properties": {
+        "house_number": 5
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "bc0a214a-21f6-4678-aca8-7ff9fa232c9d",
+      "type": "house",
+      "label": "House 6",
+      "description": "Bhava — Shatru",
+      "source": "engine",
+      "domain": "house",
+      "properties": {
+        "house_number": 6
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "a02811ed-c542-4737-aac2-b60b23f8b09b",
+      "type": "house",
+      "label": "House 7",
+      "description": "Bhava — Kalatra",
+      "source": "engine",
+      "domain": "house",
+      "properties": {
+        "house_number": 7
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "252f02d5-b4a5-463f-9296-42471ed8a58c",
+      "type": "house",
+      "label": "House 8",
+      "description": "Bhava — Ayush",
+      "source": "engine",
+      "domain": "house",
+      "properties": {
+        "house_number": 8
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "9d2539b5-40ea-49b3-8fb0-f3bf35170684",
+      "type": "house",
+      "label": "House 9",
+      "description": "Bhava — Dharma",
+      "source": "engine",
+      "domain": "house",
+      "properties": {
+        "house_number": 9
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "d434f9ff-61da-48c4-a83b-98319c4579d5",
+      "type": "house",
+      "label": "House 10",
+      "description": "Bhava — Karma",
+      "source": "engine",
+      "domain": "house",
+      "properties": {
+        "house_number": 10
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "2c32fb7f-68a9-49aa-a680-be8ce2c04e4e",
+      "type": "house",
+      "label": "House 11",
+      "description": "Bhava — Labha",
+      "source": "engine",
+      "domain": "house",
+      "properties": {
+        "house_number": 11
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "c752913b-9948-4c6d-a27c-ce4ccaeb007f",
+      "type": "house",
+      "label": "House 12",
+      "description": "Bhava — Vyaya",
+      "source": "engine",
+      "domain": "house",
+      "properties": {
+        "house_number": 12
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "92fb87a7-4d71-4b77-8f72-3858e0e7a333",
+      "type": "formula",
+      "label": "House Activation (TRN-HA-001)",
+      "description": "30% weight — Measures house activation from transit",
+      "source": "formula",
+      "domain": "transit",
+      "properties": {
+        "formula_id": "TRN-HA-001"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "f71c9dba-3afd-4308-bebf-c464d647015b",
+      "type": "formula",
+      "label": "BAV Support (TRN-BV-001)",
+      "description": "20% weight — Ashtakavarga support evaluation",
+      "source": "formula",
+      "domain": "transit",
+      "properties": {
+        "formula_id": "TRN-BV-001"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "28e1b997-6a8c-4c25-b6ca-2e2b21252667",
+      "type": "formula",
+      "label": "Planet Activation (TRN-PA-001)",
+      "description": "20% weight — Planet activation strength",
+      "source": "formula",
+      "domain": "transit",
+      "properties": {
+        "formula_id": "TRN-PA-001"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "b313d3c5-f0e9-498d-916b-e63330c69dd8",
+      "type": "formula",
+      "label": "Dasha Sync (TRN-DS-001)",
+      "description": "20% weight — Dasha period synchronization",
+      "source": "formula",
+      "domain": "transit",
+      "properties": {
+        "formula_id": "TRN-DS-001"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "9f99172e-079f-4e5b-8e65-07ef822f0bb7",
+      "type": "formula",
+      "label": "Vedha Layer (TRN-VD-001)",
+      "description": "10% weight — Vedha obstruction detection",
+      "source": "formula",
+      "domain": "transit",
+      "properties": {
+        "formula_id": "TRN-VD-001"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "ef62a360-acab-434a-96a7-4f49ee00cfc8",
+      "type": "formula",
+      "label": "Dignity Score (PLN-DG-001)",
+      "description": "Evaluates planetary dignity from sign placement",
+      "source": "formula",
+      "domain": "planet",
+      "properties": {
+        "formula_id": "PLN-DG-001"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "d479aff2-4e92-46c5-a144-acb483271634",
+      "type": "formula",
+      "label": "House Placement (PLN-HP-001)",
+      "description": "Evaluates house placement strength",
+      "source": "formula",
+      "domain": "planet",
+      "properties": {
+        "formula_id": "PLN-HP-001"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "dec1eb18-e191-45ad-8425-e331fbc8ac09",
+      "type": "formula",
+      "label": "Probability Aggregation (PRB-AG-001)",
+      "description": "Aggregates subsystem scores",
+      "source": "formula",
+      "domain": "probability",
+      "properties": {
+        "formula_id": "PRB-AG-001"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "47754c14-c393-415f-8183-4c15c5abf7b2",
+      "type": "formula",
+      "label": "Dasha Period (DSH-PR-001)",
+      "description": "Calculates dasha period from Vimshottari",
+      "source": "formula",
+      "domain": "dasha",
+      "properties": {
+        "formula_id": "DSH-PR-001"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "0a77ca89-8176-41a0-a12a-ab4144c130b3",
+      "type": "formula",
+      "label": "Yoga Detection (YOG-DT-001)",
+      "description": "Detects planetary combinations (yogas)",
+      "source": "formula",
+      "domain": "yoga",
+      "properties": {
+        "formula_id": "YOG-DT-001"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "2d7e11d4-54a8-443d-80fe-d1ba0b1f4d6b",
+      "type": "calibration",
+      "label": "Own Sign",
+      "description": "80 — Planet in own sign: 80% strength",
+      "source": "calibration",
+      "domain": "planet",
+      "properties": {
+        "constant_id": "own_sign"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "496c2928-7500-4a24-9a6d-1eeb7cac944e",
+      "type": "calibration",
+      "label": "Friendly Sign",
+      "description": "60 — Planet in friendly sign: 60% strength",
+      "source": "calibration",
+      "domain": "planet",
+      "properties": {
+        "constant_id": "friendly"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "ae1fb363-20f8-4a7f-8c1b-b2ecf91fca8c",
+      "type": "calibration",
+      "label": "Neutral Sign",
+      "description": "50 — Planet in neutral sign: 50% strength",
+      "source": "calibration",
+      "domain": "planet",
+      "properties": {
+        "constant_id": "neutral"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "b342c9d1-0a8d-433a-84b8-8d46953f8148",
+      "type": "calibration",
+      "label": "Enemy Sign",
+      "description": "40 — Planet in enemy sign: 40% strength",
+      "source": "calibration",
+      "domain": "planet",
+      "properties": {
+        "constant_id": "enemy"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "d263f4b4-9f66-40e2-a2e3-a2248f2041f3",
+      "type": "calibration",
+      "label": "Debilitated",
+      "description": "20 — Planet debilitated: 20% strength",
+      "source": "calibration",
+      "domain": "planet",
+      "properties": {
+        "constant_id": "debilitated"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "49317820-9d88-4e50-bdb9-5aa23a80d642",
+      "type": "transit",
+      "label": "Transit Activation",
+      "description": "Overall transit activation score (0-100)",
+      "source": "engine",
+      "domain": "transit",
+      "properties": {
+        "has_subsystems": true
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "7ad6be10-0c95-446e-ac6c-71655c5716e0",
+      "type": "transit",
+      "label": "Sadesati",
+      "description": "Saturn transit over Moon sign — 7.5 year period",
+      "source": "engine",
+      "domain": "transit",
+      "properties": {
+        "planet": "Saturn",
+        "duration": "7.5 years"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "b339bd13-ae1d-4381-953b-e40ec48aeb3a",
+      "type": "transit",
+      "label": "Ashtam Shani",
+      "description": "Saturn transit in 8th house from Moon",
+      "source": "engine",
+      "domain": "transit",
+      "properties": {
+        "planet": "Saturn"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "2955f834-595e-4391-a020-15dd0dbc6e3e",
+      "type": "transit",
+      "label": "Jupiter Return",
+      "description": "Jupiter returns to natal position every ~12 years",
+      "source": "engine",
+      "domain": "transit",
+      "properties": {
+        "planet": "Jupiter",
+        "period": 12
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "67b9c504-dcec-4053-921d-24b212e2965a",
+      "type": "dasha",
+      "label": "Ketu Mahadasha",
+      "description": "Vimshottari Mahadasha period",
+      "source": "engine",
+      "domain": "dasha",
+      "properties": {
+        "system": "Vimshottari"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "b7359bfb-233a-48a0-96ed-aef93ac3a08a",
+      "type": "dasha",
+      "label": "Venus Mahadasha",
+      "description": "Vimshottari Mahadasha period",
+      "source": "engine",
+      "domain": "dasha",
+      "properties": {
+        "system": "Vimshottari"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "1193d662-bea4-4f77-8763-ce6e984961c7",
+      "type": "dasha",
+      "label": "Sun Mahadasha",
+      "description": "Vimshottari Mahadasha period",
+      "source": "engine",
+      "domain": "dasha",
+      "properties": {
+        "system": "Vimshottari"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "4928fcb8-291e-4cc8-b77d-d42d39d05a50",
+      "type": "dasha",
+      "label": "Moon Mahadasha",
+      "description": "Vimshottari Mahadasha period",
+      "source": "engine",
+      "domain": "dasha",
+      "properties": {
+        "system": "Vimshottari"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "5505401d-b1df-467d-99cf-659b333fe759",
+      "type": "dasha",
+      "label": "Mars Mahadasha",
+      "description": "Vimshottari Mahadasha period",
+      "source": "engine",
+      "domain": "dasha",
+      "properties": {
+        "system": "Vimshottari"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "8e88400a-b220-4e9a-87c9-befd845cb693",
+      "type": "dasha",
+      "label": "Rahu Mahadasha",
+      "description": "Vimshottari Mahadasha period",
+      "source": "engine",
+      "domain": "dasha",
+      "properties": {
+        "system": "Vimshottari"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "9f50e6dd-a90c-48ed-bb17-c4eccb0e082c",
+      "type": "dasha",
+      "label": "Jupiter Mahadasha",
+      "description": "Vimshottari Mahadasha period",
+      "source": "engine",
+      "domain": "dasha",
+      "properties": {
+        "system": "Vimshottari"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "e1207dcb-9f8c-40f6-a74a-8eb76fe19624",
+      "type": "dasha",
+      "label": "Saturn Mahadasha",
+      "description": "Vimshottari Mahadasha period",
+      "source": "engine",
+      "domain": "dasha",
+      "properties": {
+        "system": "Vimshottari"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "25b1e750-bf42-46c7-bce8-8f709a1286e0",
+      "type": "dasha",
+      "label": "Mercury Mahadasha",
+      "description": "Vimshottari Mahadasha period",
+      "source": "engine",
+      "domain": "dasha",
+      "properties": {
+        "system": "Vimshottari"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "e2cdb80b-3ec6-4143-b99b-5913bcca7862",
+      "type": "governance",
+      "label": "AI Governance (AP-002)",
+      "description": "AI assistance rules and boundaries",
+      "source": "governance",
+      "domain": "governance",
+      "properties": {
+        "document_id": "AP-002"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "120cba5b-eebf-4f0d-af4e-9341e018a7c3",
+      "type": "governance",
+      "label": "System Governance (AP-003)",
+      "description": "Platform-wide governance rules",
+      "source": "governance",
+      "domain": "governance",
+      "properties": {
+        "document_id": "AP-003"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "edb2170d-6d30-4290-9ee0-edeec22ad626",
+      "type": "governance",
+      "label": "GM-007 Freeze",
+      "description": "Permanent freeze of deterministic engines",
+      "source": "governance",
+      "domain": "governance",
+      "properties": {
+        "milestone": "GM-007"
+      },
+      "version": 1,
+      "created_at": "2026-07-16T16:29:25.408348",
+      "updated_at": "2026-07-16T16:29:25.408348"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "784cd0c1-6332-4024-884d-4c1b40f8b128",
+      "type": "depends_on",
+      "source_node_id": "92fb87a7-4d71-4b77-8f72-3858e0e7a333",
+      "target_node_id": "2d7e11d4-54a8-443d-80fe-d1ba0b1f4d6b",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "d7250098-d2d7-49aa-aa63-2eb15d4fbab8",
+      "type": "depends_on",
+      "source_node_id": "92fb87a7-4d71-4b77-8f72-3858e0e7a333",
+      "target_node_id": "496c2928-7500-4a24-9a6d-1eeb7cac944e",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "39f13395-3cbb-45b0-8c4b-ee3380c3fa98",
+      "type": "depends_on",
+      "source_node_id": "92fb87a7-4d71-4b77-8f72-3858e0e7a333",
+      "target_node_id": "ae1fb363-20f8-4a7f-8c1b-b2ecf91fca8c",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "b2df244f-5fc0-4269-93e6-0d4f59ad846b",
+      "type": "depends_on",
+      "source_node_id": "92fb87a7-4d71-4b77-8f72-3858e0e7a333",
+      "target_node_id": "b342c9d1-0a8d-433a-84b8-8d46953f8148",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "f67d1aed-8ed0-4b52-a8c1-1fbeaff03831",
+      "type": "depends_on",
+      "source_node_id": "92fb87a7-4d71-4b77-8f72-3858e0e7a333",
+      "target_node_id": "d263f4b4-9f66-40e2-a2e3-a2248f2041f3",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "c0b6c5f3-a329-4f6b-b818-e09bcc101c7a",
+      "type": "depends_on",
+      "source_node_id": "f71c9dba-3afd-4308-bebf-c464d647015b",
+      "target_node_id": "2d7e11d4-54a8-443d-80fe-d1ba0b1f4d6b",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "77a4071d-fc16-4427-83fe-086afa36fae4",
+      "type": "depends_on",
+      "source_node_id": "f71c9dba-3afd-4308-bebf-c464d647015b",
+      "target_node_id": "496c2928-7500-4a24-9a6d-1eeb7cac944e",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "ad71b2b4-3b34-4657-9244-197dfb47ea62",
+      "type": "depends_on",
+      "source_node_id": "f71c9dba-3afd-4308-bebf-c464d647015b",
+      "target_node_id": "ae1fb363-20f8-4a7f-8c1b-b2ecf91fca8c",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "eb31c14c-bcf5-44ee-9da5-817e3f2ce6db",
+      "type": "depends_on",
+      "source_node_id": "f71c9dba-3afd-4308-bebf-c464d647015b",
+      "target_node_id": "b342c9d1-0a8d-433a-84b8-8d46953f8148",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "e79ba2ae-4aaa-4f7d-a346-80b984566c75",
+      "type": "depends_on",
+      "source_node_id": "f71c9dba-3afd-4308-bebf-c464d647015b",
+      "target_node_id": "d263f4b4-9f66-40e2-a2e3-a2248f2041f3",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "20634739-6c15-471c-aa17-60bab8409c0b",
+      "type": "depends_on",
+      "source_node_id": "28e1b997-6a8c-4c25-b6ca-2e2b21252667",
+      "target_node_id": "2d7e11d4-54a8-443d-80fe-d1ba0b1f4d6b",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "67d339ea-7678-4cac-b812-27be42c4c896",
+      "type": "depends_on",
+      "source_node_id": "28e1b997-6a8c-4c25-b6ca-2e2b21252667",
+      "target_node_id": "496c2928-7500-4a24-9a6d-1eeb7cac944e",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "f1a67405-06f4-4cb9-b333-333089a0b9c4",
+      "type": "depends_on",
+      "source_node_id": "28e1b997-6a8c-4c25-b6ca-2e2b21252667",
+      "target_node_id": "ae1fb363-20f8-4a7f-8c1b-b2ecf91fca8c",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "458b126a-c67c-4681-9d0b-26eabcea5358",
+      "type": "depends_on",
+      "source_node_id": "28e1b997-6a8c-4c25-b6ca-2e2b21252667",
+      "target_node_id": "b342c9d1-0a8d-433a-84b8-8d46953f8148",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "ebba8e29-c741-48f7-943b-14a149742fbd",
+      "type": "depends_on",
+      "source_node_id": "28e1b997-6a8c-4c25-b6ca-2e2b21252667",
+      "target_node_id": "d263f4b4-9f66-40e2-a2e3-a2248f2041f3",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "a6c0eff0-982f-4264-936a-1a338605d589",
+      "type": "depends_on",
+      "source_node_id": "b313d3c5-f0e9-498d-916b-e63330c69dd8",
+      "target_node_id": "2d7e11d4-54a8-443d-80fe-d1ba0b1f4d6b",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "73fd61e4-f0af-42ca-92d8-bbda96a15284",
+      "type": "depends_on",
+      "source_node_id": "b313d3c5-f0e9-498d-916b-e63330c69dd8",
+      "target_node_id": "496c2928-7500-4a24-9a6d-1eeb7cac944e",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "a95fdbf4-979d-4d6d-9c2e-2c2170a44f92",
+      "type": "depends_on",
+      "source_node_id": "b313d3c5-f0e9-498d-916b-e63330c69dd8",
+      "target_node_id": "ae1fb363-20f8-4a7f-8c1b-b2ecf91fca8c",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "8b385f8e-f59c-4928-a61e-956328cbab47",
+      "type": "depends_on",
+      "source_node_id": "b313d3c5-f0e9-498d-916b-e63330c69dd8",
+      "target_node_id": "b342c9d1-0a8d-433a-84b8-8d46953f8148",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "0209f67e-e108-42b8-93b8-26204bf24c6a",
+      "type": "depends_on",
+      "source_node_id": "b313d3c5-f0e9-498d-916b-e63330c69dd8",
+      "target_node_id": "d263f4b4-9f66-40e2-a2e3-a2248f2041f3",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "da6d611c-b141-40d9-b413-3c42afa9c362",
+      "type": "depends_on",
+      "source_node_id": "9f99172e-079f-4e5b-8e65-07ef822f0bb7",
+      "target_node_id": "2d7e11d4-54a8-443d-80fe-d1ba0b1f4d6b",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "ffbc7a28-b44f-45c8-b16d-3dcd4d047870",
+      "type": "depends_on",
+      "source_node_id": "9f99172e-079f-4e5b-8e65-07ef822f0bb7",
+      "target_node_id": "496c2928-7500-4a24-9a6d-1eeb7cac944e",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "02a3a6cc-0e2d-4117-961a-c5b6d16fd9d6",
+      "type": "depends_on",
+      "source_node_id": "9f99172e-079f-4e5b-8e65-07ef822f0bb7",
+      "target_node_id": "ae1fb363-20f8-4a7f-8c1b-b2ecf91fca8c",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "69d6a947-66af-4918-a781-a5ccfce74703",
+      "type": "depends_on",
+      "source_node_id": "9f99172e-079f-4e5b-8e65-07ef822f0bb7",
+      "target_node_id": "b342c9d1-0a8d-433a-84b8-8d46953f8148",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "dc05c0fc-76c3-4cf9-860b-8dd4f8738312",
+      "type": "depends_on",
+      "source_node_id": "9f99172e-079f-4e5b-8e65-07ef822f0bb7",
+      "target_node_id": "d263f4b4-9f66-40e2-a2e3-a2248f2041f3",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "bab26326-67de-4dcb-b726-bfdb362e21a3",
+      "type": "depends_on",
+      "source_node_id": "ef62a360-acab-434a-96a7-4f49ee00cfc8",
+      "target_node_id": "2d7e11d4-54a8-443d-80fe-d1ba0b1f4d6b",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "8eb5efcd-5cec-4e38-b4c2-eeb98f151a27",
+      "type": "depends_on",
+      "source_node_id": "ef62a360-acab-434a-96a7-4f49ee00cfc8",
+      "target_node_id": "496c2928-7500-4a24-9a6d-1eeb7cac944e",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "ec5272ad-349b-41e1-b66b-c8cd7926d3e0",
+      "type": "depends_on",
+      "source_node_id": "ef62a360-acab-434a-96a7-4f49ee00cfc8",
+      "target_node_id": "ae1fb363-20f8-4a7f-8c1b-b2ecf91fca8c",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "316424d5-02c3-4544-bb94-dfd70a7c7bf4",
+      "type": "depends_on",
+      "source_node_id": "ef62a360-acab-434a-96a7-4f49ee00cfc8",
+      "target_node_id": "b342c9d1-0a8d-433a-84b8-8d46953f8148",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "a0d4331a-af5d-4395-9edf-96c3a35aa910",
+      "type": "depends_on",
+      "source_node_id": "ef62a360-acab-434a-96a7-4f49ee00cfc8",
+      "target_node_id": "d263f4b4-9f66-40e2-a2e3-a2248f2041f3",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "b6946753-d9d4-4b46-8c73-d785bc3a42b2",
+      "type": "depends_on",
+      "source_node_id": "d479aff2-4e92-46c5-a144-acb483271634",
+      "target_node_id": "2d7e11d4-54a8-443d-80fe-d1ba0b1f4d6b",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "0158ff31-f6a9-412d-be71-f4dcc8296ad3",
+      "type": "depends_on",
+      "source_node_id": "d479aff2-4e92-46c5-a144-acb483271634",
+      "target_node_id": "496c2928-7500-4a24-9a6d-1eeb7cac944e",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "7b187577-dceb-4680-b41b-eac4c8b22eae",
+      "type": "depends_on",
+      "source_node_id": "d479aff2-4e92-46c5-a144-acb483271634",
+      "target_node_id": "ae1fb363-20f8-4a7f-8c1b-b2ecf91fca8c",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "6177def8-df15-4468-867b-5dbbf2c14d72",
+      "type": "depends_on",
+      "source_node_id": "d479aff2-4e92-46c5-a144-acb483271634",
+      "target_node_id": "b342c9d1-0a8d-433a-84b8-8d46953f8148",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "4987d32b-2134-4600-a75d-403656ac164d",
+      "type": "depends_on",
+      "source_node_id": "d479aff2-4e92-46c5-a144-acb483271634",
+      "target_node_id": "d263f4b4-9f66-40e2-a2e3-a2248f2041f3",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "75971e20-9794-44c7-9021-83ac23fec0f1",
+      "type": "depends_on",
+      "source_node_id": "dec1eb18-e191-45ad-8425-e331fbc8ac09",
+      "target_node_id": "2d7e11d4-54a8-443d-80fe-d1ba0b1f4d6b",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "2bc3a55e-9e60-4930-8171-4ff3860cdd60",
+      "type": "depends_on",
+      "source_node_id": "dec1eb18-e191-45ad-8425-e331fbc8ac09",
+      "target_node_id": "496c2928-7500-4a24-9a6d-1eeb7cac944e",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "dc1ea208-b138-4538-bf30-94239668cafe",
+      "type": "depends_on",
+      "source_node_id": "dec1eb18-e191-45ad-8425-e331fbc8ac09",
+      "target_node_id": "ae1fb363-20f8-4a7f-8c1b-b2ecf91fca8c",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "39f66d4a-5035-4d4f-aa96-b377331fb0ac",
+      "type": "depends_on",
+      "source_node_id": "dec1eb18-e191-45ad-8425-e331fbc8ac09",
+      "target_node_id": "b342c9d1-0a8d-433a-84b8-8d46953f8148",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "04e72e91-39ef-4433-a016-74b50128c831",
+      "type": "depends_on",
+      "source_node_id": "dec1eb18-e191-45ad-8425-e331fbc8ac09",
+      "target_node_id": "d263f4b4-9f66-40e2-a2e3-a2248f2041f3",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "67541cba-7bb8-4f8a-8523-869880438d2e",
+      "type": "depends_on",
+      "source_node_id": "47754c14-c393-415f-8183-4c15c5abf7b2",
+      "target_node_id": "2d7e11d4-54a8-443d-80fe-d1ba0b1f4d6b",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "8d63cb5e-bd13-4cf8-9c8e-c44b1ab10faf",
+      "type": "depends_on",
+      "source_node_id": "47754c14-c393-415f-8183-4c15c5abf7b2",
+      "target_node_id": "496c2928-7500-4a24-9a6d-1eeb7cac944e",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "ae060079-53f4-4d8e-8561-3265e19553ee",
+      "type": "depends_on",
+      "source_node_id": "47754c14-c393-415f-8183-4c15c5abf7b2",
+      "target_node_id": "ae1fb363-20f8-4a7f-8c1b-b2ecf91fca8c",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "b7a83c56-fe3e-42ba-9651-8798adca89c8",
+      "type": "depends_on",
+      "source_node_id": "47754c14-c393-415f-8183-4c15c5abf7b2",
+      "target_node_id": "b342c9d1-0a8d-433a-84b8-8d46953f8148",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "1016c4d7-ced1-4f84-9ec0-6774907a2260",
+      "type": "depends_on",
+      "source_node_id": "47754c14-c393-415f-8183-4c15c5abf7b2",
+      "target_node_id": "d263f4b4-9f66-40e2-a2e3-a2248f2041f3",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "34f65d4b-a54c-4de9-974b-2bc6b7bedd94",
+      "type": "depends_on",
+      "source_node_id": "0a77ca89-8176-41a0-a12a-ab4144c130b3",
+      "target_node_id": "2d7e11d4-54a8-443d-80fe-d1ba0b1f4d6b",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "96c96b65-f38e-4a89-9800-e476b82ba26b",
+      "type": "depends_on",
+      "source_node_id": "0a77ca89-8176-41a0-a12a-ab4144c130b3",
+      "target_node_id": "496c2928-7500-4a24-9a6d-1eeb7cac944e",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "dd7ebd3c-dedd-4ba3-a0d4-06dcc0236a04",
+      "type": "depends_on",
+      "source_node_id": "0a77ca89-8176-41a0-a12a-ab4144c130b3",
+      "target_node_id": "ae1fb363-20f8-4a7f-8c1b-b2ecf91fca8c",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "9d948d27-f148-4a9c-8f37-c6c0863cfbd0",
+      "type": "depends_on",
+      "source_node_id": "0a77ca89-8176-41a0-a12a-ab4144c130b3",
+      "target_node_id": "b342c9d1-0a8d-433a-84b8-8d46953f8148",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "15ef3dc6-5b4d-42cd-9b3e-9f382ff57484",
+      "type": "depends_on",
+      "source_node_id": "0a77ca89-8176-41a0-a12a-ab4144c130b3",
+      "target_node_id": "d263f4b4-9f66-40e2-a2e3-a2248f2041f3",
+      "label": "Formula depends on calibration constant",
+      "description": "Formula depends on calibration constant",
+      "weight": 0.8,
+      "evidence": "Formula-calibration dependency",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "52ff061c-2e15-48c3-86c1-70ed501d85b4",
+      "type": "explains",
+      "source_node_id": "92fb87a7-4d71-4b77-8f72-3858e0e7a333",
+      "target_node_id": "49317820-9d88-4e50-bdb9-5aa23a80d642",
+      "label": "Formula contributes to transit activation",
+      "description": "Formula contributes to transit activation",
+      "weight": 0.9,
+      "evidence": "Transit subsystem",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "8d97d454-ea68-46a4-9c68-ba81d17581a5",
+      "type": "explains",
+      "source_node_id": "f71c9dba-3afd-4308-bebf-c464d647015b",
+      "target_node_id": "49317820-9d88-4e50-bdb9-5aa23a80d642",
+      "label": "Formula contributes to transit activation",
+      "description": "Formula contributes to transit activation",
+      "weight": 0.9,
+      "evidence": "Transit subsystem",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "0589db02-c9a6-4f83-a3c6-6fe9f7f327cd",
+      "type": "explains",
+      "source_node_id": "28e1b997-6a8c-4c25-b6ca-2e2b21252667",
+      "target_node_id": "49317820-9d88-4e50-bdb9-5aa23a80d642",
+      "label": "Formula contributes to transit activation",
+      "description": "Formula contributes to transit activation",
+      "weight": 0.9,
+      "evidence": "Transit subsystem",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "c9358e4d-e222-40b2-a241-5b2b0fa6887c",
+      "type": "explains",
+      "source_node_id": "b313d3c5-f0e9-498d-916b-e63330c69dd8",
+      "target_node_id": "49317820-9d88-4e50-bdb9-5aa23a80d642",
+      "label": "Formula contributes to transit activation",
+      "description": "Formula contributes to transit activation",
+      "weight": 0.9,
+      "evidence": "Transit subsystem",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "abefae21-5738-4a4a-9736-fec4f16b20f1",
+      "type": "explains",
+      "source_node_id": "9f99172e-079f-4e5b-8e65-07ef822f0bb7",
+      "target_node_id": "49317820-9d88-4e50-bdb9-5aa23a80d642",
+      "label": "Formula contributes to transit activation",
+      "description": "Formula contributes to transit activation",
+      "weight": 0.9,
+      "evidence": "Transit subsystem",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "8085def5-ff58-4d58-9227-d78905ecfebf",
+      "type": "influences",
+      "source_node_id": "ef62a360-acab-434a-96a7-4f49ee00cfc8",
+      "target_node_id": "22931b01-666b-4678-a268-79e64879db94",
+      "label": "Dignity score applies to planet",
+      "description": "Dignity score applies to planet",
+      "weight": 0.7,
+      "evidence": "Planet strength",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "6333bf65-ee02-4fbf-b9d7-76285d19c962",
+      "type": "influences",
+      "source_node_id": "ef62a360-acab-434a-96a7-4f49ee00cfc8",
+      "target_node_id": "bdb68d84-2b7f-4a5e-9bcf-d0ec186f5458",
+      "label": "Dignity score applies to planet",
+      "description": "Dignity score applies to planet",
+      "weight": 0.7,
+      "evidence": "Planet strength",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "9f978045-4193-47e4-b841-525d3812600e",
+      "type": "influences",
+      "source_node_id": "ef62a360-acab-434a-96a7-4f49ee00cfc8",
+      "target_node_id": "8b7c45d9-cc9f-4d55-bca0-f4a58dedc829",
+      "label": "Dignity score applies to planet",
+      "description": "Dignity score applies to planet",
+      "weight": 0.7,
+      "evidence": "Planet strength",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "d7443852-0155-47a1-b6aa-012afe7423a2",
+      "type": "influences",
+      "source_node_id": "ef62a360-acab-434a-96a7-4f49ee00cfc8",
+      "target_node_id": "a849b2a7-58e0-4fdc-a0ef-8555356bf967",
+      "label": "Dignity score applies to planet",
+      "description": "Dignity score applies to planet",
+      "weight": 0.7,
+      "evidence": "Planet strength",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "eaf1cb69-db0d-4d31-aea4-ea8892135045",
+      "type": "influences",
+      "source_node_id": "ef62a360-acab-434a-96a7-4f49ee00cfc8",
+      "target_node_id": "a6913666-2a01-4034-9857-c9ab902cb1ae",
+      "label": "Dignity score applies to planet",
+      "description": "Dignity score applies to planet",
+      "weight": 0.7,
+      "evidence": "Planet strength",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "92497659-1f57-410c-9433-3022a42ec8fe",
+      "type": "influences",
+      "source_node_id": "ef62a360-acab-434a-96a7-4f49ee00cfc8",
+      "target_node_id": "eeea1a5a-aa1c-4ed5-831c-1141f8d07db9",
+      "label": "Dignity score applies to planet",
+      "description": "Dignity score applies to planet",
+      "weight": 0.7,
+      "evidence": "Planet strength",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "a6a29331-2a28-4b3c-8845-b45d931fab87",
+      "type": "influences",
+      "source_node_id": "ef62a360-acab-434a-96a7-4f49ee00cfc8",
+      "target_node_id": "2dd7aae4-8419-4944-a778-fba1f0fcb136",
+      "label": "Dignity score applies to planet",
+      "description": "Dignity score applies to planet",
+      "weight": 0.7,
+      "evidence": "Planet strength",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "1bbce6fc-970c-49ad-8904-7927d06b7297",
+      "type": "influences",
+      "source_node_id": "ef62a360-acab-434a-96a7-4f49ee00cfc8",
+      "target_node_id": "6222b7bd-fe71-49ac-aa2c-7602435a60e7",
+      "label": "Dignity score applies to planet",
+      "description": "Dignity score applies to planet",
+      "weight": 0.7,
+      "evidence": "Planet strength",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "6f6f35fc-52dd-4de7-b82b-9d6df2b1a7cb",
+      "type": "influences",
+      "source_node_id": "ef62a360-acab-434a-96a7-4f49ee00cfc8",
+      "target_node_id": "552da8da-31aa-4ae5-98f8-53011d9fb75d",
+      "label": "Dignity score applies to planet",
+      "description": "Dignity score applies to planet",
+      "weight": 0.7,
+      "evidence": "Planet strength",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "ff44fc69-9702-4338-926c-fc8b04a1fdcc",
+      "type": "references",
+      "source_node_id": "b2af3d6f-21bc-4e89-9209-af8849f47acb",
+      "target_node_id": "22931b01-666b-4678-a268-79e64879db94",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "551e15f9-a722-4587-af0b-f1eec95ac2e8",
+      "type": "references",
+      "source_node_id": "b2af3d6f-21bc-4e89-9209-af8849f47acb",
+      "target_node_id": "bdb68d84-2b7f-4a5e-9bcf-d0ec186f5458",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "b5262912-38bd-4644-bf73-c54674b25ae9",
+      "type": "references",
+      "source_node_id": "b2af3d6f-21bc-4e89-9209-af8849f47acb",
+      "target_node_id": "8b7c45d9-cc9f-4d55-bca0-f4a58dedc829",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "c2af751c-7642-4408-99a9-5c961b7b3dce",
+      "type": "references",
+      "source_node_id": "b2af3d6f-21bc-4e89-9209-af8849f47acb",
+      "target_node_id": "a849b2a7-58e0-4fdc-a0ef-8555356bf967",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "c7e207e9-7f8c-4808-8a20-e091847e79d7",
+      "type": "references",
+      "source_node_id": "b2af3d6f-21bc-4e89-9209-af8849f47acb",
+      "target_node_id": "a6913666-2a01-4034-9857-c9ab902cb1ae",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "c38bad16-a2b9-466f-94f3-197b587c233e",
+      "type": "references",
+      "source_node_id": "b2af3d6f-21bc-4e89-9209-af8849f47acb",
+      "target_node_id": "eeea1a5a-aa1c-4ed5-831c-1141f8d07db9",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "69d29846-8af7-4ee2-b1a2-a90a5e873de6",
+      "type": "references",
+      "source_node_id": "b2af3d6f-21bc-4e89-9209-af8849f47acb",
+      "target_node_id": "2dd7aae4-8419-4944-a778-fba1f0fcb136",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "c696a50b-455b-46ba-acc3-54411d4fc9c3",
+      "type": "references",
+      "source_node_id": "b2af3d6f-21bc-4e89-9209-af8849f47acb",
+      "target_node_id": "6222b7bd-fe71-49ac-aa2c-7602435a60e7",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "e9e265bb-1c01-45d5-97a0-cff806c45d43",
+      "type": "references",
+      "source_node_id": "b2af3d6f-21bc-4e89-9209-af8849f47acb",
+      "target_node_id": "552da8da-31aa-4ae5-98f8-53011d9fb75d",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "0de164e9-9423-4d8c-b19c-78f7917683c6",
+      "type": "references",
+      "source_node_id": "df047263-8561-4b92-ab6c-1324da805852",
+      "target_node_id": "22931b01-666b-4678-a268-79e64879db94",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "7c3b9d04-1827-486e-8535-9d9f3db3dbe6",
+      "type": "references",
+      "source_node_id": "df047263-8561-4b92-ab6c-1324da805852",
+      "target_node_id": "bdb68d84-2b7f-4a5e-9bcf-d0ec186f5458",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "789c9ed4-b6d7-4dbb-9418-8c327034ac86",
+      "type": "references",
+      "source_node_id": "df047263-8561-4b92-ab6c-1324da805852",
+      "target_node_id": "8b7c45d9-cc9f-4d55-bca0-f4a58dedc829",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "5912dd32-e950-4fbe-934b-c75933c9d457",
+      "type": "references",
+      "source_node_id": "df047263-8561-4b92-ab6c-1324da805852",
+      "target_node_id": "a849b2a7-58e0-4fdc-a0ef-8555356bf967",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "408d7489-9e51-429b-9e08-0dca0e42a188",
+      "type": "references",
+      "source_node_id": "df047263-8561-4b92-ab6c-1324da805852",
+      "target_node_id": "a6913666-2a01-4034-9857-c9ab902cb1ae",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "752fca4a-c224-4c1c-aa91-73854bac57c5",
+      "type": "references",
+      "source_node_id": "df047263-8561-4b92-ab6c-1324da805852",
+      "target_node_id": "eeea1a5a-aa1c-4ed5-831c-1141f8d07db9",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "60dc334b-0cf8-4b19-9e5b-58ec0bdab6ec",
+      "type": "references",
+      "source_node_id": "df047263-8561-4b92-ab6c-1324da805852",
+      "target_node_id": "2dd7aae4-8419-4944-a778-fba1f0fcb136",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "eb3cf4b4-929b-4a55-8b15-a45a64d9d114",
+      "type": "references",
+      "source_node_id": "df047263-8561-4b92-ab6c-1324da805852",
+      "target_node_id": "6222b7bd-fe71-49ac-aa2c-7602435a60e7",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "bdf080f9-4595-44cb-963e-40abf9f2cf0a",
+      "type": "references",
+      "source_node_id": "df047263-8561-4b92-ab6c-1324da805852",
+      "target_node_id": "552da8da-31aa-4ae5-98f8-53011d9fb75d",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "3655dfb4-254e-4556-bf14-7227564edcd4",
+      "type": "references",
+      "source_node_id": "b73173c5-ddda-44f9-a29c-244fb3927f1c",
+      "target_node_id": "22931b01-666b-4678-a268-79e64879db94",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "7bb85cfa-b644-49f5-b7d5-2c2641e4b9ff",
+      "type": "references",
+      "source_node_id": "b73173c5-ddda-44f9-a29c-244fb3927f1c",
+      "target_node_id": "bdb68d84-2b7f-4a5e-9bcf-d0ec186f5458",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "b64efbb3-3a19-44b0-aeec-536b375f1c01",
+      "type": "references",
+      "source_node_id": "b73173c5-ddda-44f9-a29c-244fb3927f1c",
+      "target_node_id": "8b7c45d9-cc9f-4d55-bca0-f4a58dedc829",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "9ee60765-abe1-4454-954e-7b2efb74b843",
+      "type": "references",
+      "source_node_id": "b73173c5-ddda-44f9-a29c-244fb3927f1c",
+      "target_node_id": "a849b2a7-58e0-4fdc-a0ef-8555356bf967",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "53618fa3-f6b1-47b9-bf38-5888379c5dbc",
+      "type": "references",
+      "source_node_id": "b73173c5-ddda-44f9-a29c-244fb3927f1c",
+      "target_node_id": "a6913666-2a01-4034-9857-c9ab902cb1ae",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "47913255-b400-4b8e-b981-6c4f4ce448dd",
+      "type": "references",
+      "source_node_id": "b73173c5-ddda-44f9-a29c-244fb3927f1c",
+      "target_node_id": "eeea1a5a-aa1c-4ed5-831c-1141f8d07db9",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "515bf121-8132-4c2d-92e7-b6b24f1181bf",
+      "type": "references",
+      "source_node_id": "b73173c5-ddda-44f9-a29c-244fb3927f1c",
+      "target_node_id": "2dd7aae4-8419-4944-a778-fba1f0fcb136",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "66dcb183-1349-4363-b974-33fe9e1c5938",
+      "type": "references",
+      "source_node_id": "b73173c5-ddda-44f9-a29c-244fb3927f1c",
+      "target_node_id": "6222b7bd-fe71-49ac-aa2c-7602435a60e7",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "fbc38381-2989-4295-9710-8ab43ca3650c",
+      "type": "references",
+      "source_node_id": "b73173c5-ddda-44f9-a29c-244fb3927f1c",
+      "target_node_id": "552da8da-31aa-4ae5-98f8-53011d9fb75d",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "7f5da382-01e2-4f9d-bb96-7704b7126be6",
+      "type": "references",
+      "source_node_id": "892ead8b-f8a0-4dee-a17d-d5785e340248",
+      "target_node_id": "22931b01-666b-4678-a268-79e64879db94",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "b9652863-eab9-4191-a483-2e75a8e7c6b0",
+      "type": "references",
+      "source_node_id": "892ead8b-f8a0-4dee-a17d-d5785e340248",
+      "target_node_id": "bdb68d84-2b7f-4a5e-9bcf-d0ec186f5458",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "17d84ee7-3484-42aa-a9a9-f38bb15ead48",
+      "type": "references",
+      "source_node_id": "892ead8b-f8a0-4dee-a17d-d5785e340248",
+      "target_node_id": "8b7c45d9-cc9f-4d55-bca0-f4a58dedc829",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "1d981bf2-c38d-4d97-bdab-deb09be267c5",
+      "type": "references",
+      "source_node_id": "892ead8b-f8a0-4dee-a17d-d5785e340248",
+      "target_node_id": "a849b2a7-58e0-4fdc-a0ef-8555356bf967",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "f600dd91-c237-4332-b851-ac155b307305",
+      "type": "references",
+      "source_node_id": "892ead8b-f8a0-4dee-a17d-d5785e340248",
+      "target_node_id": "a6913666-2a01-4034-9857-c9ab902cb1ae",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "cb5f7dcb-11af-4b3a-aefd-b36a9c7ca7e3",
+      "type": "references",
+      "source_node_id": "892ead8b-f8a0-4dee-a17d-d5785e340248",
+      "target_node_id": "eeea1a5a-aa1c-4ed5-831c-1141f8d07db9",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "45a2c2fc-b0b8-41c9-b5d3-c5fa47a1fe24",
+      "type": "references",
+      "source_node_id": "892ead8b-f8a0-4dee-a17d-d5785e340248",
+      "target_node_id": "2dd7aae4-8419-4944-a778-fba1f0fcb136",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "452b8a07-96c8-478a-8271-1d4d80595125",
+      "type": "references",
+      "source_node_id": "892ead8b-f8a0-4dee-a17d-d5785e340248",
+      "target_node_id": "6222b7bd-fe71-49ac-aa2c-7602435a60e7",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "af47a221-1965-44e2-9c92-f2b38baec130",
+      "type": "references",
+      "source_node_id": "892ead8b-f8a0-4dee-a17d-d5785e340248",
+      "target_node_id": "552da8da-31aa-4ae5-98f8-53011d9fb75d",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "59b82709-3f34-403b-8692-4998476d3a9f",
+      "type": "references",
+      "source_node_id": "6bb7751c-80ed-4491-895f-4f50733ec3b6",
+      "target_node_id": "22931b01-666b-4678-a268-79e64879db94",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "1dcb7078-4f99-4478-9cca-302f93b384a7",
+      "type": "references",
+      "source_node_id": "6bb7751c-80ed-4491-895f-4f50733ec3b6",
+      "target_node_id": "bdb68d84-2b7f-4a5e-9bcf-d0ec186f5458",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "63dde004-bed9-45f1-bbb4-10b5743cad00",
+      "type": "references",
+      "source_node_id": "6bb7751c-80ed-4491-895f-4f50733ec3b6",
+      "target_node_id": "8b7c45d9-cc9f-4d55-bca0-f4a58dedc829",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "e03cbe0c-de6f-4dcb-8a11-ccfa8f768d20",
+      "type": "references",
+      "source_node_id": "6bb7751c-80ed-4491-895f-4f50733ec3b6",
+      "target_node_id": "a849b2a7-58e0-4fdc-a0ef-8555356bf967",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "fa629133-1041-409f-a7fa-b4da555ea793",
+      "type": "references",
+      "source_node_id": "6bb7751c-80ed-4491-895f-4f50733ec3b6",
+      "target_node_id": "a6913666-2a01-4034-9857-c9ab902cb1ae",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "d81f2f3a-c7a1-4b7a-936b-324f71bd17cb",
+      "type": "references",
+      "source_node_id": "6bb7751c-80ed-4491-895f-4f50733ec3b6",
+      "target_node_id": "eeea1a5a-aa1c-4ed5-831c-1141f8d07db9",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "e48b636f-8ac3-4688-89ac-150a9ef85f9e",
+      "type": "references",
+      "source_node_id": "6bb7751c-80ed-4491-895f-4f50733ec3b6",
+      "target_node_id": "2dd7aae4-8419-4944-a778-fba1f0fcb136",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "d349822b-903a-4bea-a060-37046f4210c1",
+      "type": "references",
+      "source_node_id": "6bb7751c-80ed-4491-895f-4f50733ec3b6",
+      "target_node_id": "6222b7bd-fe71-49ac-aa2c-7602435a60e7",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "faae3f9d-8e52-48b2-9a37-7e2773da890e",
+      "type": "references",
+      "source_node_id": "6bb7751c-80ed-4491-895f-4f50733ec3b6",
+      "target_node_id": "552da8da-31aa-4ae5-98f8-53011d9fb75d",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "7c80741d-c552-47bd-949f-9a738e5da3e6",
+      "type": "references",
+      "source_node_id": "bc0a214a-21f6-4678-aca8-7ff9fa232c9d",
+      "target_node_id": "22931b01-666b-4678-a268-79e64879db94",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "4ddf6e93-b01f-4ed6-be7e-d1842c3cfe08",
+      "type": "references",
+      "source_node_id": "bc0a214a-21f6-4678-aca8-7ff9fa232c9d",
+      "target_node_id": "bdb68d84-2b7f-4a5e-9bcf-d0ec186f5458",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "3fe7a9ad-52b7-49e6-8139-34c53d6d224a",
+      "type": "references",
+      "source_node_id": "bc0a214a-21f6-4678-aca8-7ff9fa232c9d",
+      "target_node_id": "8b7c45d9-cc9f-4d55-bca0-f4a58dedc829",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "bc7c2735-0b6d-41d0-936e-51fec38c074a",
+      "type": "references",
+      "source_node_id": "bc0a214a-21f6-4678-aca8-7ff9fa232c9d",
+      "target_node_id": "a849b2a7-58e0-4fdc-a0ef-8555356bf967",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "3d0afb63-4085-453f-b0fd-4e117d2ea016",
+      "type": "references",
+      "source_node_id": "bc0a214a-21f6-4678-aca8-7ff9fa232c9d",
+      "target_node_id": "a6913666-2a01-4034-9857-c9ab902cb1ae",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "ac3730cb-a1b0-4a7b-a6b7-5760afc00699",
+      "type": "references",
+      "source_node_id": "bc0a214a-21f6-4678-aca8-7ff9fa232c9d",
+      "target_node_id": "eeea1a5a-aa1c-4ed5-831c-1141f8d07db9",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "6b234fe0-562e-4f84-981a-dd26d46295bb",
+      "type": "references",
+      "source_node_id": "bc0a214a-21f6-4678-aca8-7ff9fa232c9d",
+      "target_node_id": "2dd7aae4-8419-4944-a778-fba1f0fcb136",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "7f1caf8f-8ecf-4578-9128-9d4d1681f673",
+      "type": "references",
+      "source_node_id": "bc0a214a-21f6-4678-aca8-7ff9fa232c9d",
+      "target_node_id": "6222b7bd-fe71-49ac-aa2c-7602435a60e7",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "7ddb8023-cdec-49b4-b3d3-fd600352a673",
+      "type": "references",
+      "source_node_id": "bc0a214a-21f6-4678-aca8-7ff9fa232c9d",
+      "target_node_id": "552da8da-31aa-4ae5-98f8-53011d9fb75d",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "de2dcc6f-c1b6-4ee5-8c68-1bc277af0e60",
+      "type": "references",
+      "source_node_id": "a02811ed-c542-4737-aac2-b60b23f8b09b",
+      "target_node_id": "22931b01-666b-4678-a268-79e64879db94",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "83032be7-453f-4419-adbc-d9752f1f22b6",
+      "type": "references",
+      "source_node_id": "a02811ed-c542-4737-aac2-b60b23f8b09b",
+      "target_node_id": "bdb68d84-2b7f-4a5e-9bcf-d0ec186f5458",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "bb7e5d3d-0f84-43a6-bd81-b7c6273376db",
+      "type": "references",
+      "source_node_id": "a02811ed-c542-4737-aac2-b60b23f8b09b",
+      "target_node_id": "8b7c45d9-cc9f-4d55-bca0-f4a58dedc829",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "bd59f4d1-be40-4b00-98e9-4db193cbcb13",
+      "type": "references",
+      "source_node_id": "a02811ed-c542-4737-aac2-b60b23f8b09b",
+      "target_node_id": "a849b2a7-58e0-4fdc-a0ef-8555356bf967",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "17655eff-c8b3-43a9-8d6a-bd95e2153f22",
+      "type": "references",
+      "source_node_id": "a02811ed-c542-4737-aac2-b60b23f8b09b",
+      "target_node_id": "a6913666-2a01-4034-9857-c9ab902cb1ae",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "bc32970d-23e0-4f15-8d2d-fd486a37fc0f",
+      "type": "references",
+      "source_node_id": "a02811ed-c542-4737-aac2-b60b23f8b09b",
+      "target_node_id": "eeea1a5a-aa1c-4ed5-831c-1141f8d07db9",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "5890ecc3-272e-4c6c-b090-8994b31774aa",
+      "type": "references",
+      "source_node_id": "a02811ed-c542-4737-aac2-b60b23f8b09b",
+      "target_node_id": "2dd7aae4-8419-4944-a778-fba1f0fcb136",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "2ab06aa9-2a34-4d12-a7e3-4bd1b28311d5",
+      "type": "references",
+      "source_node_id": "a02811ed-c542-4737-aac2-b60b23f8b09b",
+      "target_node_id": "6222b7bd-fe71-49ac-aa2c-7602435a60e7",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "ae74e0dd-c2b3-4cb3-abfa-0acce129fa36",
+      "type": "references",
+      "source_node_id": "a02811ed-c542-4737-aac2-b60b23f8b09b",
+      "target_node_id": "552da8da-31aa-4ae5-98f8-53011d9fb75d",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "86389b09-3e5a-4909-8be3-c47ebe1da676",
+      "type": "references",
+      "source_node_id": "252f02d5-b4a5-463f-9296-42471ed8a58c",
+      "target_node_id": "22931b01-666b-4678-a268-79e64879db94",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "ff20db09-c6f5-4221-8579-aa7635d3716b",
+      "type": "references",
+      "source_node_id": "252f02d5-b4a5-463f-9296-42471ed8a58c",
+      "target_node_id": "bdb68d84-2b7f-4a5e-9bcf-d0ec186f5458",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "34cac7b4-9f8e-4cfd-806c-7292142a3163",
+      "type": "references",
+      "source_node_id": "252f02d5-b4a5-463f-9296-42471ed8a58c",
+      "target_node_id": "8b7c45d9-cc9f-4d55-bca0-f4a58dedc829",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "966883d3-7e6d-4cb6-989c-47204f239474",
+      "type": "references",
+      "source_node_id": "252f02d5-b4a5-463f-9296-42471ed8a58c",
+      "target_node_id": "a849b2a7-58e0-4fdc-a0ef-8555356bf967",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "7495fc47-86bc-4b71-bc0a-17087ee0d67a",
+      "type": "references",
+      "source_node_id": "252f02d5-b4a5-463f-9296-42471ed8a58c",
+      "target_node_id": "a6913666-2a01-4034-9857-c9ab902cb1ae",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "3c5b3402-351c-4247-b39b-c4ceefb58824",
+      "type": "references",
+      "source_node_id": "252f02d5-b4a5-463f-9296-42471ed8a58c",
+      "target_node_id": "eeea1a5a-aa1c-4ed5-831c-1141f8d07db9",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "c0dc596c-dda3-47e2-97e8-ee6f5e85ac03",
+      "type": "references",
+      "source_node_id": "252f02d5-b4a5-463f-9296-42471ed8a58c",
+      "target_node_id": "2dd7aae4-8419-4944-a778-fba1f0fcb136",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "9bc5380f-e360-4710-bb31-91373ac1994c",
+      "type": "references",
+      "source_node_id": "252f02d5-b4a5-463f-9296-42471ed8a58c",
+      "target_node_id": "6222b7bd-fe71-49ac-aa2c-7602435a60e7",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "7dab8990-8d3e-4c98-b07d-206174347034",
+      "type": "references",
+      "source_node_id": "252f02d5-b4a5-463f-9296-42471ed8a58c",
+      "target_node_id": "552da8da-31aa-4ae5-98f8-53011d9fb75d",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "7358cd40-f0eb-44cd-9dc6-404fa7240238",
+      "type": "references",
+      "source_node_id": "9d2539b5-40ea-49b3-8fb0-f3bf35170684",
+      "target_node_id": "22931b01-666b-4678-a268-79e64879db94",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "1d59506a-f459-43bd-a2ac-01f5065960bd",
+      "type": "references",
+      "source_node_id": "9d2539b5-40ea-49b3-8fb0-f3bf35170684",
+      "target_node_id": "bdb68d84-2b7f-4a5e-9bcf-d0ec186f5458",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "f9465a1f-05a3-4cd2-b0ce-e98cfee0cba2",
+      "type": "references",
+      "source_node_id": "9d2539b5-40ea-49b3-8fb0-f3bf35170684",
+      "target_node_id": "8b7c45d9-cc9f-4d55-bca0-f4a58dedc829",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "4db6856a-ca53-4939-a0f3-9d37e40538e7",
+      "type": "references",
+      "source_node_id": "9d2539b5-40ea-49b3-8fb0-f3bf35170684",
+      "target_node_id": "a849b2a7-58e0-4fdc-a0ef-8555356bf967",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "12ff361f-88b3-4383-8851-0d170e047f70",
+      "type": "references",
+      "source_node_id": "9d2539b5-40ea-49b3-8fb0-f3bf35170684",
+      "target_node_id": "a6913666-2a01-4034-9857-c9ab902cb1ae",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "e1f81930-ba24-4446-8601-0ccbd75c27a8",
+      "type": "references",
+      "source_node_id": "9d2539b5-40ea-49b3-8fb0-f3bf35170684",
+      "target_node_id": "eeea1a5a-aa1c-4ed5-831c-1141f8d07db9",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "fc7f6eb1-98f7-4af9-b1d3-3f71eb6ef004",
+      "type": "references",
+      "source_node_id": "9d2539b5-40ea-49b3-8fb0-f3bf35170684",
+      "target_node_id": "2dd7aae4-8419-4944-a778-fba1f0fcb136",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "de139e8e-a292-4584-afdc-5cffb2ae0220",
+      "type": "references",
+      "source_node_id": "9d2539b5-40ea-49b3-8fb0-f3bf35170684",
+      "target_node_id": "6222b7bd-fe71-49ac-aa2c-7602435a60e7",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "866ab524-ea5e-411f-9e23-3ec0ab499750",
+      "type": "references",
+      "source_node_id": "9d2539b5-40ea-49b3-8fb0-f3bf35170684",
+      "target_node_id": "552da8da-31aa-4ae5-98f8-53011d9fb75d",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "5a6084d9-4bcb-4070-a40c-228774dcfc73",
+      "type": "references",
+      "source_node_id": "d434f9ff-61da-48c4-a83b-98319c4579d5",
+      "target_node_id": "22931b01-666b-4678-a268-79e64879db94",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "cac15385-3ecd-47e4-a188-be95c7905227",
+      "type": "references",
+      "source_node_id": "d434f9ff-61da-48c4-a83b-98319c4579d5",
+      "target_node_id": "bdb68d84-2b7f-4a5e-9bcf-d0ec186f5458",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "22b157e7-3c1a-4177-9cdd-1a8875aab4a7",
+      "type": "references",
+      "source_node_id": "d434f9ff-61da-48c4-a83b-98319c4579d5",
+      "target_node_id": "8b7c45d9-cc9f-4d55-bca0-f4a58dedc829",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "7de91f1e-0392-49a2-ac0b-a5a5696d431b",
+      "type": "references",
+      "source_node_id": "d434f9ff-61da-48c4-a83b-98319c4579d5",
+      "target_node_id": "a849b2a7-58e0-4fdc-a0ef-8555356bf967",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "db85a7cc-4256-4d52-ba26-d0d816317e92",
+      "type": "references",
+      "source_node_id": "d434f9ff-61da-48c4-a83b-98319c4579d5",
+      "target_node_id": "a6913666-2a01-4034-9857-c9ab902cb1ae",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "45da5320-e94d-4b9b-bfe2-36fbc24dba85",
+      "type": "references",
+      "source_node_id": "d434f9ff-61da-48c4-a83b-98319c4579d5",
+      "target_node_id": "eeea1a5a-aa1c-4ed5-831c-1141f8d07db9",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "c3e26fe2-e27f-4d20-9bf0-c025c8303182",
+      "type": "references",
+      "source_node_id": "d434f9ff-61da-48c4-a83b-98319c4579d5",
+      "target_node_id": "2dd7aae4-8419-4944-a778-fba1f0fcb136",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "fb02a24a-038d-40ce-9ef7-2eab9a52e578",
+      "type": "references",
+      "source_node_id": "d434f9ff-61da-48c4-a83b-98319c4579d5",
+      "target_node_id": "6222b7bd-fe71-49ac-aa2c-7602435a60e7",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "19f0b562-2408-467d-910b-71bd5935125c",
+      "type": "references",
+      "source_node_id": "d434f9ff-61da-48c4-a83b-98319c4579d5",
+      "target_node_id": "552da8da-31aa-4ae5-98f8-53011d9fb75d",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "f7341858-81cb-44bb-82c8-75b6a2ce5e9f",
+      "type": "references",
+      "source_node_id": "2c32fb7f-68a9-49aa-a680-be8ce2c04e4e",
+      "target_node_id": "22931b01-666b-4678-a268-79e64879db94",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "ad374eff-e919-47b4-9451-23c6d8b7cef0",
+      "type": "references",
+      "source_node_id": "2c32fb7f-68a9-49aa-a680-be8ce2c04e4e",
+      "target_node_id": "bdb68d84-2b7f-4a5e-9bcf-d0ec186f5458",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "7f38cd1a-e31a-4de9-b295-e50abf135a60",
+      "type": "references",
+      "source_node_id": "2c32fb7f-68a9-49aa-a680-be8ce2c04e4e",
+      "target_node_id": "8b7c45d9-cc9f-4d55-bca0-f4a58dedc829",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "61e7cd01-719c-4f5d-b0cc-76422dedc2ef",
+      "type": "references",
+      "source_node_id": "2c32fb7f-68a9-49aa-a680-be8ce2c04e4e",
+      "target_node_id": "a849b2a7-58e0-4fdc-a0ef-8555356bf967",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "5231d58b-443e-4840-86d9-95a6cf5b03d7",
+      "type": "references",
+      "source_node_id": "2c32fb7f-68a9-49aa-a680-be8ce2c04e4e",
+      "target_node_id": "a6913666-2a01-4034-9857-c9ab902cb1ae",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "4f48fdd3-6623-45c6-b503-0d8f5a7d9168",
+      "type": "references",
+      "source_node_id": "2c32fb7f-68a9-49aa-a680-be8ce2c04e4e",
+      "target_node_id": "eeea1a5a-aa1c-4ed5-831c-1141f8d07db9",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "d09f73f2-9739-42b3-ba9e-e748f83b60be",
+      "type": "references",
+      "source_node_id": "2c32fb7f-68a9-49aa-a680-be8ce2c04e4e",
+      "target_node_id": "2dd7aae4-8419-4944-a778-fba1f0fcb136",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "ca26be0f-89c2-479e-aff4-3bd967c91703",
+      "type": "references",
+      "source_node_id": "2c32fb7f-68a9-49aa-a680-be8ce2c04e4e",
+      "target_node_id": "6222b7bd-fe71-49ac-aa2c-7602435a60e7",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "f241b3c2-a7fc-4060-99f5-6aa4d13af154",
+      "type": "references",
+      "source_node_id": "2c32fb7f-68a9-49aa-a680-be8ce2c04e4e",
+      "target_node_id": "552da8da-31aa-4ae5-98f8-53011d9fb75d",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "0363c316-7202-47db-b953-91f840a62c4e",
+      "type": "references",
+      "source_node_id": "c752913b-9948-4c6d-a27c-ce4ccaeb007f",
+      "target_node_id": "22931b01-666b-4678-a268-79e64879db94",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "fea028cc-75f6-4a24-ba5a-03c83c376b39",
+      "type": "references",
+      "source_node_id": "c752913b-9948-4c6d-a27c-ce4ccaeb007f",
+      "target_node_id": "bdb68d84-2b7f-4a5e-9bcf-d0ec186f5458",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "d27477ee-7691-45fa-9987-1c587fb495dd",
+      "type": "references",
+      "source_node_id": "c752913b-9948-4c6d-a27c-ce4ccaeb007f",
+      "target_node_id": "8b7c45d9-cc9f-4d55-bca0-f4a58dedc829",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "9c555155-3808-4f19-84a1-62a1b210ac39",
+      "type": "references",
+      "source_node_id": "c752913b-9948-4c6d-a27c-ce4ccaeb007f",
+      "target_node_id": "a849b2a7-58e0-4fdc-a0ef-8555356bf967",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "42efd49e-60da-4843-9f16-de163694d266",
+      "type": "references",
+      "source_node_id": "c752913b-9948-4c6d-a27c-ce4ccaeb007f",
+      "target_node_id": "a6913666-2a01-4034-9857-c9ab902cb1ae",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "6b087954-95d1-4e39-a0fc-d7ba8d54198a",
+      "type": "references",
+      "source_node_id": "c752913b-9948-4c6d-a27c-ce4ccaeb007f",
+      "target_node_id": "eeea1a5a-aa1c-4ed5-831c-1141f8d07db9",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "cc6f0fe2-298b-4bbd-9f28-cd32915aaf9f",
+      "type": "references",
+      "source_node_id": "c752913b-9948-4c6d-a27c-ce4ccaeb007f",
+      "target_node_id": "2dd7aae4-8419-4944-a778-fba1f0fcb136",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "d6ca01cd-1649-4bc6-8c53-f36a8ea0519e",
+      "type": "references",
+      "source_node_id": "c752913b-9948-4c6d-a27c-ce4ccaeb007f",
+      "target_node_id": "6222b7bd-fe71-49ac-aa2c-7602435a60e7",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "75a795d1-8df3-4d35-8922-b8aa03f5ed77",
+      "type": "references",
+      "source_node_id": "c752913b-9948-4c6d-a27c-ce4ccaeb007f",
+      "target_node_id": "552da8da-31aa-4ae5-98f8-53011d9fb75d",
+      "label": "Planet may occupy house",
+      "description": "Planet may occupy house",
+      "weight": 0.5,
+      "evidence": "House-planet relationship",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "16b229a7-8f4f-4e6f-ba6a-dd5d6ff357de",
+      "type": "influences",
+      "source_node_id": "2d7e11d4-54a8-443d-80fe-d1ba0b1f4d6b",
+      "target_node_id": "28e1b997-6a8c-4c25-b6ca-2e2b21252667",
+      "label": "Calibration calibrates planet strength",
+      "description": "Calibration calibrates planet strength",
+      "weight": 0.6,
+      "evidence": "Calibration influence",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "07ada907-4618-46b2-a043-e311be2761aa",
+      "type": "influences",
+      "source_node_id": "496c2928-7500-4a24-9a6d-1eeb7cac944e",
+      "target_node_id": "28e1b997-6a8c-4c25-b6ca-2e2b21252667",
+      "label": "Calibration calibrates planet strength",
+      "description": "Calibration calibrates planet strength",
+      "weight": 0.6,
+      "evidence": "Calibration influence",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "7dbf8871-bb0e-46f7-9c4c-c947da759ccb",
+      "type": "influences",
+      "source_node_id": "ae1fb363-20f8-4a7f-8c1b-b2ecf91fca8c",
+      "target_node_id": "28e1b997-6a8c-4c25-b6ca-2e2b21252667",
+      "label": "Calibration calibrates planet strength",
+      "description": "Calibration calibrates planet strength",
+      "weight": 0.6,
+      "evidence": "Calibration influence",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "0ede4969-3926-46f9-b477-05342329e4e1",
+      "type": "influences",
+      "source_node_id": "b342c9d1-0a8d-433a-84b8-8d46953f8148",
+      "target_node_id": "28e1b997-6a8c-4c25-b6ca-2e2b21252667",
+      "label": "Calibration calibrates planet strength",
+      "description": "Calibration calibrates planet strength",
+      "weight": 0.6,
+      "evidence": "Calibration influence",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "122a0bdd-8011-4ab4-96b2-aac961e09179",
+      "type": "influences",
+      "source_node_id": "d263f4b4-9f66-40e2-a2e3-a2248f2041f3",
+      "target_node_id": "28e1b997-6a8c-4c25-b6ca-2e2b21252667",
+      "label": "Calibration calibrates planet strength",
+      "description": "Calibration calibrates planet strength",
+      "weight": 0.6,
+      "evidence": "Calibration influence",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "67896ee0-b775-4e35-9948-e811f34253a3",
+      "type": "supersedes",
+      "source_node_id": "120cba5b-eebf-4f0d-af4e-9341e018a7c3",
+      "target_node_id": "e2cdb80b-3ec6-4143-b99b-5913bcca7862",
+      "label": "System Governance is supreme",
+      "description": "System Governance is supreme",
+      "weight": 1.0,
+      "evidence": "Governance hierarchy",
+      "created_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "e0b3da78-e4b3-4256-97c9-67de3232ff45",
+      "type": "validated_by",
+      "source_node_id": "edb2170d-6d30-4290-9ee0-edeec22ad626",
+      "target_node_id": "120cba5b-eebf-4f0d-af4e-9341e018a7c3",
+      "label": "Freeze enforced by governance",
+      "description": "Freeze enforced by governance",
+      "weight": 1.0,
+      "evidence": "Freeze governance",
+      "created_at": "2026-07-16T16:29:25.408348"
+    }
+  ],
+  "version": 2
+}

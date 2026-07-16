@@ -1,5 +1,6 @@
 import axios from 'axios';
 import type { ChartProcessResponse, FinalReportSchema, QuestionResponse, StructuredQuestionResponse } from '../types/schema';
+import type { KnowledgeNode, KnowledgeRelationship } from '../services/knowledge';
 
 // Use an environment variable or fallback to local backend for development
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
@@ -118,6 +119,93 @@ export const apiService = {
 
   async fetchRecents(): Promise<any[]> {
     const response = await backendApi.get<any[]>('/browser/recents');
+    return response.data;
+  },
+
+  // --- Knowledge Graph Endpoints ---
+
+  async listKnowledgeNodes(type?: string, domain?: string, source?: string): Promise<KnowledgeNode[]> {
+    const params: Record<string, string> = {};
+    if (type) params.node_type = type;
+    if (domain) params.domain = domain;
+    if (source) params.source = source;
+    const response = await backendApi.get<KnowledgeNode[]>('/knowledge/nodes', { params });
+    return response.data;
+  },
+
+  async getKnowledgeNode(nodeId: string): Promise<KnowledgeNode> {
+    const response = await backendApi.get<KnowledgeNode>(`/knowledge/nodes/${nodeId}`);
+    return response.data;
+  },
+
+  async createKnowledgeNode(data: Record<string, unknown>): Promise<KnowledgeNode> {
+    const response = await backendApi.post<KnowledgeNode>('/knowledge/nodes', data);
+    return response.data;
+  },
+
+  async updateKnowledgeNode(nodeId: string, data: Record<string, unknown>): Promise<KnowledgeNode> {
+    const response = await backendApi.patch<KnowledgeNode>(`/knowledge/nodes/${nodeId}`, data);
+    return response.data;
+  },
+
+  async deleteKnowledgeNode(nodeId: string): Promise<void> {
+    await backendApi.delete(`/knowledge/nodes/${nodeId}`);
+  },
+
+  async listKnowledgeRelationships(nodeId?: string, relType?: string): Promise<KnowledgeRelationship[]> {
+    const params: Record<string, string> = {};
+    if (nodeId) params.node_id = nodeId;
+    if (relType) params.rel_type = relType;
+    const response = await backendApi.get<KnowledgeRelationship[]>('/knowledge/relationships', { params });
+    return response.data;
+  },
+
+  async createKnowledgeRelationship(data: Record<string, unknown>): Promise<KnowledgeRelationship> {
+    const response = await backendApi.post<KnowledgeRelationship>('/knowledge/relationships', data);
+    return response.data;
+  },
+
+  async deleteKnowledgeRelationship(relId: string): Promise<void> {
+    await backendApi.delete(`/knowledge/relationships/${relId}`);
+  },
+
+  async searchKnowledge(query: string, nodeType?: string, domain?: string, limit: number = 50): Promise<{ nodes: KnowledgeNode[]; total: number }> {
+    const response = await backendApi.post<{ nodes: KnowledgeNode[]; total: number }>('/knowledge/search', { query, node_type: nodeType, domain, limit });
+    return response.data;
+  },
+
+  async getEvidenceChain(nodeId: string): Promise<{ formula_id: string; chain: Array<{ step: number; description: string; node_id: string; relationship_id: string; evidence: string }> }> {
+    const response = await backendApi.get(`/knowledge/evidence-chain/${nodeId}`);
+    return response.data;
+  },
+
+  async getCrossReferences(nodeId: string): Promise<Array<{ node: KnowledgeNode; relationship: KnowledgeRelationship; related_node: KnowledgeNode; relevance: string }>> {
+    const response = await backendApi.get(`/knowledge/cross-references/${nodeId}`);
+    return response.data;
+  },
+
+  async getDomainInsights(domain: string): Promise<{ domain: string; node_count: number; relationship_count: number; key_concepts: string[]; coverage_score: number }> {
+    const response = await backendApi.get(`/knowledge/insights/${domain}`);
+    return response.data;
+  },
+
+  async listDomainInsights(): Promise<Array<{ domain: string; node_count: number; relationship_count: number; key_concepts: string[]; coverage_score: number }>> {
+    const response = await backendApi.get('/knowledge/insights');
+    return response.data;
+  },
+
+  async getKnowledgeIntegrity(): Promise<{ valid: boolean; issues: string[]; node_count: number; relationship_count: number; checked_at: string }> {
+    const response = await backendApi.get('/knowledge/integrity');
+    return response.data;
+  },
+
+  async getKnowledgeState(): Promise<{ nodes: KnowledgeNode[]; relationships: KnowledgeRelationship[]; version: number; node_count: number; relationship_count: number }> {
+    const response = await backendApi.get('/knowledge/state');
+    return response.data;
+  },
+
+  async seedKnowledgeGraph(): Promise<{ status: string; node_count?: number; relationship_count?: number; message?: string }> {
+    const response = await backendApi.post('/knowledge/seed');
     return response.data;
   }
 };

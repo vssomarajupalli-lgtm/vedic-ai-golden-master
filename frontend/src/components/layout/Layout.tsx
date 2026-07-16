@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useChartStore } from '../../store/useChartStore';
-import { Home, Upload, FileText, MessageSquare, Download, Terminal } from 'lucide-react';
+import { Home, Upload, FileText, MessageSquare, Download, Terminal, GitGraph } from 'lucide-react';
 import { FileText as FileTextIcon } from 'lucide-react';
 
 export default function Layout() {
@@ -15,6 +15,7 @@ export default function Layout() {
     { name: 'Export Report', path: '/export', icon: Download, show: hasData },
     { name: 'Formula Verification', path: '/verify', icon: Terminal, show: hasData },
     { name: 'Consultation', path: '/consultation', icon: FileTextIcon, show: hasData },
+    { name: 'Knowledge Graph', path: '/knowledge', icon: GitGraph, show: true },
   ];
 
   return (
