@@ -27,3 +27,6 @@ Thumbs.db
 .vscode/
 .idea/
 .continue/
+
+# User Runtime Preferences
+backend/app/database/user_preferences.json
