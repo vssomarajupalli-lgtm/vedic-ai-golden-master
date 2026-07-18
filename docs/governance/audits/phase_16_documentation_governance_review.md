@@ -12,8 +12,8 @@ Status  : PERMANENT RECORD
 This document reviews the Phase 15 and Phase 16 architectural documents to ensure only permanent, valuable historical and technical records are committed to the repository.
 
 *Cross-References:*
-- Preceded by: [Phase 16A Final Constitution Review](file:///d:/vedic-ai-system/docs/governance/audits/phase_16a_final_constitution_review.md)
-- Followed by: [Final Documentation Cleanup Verification](file:///d:/vedic-ai-system/docs/governance/audits/phase_16_final_cleanup_verification.md)
+- Preceded by: [Phase 16A Final Constitution Review](phase_16a_final_constitution_review.md)
+- Followed by: [Final Documentation Cleanup Verification](phase_16_final_cleanup_verification.md)
 
 ## Body
 

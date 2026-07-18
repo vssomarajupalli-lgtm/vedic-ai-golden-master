@@ -11,8 +11,8 @@ Status  : PERMANENT RECORD
 ## Executive Summary
 
 *Cross-References:*
-- Preceded by: [Phase 16 Architecture Revision Review](file:///d:/vedic-ai-system/docs/governance/audits/phase_16_architecture_review.md)
-- Followed by: [Phase 16A Architecture Constitution Review](file:///d:/vedic-ai-system/docs/governance/audits/phase_16a_architecture_constitution_review.md)
+- Preceded by: [Phase 16 Architecture Revision Review](phase_16_architecture_review.md)
+- Followed by: [Phase 16A Architecture Constitution Review](phase_16a_architecture_constitution_review.md)
 
 **Objective:** This document serves to permanently freeze architectural ownership before any mathematical calibration begins. Every mathematical concept is assigned to a single owner to prevent duplication, double-counting, and scattered logic. 
 

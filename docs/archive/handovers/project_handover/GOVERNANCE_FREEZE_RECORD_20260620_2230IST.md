@@ -1,3 +1,13 @@
+---
+archive_title: "GOVERNANCE FREEZE RECORD"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive\handovers"
+archive_reason: "Superseded by current documentation architecture"
+original_version: "Unknown (historical)"
+replacement_document: "Not specified (see docs/INDEX.md for current canonical documents)"
+---
+
 # GOVERNANCE FREEZE RECORD
 
 **SNAPSHOT DATE:** 2026-06-20

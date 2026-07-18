@@ -1,3 +1,13 @@
+---
+archive_title: "GOCHARA_TEST_CASES"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive\gocharm_lagacy"
+archive_reason: "Superseded by current documentation architecture"
+original_version: "Unknown (historical)"
+replacement_document: "Not specified (see docs/INDEX.md for current canonical documents)"
+---
+
 # GOCHARA_TEST_CASES
 
 ## 1. PURPOSE

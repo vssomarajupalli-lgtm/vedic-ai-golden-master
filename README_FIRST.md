@@ -4,6 +4,15 @@ Before making any code changes, read ONLY the following files in order.
 
 ---
 
+# 📚 **NAVIGATION**
+
+| Entry Point | Description |
+|-------------|-------------|
+| **📚 Canonical Documentation Index** | [`docs/INDEX.md`](docs/INDEX.md) — Authoritative registry of all canonical documents |
+| **📖 Primary Authority (Mandatory)** | See below |
+
+---
+
 # PRIMARY AUTHORITY (MANDATORY)
 
 ## 1. VEDIC_AI_SOURCE_OF_TRUTH.md

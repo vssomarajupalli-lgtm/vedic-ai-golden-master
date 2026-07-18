@@ -1,3 +1,13 @@
+---
+archive_title: "CHATGPT_IMPLEMENTATION_MEMORY"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive"
+archive_reason: "Superseded by current documentation architecture"
+original_version: "Unknown (historical)"
+replacement_document: "docs/governance/CODING_AGENT_MEMORY_2026-06-11_IST.md"
+---
+
 # CHATGPT_IMPLEMENTATION_MEMORY
 
 ## PURPOSE OF THIS DOCUMENT

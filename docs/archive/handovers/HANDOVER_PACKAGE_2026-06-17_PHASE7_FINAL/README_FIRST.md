@@ -1,3 +1,13 @@
+---
+archive_title: "PROJECT ENTRY POINT: VEDIC AI SYSTEM"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive\handovers"
+archive_reason: "Superseded by current documentation architecture"
+original_version: "Unknown (historical)"
+replacement_document: "Not specified (see docs/INDEX.md for current canonical documents)"
+---
+
 # PROJECT ENTRY POINT: VEDIC AI SYSTEM
 **Status Date:** 2026-06-19
 **Current Phase Status:** Phase 9 Completed / Phase 10 Preparation

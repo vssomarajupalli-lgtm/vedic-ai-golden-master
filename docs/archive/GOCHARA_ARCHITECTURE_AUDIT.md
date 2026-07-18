@@ -1,3 +1,13 @@
+---
+archive_title: "GOCHARA ARCHITECTURE AUDIT & DOSHA RE-EVALUATION"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive"
+archive_reason: "Superseded by current documentation architecture"
+original_version: "Unknown (historical)"
+replacement_document: "docs/knowledge/TRANSIT_ENGINE_KNOWLEDGE_PACKAGE.md"
+---
+
 # GOCHARA ARCHITECTURE AUDIT & DOSHA RE-EVALUATION
 
 Based on the Domain Expert's clarification, the prior conclusions regarding the Dosha Engine and Transit Engine have been re-evaluated. This document audits the existing layers, source data, and missing proprietary logic to enforce the DR-003 Extraction-First mandate.

@@ -1,3 +1,13 @@
+---
+archive_title: "FORMULA REPOSITORY GOVERNANCE v1"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive\formulas"
+archive_reason: "Superseded by current documentation architecture"
+original_version: "Unknown (historical)"
+replacement_document: "Not specified (see docs/INDEX.md for current canonical documents)"
+---
+
 # FORMULA REPOSITORY GOVERNANCE v1
 
 ## 1. Core Principle

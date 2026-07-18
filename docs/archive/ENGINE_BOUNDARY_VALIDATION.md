@@ -1,3 +1,13 @@
+---
+archive_title: "ENGINE BOUNDARY VALIDATION"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive"
+archive_reason: "Superseded by current documentation architecture"
+original_version: "Unknown (historical)"
+replacement_document: "docs/engineering/validation/VEDIC_RULE_VALIDATION_REVIEW.md"
+---
+
 # ENGINE BOUNDARY VALIDATION
 
 This document validates every calculation engine against **DR-007 (Engine Isolation Rule)**:

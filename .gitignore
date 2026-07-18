@@ -1,32 +1,174 @@
-# Python Cache & Compiled Files
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
-*.pyo
-
-# Testing & Environment
-.pytest_cache/
-venv/
-env/
-.env
-
-# Frontend Dependencies & Build Output
-node_modules/
+*.so
+.Python
+build/
+develop-eggs/
 dist/
-dist-ssr/
-frontend/.vite/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# Tauri Build Artifacts
-frontend/src-tauri/target/
+# PyInstaller
+*.manifest
+*.spec
 
-# OS Generated Files
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py.cover
+.hypothesis/
+.pytest_cache/
+pytest_cache/
+
+# Unit test / coverage reports (alt)
+*.py.cover
+
+# Translations
+*.mo
+*.pot
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask
+instance/
+.webassets-cache
+
+# Scrapy
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# pdm
+.pdm.toml
+
+# PEP 582
+__pypackages__/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder
+.spyderproject
+.spyproject
+
+# Rope
+.ropeproject
+
+# mkdocs
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# poetry
+poetry.lock
+
+# pdm
+.pdm.toml
+
+# Pyre
+.pyre/
+
+# pytype
+.pytype/
+
+# Cython
+cython_debug/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Frontend build
+dist/
+build/
+.next/
+out/
+*.local
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
 .DS_Store
 Thumbs.db
 
-# IDE & Editor Configs
-.vscode/
-.idea/
-.continue/
+# Runtime
+*.log
+*.tmp
+*.temp
+*.bak
 
-# User Runtime Preferences
-backend/app/database/user_preferences.json
+*.pyc
+*.pyo

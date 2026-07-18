@@ -11,8 +11,8 @@ Status  : PERMANENT RECORD
 ## Executive Summary
 
 *Cross-References:*
-- Preceded by: [Phase 15 Final Regression Evidence](file:///d:/vedic-ai-system/docs/governance/audits/phase_15_final_regression_evidence.md)
-- Followed by: [Phase 16 Architecture Revision Review](file:///d:/vedic-ai-system/docs/governance/audits/phase_16_architecture_review.md)
+- Preceded by: [Phase 15 Final Regression Evidence](phase_15_final_regression_evidence.md)
+- Followed by: [Phase 16 Architecture Revision Review](phase_16_architecture_review.md)
 
 **Objective**: Perform a complete audit of every mathematical formula, weight, grade, threshold, modifier, and fallback currently used by the Vedic-AI engine. This document serves as the definitive mathematical specification before calibration. 
 

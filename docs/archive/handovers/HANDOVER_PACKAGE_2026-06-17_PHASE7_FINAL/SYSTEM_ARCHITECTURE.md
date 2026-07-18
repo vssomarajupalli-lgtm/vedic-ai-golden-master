@@ -1,3 +1,13 @@
+---
+archive_title: "SYSTEM ARCHITECTURE"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive\handovers"
+archive_reason: "Superseded by current documentation architecture"
+original_version: "Unknown (historical)"
+replacement_document: "docs/SYSTEM_ARCHITECTURE.md"
+---
+
 # SYSTEM ARCHITECTURE
 # Deterministic Vedic Astrology Calculation Platform
 

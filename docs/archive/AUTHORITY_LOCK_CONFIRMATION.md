@@ -1,3 +1,13 @@
+---
+archive_title: "AUTHORITY LOCK CONFIRMATION"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive"
+archive_reason: "Superseded by current documentation architecture"
+original_version: "Unknown (historical)"
+replacement_document: "docs/governance/AUTHORITY_LOCK_2026-06-11_18-15_IST.md"
+---
+
 # AUTHORITY LOCK CONFIRMATION
 
 This document confirms the adoption and enforcement of `AUTHORITY_LOCK_2026-06-11_18-15_IST.md` across the Samartha Astro AI project.

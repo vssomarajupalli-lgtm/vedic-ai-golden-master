@@ -1,3 +1,13 @@
+---
+archive_title: "REPOSITORY REFINEMENT ACTION PLAN"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive\roadmaps"
+archive_reason: "Superseded by current documentation architecture"
+original_version: "Unknown (historical)"
+replacement_document: "Not specified (see docs/INDEX.md for current canonical documents)"
+---
+
 # REPOSITORY REFINEMENT ACTION PLAN
 
 ## SECTION 1: Document Information

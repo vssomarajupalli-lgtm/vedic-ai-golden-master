@@ -11,7 +11,7 @@ Status  : PERMANENT RECORD
 ## Executive Summary
 
 *Cross-References:*
-- Followed by: [Phase 16A.1 Mathematical Calibration Audit](file:///d:/vedic-ai-system/docs/governance/audits/phase_16a1_mathematical_calibration_audit.md)
+- Followed by: [Phase 16A.1 Mathematical Calibration Audit](phase_16a1_mathematical_calibration_audit.md)
 
 This document provides objective, reproducible evidence from the **CURRENT** checked-out codebase demonstrating the critical regressions and architectural violations reported in the Final Release Readiness Validation.
 

@@ -11,8 +11,8 @@ Status  : PERMANENT RECORD
 ## Executive Summary
 
 *Cross-References:*
-- Preceded by: [Phase 16A Architecture Freeze Audit](file:///d:/vedic-ai-system/docs/governance/audits/phase_16a_architecture_freeze_audit.md)
-- Followed by: [Phase 16A Final Constitution Review](file:///d:/vedic-ai-system/docs/governance/audits/phase_16a_final_constitution_review.md)
+- Preceded by: [Phase 16A Architecture Freeze Audit](phase_16a_architecture_freeze_audit.md)
+- Followed by: [Phase 16A Final Constitution Review](phase_16a_final_constitution_review.md)
 
 This document serves as the formal architectural confirmation of the **Phase 16A Architecture Constitution (Final Revision)**. The proposed constitution establishes an ironclad framework that permanently isolates mathematical logic from configurable values, guaranteeing that future calibrations will be deterministic, safe, and free from cross-engine contamination. 
 

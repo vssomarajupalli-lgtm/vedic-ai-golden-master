@@ -1,3 +1,13 @@
+---
+archive_title: "CHATGPT_ARCHITECTURE_MEMORY.md"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive"
+archive_reason: "Superseded by current documentation architecture"
+original_version: "Unknown (historical)"
+replacement_document: "docs/status/CHATGPT_ARCHITECTURE_MEMORY.md"
+---
+
 # CHATGPT_ARCHITECTURE_MEMORY.md
 **Last Updated:** 2026-06-25 10:28 IST
 **Current Phase:** Phase 16A (Completed) -> Next Immediate Objective: Phase 16A.3 (Calibration Architecture)

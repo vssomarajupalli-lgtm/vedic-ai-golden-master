@@ -1,3 +1,13 @@
+---
+archive_title: "PHASE 14H.1 COMPLETION REPORT: QUESTIONNAIRE DISPLAY SPECIFICATION V1"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive\bkl-006_legacy"
+archive_reason: "Classified as CP-001 (Zero Dependency Historical Artifact) per BKL-006 Chief Architect Decision Register"
+original_version: "Unknown (historical)"
+replacement_document: "Not specified (see docs/INDEX.md for current canonical documents)"
+---
+
 # PHASE 14H.1 COMPLETION REPORT: QUESTIONNAIRE DISPLAY SPECIFICATION V1
 
 **Snapshot Date:** 2026-06-21

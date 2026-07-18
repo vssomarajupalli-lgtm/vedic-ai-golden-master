@@ -1,3 +1,13 @@
+---
+archive_title: "JSON CONTRACT MASTER"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive"
+archive_reason: "Superseded by current documentation architecture"
+original_version: "Unknown (historical)"
+replacement_document: "docs/knowledge/CANONICAL_JSON_SCHEMA.md"
+---
+
 # JSON CONTRACT MASTER
 # Deterministic Vedic Astrology Calculation Platform
 

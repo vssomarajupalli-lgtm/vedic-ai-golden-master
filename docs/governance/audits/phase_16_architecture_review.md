@@ -11,8 +11,8 @@ Status  : PERMANENT RECORD
 ## Executive Summary
 
 *Cross-References:*
-- Preceded by: [Phase 16A.1 Mathematical Calibration Audit](file:///d:/vedic-ai-system/docs/governance/audits/phase_16a1_mathematical_calibration_audit.md)
-- Followed by: [Phase 16A Architecture Freeze Audit](file:///d:/vedic-ai-system/docs/governance/audits/phase_16a_architecture_freeze_audit.md)
+- Preceded by: [Phase 16A.1 Mathematical Calibration Audit](phase_16a1_mathematical_calibration_audit.md)
+- Followed by: [Phase 16A Architecture Freeze Audit](phase_16a_architecture_freeze_audit.md)
 
 The proposed Phase 16 Architecture Revision provides an exceptionally strong foundation for the future of the Vedic-AI engine. By explicitly separating mathematical formulas (logic) from calibration values (weights/thresholds), the system will achieve true flexibility without sacrificing deterministic stability.
 

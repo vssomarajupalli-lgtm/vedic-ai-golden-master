@@ -1,3 +1,13 @@
+---
+archive_title: "ARCHITECTURE CONTRADICTIONS AND CLARIFICATIONS"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive"
+archive_reason: "Superseded by current documentation architecture"
+original_version: "Unknown (historical)"
+replacement_document: "docs/ARCHITECTURE_RULES.md, docs/engineering/validation/PROJECT_MILESTONE_v1_RUNTIME_VALIDATION.md"
+---
+
 # ARCHITECTURE CONTRADICTIONS AND CLARIFICATIONS
 
 ## 1. Rule Conflicts

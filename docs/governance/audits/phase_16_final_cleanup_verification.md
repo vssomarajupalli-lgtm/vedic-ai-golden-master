@@ -12,7 +12,7 @@ Status  : PERMANENT RECORD
 This document is the final verification preventing the deletion of intermediate drafts, ensuring that all unique architectural history and bug discovery narratives are permanently preserved.
 
 *Cross-References:*
-- Preceded by: [Phase 16 Documentation Governance Review](file:///d:/vedic-ai-system/docs/governance/audits/phase_16_documentation_governance_review.md)
+- Preceded by: [Phase 16 Documentation Governance Review](phase_16_documentation_governance_review.md)
 
 ## Body
 

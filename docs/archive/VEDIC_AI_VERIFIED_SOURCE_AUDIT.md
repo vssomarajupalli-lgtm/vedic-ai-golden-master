@@ -1,3 +1,13 @@
+---
+archive_title: "VEDIC_AI_VERIFIED_SOURCE_AUDIT.md"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive"
+archive_reason: "Superseded by current documentation architecture"
+original_version: "Unknown (historical)"
+replacement_document: "docs/engineering/validation/VEDIC_RULE_VALIDATION_REVIEW.md"
+---
+
 # VEDIC_AI_VERIFIED_SOURCE_AUDIT.md
 
 ## Verified Source Tree

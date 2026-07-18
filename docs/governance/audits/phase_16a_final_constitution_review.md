@@ -11,7 +11,7 @@ Status  : APPROVED
 ## Executive Summary
 
 *Cross-References:*
-- Preceded by: [Phase 16A Architecture Constitution Review](file:///d:/vedic-ai-system/docs/governance/audits/phase_16a_architecture_constitution_review.md)
+- Preceded by: [Phase 16A Architecture Constitution Review](phase_16a_architecture_constitution_review.md)
 - Followed by: Phase 16A.3 Implementation
 
 This document serves as the absolute and final architectural sign-off for the Vedic-AI engine before any implementation or mathematical calibration commences. The constitution establishes an immutable set of laws governing calculation ownership, dependency injection, output stability, and version-controlled mathematical tuning. 

@@ -1,3 +1,13 @@
+---
+archive_title: "CONTRACT REGISTRY"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive\handovers"
+archive_reason: "Superseded by current documentation architecture"
+original_version: "Unknown (historical)"
+replacement_document: "Not specified (see docs/INDEX.md for current canonical documents)"
+---
+
 # CONTRACT REGISTRY
 **Date:** 2026-06-17 13:05 IST
 

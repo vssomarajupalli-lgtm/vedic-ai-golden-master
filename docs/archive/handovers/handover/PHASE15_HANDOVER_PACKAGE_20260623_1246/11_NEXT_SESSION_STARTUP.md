@@ -4,6 +4,15 @@ Current Project Phase: Phase 15 (Promise Engine Validation)
 Latest Git Commit Hash: d8a09355ae980b69be448fe4dfeaf0f23e7f3bea
 Current Branch: main
 Current Runtime Status: Validation Stable
+
+# Archive Governance Metadata
+archive_title: "11_NEXT_SESSION_STARTUP"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive/handovers/handover"
+archive_reason: "Historical phase handover package; superseded by current project status"
+original_version: "2026-06-23"
+replacement_document: "Not specified (see docs/status/ for current project status)
 ---
 
 # 11_NEXT_SESSION_STARTUP

@@ -1,3 +1,13 @@
+---
+archive_title: "PROJECT CONTEXT"
+archive_status: "ARCHIVED"
+archive_date: "2026-07-18"
+archive_category: "archive"
+archive_reason: "Superseded by current documentation architecture"
+original_version: "Unknown (historical)"
+replacement_document: "docs/knowledge/PROJECT_CONTEXT.md"
+---
+
 # PROJECT CONTEXT
 # Deterministic Vedic Astrology Calculation Platform
 
