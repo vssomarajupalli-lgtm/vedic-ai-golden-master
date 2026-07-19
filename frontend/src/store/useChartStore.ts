@@ -18,7 +18,11 @@ interface ChartState {
   // Actions
   setUploads: (canonical: any, machine: any) => void;
   setResults: (outputs: ChartProcessResponse, report: FinalReportSchema) => void;
+  setChartData: (canonical: any, machine: any) => void;
+  setEngineOutputs: (outputs: ChartProcessResponse) => void;
+  setReport: (report: FinalReportSchema) => void;
   setQuestionResults: (results: any[]) => void;
+  addQuestionResult: (result: any) => void;
   clearState: () => void;
 }
 
@@ -39,9 +43,26 @@ export const useChartStore = create<ChartState>((set) => ({
     report: report 
   }),
   
+  setChartData: (canonical, machine) => set({
+    canonicalContent: canonical,
+    machineIndex: machine,
+  }),
+  
+  setEngineOutputs: (outputs) => set({
+    rawOutputs: outputs,
+  }),
+  
+  setReport: (report) => set({
+    report: report,
+  }),
+  
   setQuestionResults: (results) => set({
     questionResults: results
   }),
+  
+  addQuestionResult: (result) => set((state) => ({
+    questionResults: [...state.questionResults, result]
+  })),
   
   clearState: () => set({ 
     canonicalContent: null, 

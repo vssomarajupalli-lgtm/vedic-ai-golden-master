@@ -1,197 +1,160 @@
+// Consultation Management Types
+// GM-012A: Complete Consultation Workspace Implementation
+
+import type { ChartProcessResponse, FinalReportSchema } from './schema';
+
+export type ConsultationStatus = 'draft' | 'active' | 'completed' | 'archived';
+
+export interface ConsultationClient {
+  name: string;
+  email?: string;
+  phone?: string;
+  birthData?: {
+    date: string;
+    time: string;
+    place: string;
+    latitude: number;
+    longitude: number;
+    timezone: string;
+  };
+}
+
 export interface Consultation {
   id: string;
-  version: number;
-  title: string;
-  client: ClientProfile;
-  birthData: BirthData;
-  structure: ConsultationStructure;
-  formatting: ReportFormatting;
-  metadata: ConsultationMetadata;
-  createdAt: Date;
-  updatedAt: Date;
-  generatedAt?: Date;
-}
-
-export interface ClientProfile {
+  clientId: string;
+  client: ConsultationClient;
   name: string;
-  email?: string;
-  phone?: string;
-  notes?: string;
+  status: ConsultationStatus;
   tags: string[];
+  notes: string;
+  horoscopeSource: 'horoscope_cleaner' | 'manual' | 'import';
+  isPinned: boolean;
+  
+  // Chart data
+  canonicalContent: any;
+  machineIndex: any;
+  
+  // Engine outputs
+  rawOutputs: ChartProcessResponse | null;
+  report: FinalReportSchema | null;
+  questionResults: any[];
+  
+  // Metadata
+  createdAt: string;
+  updatedAt: string;
+  completedAt?: string;
+  lastOpenedAt?: string;
+  
+  // Auto-save tracking
+  autoSaveVersion: number;
+  hasUnsavedChanges: boolean;
 }
 
-export interface BirthData {
-  date: string;
-  time: string;
-  timezone: string;
-  latitude: number;
-  longitude: number;
-  place: string;
-}
-
-export interface ConsultationStructure {
-  coverPage: CoverPageConfig;
-  executiveSummary: ExecutiveSummaryConfig;
-  chapters: Chapter[];
-  appendices: AppendixConfig;
-}
-
-export interface CoverPageConfig {
-  included: boolean;
-  title: string;
-  showClientName: boolean;
-  showBirthDetails: boolean;
-  showReportDate: boolean;
-  branding: BrandingConfig;
-}
-
-export interface ExecutiveSummaryConfig {
-  mode: 'auto' | 'custom' | 'none';
-  customText?: string;
-  includeKeyMetrics: boolean;
-  includeRecommendations: boolean;
-}
-
-export interface Chapter {
-  id: string;
-  title: string;
-  order: number;
-  included: boolean;
-  customIntro?: string;
-  questions: ChapterQuestion[];
-}
-
-export interface ChapterQuestion {
-  questionId: string;
-  domainId: number;
-  order: number;
-  included: boolean;
-  customLabel?: string;
-}
-
-export interface AppendixConfig {
-  birthChart: boolean;
-  planetaryPositions: boolean;
-  dashaTimeline: boolean;
-  transitCalendar: boolean;
-  vimshottariDetails: boolean;
-  ashtakavargaGrid: boolean;
-}
-
-export interface ReportFormatting {
-  pageSize: 'A4' | 'Letter';
-  orientation: 'portrait' | 'landscape';
-  margins: { top: number; right: number; bottom: number; left: number };
-  header: HeaderFooterConfig;
-  footer: HeaderFooterConfig;
-  pageNumbers: PageNumberConfig;
-  typography: TypographyConfig;
-  branding: BrandingConfig;
-}
-
-export interface HeaderFooterConfig {
-  enabled: boolean;
-  left?: string;
-  center?: string;
-  right?: string;
-}
-
-export interface PageNumberConfig {
-  enabled: boolean;
-  format: 'arabic' | 'roman' | 'appendix';
-  position: 'bottom-center' | 'bottom-right' | 'bottom-left';
-}
-
-export interface TypographyConfig {
-  fontHeading: string;
-  fontBody: string;
-  fontMono: string;
-  fontSizeBase: number;
-  lineHeight: number;
-}
-
-export interface BrandingConfig {
-  logoUrl?: string;
-  primaryColor: string;
-  secondaryColor: string;
-  showWatermark: boolean;
-}
-
-export interface ConsultationMetadata {
-  consultationId: string;
-  reportId?: string;
-  version: number;
-  generatedAt?: Date;
-  generatedBy?: string;
-  templateId?: string;
-  tags: string[];
-}
-
-export interface ClientProfile {
+export interface ConsultationCreateInput {
+  clientId: string;
+  client?: ConsultationClient;
   name: string;
-  email?: string;
-  phone?: string;
+  canonicalContent?: any;
+  machineIndex?: any;
+  rawOutputs?: ChartProcessResponse | null;
+  report?: FinalReportSchema | null;
+  questionResults?: any[];
+  horoscopeSource?: Consultation['horoscopeSource'];
+  tags?: string[];
   notes?: string;
-  tags: string[];
+  status?: ConsultationStatus;
 }
 
-export interface BirthData {
-  date: string;
-  time: string;
-  timezone: string;
-  latitude: number;
-  longitude: number;
-  place: string;
-}
-
-export interface ReportVersion {
-  version: number;
-  timestamp: Date;
-  author: string;
-  changes: string;
-  reportSnapshotId: string;
-}
-
-export interface ReportMetadata {
-  reportId: string;
-  reportVersion: number;
-  reportType: 'consultation' | 'comparison' | 'template';
-  generationDate: Date;
-  generatedBy: string;
-  generationDurationMs: number;
-  engineVersions: Record<string, string>;
-  formulaRegistryVersion: string;
-  questionCatalogVersion: string;
-  calibrationProfileVersion: string;
-  desktopRuntimeVersion?: string;
-  serverRuntimeVersion?: string;
-  browserRuntimeVersion?: string;
-  chartId: string;
-  chartName: string;
-  birthDataHash: string;
-  pageCount: number;
-  wordCount: number;
-  questionCount: number;
-  domainCount: number;
-  checksum: string;
-  signature?: string;
-  consultationSnapshotId: string;
-  reproductionInstructions: string;
-}
-
-export interface ClientProfile {
-  name: string;
-  email?: string;
-  phone?: string;
+export interface ConsultationUpdateInput {
+  name?: string;
+  status?: ConsultationStatus;
+  tags?: string[];
   notes?: string;
-  tags: string[];
+  canonicalContent?: any;
+  machineIndex?: any;
+  rawOutputs?: ChartProcessResponse | null;
+  report?: FinalReportSchema | null;
+  questionResults?: any[];
+  client?: { name?: string; email?: string; phone?: string; birthData?: ConsultationClient['birthData'] };
+  updatedAt?: string;
 }
 
-export interface BirthData {
-  date: string;
-  time: string;
-  timezone: string;
-  latitude: number;
-  longitude: number;
-  place: string;
+export interface ConsultationSearchFilters {
+  text?: string;
+  clientId?: string;
+  status?: ConsultationStatus;
+  tags?: string[];
+  dateFrom?: string;
+  dateTo?: string;
+}
+
+export interface ConsultationSortConfig {
+  field: 'createdAt' | 'updatedAt' | 'name' | 'status';
+  direction: 'asc' | 'desc';
+}
+
+export type ViewMode = 'grid' | 'list';
+
+export const DEFAULT_CONSULTATION_STATUS: ConsultationStatus = 'draft';
+
+export function createConsultation(input: ConsultationCreateInput): Consultation {
+  const now = new Date().toISOString();
+  return {
+    id: crypto.randomUUID(),
+    clientId: input.clientId,
+    client: input.client || { name: '' },
+    name: input.name,
+    status: input.status || DEFAULT_CONSULTATION_STATUS,
+    tags: input.tags || [],
+    notes: input.notes || '',
+    horoscopeSource: input.horoscopeSource || 'horoscope_cleaner',
+    isPinned: false,
+    canonicalContent: input.canonicalContent,
+    machineIndex: input.machineIndex,
+    rawOutputs: input.rawOutputs || null,
+    report: input.report || null,
+    questionResults: input.questionResults || [],
+    createdAt: now,
+    updatedAt: now,
+    autoSaveVersion: 0,
+    hasUnsavedChanges: false,
+  };
+}
+
+export function updateConsultation(
+  consultation: Consultation,
+  input: ConsultationUpdateInput
+): Consultation {
+  const now = new Date().toISOString();
+  const updated: Consultation = {
+    ...consultation,
+    ...input,
+    updatedAt: now,
+    autoSaveVersion: consultation.autoSaveVersion + 1,
+    hasUnsavedChanges: true,
+    // Ensure client is always a valid ConsultationClient
+    client: input.client 
+      ? { ...consultation.client, ...input.client, name: input.client.name || consultation.client.name }
+      : consultation.client,
+  };
+  
+  if (input.status === 'completed' && consultation.status !== 'completed') {
+    updated.completedAt = now;
+  }
+  
+  return updated;
+}
+
+export function markConsultationSaved(consultation: Consultation): Consultation {
+  return {
+    ...consultation,
+    hasUnsavedChanges: false,
+  };
+}
+
+export function markConsultationOpened(consultation: Consultation): Consultation {
+  return {
+    ...consultation,
+    lastOpenedAt: new Date().toISOString(),
+  };
 }

@@ -1,17 +1,25 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { UploadCloud, Loader2, AlertCircle } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { UploadCloud, Loader2, AlertCircle, Plus } from 'lucide-react';
 import { useChartStore } from '../store/useChartStore';
+import { useConsultationStore } from '../store/useConsultationStore';
 import { apiService } from '../api/backend';
 
 export default function Upload() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { setUploads, setResults } = useChartStore();
+  const { createConsultation, updateConsultation } = useConsultationStore();
   
-  const [canonical, setCanonical] = useState<any>(null);
-  const [machine, setMachine] = useState<any>(null);
+  // Check if we're editing an existing consultation
+  const consultationId = (location.state as any)?.consultationId;
+  const existingConsultation = consultationId ? useConsultationStore.getState().consultations.find(c => c.id === consultationId) : null;
+  
+  const [canonical, setCanonical] = useState<any>(existingConsultation?.canonicalContent || null);
+  const [machine, setMachine] = useState<any>(existingConsultation?.machineIndex || null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [consultationName, setConsultationName] = useState(existingConsultation?.name || '');
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, type: 'canonical' | 'machine') => {
     const file = e.target.files?.[0];
@@ -40,7 +48,7 @@ export default function Upload() {
     setLoading(true);
     setError(null);
     try {
-      // 1. Process chart to get raw math breakdown (for QuestionEngine)
+      // 1. Process chart to get raw math breakdown
       const outputs = await apiService.processChart(canonical, machine);
       
       // 2. Process report to get UI formatting Schema
@@ -50,8 +58,41 @@ export default function Upload() {
       setUploads(canonical, machine);
       setResults(outputs, report);
       
-      // 4. Redirect
-      navigate('/results');
+      // 4. Create or update consultation
+      const client = existingConsultation?.client ? {
+        name: existingConsultation.client.name,
+        email: existingConsultation.client.email,
+        phone: existingConsultation.client.phone,
+        birthData: existingConsultation.client.birthData,
+      } : undefined;
+      
+      if (consultationId && existingConsultation) {
+        // Update existing consultation
+        await updateConsultation(consultationId, {
+          name: consultationName || existingConsultation.name,
+          canonicalContent: canonical,
+          machineIndex: machine,
+          rawOutputs: outputs,
+          report: report,
+          status: 'active',
+          client,
+          updatedAt: new Date().toISOString(),
+        });
+        navigate(`/consultation/${consultationId}`);
+      } else {
+        // Create new consultation
+        const newConsultation = await createConsultation({
+          clientId: existingConsultation?.clientId || 'new',
+          client: existingConsultation?.client || { name: '' },
+          name: consultationName || `Consultation ${new Date().toLocaleDateString()}`,
+          canonicalContent: canonical,
+          machineIndex: machine,
+          rawOutputs: outputs,
+          report: report,
+          status: 'active',
+        });
+        navigate(`/consultation/${newConsultation.id}`);
+      }
     } catch (err: any) {
       const detail = err.response?.data?.detail;
       const errorMessage = typeof detail === 'string' 
@@ -68,15 +109,37 @@ export default function Upload() {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
-        <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center">
-          <UploadCloud className="w-6 h-6 mr-2 text-indigo-600" />
-          Upload Chart Data
-        </h2>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 flex items-center">
+            <UploadCloud className="w-6 h-6 mr-2 text-indigo-600" />
+            {consultationId ? 'Update Consultation' : 'Create Consultation'}
+          </h2>
+          {!consultationId && (
+            <span className="px-3 py-1 text-xs font-medium bg-indigo-100 text-indigo-700 rounded-full">
+              New Consultation
+            </span>
+          )}
+        </div>
 
         {error && (
           <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-start">
             <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
             <p>{error}</p>
+          </div>
+        )}
+
+        {!consultationId && (
+          <div className="mb-6 p-4 bg-indigo-50 border border-indigo-200 rounded-lg">
+            <p className="text-sm text-indigo-800 mb-3">
+              <strong>Tip:</strong> You can also create a consultation from the Dashboard or Consultation Library.
+            </p>
+            <input
+              type="text"
+              value={consultationName}
+              onChange={(e) => setConsultationName(e.target.value)}
+              placeholder="Consultation name (optional)"
+              className="w-full px-4 py-2 border border-indigo-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
           </div>
         )}
 
@@ -125,10 +188,13 @@ export default function Upload() {
             {loading ? (
               <>
                 <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                Processing...
+                {consultationId ? 'Updating...' : 'Processing...'}
               </>
             ) : (
-              'Generate Analysis'
+              <>
+                {consultationId ? 'Update Consultation' : 'Generate Analysis'}
+                <Plus className="ml-2 w-5 h-5" />
+              </>
             )}
           </button>
         </div>

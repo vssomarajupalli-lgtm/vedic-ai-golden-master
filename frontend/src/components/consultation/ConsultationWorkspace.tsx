@@ -1,294 +1,265 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useChartStore } from '../../store/useChartStore';
-import { apiService } from '../../api/backend';
-import { QUESTIONNAIRE_SCHEMA } from '../../config/questionnaireSchema';
-import { QuestionSelectionPanel } from './QuestionSelectionPanel';
-import { ReportStructurePanel } from './ReportStructurePanel';
-import { ActivationTimeline } from './ActivationTimeline';
-import { GocharaPresentation } from './GocharaPresentation';
-import { FileText, Eye, MessageSquare, Clock, TrendingUp, Target, Clock as ClockIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeft, FileText, AlertCircle } from 'lucide-react';
+import { useConsultationStore } from '../../store/useConsultationStore';
+import type { Consultation } from '../../types/consultation';
 
-interface ConsultationWorkspaceProps {
-  initialQuestionId?: string;
-}
-
-export const ConsultationWorkspace: React.FC<ConsultationWorkspaceProps> = ({ initialQuestionId }) => {
-  const location = useLocation();
-  const { canonicalContent, machineIndex, rawOutputs, questionResults } = useChartStore();
-
-  const [selectedQuestions, setSelectedQuestions] = useState<Set<string>>(new Set());
-  const [activeTab, setActiveTab] = useState<'selection' | 'structure' | 'notes' | 'preview' | 'timeline' | 'gochara'>('selection');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterDomain, setFilterDomain] = useState<string | null>(null);
-  const [consultationTitle] = useState('New Consultation');
+export default function ConsultationWorkspace() {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { openConsultation } = useConsultationStore();
+  
+  const [consultation, setConsultation] = useState<Consultation | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (location.state?.initialQuestionId) {
-      setSelectedQuestions(new Set([location.state.initialQuestionId]));
-    } else if (initialQuestionId) {
-      setSelectedQuestions(new Set([initialQuestionId]));
+    if (!id) {
+      setError('No consultation ID provided');
+      setLoading(false);
+      return;
     }
-  }, [location.state, initialQuestionId]);
 
-  const consultation = useMemo(() => ({
-    id: `consultation-${Date.now()}`,
-    version: 1,
-    title: consultationTitle,
-    client: { name: '', tags: [] },
-    birthData: { date: '', time: '', timezone: '', latitude: 0, longitude: 0, place: '' },
-    structure: {
-      coverPage: { included: true, title: consultationTitle, showClientName: true, showBirthDetails: true, showReportDate: true, branding: { primaryColor: '#1e3a5f', secondaryColor: '#c4963a', showWatermark: false } },
-      executiveSummary: { mode: 'auto', includeKeyMetrics: true, includeRecommendations: true },
-      chapters: Array.from(selectedQuestions).map((qId, index) => {
-        let domainId = 0;
-        let label = qId;
-        QUESTIONNAIRE_SCHEMA.forEach(domain => {
-          const q = domain.questions.find(q => q.id === qId);
-          if (q) {
-            domainId = parseInt(domain.domainId.replace('marriage', '7').replace('career', '10').replace('wealth', '2').replace('health', '6').replace('children', '8').replace('property', '4').replace('education', '5').replace('travel', '11').replace('spiritual', '12').replace('compatibility', '9').replace('retirement', '10'));
-            label = q.label;
-          }
-        });
-        return {
-          id: `chapter-${domainId}`,
-          title: domainId ? `${domainId}. ${QUESTIONNAIRE_SCHEMA.find(d => parseInt(d.domainId.replace(/\\D/g,'')) === domainId)?.domainLabel || `Domain ${domainId}`}` : `Chapter ${index + 1}`,
-          order: index + 1,
-          included: true,
-          questions: [{ questionId: qId, domainId, order: 1, included: true, customLabel: label }],
-        };
-      }),
-      appendices: { birthChart: true, planetaryPositions: true, dashaTimeline: true, transitCalendar: true, vimshottariDetails: false, ashtakavargaGrid: false },
-    },
-    formatting: {
-      pageSize: 'A4',
-      orientation: 'portrait',
-      margins: { top: 25, right: 25, bottom: 25, left: 30 },
-      header: { enabled: true, left: '{reportTitle}', center: '', right: '{chapterTitle}' },
-      footer: { enabled: true, left: 'Samartha Vedic AI', center: '{pageNumber}', right: '{clientName}' },
-      pageNumbers: { enabled: true, format: 'arabic', position: 'bottom-center' },
-      typography: { fontHeading: 'Merriweather', fontBody: 'Inter', fontMono: 'JetBrains Mono', fontSizeBase: 11, lineHeight: 1.5 },
-      branding: { primaryColor: '#1e3a5f', secondaryColor: '#c4963a', showWatermark: false },
-    },
-    metadata: { consultationId: '', version: 1, generatedAt: new Date(), generatedBy: 'user', tags: [] },
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  }), [selectedQuestions, consultationTitle]);
+    const loadConsultation = () => {
+      setLoading(true);
+      setError(null);
 
-  const onGenerateReport = async () => {
-    if (!canonicalContent || !machineIndex) return;
+      try {
+        const consultation = useConsultationStore.getState().getConsultation(id);
+        
+        if (!consultation) {
+          setError('Consultation not found');
+          setLoading(false);
+          return;
+        }
 
-    try {
-      const response = await apiService.generateReport(canonicalContent, machineIndex);
-      console.log('Report generated:', response);
-    } catch (error) {
-      console.error('Report generation failed:', error);
+        setConsultation(consultation);
+        openConsultation(id);
+      } catch (err) {
+        setError('Failed to load consultation');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadConsultation();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-200 flex flex-col items-center gap-4">
+          <div className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+          <p className="text-slate-600">Loading consultation...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-200 max-w-md w-full mx-4 text-center">
+          <AlertCircle className="w-12 h-12 text-rose-500 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-slate-900 mb-2">Unable to Load Consultation</h2>
+          <p className="text-slate-600 mb-6">{error}</p>
+          <button 
+            onClick={() => navigate('/dashboard')}
+            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+          >
+            Back to Dashboard
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!consultation) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="bg-white p-8 rounded-xl shadow-sm border border-slate-200 max-w-md w-full mx-4 text-center">
+          <FileText className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-slate-900 mb-2">Consultation Not Found</h2>
+          <p className="text-slate-600 mb-6">This consultation may have been deleted or the ID is invalid.</p>
+          <button 
+            onClick={() => navigate('/dashboard')}
+            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+          >
+            Back to Dashboard
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  };
+
+  const formatDateTime = (dateStr: string) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
+  const getStatusBadge = (status: Consultation['status']) => {
+    switch (status) {
+      case 'active':
+        return <span className="px-2 py-0.5 text-xs font-medium bg-emerald-100 text-emerald-800 rounded-full">Active</span>;
+      case 'completed':
+        return <span className="px-2 py-0.5 text-xs font-medium bg-indigo-100 text-indigo-800 rounded-full">Completed</span>;
+      case 'archived':
+        return <span className="px-2 py-0.5 text-xs font-medium bg-slate-100 text-slate-800 rounded-full">Archived</span>;
+      case 'draft':
+        return <span className="px-2 py-0.5 text-xs font-medium bg-amber-100 text-amber-800 rounded-full">Draft</span>;
+      default:
+        return <span className="px-2 py-0.5 text-xs font-medium bg-slate-100 text-slate-800 rounded-full">{status}</span>;
     }
   };
-
-  const onPreview = () => {
-    setActiveTab('preview');
-  };
-
-  const onPrint = () => {
-    window.print();
-  };
-
-  const onSave = () => {
-    console.log('Save consultation');
-  };
-
-  const onExportPDF = async () => {
-    // PDF export
-  };
-
-  const packages = [
-    { id: 'marriage-complete', name: '💍 Marriage Complete', questions: 8 },
-    { id: 'career-complete', name: '💼 Career Complete', questions: 8 },
-    { id: 'wealth-complete', name: '💰 Wealth Complete', questions: 8 },
-    { id: 'health-complete', name: '🏥 Health Complete', questions: 8 },
-    { id: 'property-complete', name: '🏠 Property Complete', questions: 11 },
-    { id: 'children-complete', name: '👶 Children Complete', questions: 7 },
-    { id: 'education-complete', name: '🎓 Education Complete', questions: 8 },
-    { id: 'travel-complete', name: '🌍 Travel Complete', questions: 6 },
-    { id: 'spiritual-complete', name: '🕉 Spiritual Complete', questions: 7 },
-    { id: 'complete-horoscope', name: '📚 Complete Horoscope', questions: 83 },
-  ];
 
   return (
-    <div className="h-full flex flex-col bg-gray-50">
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
-        <div className="flex items-center space-x-4">
-          <h1 className="text-2xl font-bold text-gray-800">Consultation Workspace</h1>
-        </div>
-        <div className="flex items-center space-x-2">
-          <button onClick={onSave} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Save</button>
-          <button onClick={onPreview} className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">
-            <Eye className="w-4 h-4 mr-1" /> Preview
-          </button>
-          <button onClick={onGenerateReport} className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Generate Report</button>
-        </div>
-      </div>
-
-      <div className="flex-1 flex overflow-hidden">
-        <div className="w-64 border-r border-gray-200 bg-white flex flex-col">
-          <nav className="flex-1 p-4 space-y-2">
-            <button
-              className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
-                activeTab === 'selection' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'
-              }`}
-              onClick={() => setActiveTab('selection')}
-            >
-              <MessageSquare className="w-5 h-5 mr-2 inline" />
-              Question Selection
-            </button>
-            <button
-              className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
-                activeTab === 'structure' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'
-              }`}
-              onClick={() => setActiveTab('structure')}
-            >
-              <FileText className="w-5 h-5 mr-2 inline" />
-              Report Structure
-            </button>
-            <button
-              className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
-                activeTab === 'notes' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'
-              }`}
-              onClick={() => setActiveTab('notes')}
-            >
-              <MessageSquare className="w-5 h-5 mr-2 inline" />
-              Notes & Bookmarks
-            </button>
-            <button
-              className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
-                activeTab === 'preview' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'
-              }`}
-              onClick={onPreview}
-            >
-              <Eye className="w-5 h-5 mr-2 inline" />
-              Preview Report
-            </button>
-            <button
-              className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
-                activeTab === 'timeline' ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700 hover:bg-gray-50'
-              }`}
-              onClick={() => setActiveTab('timeline')}
-            >
-              <Clock className="w-5 h-5 mr-2 inline" />
-              <TrendingUp className="w-5 h-5 mr-2 inline" />
-              Activation Timeline
-            </button>
-            <button
-              className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
-                activeTab === 'gochara' ? 'bg-purple-50 text-purple-700' : 'text-gray-700 hover:bg-gray-50'
-              }`}
-              onClick={() => setActiveTab('gochara')}
-            >
-              <ClockIcon className="w-5 h-5 mr-2 inline" />
-              <Target className="w-5 h-5 mr-2 inline" />
-              Gochara (Transit)
-            </button>
-          </nav>
-          <div className="p-4 border-t border-gray-200">
-            <div className="text-sm text-gray-500">
-              {selectedQuestions.size} questions selected
+    <div className="min-h-screen bg-slate-50">
+      <header className="bg-white border-b border-slate-200 sticky top-0 z-40">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+              
+              <div>
+                <h1 className="text-lg font-bold text-slate-900">{consultation.name}</h1>
+                <p className="text-sm text-slate-500">
+                  {consultation.client?.name ? `Client: ${consultation.client.name}` : 'No client assigned'}
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-3">
+              {getStatusBadge(consultation.status)}
             </div>
           </div>
         </div>
+      </header>
 
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="flex-1 overflow-auto p-4">
-            {activeTab === 'selection' && (
-              <QuestionSelectionPanel
-                onPackageSelect={() => {}}
-                onSearch={setSearchQuery}
-                onDomainFilter={setFilterDomain}
-                onSelectAll={() => {}}
-                onClear={() => setSelectedQuestions(new Set())}
-                packages={packages}
-                searchQuery={searchQuery}
-                filterDomain={filterDomain}
-              />
-            )}
-
-            {activeTab === 'structure' && (
-              <ReportStructurePanel
-                consultation={consultation}
-                onConsultationChange={(updated) => console.log('Consultation updated:', updated)}
-              />
-            )}
-
-            {activeTab === 'notes' && (
-              <div className="h-full bg-white p-4">
-                <p className="text-gray-500">Notes & Bookmarks panel - to be implemented</p>
-              </div>
-            )}
-
-            {activeTab === 'preview' && (
-              <div className="h-full bg-white p-4">
-                <div className="max-w-3xl mx-auto">
-                  <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                    <h2 className="text-xl font-bold mb-4">Report Preview</h2>
-                    <p className="text-gray-600">Preview of the generated consultation report will appear here.</p>
-                    <div className="mt-4 p-4 bg-white border border-gray-200 rounded">
-                      <h3 className="font-bold">{consultationTitle}</h3>
-                      <p className="text-gray-600 mt-2">Selected Questions: {selectedQuestions.size}</p>
-                      <p className="text-gray-600 mt-1">Estimated Pages: {Math.ceil(selectedQuestions.size * 1.2 + 3)}</p>
-                      <div className="mt-4 space-y-2">
-                        {Array.from(selectedQuestions).slice(0, 5).map(qId => (
-                          <div key={qId} className="text-sm text-gray-700 border-b border-gray-100 pb-2">
-                            {qId}
-                          </div>
-                        ))}
-                        {selectedQuestions.size > 5 && <p className="text-sm text-gray-500">... and {selectedQuestions.size - 5} more</p>}
-                      </div>
-                    </div>
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="md:col-span-2 space-y-6">
+            <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+              <h2 className="text-lg font-bold text-slate-900 mb-4">Consultation Details</h2>
+              <dl className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <dt className="text-sm text-slate-500">Status</dt>
+                    <dd className="mt-1 flex items-center gap-2">
+                      {getStatusBadge(consultation.status)}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm text-slate-500">Created</dt>
+                    <dd className="font-medium mt-1">{formatDate(consultation.createdAt)}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm text-slate-500">Last Modified</dt>
+                    <dd className="font-medium mt-1">{formatDateTime(consultation.updatedAt)}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm text-slate-500">Last Opened</dt>
+                    <dd className="font-medium mt-1">
+                      {consultation.lastOpenedAt ? formatDateTime(consultation.lastOpenedAt) : 'Never'}
+                    </dd>
                   </div>
                 </div>
-              </div>
-            )}
+                {consultation.horoscopeSource && (
+                  <div>
+                    <dt className="text-sm text-slate-500">Horoscope Source</dt>
+                    <dd className="font-medium mt-1 text-capitalize">{consultation.horoscopeSource.replace('_', ' ')}</dd>
+                  </div>
+                )}
+                {consultation.tags.length > 0 && (
+                  <div>
+                    <dt className="text-sm text-slate-500">Tags</dt>
+                    <dd className="mt-1 flex flex-wrap gap-2">
+                      {consultation.tags.map((tag: string) => (
+                        <span key={tag} className="px-2 py-0.5 text-xs bg-indigo-100 text-indigo-700 rounded-full">
+                          {tag}
+                        </span>
+                      ))}
+                    </dd>
+                  </div>
+                )}
+                {consultation.notes && (
+                  <div>
+                    <dt className="text-sm text-slate-500">Notes</dt>
+                    <dd className="font-medium mt-1 text-slate-700">{consultation.notes}</dd>
+                  </div>
+                )}
+              </dl>
+            </div>
 
-            {activeTab === 'timeline' && (
-              <div className="h-full bg-white p-4">
-                <ActivationTimeline
-                  rawOutputs={{ breakdown: { engine_outputs: {} } }}
-                  mode="standard"
-                />
+            {consultation.canonicalContent && (
+              <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+                <h2 className="text-lg font-bold text-slate-900 mb-4">Chart Data</h2>
+                <p className="text-slate-600">
+                  Horoscope data is loaded and ready for processing.
+                </p>
               </div>
-            )}
-
-            {activeTab === 'gochara' && rawOutputs && (
-              <GocharaPresentation
-                rawOutputs={rawOutputs}
-                questionResults={questionResults || []}
-                mode="professional"
-              />
             )}
           </div>
 
-          <div className="p-4 border-t border-gray-200 bg-white flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-500">
-                {selectedQuestions.size} questions selected · Est. {Math.ceil(selectedQuestions.size * 1.2 + 3)} pages
-              </span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <select
-                value="professional-consultation"
-                onChange={() => {}}
-                className="px-3 py-1 border border-gray-300 rounded-md text-sm"
-              >
-                <option value="professional-consultation">Professional Consultation</option>
-              </select>
-              <button onClick={onPrint} className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">Print</button>
-              <button onClick={onExportPDF} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Export PDF</button>
-            </div>
+          <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+            <h2 className="text-lg font-bold text-slate-900 mb-4">Client</h2>
+            {consultation.client ? (
+              <div className="space-y-3">
+                <div>
+                  <p className="text-sm text-slate-500">Name</p>
+                  <p className="font-medium text-slate-900">{consultation.client.name}</p>
+                </div>
+                {consultation.client.email && (
+                  <div>
+                    <p className="text-sm text-slate-500">Email</p>
+                    <p className="font-medium text-slate-900">{consultation.client.email}</p>
+                  </div>
+                )}
+                {consultation.client.phone && (
+                  <div>
+                    <p className="text-sm text-slate-500">Phone</p>
+                    <p className="font-medium text-slate-900">{consultation.client.phone}</p>
+                  </div>
+                )}
+                {consultation.client.birthData && (
+                  <div className="pt-3 border-t border-slate-100">
+                    <p className="text-sm text-slate-500">Birth Data</p>
+                    <p className="font-medium text-slate-900">
+                      {consultation.client.birthData.date} {consultation.client.birthData.time}
+                    </p>
+                    <p className="text-sm text-slate-500">{consultation.client.birthData.place}</p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-slate-500 mb-4">No client assigned</p>
+                <span className="text-sm text-slate-400">Client assignment not implemented in this view</span>
+              </div>
+            )}
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
-};
-
-export default ConsultationWorkspace;
+}
