@@ -781,7 +781,7 @@ class TestTransitEngineIntegration(unittest.TestCase):
         # With all-positive transits → transit activation should be high → master improves
         raw_positive = dict(RAJU_CANONICAL_RAW)
         # Mock the ephemeris directly on the runner to control the output
-        runner.ephemeris.generate_transit_snapshot = lambda: {
+        runner.ephemeris.generate_transit_snapshot = lambda **kwargs: {
             "planets": {
                 "jupiter": {"sign": "taurus", "degree": 0}, 
                 "venus": {"sign": "pisces", "degree": 0},

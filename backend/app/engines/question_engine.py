@@ -121,7 +121,8 @@ class QuestionEngine:
             bav_timing_confidence: str = "UNKNOWN",
             yogas: dict = None,
             formula_evaluation: "FormulaEvaluationResult" = None,
-            formula_key: str = None
+            formula_key: str = None,
+            target_date_utc=None
         ) -> dict:
             """
             Takes separated domain components from the orchestrator and composes the final
@@ -189,7 +190,9 @@ class QuestionEngine:
 
             # Step 4: Extract Top Future Opportunities (from MasterProbabilityEngine projection)
             import datetime
-            now = datetime.datetime.now().strftime('%Y-%m-%d')
+            if target_date_utc is None:
+                target_date_utc = datetime.datetime.now(datetime.timezone.utc)
+            now = target_date_utc.strftime('%Y-%m-%d')
 
             lifetime_projection = final_probability.get("lifetime_projection", [])
             future_opps = []

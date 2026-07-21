@@ -1,3 +1,8 @@
+import json
+import logging
+import datetime
+from typing import Dict, Any, List
+
 from app.parsers.json_normalizer import JsonNormalizer
 from app.engines.planet_strength_engine import PlanetStrengthEngine
 from app.engines.house_strength_engine import HouseStrengthEngine
@@ -47,7 +52,7 @@ class PipelineRunner:
         self.master_engine   = MasterProbabilityEngine()
         self.ephemeris       = EphemerisService()
 
-    def process(self, raw_input_data: dict) -> dict:
+    def process(self, raw_input_data: dict, target_date_utc: datetime.datetime = None) -> dict:
         """
         Executes the strict calculation pipeline sequentially.
 
@@ -56,6 +61,8 @@ class PipelineRunner:
                                    Expected to have either:
                                    - Direct canonical keys: planets, houses, vargas, etc.
                                    - OR wrapper keys: canonical_content, machine_index
+            target_date_utc (datetime): Optional date to enforce determinism for transits and dashas.
+                                        Falls back to metadata consultation_date or current UTC.
 
         Returns:
             dict: The unified deterministic output payload containing all engine results.
@@ -68,6 +75,20 @@ class PipelineRunner:
 
         # 1. Normalize the raw data into our strict deterministic schema
         normalized_payload = self.normalizer.normalize(canonical_data)
+
+        if target_date_utc is None:
+            metadata = normalized_payload.get("metadata", {})
+            c_date = metadata.get("consultation_date")
+            if c_date:
+                try:
+                    clean_date = c_date.replace("Z", "+00:00")
+                    target_date_utc = datetime.datetime.fromisoformat(clean_date)
+                    if target_date_utc.tzinfo is None:
+                        target_date_utc = target_date_utc.replace(tzinfo=datetime.timezone.utc)
+                except (ValueError, TypeError):
+                    target_date_utc = datetime.datetime.now(datetime.timezone.utc)
+            else:
+                target_date_utc = datetime.datetime.now(datetime.timezone.utc)
 
         # 1.2. Dignity Derivation Enrichment (Mathematical Calculation)
         for planet_id, planet_data in normalized_payload.get("planets", {}).items():
@@ -136,7 +157,11 @@ class PipelineRunner:
         # 5. Dasha Engine Execution (Temporal Activation Layer)
         # Passes normalized dasha data and D1 planet scores as read-only dependencies.
         # DashaEngine evaluates MD/AD relationship and timing multipliers only.
-        dasha_results = self.dasha_engine.evaluate(normalized_payload, dependency_scores=planet_results)
+        dasha_results = self.dasha_engine.evaluate(
+            normalized_payload, 
+            dependency_scores=planet_results,
+            target_date=target_date_utc.strftime('%Y-%m-%d')
+        )
 
         # 6. Rasi Strength Engine (Sign Environment Layer)
         # Passes planet scores and varga outputs as read-only dependencies.
@@ -197,7 +222,7 @@ class PipelineRunner:
 
         # 7.75 Transit Engine (Timing Layer)
         # 1. Fetch stateless sidereal planet transits for "right now"
-        raw_transits = self.ephemeris.generate_transit_snapshot()
+        raw_transits = self.ephemeris.generate_transit_snapshot(target_date_utc=target_date_utc)
 
         # 2. Contextualize transits using the native's D1 Lagna
         # Formula: house = ((transit_sign - lagna_sign + 12) % 12) + 1
@@ -463,90 +488,63 @@ class PipelineRunner:
         return isolated
 
     def _extract_signal(self, payload: dict, signal: str):
-            """Extract a specific signal from engine outputs."""
-            # Signal mapping to engine output paths
-            signal_paths = {
-                "7th_house": ("houses", "7", "final_score"),
-                "7th_lord": ("houses", "7", "lord_strength_score"),
-                "venus": ("planets", "venus", "final_score"),
-                "d9": ("vargas", "D9", "planets", "venus", "final_score"),
-                "yoga": ("yogas", "marriage_yoga", "strength"),
-                "dasha": ("dashas", "synthesis", "dasha_strength"),
-                "transit": ("transit", "activation_score"),
-                "10th_house": ("houses", "10", "final_score"),
-                "10th_lord": ("houses", "10", "lord_strength_score"),
-                "saturn": ("planets", "saturn", "final_score"),
-                "d10": ("vargas", "D10", "planets", "saturn", "final_score"),
-                "dasha": ("dashas", "synthesis", "dasha_strength"),
-                "11th_house": ("houses", "11", "final_score"),
-                "jupiter": ("planets", "jupiter", "final_score"),
-                "2nd_house": ("houses", "2", "final_score"),
-                "d2": ("vargas", "D2", "planets", "jupiter", "final_score"),
-                "5th_house": ("houses", "5", "final_score"),
-                "9th_house": ("houses", "9", "final_score"),
-                "dasha": ("dashas", "synthesis", "dasha_strength"),
-                "8th_house": ("houses", "8", "final_score"),
-                "rahu": ("planets", "rahu", "final_score"),
-                "2nd_house": ("houses", "2", "final_score"),
-                "12th_house": ("houses", "12", "final_score"),
-                "dasha": ("dashas", "synthesis", "dasha_strength"),
-                "lagna": ("houses", "1", "final_score"),
-                "lagna_lord": ("houses", "1", "lord_strength_score"),
-                "8th_house": ("houses", "8", "final_score"),
-                "8th_lord": ("houses", "8", "lord_strength_score"),
-                "sun": ("planets", "sun", "final_score"),
-                "moon": ("planets", "moon", "final_score"),
-                "6th_house": ("houses", "6", "final_score"),
-                "12th_house": ("houses", "12", "final_score"),
-                "dasha": ("dashas", "synthesis", "dasha_strength"),
-                "5th_house": ("houses", "5", "final_score"),
-                "5th_lord": ("houses", "5", "lord_strength_score"),
-                "9th_house": ("houses", "9", "final_score"),
-                "mercury": ("planets", "mercury", "final_score"),
-                "jupiter": ("planets", "jupiter", "final_score"),
-                "rahu": ("planets", "rahu", "final_score"),
-                "d2": ("vargas", "D2", "planets", "jupiter", "final_score"),
-                "4th_house": ("houses", "4", "final_score"),
-                "4th_lord": ("houses", "4", "lord_strength_score"),
-                "mars": ("planets", "mars", "final_score"),
-                "d4": ("vargas", "D4", "planets", "mars", "final_score"),
-                "1st_house": ("houses", "1", "final_score"),
-                "1st_lord": ("houses", "1", "lord_strength_score"),
-                "6th_house": ("houses", "6", "final_score"),
-                "6th_lord": ("houses", "6", "lord_strength_score"),
-                "ketu": ("planets", "ketu", "final_score"),
-                "d20": ("vargas", "D20", "planets", "jupiter", "final_score"),
-                "7th_house": ("houses", "7", "final_score"),
-                "7th_lord": ("houses", "7", "lord_strength_score"),
-                "2nd_house": ("houses", "2", "final_score"),
-                "venus": ("planets", "venus", "final_score"),
-                "moon": ("planets", "moon", "final_score"),
-                "d9": ("vargas", "D9", "planets", "venus", "final_score"),
-                "dasha": ("dashas", "synthesis", "dasha_strength"),
-                "3rd_house": ("houses", "3", "final_score"),
-                "4th_house": ("houses", "4", "final_score"),
-                "9th_house": ("houses", "9", "final_score"),
-                "12th_house": ("houses", "12", "final_score"),
-                "rahu": ("planets", "rahu", "final_score"),
-                "d10": ("vargas", "D10", "planets", "saturn", "final_score"),
-                "d9": ("vargas", "D9", "planets", "venus", "final_score"),
-                "d24": ("vargas", "D24", "planets", "mercury", "final_score"),
-                "d7": ("vargas", "D7", "planets", "jupiter", "final_score"),
-                "d2": ("vargas", "D2", "planets", "jupiter", "final_score"),
-                "d6": ("vargas", "D6", "planets", "sun", "final_score"),
-            }
+        """Extract a specific signal from engine outputs."""
+        # Signal mapping to engine output paths
+        signal_paths = {
+            "10th_house": ("houses", "10", "final_score"),
+            "10th_lord": ("houses", "10", "lord_strength_score"),
+            "11th_house": ("houses", "11", "final_score"),
+            "12th_house": ("houses", "12", "final_score"),
+            "1st_house": ("houses", "1", "final_score"),
+            "1st_lord": ("houses", "1", "lord_strength_score"),
+            "2nd_house": ("houses", "2", "final_score"),
+            "3rd_house": ("houses", "3", "final_score"),
+            "4th_house": ("houses", "4", "final_score"),
+            "4th_lord": ("houses", "4", "lord_strength_score"),
+            "5th_house": ("houses", "5", "final_score"),
+            "5th_lord": ("houses", "5", "lord_strength_score"),
+            "6th_house": ("houses", "6", "final_score"),
+            "6th_lord": ("houses", "6", "lord_strength_score"),
+            "7th_house": ("houses", "7", "final_score"),
+            "7th_lord": ("houses", "7", "lord_strength_score"),
+            "8th_house": ("houses", "8", "final_score"),
+            "8th_lord": ("houses", "8", "lord_strength_score"),
+            "9th_house": ("houses", "9", "final_score"),
+            "d10": ("vargas", "D10", "planets", "saturn", "final_score"),
+            "d2": ("vargas", "D2", "planets", "jupiter", "final_score"),
+            "d20": ("vargas", "D20", "planets", "jupiter", "final_score"),
+            "d24": ("vargas", "D24", "planets", "mercury", "final_score"),
+            "d4": ("vargas", "D4", "planets", "mars", "final_score"),
+            "d6": ("vargas", "D6", "planets", "sun", "final_score"),
+            "d7": ("vargas", "D7", "planets", "jupiter", "final_score"),
+            "d9": ("vargas", "D9", "planets", "venus", "final_score"),
+            "dasha": ("dashas", "synthesis", "dasha_strength"),
+            "jupiter": ("planets", "jupiter", "final_score"),
+            "ketu": ("planets", "ketu", "final_score"),
+            "lagna": ("houses", "1", "final_score"),
+            "lagna_lord": ("houses", "1", "lord_strength_score"),
+            "mars": ("planets", "mars", "final_score"),
+            "mercury": ("planets", "mercury", "final_score"),
+            "moon": ("planets", "moon", "final_score"),
+            "rahu": ("planets", "rahu", "final_score"),
+            "saturn": ("planets", "saturn", "final_score"),
+            "sun": ("planets", "sun", "final_score"),
+            "transit": ("transit", "activation_score"),
+            "venus": ("planets", "venus", "final_score"),
+            "yoga": ("yogas", "marriage_yoga", "strength"),
+        }
 
-            path = signal_paths.get(signal)
-            if not path:
+        path = signal_paths.get(signal)
+        if not path:
+            return None
+
+        current = payload
+        for key in path:
+            if isinstance(current, dict) and key in current:
+                current = current[key]
+            else:
                 return None
-
-            current = payload
-            for key in path:
-                if isinstance(current, dict) and key in current:
-                    current = current[key]
-                else:
-                    return None
-            return current
+        return current
 
 
 # --- Sample Execution Example ---
