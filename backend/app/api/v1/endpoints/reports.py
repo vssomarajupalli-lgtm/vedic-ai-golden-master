@@ -8,7 +8,6 @@ from app.pipeline_runner import PipelineRunner
 from app.reports.builder import ReportBuilder
 from app.reports.html_generator import HTMLGenerator
 from app.reports.pdf_generator import PDFGenerator
-from app.reports.schemas import FinalReportSchema
 from app.core.logging import log
 
 router = APIRouter()

@@ -154,6 +154,8 @@ def main():
     dashas = engines.get("dashas", {})
     if dashas:
         for lord, data in dashas.items():
+            if lord == "synthesis" or not isinstance(data, dict):
+                continue
             activation = data.get("temporal_activation", {})
             level      = activation.get("active_dasha_level", "?")
             multiplier = activation.get("timing_multiplier", 1.0)

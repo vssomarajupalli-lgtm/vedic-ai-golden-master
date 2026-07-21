@@ -3,13 +3,20 @@ from fastapi.middleware.cors import CORSMiddleware
 import traceback
 
 from app.core.config import settings
-from app.core.logging import log
+from app.core.logging import log, setup_logging
+from app.middleware.rate_limit import RateLimitMiddleware
 from app.api.v1.router import api_router
 
 def create_app() -> FastAPI:
     """
     Factory to create and configure the FastAPI application.
     """
+    # Setup structured logging
+    setup_logging(
+        log_format=settings.LOG_FORMAT,
+        log_level=settings.LOG_LEVEL
+    )
+    
     log.info(f"Starting {settings.PROJECT_NAME}...")
     
     app = FastAPI(
@@ -18,6 +25,14 @@ def create_app() -> FastAPI:
         description="Stateless Astrology Engine API",
         version="1.0.0"
     )
+
+    # Add rate limiting middleware (before CORS)
+    if settings.RATE_LIMIT_ENABLED:
+        app.add_middleware(
+            RateLimitMiddleware,
+            requests_per_minute=settings.RATE_LIMIT_REQUESTS_PER_MINUTE,
+            burst=settings.RATE_LIMIT_BURST
+        )
 
     # Set all CORS enabled origins
     if settings.BACKEND_CORS_ORIGINS:

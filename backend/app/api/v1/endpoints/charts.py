@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from typing import Any
+from typing import Any, Optional
 import traceback
 
 from app.schemas.chart import ChartProcessRequest, ChartProcessResponse
@@ -15,7 +15,7 @@ pipeline = PipelineRunner()
 def process_chart(request: ChartProcessRequest) -> Any:
     """
     Stateless endpoint that accepts the raw scraped JSON from HoroscopeCleaner_Final
-    and runs the entire mathematical Vedic-AI pipeline.
+    and runs the entire deterministic Vedic-AI pipeline.
     """
     try:
         log.info("Processing new chart computation request.")
@@ -40,7 +40,9 @@ def process_chart(request: ChartProcessRequest) -> Any:
             final_score=master_synth.get("final_score", 0.0),
             probability_grade=master_synth.get("grade", "UNKNOWN"),
             breakdown=outputs,
-            yogas=yogas
+            yogas=yogas,
+            master_probability=master_synth,
+            engine_outputs=outputs.get("engine_outputs", {})
         )
         print("API Response /process-chart Final Score:", response_obj.final_score)
         print("API Response /process-chart Yogas Count:", len(response_obj.yogas))

@@ -52,10 +52,10 @@ def ask_question(request: QuestionRequest) -> Any:
             if not question_text_to_process:
                 question_text_to_process = metadata.get("question_name", "Astrological Query")
         
-        # 3. Use PipelineRunner as the orchestrator to answer the question
+# 3. Use PipelineRunner as the orchestrator to answer the question
         # (Preserves legacy pipeline compatibility until phase 11D)
         result = pipeline_runner.answer_question(
-            question=question_text_to_process,
+            question_or_id=question_text_to_process,
             pipeline_output=internal_payload
         )
         
