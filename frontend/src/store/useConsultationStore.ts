@@ -149,6 +149,7 @@ export const useConsultationStore = create<ConsultationState>()(
           lastOpenedAt: undefined,
           autoSaveVersion: 0,
           hasUnsavedChanges: false,
+          isFavorite: false,
         };
         
         set((state) => ({

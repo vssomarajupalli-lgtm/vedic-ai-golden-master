@@ -9,6 +9,7 @@ import QuestionBrowser from './pages/QuestionBrowser';
 import ExportReport from './pages/ExportReport';
 import VerificationConsole from './pages/VerificationConsole';
 import ConsultationWorkspace from './components/consultation/ConsultationWorkspace';
+import ConsultationLibrary from './pages/ConsultationLibrary';
 import KnowledgeGraphViewer from './components/knowledge/KnowledgeGraphViewer';
 import KnowledgeExplorer from './components/knowledge/KnowledgeExplorer';
 import Clients from './pages/Clients';
@@ -27,6 +28,8 @@ function App() {
           <Route path="export" element={<ExportReport />} />
           <Route path="verify" element={<VerificationConsole />} />
           <Route path="consultation" element={<ConsultationWorkspace />} />
+          <Route path="consultation/:id" element={<ConsultationWorkspace />} />
+          <Route path="consultation/library" element={<ConsultationLibrary />} />
           <Route path="clients" element={<Clients />} />
           <Route path="knowledge" element={<KnowledgeGraphViewer />} />
           <Route path="knowledge/explorer" element={<KnowledgeExplorer />} />

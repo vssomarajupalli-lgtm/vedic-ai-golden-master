@@ -29,6 +29,7 @@ export interface Consultation {
   notes: string;
   horoscopeSource: 'horoscope_cleaner' | 'manual' | 'import';
   isPinned: boolean;
+  isFavorite: boolean;
   
   // Chart data
   canonicalContent: any;
@@ -77,6 +78,7 @@ export interface ConsultationUpdateInput {
   questionResults?: any[];
   client?: { name?: string; email?: string; phone?: string; birthData?: ConsultationClient['birthData'] };
   updatedAt?: string;
+  isFavorite?: boolean;
 }
 
 export interface ConsultationSearchFilters {
@@ -109,6 +111,7 @@ export function createConsultation(input: ConsultationCreateInput): Consultation
     notes: input.notes || '',
     horoscopeSource: input.horoscopeSource || 'horoscope_cleaner',
     isPinned: false,
+    isFavorite: false,
     canonicalContent: input.canonicalContent,
     machineIndex: input.machineIndex,
     rawOutputs: input.rawOutputs || null,

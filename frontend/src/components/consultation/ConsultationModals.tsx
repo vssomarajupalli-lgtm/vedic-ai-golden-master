@@ -3,9 +3,10 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { X, Check, AlertCircle, HelpCircle, ChevronDown, 
   Star, Tag, Star as StarIcon, Copy, Trash2, 
   FileText, Settings, GitBranch, Hash, Shield, 
-  Layers, Package, Terminal, Plus, Minus } from 'lucide-react';
+  Layers, Package, Terminal, Plus, Minus, Edit2 } from 'lucide-react';
 import { useConsultationRepository } from '../../hooks/useConsultationRepository';
 import { useChartStore } from '../../store/useChartStore';
+import { useConsultationStore } from '../../store/useConsultationStore';
 
 interface ConsultationCreateModalProps {
   isOpen: boolean;
@@ -668,4 +669,190 @@ export const DuplicateDetectionDialog: React.FC<DuplicateDetectionDialogProps> =
   );
 };
 
-export default { ConsultationCreateModal, ConsultationEditModal, DuplicateDetectionDialog };
+// ============================================
+// RENAME CONSULTATION MODAL
+// ============================================
+export interface RenameConsultationModalProps {
+  isOpen: boolean;
+  consultation: any | null;
+  onClose: () => void;
+  onRename: (consultationId: string, newName: string) => void;
+}
+
+export const RenameConsultationModal: React.FC<RenameConsultationModalProps> = ({
+  isOpen,
+  consultation,
+  onClose,
+  onRename,
+}) => {
+  const [newName, setNewName] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (consultation) {
+      setNewName(consultation.name || consultation.metadata?.consultationTitle || '');
+      setError(null);
+    }
+  }, [consultation]);
+
+  const handleSubmit = () => {
+    if (!newName.trim()) {
+      setError('Consultation name is required');
+      return;
+    }
+    if (!consultation) return;
+
+    setIsSubmitting(true);
+    setError(null);
+    
+    try {
+      onRename(consultation.id, newName.trim());
+      onClose();
+    } catch (err) {
+      setError('Failed to rename consultation');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (!isOpen || !consultation) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+      <div className="relative w-full max-w-md bg-white rounded-xl shadow-2xl">
+        <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+          <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+            <Edit2 className="w-5 h-5 text-indigo-600" />
+            Rename Consultation
+          </h2>
+          <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="p-4 space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">New Name</label>
+            <input
+              value={newName}
+              onChange={e => setNewName(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleSubmit()}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+              placeholder="Enter new consultation name"
+              autoFocus
+            />
+            {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
+          </div>
+
+          <div className="bg-gray-50 rounded-lg p-3">
+            <p className="text-xs text-gray-600">Current name: <span className="font-medium text-gray-900">{consultation.name || consultation.metadata?.consultationTitle || 'Untitled'}</span></p>
+          </div>
+        </div>
+
+        <div className="p-4 border-t border-gray-200 flex gap-2 justify-end">
+          <button onClick={onClose} className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+            Cancel
+          </button>
+          <button 
+            onClick={handleSubmit} 
+            disabled={isSubmitting}
+            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50"
+          >
+            {isSubmitting ? 'Renaming...' : 'Rename'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ============================================
+// DELETE CONFIRMATION MODAL
+// ============================================
+export interface DeleteConfirmModalProps {
+  isOpen: boolean;
+  consultation: any | null;
+  onClose: () => void;
+  onConfirm: (consultationId: string) => void;
+}
+
+export const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
+  isOpen,
+  consultation,
+  onClose,
+  onConfirm,
+}) => {
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleConfirm = () => {
+    if (!consultation) return;
+
+    setIsDeleting(true);
+    setError(null);
+
+    try {
+      onConfirm(consultation.id);
+      onClose();
+    } catch (err) {
+      setError('Failed to delete consultation');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  if (!isOpen || !consultation) return null;
+
+  const consultationName = consultation.name || consultation.metadata?.consultationTitle || 'Untitled Consultation';
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+      <div className="relative w-full max-w-md bg-white rounded-xl shadow-2xl">
+        <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+          <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+            <AlertCircle className="w-5 h-5 text-red-500" />
+            Delete Consultation
+          </h2>
+          <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="p-4 space-y-4">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+            <p className="text-sm text-red-800 mb-3">
+              Are you sure you want to delete <strong>"{consultationName}"</strong>?
+            </p>
+            <p className="text-sm text-red-700">
+              This action cannot be undone. All consultation data, snapshots, and outputs will be permanently removed.
+            </p>
+          </div>
+
+          {error && (
+            <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+              {error}
+            </div>
+          )}
+        </div>
+
+        <div className="p-4 border-t border-gray-200 flex gap-2 justify-end">
+          <button onClick={onClose} className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+            Cancel
+          </button>
+          <button 
+            onClick={handleConfirm} 
+            disabled={isDeleting}
+            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50"
+          >
+            {isDeleting ? 'Deleting...' : 'Delete Permanently'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default { ConsultationCreateModal, ConsultationEditModal, DuplicateDetectionDialog, RenameConsultationModal, DeleteConfirmModal };

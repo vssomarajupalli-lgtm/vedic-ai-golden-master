@@ -1,11 +1,13 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useChartStore } from '../../store/useChartStore';
-import { Home, Upload, FileText, MessageSquare, Download, Terminal, GitGraph, Users } from 'lucide-react';
+import { useConsultationStore } from '../../store/useConsultationStore';
+import { Home, Upload, FileText, MessageSquare, Download, Terminal, GitGraph, Users, Database } from 'lucide-react';
 import { FileText as FileTextIcon } from 'lucide-react';
 
 export default function Layout() {
   const location = useLocation();
   const hasData = useChartStore((state) => state.report !== null);
+  const hasConsultations = useConsultationStore((state) => state.consultations.length > 0);
 
   const navLinks = [
     { name: 'Dashboard', path: '/', icon: Home, show: true },
@@ -15,8 +17,9 @@ export default function Layout() {
     { name: 'Export Report', path: '/export', icon: Download, show: hasData },
     { name: 'Formula Verification', path: '/verify', icon: Terminal, show: hasData },
     { name: 'Consultation', path: '/consultation', icon: FileTextIcon, show: hasData },
-        { name: 'Clients', path: '/clients', icon: Users, show: true },
-        { name: 'Knowledge Graph', path: '/knowledge', icon: GitGraph, show: true },
+    { name: 'Consultation Library', path: '/consultation/library', icon: Database, show: hasConsultations },
+    { name: 'Clients', path: '/clients', icon: Users, show: true },
+    { name: 'Knowledge Graph', path: '/knowledge', icon: GitGraph, show: true },
   ];
 
   return (
