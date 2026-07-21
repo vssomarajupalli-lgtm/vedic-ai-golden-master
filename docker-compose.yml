@@ -1,36 +1,124 @@
 version: '3.8'
 
 services:
+  # Reverse proxy with SSL termination
+  nginx:
+    image: nginx:alpine
+    container_name: vedic_ai_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./frontend/dist:/usr/share/nginx/html:ro
+    depends_on:
+      - backend
+      - frontend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Backend API with rate limiting and structured logging
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: vedic_ai_backend
-    ports:
-      - "8000:8000"
     environment:
       - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+      - LOG_FORMAT=json
+      - CALIBRATION_PROFILE=v1.0_current
+      - CORS_ORIGINS=http://localhost,http://localhost:3000,https://localhost
+      - RATE_LIMIT_REQUESTS=100
+      - RATE_LIMIT_WINDOW=60
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=postgresql://vedic:vedic@postgres:5432/vedic_ai
     volumes:
-      - ./backend/app:/app/app
-      - ./backend/tests:/app/tests
-      - ./backend/main.py:/app/main.py
+      - ./backend/app:/app/app:ro
+      - ./backend/main.py:/app/main.py:ro
+      - backend_logs:/app/logs
+      - backend_data:/app/data
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
 
+  # Frontend static files served by Nginx (built separately)
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        # Build-time variable for Vite to know where the API is
-        - VITE_API_URL=http://localhost:8000/api/v1
+        - VITE_API_URL=http://localhost/api/v1
     container_name: vedic_ai_frontend
-    ports:
-      - "3000:80"
-    depends_on:
-      - backend
+    volumes:
+      - frontend_dist:/usr/share/nginx/html
     restart: unless-stopped
+
+  # Redis for rate limiting, caching, session storage
+  redis:
+    image: redis:7-alpine
+    container_name: vedic_ai_redis
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+
+  # PostgreSQL for auth, user data, consultation persistence
+  postgres:
+    image: postgres:16-alpine
+    container_name: vedic_ai_postgres
+    environment:
+      - POSTGRES_DB=vedic_ai
+      - POSTGRES_USER=vedic
+      - POSTGRES_PASSWORD=vedic
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vedic -d vedic_ai"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+
+volumes:
+  redis_data:
+  postgres_data:
+  backend_logs:
+  backend_data:
+  frontend_dist:
+
+networks:
+  default:
+    name: vedic_ai_network
