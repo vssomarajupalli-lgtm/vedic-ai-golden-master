@@ -62,7 +62,7 @@ def test_duplicate_question_id_raises_error(temp_registry_file):
             "domain_id": 7,
             "domain_name": "Marriage",
             "question_name": "Marriage Timing",
-            "formula_key": "MAR_TIMING_001",
+            "formula_key": "MAR_TIMING_NORMAL",
             "timing_required": True,
             "future_gochara_required": True
         }
@@ -74,8 +74,9 @@ def test_duplicate_question_id_raises_error(temp_registry_file):
     with pytest.raises(RegistryValidationError, match="Duplicate question_id"):
         loader.load_registry()
 
-def test_duplicate_formula_key_raises_error(temp_registry_file):
-    bad_data = [
+def test_duplicate_formula_key_is_allowed(temp_registry_file):
+    """Multiple questions mapping to the same formula_key is valid."""
+    data = [
         {
             "question_id": "7.1",
             "domain_id": 7,
@@ -90,14 +91,14 @@ def test_duplicate_formula_key_raises_error(temp_registry_file):
             "domain_id": 7,
             "domain_name": "Marriage",
             "question_name": "Marriage Timing",
-            "formula_key": "MAR_PROS_001", # Duplicate Formula Key
+            "formula_key": "MAR_PROS_001",
             "timing_required": True,
             "future_gochara_required": True
         }
     ]
     with open(temp_registry_file, 'w') as f:
-        json.dump(bad_data, f)
+        json.dump(data, f)
         
     loader = QuestionRegistryLoader(file_path=temp_registry_file)
-    with pytest.raises(RegistryValidationError, match="Duplicate formula_key"):
-        loader.load_registry()
+    registry = loader.load_registry()
+    assert len(registry) == 2

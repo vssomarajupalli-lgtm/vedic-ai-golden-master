@@ -73,8 +73,8 @@ def test_loader_success():
     assert len(formulas) >= 8 # the 8 seed formulas
     
     # Test get_formula
-    formula = loader.get_formula("MAR_TIMING_001")
-    assert formula.formula_key == "MAR_TIMING_001"
+    formula = loader.get_formula("MAR_TIMING_NORMAL")
+    assert formula.formula_key == "MAR_TIMING_NORMAL"
     assert "DashaEngine" in formula.required_engines
 
 def test_loader_not_found():

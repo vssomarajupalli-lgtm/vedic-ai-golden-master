@@ -153,7 +153,7 @@ def run_pipeline(question_id: str, payload: Dict[str, Any]) -> ComposerPromptPac
     return prompt_package
 
 def test_scenario_1_marriage_timing(mock_chart_payload):
-    # Scenario 1: QID 7.2 -> MAR_TIMING_001
+    # Scenario 1: QID 7.2 -> MAR_TIMING_NORMAL
     package = run_pipeline("7.2", mock_chart_payload)
     
     assert package is not None

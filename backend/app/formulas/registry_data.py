@@ -17,15 +17,7 @@ SEED_FORMULAS = [
         required_confidence_layers=["dasha_lord_aspect_7th", "dasha_lord_is_venus"],
         answer_template_key="timing_assessment_v1"
     ),
-    FormulaSchema(
-        formula_key="MAR_TIMING_001",
-        formula_name="Marriage Timing Assessment",
-        formula_category="Timing Assessment",
-        parent_formula_key="MAR_TIMING_BASE",
-        required_engines=["TransitEngine"],
-        required_confidence_layers=["absence_of_saturn_delay"],
-        answer_template_key="timing_assessment_v1"
-    ),
+
     FormulaSchema(
         formula_key="MAR_TIMING_NORMAL",
         formula_name="Standard Marriage Timing",
@@ -59,14 +51,7 @@ SEED_FORMULAS = [
         required_confidence_layers=["10th_lord_d10_strength", "positive_dasha"],
         answer_template_key="timing_assessment_v1"
     ),
-    FormulaSchema(
-        formula_key="CAR_GROWTH_001",
-        formula_name="Career Growth Timing",
-        formula_category="Timing Assessment",
-        parent_formula_key="CAR_GROWTH_BASE",
-        required_confidence_layers=["10th_house_bindus_gt_28"],
-        answer_template_key="timing_assessment_v1"
-    ),
+
     FormulaSchema(
         formula_key="CAR_PROMOTION_TIMING",
         formula_name="Promotion Timing",
@@ -97,14 +82,6 @@ SEED_FORMULAS = [
         required_signals=["8th_house", "11th_house", "rahu", "2nd_house"],
         required_vargas=["D1"],
         required_confidence_layers=["8th_lord_connect_11th", "dasha_activates_yoga"],
-        answer_template_key="multifactor_assessment_v1"
-    ),
-    FormulaSchema(
-        formula_key="WEA_SUDDEN_001",
-        formula_name="Sudden Wealth Timing",
-        formula_category="Multi-factor Assessment",
-        parent_formula_key="WEA_SUDDEN_BASE",
-        required_confidence_layers=["rahu_in_8th_11th", "absence_malefic_aspect_2nd"],
         answer_template_key="multifactor_assessment_v1"
     ),
     FormulaSchema(

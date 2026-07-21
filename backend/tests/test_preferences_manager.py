@@ -120,5 +120,5 @@ def test_integration_id_to_recent(manager):
     assert len(recents) == 1
     record = recents[0]
     assert record["question_id"] == "10.6"
-    assert record["question_name"] == "Foreign Career"
+    assert record["question_name"] == "Should I change my Career?"
     assert "timestamp" in record

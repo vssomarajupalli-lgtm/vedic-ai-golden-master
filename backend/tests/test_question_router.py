@@ -61,7 +61,7 @@ def test_router_handles_duplicate_registry_safely(temp_registry):
         },
         {
             "question_id": "7.1", "domain_id": 7, "domain_name": "Marriage", 
-            "question_name": "Marriage Timing", "formula_key": "MAR_TIMING_001", 
+            "question_name": "Marriage Timing", "formula_key": "MAR_TIMING_NORMAL", 
             "timing_required": True, "future_gochara_required": True
         }
     ]
