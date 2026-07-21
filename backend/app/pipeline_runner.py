@@ -53,12 +53,21 @@ class PipelineRunner:
 
         Args:
             raw_input_data (dict): The messy, unformatted dictionary scraped from the PDF.
+                                   Expected to have either:
+                                   - Direct canonical keys: planets, houses, vargas, etc.
+                                   - OR wrapper keys: canonical_content, machine_index
 
         Returns:
             dict: The unified deterministic output payload containing all engine results.
         """
+        # 1. Extract canonical content if wrapped
+        if "canonical_content" in raw_input_data:
+            canonical_data = raw_input_data["canonical_content"]
+        else:
+            canonical_data = raw_input_data
+
         # 1. Normalize the raw data into our strict deterministic schema
-        normalized_payload = self.normalizer.normalize(raw_input_data)
+        normalized_payload = self.normalizer.normalize(canonical_data)
 
         # 1.2. Dignity Derivation Enrichment (Mathematical Calculation)
         for planet_id, planet_data in normalized_payload.get("planets", {}).items():

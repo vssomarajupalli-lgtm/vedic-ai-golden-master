@@ -18,3 +18,7 @@ class ChartProcessResponse(BaseModel):
     probability_grade: str = Field(..., description="Grade (e.g., EXCELLENT, WEAK)")
     breakdown: Dict[str, Any] = Field(..., description="Detailed nested breakdown of engines")
     yogas: List[Dict[str, Any]] = Field(default_factory=list, description="Array of detected yogas and explanations")
+    
+    # New fields for full engine outputs
+    master_probability: Optional[Dict[str, Any]] = Field(None, description="Master probability synthesis with breakdown and lifetime projection")
+    engine_outputs: Optional[Dict[str, Any]] = Field(None, description="All engine outputs (planets, houses, vargas, dashas, rasis, ashtakavarga, natal_promise, transit, yogas)")
