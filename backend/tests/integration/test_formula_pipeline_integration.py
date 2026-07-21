@@ -359,8 +359,9 @@ class TestRegressionValidation:
     def test_existing_question_engine_tests_pass(self):
         """Run existing question engine tests to verify no regressions."""
         import subprocess
+        import sys
         result = subprocess.run(
-            ["python", "-m", "pytest", "tests/test_question_engine.py", "tests/test_question_router.py", "-q"],
+            [sys.executable, "-m", "pytest", "tests/test_question_engine.py", "tests/test_question_router.py", "-q"],
             cwd="D:/vedic-ai-golden-master/backend",
             capture_output=True, text=True
         )
@@ -369,8 +370,9 @@ class TestRegressionValidation:
     def test_existing_formula_tests_pass(self):
         """Run existing formula tests to verify no regressions."""
         import subprocess
+        import sys
         result = subprocess.run(
-            ["python", "-m", "pytest", "tests/test_formula_evaluator.py", "tests/test_formula_inheritance.py", "-q"],
+            [sys.executable, "-m", "pytest", "tests/test_formula_evaluator.py", "tests/test_formula_inheritance.py", "-q"],
             cwd="D:/vedic-ai-golden-master/backend",
             capture_output=True, text=True
         )
@@ -379,8 +381,9 @@ class TestRegressionValidation:
     def test_calibration_tests_pass(self):
         """Run calibration tests to verify no regressions."""
         import subprocess
+        import sys
         result = subprocess.run(
-            ["python", "-m", "pytest", "tests/test_weightage_calibration.py", "-q"],
+            [sys.executable, "-m", "pytest", "tests/test_weightage_calibration.py", "-q"],
             cwd="D:/vedic-ai-golden-master/backend",
             capture_output=True, text=True
         )
