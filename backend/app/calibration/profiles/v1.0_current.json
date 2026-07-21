@@ -390,10 +390,10 @@
               ],
               "varga": "D9",
               "weights": {
-                "bhava": 35,
-                "bhavadhipati": 30,
-                "karaka": 20,
-                "varga": 15
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
               },
               "karaka": {
                 "primary": "venus",
@@ -408,10 +408,10 @@
               ],
               "varga": "D10",
               "weights": {
-                "bhava": 35,
-                "bhavadhipati": 30,
-                "karaka": 20,
-                "varga": 15
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
               },
               "karaka": {
                 "primary": "saturn",
@@ -429,10 +429,10 @@
               ],
               "varga": "D2",
               "weights": {
-                "bhava": 35,
-                "bhavadhipati": 30,
-                "karaka": 20,
-                "varga": 15
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
               },
               "karaka": {
                 "primary": "jupiter",
@@ -447,10 +447,10 @@
               ],
               "varga": "D24",
               "weights": {
-                "bhava": 35,
-                "bhavadhipati": 30,
-                "karaka": 20,
-                "varga": 15
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
               },
               "karaka": {
                 "primary": "mercury",
@@ -465,10 +465,10 @@
               ],
               "varga": "D7",
               "weights": {
-                "bhava": 35,
-                "bhavadhipati": 30,
-                "karaka": 20,
-                "varga": 15
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
               },
               "karaka": {
                 "primary": "jupiter",
@@ -483,10 +483,10 @@
               ],
               "varga": "D4",
               "weights": {
-                "bhava": 35,
-                "bhavadhipati": 30,
-                "karaka": 20,
-                "varga": 15
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
               },
               "karaka": {
                 "primary": "mars",
@@ -503,10 +503,10 @@
               "inverted_support": true,
               "varga": "D6",
               "weights": {
-                "bhava": 35,
-                "bhavadhipati": 30,
-                "karaka": 20,
-                "varga": 15
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
               },
               "karaka": {
                 "primary": "sun",
@@ -523,10 +523,10 @@
               ],
               "varga": "D20",
               "weights": {
-                "bhava": 35,
-                "bhavadhipati": 30,
-                "karaka": 20,
-                "varga": 15
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
               },
               "karaka": {
                 "primary": "jupiter",
@@ -543,10 +543,10 @@
               ],
               "varga": "D9",
               "weights": {
-                "bhava": 35,
-                "bhavadhipati": 30,
-                "karaka": 20,
-                "varga": 15
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
               },
               "karaka": {
                 "primary": "venus",
@@ -561,10 +561,10 @@
               ],
               "varga": "D10",
               "weights": {
-                "bhava": 35,
-                "bhavadhipati": 30,
-                "karaka": 20,
-                "varga": 15
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
               },
               "karaka": {
                 "primary": "saturn",
@@ -582,10 +582,10 @@
               ],
               "varga": "D2",
               "weights": {
-                "bhava": 35,
-                "bhavadhipati": 30,
-                "karaka": 20,
-                "varga": 15
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
               },
               "karaka": {
                 "primary": "jupiter",
@@ -600,10 +600,10 @@
               ],
               "varga": "D24",
               "weights": {
-                "bhava": 35,
-                "bhavadhipati": 30,
-                "karaka": 20,
-                "varga": 15
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
               },
               "karaka": {
                 "primary": "mercury",
@@ -618,10 +618,10 @@
               ],
               "varga": "D7",
               "weights": {
-                "bhava": 35,
-                "bhavadhipati": 30,
-                "karaka": 20,
-                "varga": 15
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
               },
               "karaka": {
                 "primary": "jupiter",
@@ -636,10 +636,10 @@
               ],
               "varga": "D4",
               "weights": {
-                "bhava": 35,
-                "bhavadhipati": 30,
-                "karaka": 20,
-                "varga": 15
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
               },
               "karaka": {
                 "primary": "mars",
@@ -656,10 +656,10 @@
               "inverted_support": true,
               "varga": "D6",
               "weights": {
-                "bhava": 35,
-                "bhavadhipati": 30,
-                "karaka": 20,
-                "varga": 15
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
               },
               "karaka": {
                 "primary": "sun",
@@ -676,10 +676,10 @@
               ],
               "varga": "D20",
               "weights": {
-                "bhava": 35,
-                "bhavadhipati": 30,
-                "karaka": 20,
-                "varga": 15
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
               },
               "karaka": {
                 "primary": "jupiter",

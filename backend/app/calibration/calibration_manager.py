@@ -421,25 +421,61 @@ class CalibrationManager:
 
     @property
     def varga(self) -> Dict[str, Any]:
-        return self._extract_section_values("varga")
+        """Return varga calibration in engine-expected format."""
+        section = self._extract_section_values("varga")
+        return {
+            "D9_SCORES": section.get("d9_scores", {}),
+            "D10_SCORES": section.get("d10_scores", {}),
+            "VARGOTTAMA_BONUS": section.get("vargottama_bonus", 15.0)
+        }
 
     @property
     def dasha(self) -> Dict[str, Any]:
-        return self._extract_section_values("dasha")
+        """Return dasha calibration in engine-expected format (DASHA_SCORING_MATRIX)."""
+        section = self._extract_section_values("dasha")
+        return {
+            "DASHA_SCORING_MATRIX": {
+                "relationship_scalars": section.get("relationship_scalars", {}),
+                "synthesis_weights": section.get("synthesis_weights", {})
+            }
+        }
 
     @property
     def master_probability(self) -> Dict[str, Any]:
-        return self._extract_section_values("probability")
+        """Return master probability calibration in engine-expected format (MASTER_WEIGHTS)."""
+        section = self._extract_section_values("probability")
+        # Transform to engine-expected format
+        return {
+            "MASTER_WEIGHTS": section.get("weights", {}),
+            "PROBABILITY_GRADES": section.get("grades", {}),
+            "STUB_SCORE": section.get("stub_score", 50.0)
+        }
 
     @property
     def natal_promise(self) -> Dict[str, Any]:
         """Return natal promise calibration in engine-expected format."""
-        # Try new sections format first - include NATAL_PROMISE_GRADES from constants
+        # Try new sections format first - include NATAL_PROMISE_GRADES from constants and DOMAIN_CONFIG from profile
         try:
-            from app.config.astrology_constants import NATAL_PROMISE_GRADES, DOMAIN_KARAKA
+            from app.config.astrology_constants import NATAL_PROMISE_GRADES, DOMAIN_KARAKA, DOMAIN_CONFIG, DOMAIN_BONUSES
+            from app.config.astrology_constants import SIGN_LORD_MAP
+            
+            # Get domains config from profile sections
+            np_section = self.active_profile.get("sections", {}).get("natal_promise", {})
+            domains_config = np_section.get("parameters", {}).get("domains", {}).get("current_value", {})
+            bonuses_config = np_section.get("parameters", {}).get("bonuses", {}).get("current_value", {})
+            
+            # Fallback to constants if profile doesn't have them
+            if not domains_config:
+                domains_config = DOMAIN_CONFIG
+            if not bonuses_config:
+                bonuses_config = DOMAIN_BONUSES
+            
             return {
+                "DOMAIN_CONFIG": domains_config,
+                "DOMAIN_KARAKA": DOMAIN_KARAKA,
                 "NATAL_PROMISE_GRADES": NATAL_PROMISE_GRADES,
-                "DOMAIN_KARAKA": DOMAIN_KARAKA
+                "DOMAIN_BONUSES": bonuses_config,
+                "SIGN_LORD_MAP": SIGN_LORD_MAP
             }
         except ImportError:
             pass

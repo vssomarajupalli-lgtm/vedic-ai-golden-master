@@ -69,7 +69,8 @@ class VargaEngine:
                 d9_final_score = float(d9_strength_result.get("final_score", 50.0))
                 d9_breakdown = d9_strength_result.get("breakdown", {})
             else:
-                d9_final_score = "Data Unavailable"
+                # Immutable D1 Rule: preserve base score when no varga data
+                d9_final_score = float(base_score)
                 d9_breakdown = {}
 
             results["D9"]["planets"][planet_name] = {
@@ -101,7 +102,8 @@ class VargaEngine:
                 d10_final_score = float(d10_strength_result.get("final_score", 50.0))
                 d10_breakdown = d10_strength_result.get("breakdown", {})
             else:
-                d10_final_score = "Data Unavailable"
+                # Immutable D1 Rule: preserve base score when no varga data
+                d10_final_score = float(base_score)
                 d10_breakdown = {}
 
             results["D10"]["planets"][planet_name] = {

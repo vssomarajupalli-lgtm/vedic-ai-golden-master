@@ -4,7 +4,7 @@ from app.formulas.schema import FormulaSchema
 # Based on PHASE 12B FORMULA_REPOSITORY_DATA_MODEL_v1.md
 
 SEED_FORMULAS = [
-    # ---------------------------------------------------------
+# ---------------------------------------------------------
     # MARRIAGE FAMILY
     # ---------------------------------------------------------
     FormulaSchema(
@@ -18,6 +18,15 @@ SEED_FORMULAS = [
         answer_template_key="timing_assessment_v1"
     ),
     FormulaSchema(
+        formula_key="MAR_TIMING_001",
+        formula_name="Marriage Timing Assessment",
+        formula_category="Timing Assessment",
+        parent_formula_key="MAR_TIMING_BASE",
+        required_engines=["TransitEngine"],
+        required_confidence_layers=["absence_of_saturn_delay"],
+        answer_template_key="timing_assessment_v1"
+    ),
+    FormulaSchema(
         formula_key="MAR_TIMING_NORMAL",
         formula_name="Standard Marriage Timing",
         formula_category="Timing Assessment",
@@ -26,16 +35,16 @@ SEED_FORMULAS = [
         answer_template_key="timing_assessment_v1"
     ),
     FormulaSchema(
-                formula_key="MAR_TIMING_DELAY",
-                formula_name="Delayed Marriage Timing",
-                formula_category="Timing Assessment",
-                parent_formula_key="MAR_TIMING_BASE",
-                required_engines=["TransitEngine"],
-                required_signals=["saturn"],
-                required_confidence_layers=["saturn_aspect_7th"],
-                future_gochara_required=True,
-                answer_template_key="timing_assessment_v1"
-            ),
+        formula_key="MAR_TIMING_DELAY",
+        formula_name="Delayed Marriage Timing",
+        formula_category="Timing Assessment",
+        parent_formula_key="MAR_TIMING_BASE",
+        required_engines=["TransitEngine"],
+        required_signals=["saturn"],
+        required_confidence_layers=["saturn_aspect_7th"],
+        future_gochara_required=True,
+        answer_template_key="timing_assessment_v1"
+    ),
 
     # ---------------------------------------------------------
     # CAREER FAMILY
@@ -48,6 +57,14 @@ SEED_FORMULAS = [
         required_signals=["10th_house", "10th_lord", "11th_house"],
         required_vargas=["D1", "D10"],
         required_confidence_layers=["10th_lord_d10_strength", "positive_dasha"],
+        answer_template_key="timing_assessment_v1"
+    ),
+    FormulaSchema(
+        formula_key="CAR_GROWTH_001",
+        formula_name="Career Growth Timing",
+        formula_category="Timing Assessment",
+        parent_formula_key="CAR_GROWTH_BASE",
+        required_confidence_layers=["10th_house_bindus_gt_28"],
         answer_template_key="timing_assessment_v1"
     ),
     FormulaSchema(
@@ -80,6 +97,14 @@ SEED_FORMULAS = [
         required_signals=["8th_house", "11th_house", "rahu", "2nd_house"],
         required_vargas=["D1"],
         required_confidence_layers=["8th_lord_connect_11th", "dasha_activates_yoga"],
+        answer_template_key="multifactor_assessment_v1"
+    ),
+    FormulaSchema(
+        formula_key="WEA_SUDDEN_001",
+        formula_name="Sudden Wealth Timing",
+        formula_category="Multi-factor Assessment",
+        parent_formula_key="WEA_SUDDEN_BASE",
+        required_confidence_layers=["rahu_in_8th_11th", "absence_malefic_aspect_2nd"],
         answer_template_key="multifactor_assessment_v1"
     ),
     FormulaSchema(
