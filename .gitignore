@@ -172,3 +172,6 @@ Thumbs.db
 
 *.pyc
 *.pyo
+
+# Runtime Database
+backend/app/database/user_preferences.json
