@@ -374,50 +374,39 @@ class CalibrationManager:
 
     @property
     def planet_strength(self) -> Dict[str, Any]:
-        """Return planet strength calibration in engine-expected format (PLANET_SCORING_MATRIX).
-
-        Handles both new sections format and legacy flat format.
-        """
-        # Try new sections format first - return dict with PLANET_SCORING_MATRIX from constants
+        """Return planet strength calibration in engine-expected format (PLANET_SCORING_MATRIX)."""
+        # Engine expects PLANET_SCORING_MATRIX, NATAL_BENEFICS, NATAL_MALEFICS
         try:
             from app.config.astrology_constants import PLANET_SCORING_MATRIX, NATURAL_BENEFICS, NATURAL_MALEFICS
             return {
                 "PLANET_SCORING_MATRIX": PLANET_SCORING_MATRIX,
-                "NATURAL_BENEFICS": NATURAL_BENEFICS,
-                "NATURAL_MALEFICS": NATURAL_MALEFICS
+                "NATAL_BENEFICS": NATURAL_BENEFICS,
+                "NATAL_MALEFICS": NATURAL_MALEFICS
             }
         except ImportError:
-            pass
-
-        # Fallback to legacy flat format
-        legacy_data = self.active_profile.get("planet_strength", {})
-        return legacy_data
+            return self.active_profile.get("planet_strength", {})
 
     @property
     def house_strength(self) -> Dict[str, Any]:
-        """Return house strength calibration in engine-expected format (HOUSE_SCORING_MATRIX).
-
-        Handles both new sections format and legacy flat format.
-        """
-        # Try new sections format first - return dict with HOUSE_SCORING_MATRIX from constants
+        """Return house strength calibration in engine-expected format (HOUSE_SCORING_MATRIX)."""
         try:
             from app.config.astrology_constants import HOUSE_SCORING_MATRIX
             return {
                 "HOUSE_SCORING_MATRIX": HOUSE_SCORING_MATRIX
             }
         except ImportError:
-            pass
-
-        # Fallback to legacy flat format
-        legacy_data = self.active_profile.get("house_strength", {})
-        return legacy_data
+            return self.active_profile.get("house_strength", {})
 
     @property
     def rasi_strength(self) -> Dict[str, Any]:
-        """Return rasi strength calibration section in engine-expected format."""
-        rasi_cal = self.active_profile.get("sections", {}).get("rasi_strength", {})
-        # Return the full rasi_strength section so engines can extract RASI_SCORING_MATRIX
-        return rasi_cal
+        """Return rasi strength calibration in engine-expected format (RASI_SCORING_MATRIX)."""
+        try:
+            from app.config.astrology_constants import RASI_SCORING_MATRIX
+            return {
+                "RASI_SCORING_MATRIX": RASI_SCORING_MATRIX
+            }
+        except ImportError:
+            return self.active_profile.get("rasi_strength", {})
 
     @property
     def varga(self) -> Dict[str, Any]:
