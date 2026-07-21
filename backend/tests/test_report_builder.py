@@ -21,12 +21,14 @@ class TestReportBuilder(unittest.TestCase):
         """
         mock_pipeline = {
             "master_probability": {"final_score": 85.5, "grade": "EXCELLENT"},
-            "natal_promise": {
-                "wealth": {"score": 90, "promise": "HIGH"},
-                "career": {"score": 50, "promise": "MODERATE"}
-            },
-            "dashas": {"synthesis": {"active_md": "Venus", "active_ad": "Jupiter", "active_pd": "Rahu"}},
-            "yogas": {"active_yogas": [{"yoga_name": "Ruchaka Yoga", "strength": 80.0}]}
+            "engine_outputs": {
+                "natal_promise": {
+                    "wealth": {"score": 90, "promise": "HIGH"},
+                    "career": {"score": 50, "promise": "MODERATE"}
+                },
+                "dashas": {"synthesis": {"active_md": "Venus", "active_ad": "Jupiter", "active_pd": "Rahu"}},
+                "yogas": {"active_yogas": [{"yoga_name": "Ruchaka Yoga", "strength": 80.0}]}
+            }
         }
 
         mock_machine = {
