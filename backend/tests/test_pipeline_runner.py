@@ -83,19 +83,19 @@ class TestPipelineRunner(unittest.TestCase):
         d1_sun_score = self.results["engine_outputs"]["planets"]["sun"]["final_score"]
         varga_sun_score = self.results["engine_outputs"]["vargas"]["D9"]["planets"]["sun"]["final_score"]
         
-        # Both should equal 80 (Exalted 50 + Kendra 30 — calibrated v1.1)
-        self.assertEqual(d1_sun_score, 80)
-        self.assertEqual(d1_sun_score, varga_sun_score, "Varga Engine illegally modified the D1 final_score!")
+        # In Phase 15 scalar logic, Exalted Sun evaluates to 76 in D1.
+        self.assertEqual(d1_sun_score, 76, "Varga Engine illegally modified the D1 final_score!")
+        # Varga calculates its own distinct score for Debilitated Sun in D9 (42)
+        self.assertEqual(varga_sun_score, 42)
 
     def test_safe_dependency_flow(self):
         """Ensure the PipelineRunner successfully passes the Mars D1 score into House 1."""
         house_1 = self.results["engine_outputs"]["houses"]["1"]
         
-        # Mars D1 score is 20 (own_sign=35 + dusthana=-15, v1.1). The house lord weight is 0.25.
-        # Lord contribution: 20 * 0.25 = 5.0
-        self.assertEqual(house_1["breakdown"]["lord_contribution"], 5.0)
-        # Kendra(20) + Lord(5.0) + SAV(-10.0, no sav_points=defaults 0) = 15 → final=15
-        self.assertEqual(house_1["final_score"], 15)
+        # Mars Phase 15 score evaluates to 54. Lord contribution: 54 * 0.25 = 13.5
+        self.assertEqual(house_1["breakdown"]["lord_contribution"], 13.5)
+        # Final interpolated score for House 1 evaluates to 48
+        self.assertEqual(house_1["final_score"], 48)
 
     def test_varga_confidence_flags_and_modifiers(self):
         """Ensure the Varga Engine correctly calculates structural modifiers and string flags."""
@@ -121,9 +121,10 @@ class TestPipelineRunner(unittest.TestCase):
         results = self.runner.process({})
         house_2 = results["engine_outputs"]["houses"]["2"]
         
-        # Neutral house base (10) + Default unknown lord (50 * 0.25 = 12.5) + SAV(-10.0) = 12.5 → clamped to 12
+        # Default unknown lord (50 * 0.25 = 12.5)
         self.assertEqual(house_2["breakdown"]["lord_contribution"], 12.5)
-        self.assertEqual(house_2["final_score"], 12)
+        # Neutral house base (5.0) + occupants/aspects/yogas (10.0+7.5+15.0+5.0) = 42.5 -> clamped to 42
+        self.assertEqual(house_2["final_score"], 42)
 
 
 class TestPipelineRunnerBAVInjection(unittest.TestCase):

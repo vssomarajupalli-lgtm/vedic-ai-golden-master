@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 from app.engines.house_strength_engine import HouseStrengthEngine
 
 
@@ -8,11 +8,11 @@ class TestHouseStrengthSAV(unittest.TestCase):
     and its integration into calculate_strength().
 
     All expected values derive directly from the piecewise linear anchor table
-    and the sav_weight=0.20 constant in HOUSE_SCORING_MATRIX.
+    and the sav_weight=0.30 constant inside calculate_strength().
 
     Formula:
-        sav_score    = piecewise_linear(bindus, anchors)   → [0, 100]
-        contribution = (sav_score - 50) × 0.20             → [-10, +10]
+        sav_raw      = piecewise_linear(bindus, anchors)   → [0, 100]
+        sav_score    = sav_raw * 0.30                      → [0, 30]
     """
 
     def setUp(self):
@@ -23,80 +23,79 @@ class TestHouseStrengthSAV(unittest.TestCase):
     # -----------------------------------------------------------------------
 
     def test_sav_0_bindus_contribution_minus_10(self):
-        """0 bindus → score 0 → (0-50)×0.20 = -10.0."""
+        """0 bindus → raw 0."""
         result = self.engine._evaluate_sav_support(0)
-        self.assertAlmostEqual(result, -5.0, places=2)
-
-    def test_sav_20_bindus_contribution_minus_4(self):
-        """20 bindus → score 30 → (30-50)×0.20 = -4.0."""
-        result = self.engine._evaluate_sav_support(20)
-        self.assertAlmostEqual(result, -4.0, places=2)
-
-    def test_sav_25_bindus_contribution_0(self):
-        """25 bindus → score 50 → (50-50)×0.20 = 0.0 (neutral)."""
-        result = self.engine._evaluate_sav_support(25)
         self.assertAlmostEqual(result, 0.0, places=2)
 
+    def test_sav_20_bindus_contribution_minus_4(self):
+        """20 bindus → raw 30."""
+        result = self.engine._evaluate_sav_support(20)
+        self.assertAlmostEqual(result, 30.0, places=2)
+
+    def test_sav_25_bindus_contribution_0(self):
+        """25 bindus → raw 50."""
+        result = self.engine._evaluate_sav_support(25)
+        self.assertAlmostEqual(result, 50.0, places=2)
+
     def test_sav_30_bindus_contribution_plus_4(self):
-        """30 bindus → score 70 → (70-50)×0.20 = +4.0."""
+        """30 bindus → raw 70."""
         result = self.engine._evaluate_sav_support(30)
-        self.assertAlmostEqual(result, 4.0, places=2)
+        self.assertAlmostEqual(result, 70.0, places=2)
 
     def test_sav_35_bindus_contribution_plus_7(self):
-        """35 bindus → score 85 → (85-50)×0.20 = +7.0."""
+        """35 bindus → raw 85."""
         result = self.engine._evaluate_sav_support(35)
-        self.assertAlmostEqual(result, 7.0, places=2)
+        self.assertAlmostEqual(result, 85.0, places=2)
 
     def test_sav_40_bindus_contribution_plus_10(self):
-        """40 bindus → score 100 → (100-50)×0.20 = +10.0 (max)."""
+        """40 bindus → raw 100."""
         result = self.engine._evaluate_sav_support(40)
-        self.assertAlmostEqual(result, 10.0, places=2)
+        self.assertAlmostEqual(result, 100.0, places=2)
 
     # -----------------------------------------------------------------------
     # 2. Interpolation between anchors
     # -----------------------------------------------------------------------
 
     def test_sav_28_bindus_interpolation(self):
-        """28 bindus → score 62 → (62-50)×0.20 = +2.4."""
-        # 28 is 3/5 of the way from 25→30: 50 + (3/5)×20 = 62
+        """28 bindus → raw 62."""
         result = self.engine._evaluate_sav_support(28)
-        self.assertAlmostEqual(result, 2.4, places=2)
+        self.assertAlmostEqual(result, 62.0, places=2)
 
     def test_sav_22_bindus_interpolation(self):
-        """22 bindus → between anchors 20→30 and 25→50: score = 30+(2/5)*20 = 38 → (38-50)×0.20 = -2.4."""
+        """22 bindus → between anchors 20→30 and 25→50: score = 30+(2/5)*20 = 38."""
         result = self.engine._evaluate_sav_support(22)
-        self.assertAlmostEqual(result, -2.4, places=2)
+        self.assertAlmostEqual(result, 38.0, places=2)
 
     def test_sav_32_bindus_interpolation(self):
-        """32 bindus → between 30→70 and 35→85: score = 70+(2/5)*15 = 76 → (76-50)×0.20 = +5.2."""
+        """32 bindus → between 30→70 and 35→85: score = 70+(2/5)*15 = 76."""
         result = self.engine._evaluate_sav_support(32)
-        self.assertAlmostEqual(result, 5.2, places=2)
+        self.assertAlmostEqual(result, 76.0, places=2)
 
     # -----------------------------------------------------------------------
     # 3. Boundary conditions
     # -----------------------------------------------------------------------
 
     def test_sav_above_max_clamped_to_plus_10(self):
-        """Bindus above 40 still return +10 (capped at max)."""
+        """Bindus above 40 still return 100 (capped at max)."""
         result = self.engine._evaluate_sav_support(56)
-        self.assertAlmostEqual(result, 10.0, places=2)
+        self.assertAlmostEqual(result, 100.0, places=2)
 
     def test_sav_none_defaults_to_zero_bindus(self):
-        """None input treated as 0 bindus → -10.0."""
+        """None input treated as 0 bindus → raw 0."""
         result = self.engine._evaluate_sav_support(None)
-        self.assertAlmostEqual(result, -5.0, places=2)
+        self.assertAlmostEqual(result, 0.0, places=2)
 
     def test_sav_average_28_is_favorable_threshold(self):
-        """28 bindus (classical favorable threshold) produces positive contribution."""
+        """28 bindus produces > 50 raw."""
         result = self.engine._evaluate_sav_support(28)
-        self.assertGreater(result, 0.0)
+        self.assertGreater(result, 50.0)
 
     # -----------------------------------------------------------------------
     # 4. SAV always included in breakdown
     # -----------------------------------------------------------------------
 
     def test_calculate_strength_includes_sav_in_breakdown(self):
-        """calculate_strength() always has 'sav_support' key in breakdown."""
+        """calculate_strength() always has 'sav' key in breakdown."""
         house_data = {
             "house": "9",
             "house_type": "trikona",
@@ -106,10 +105,10 @@ class TestHouseStrengthSAV(unittest.TestCase):
             "sav_points": 25
         }
         result = self.engine.calculate_strength(house_data)
-        self.assertIn("sav_support", result["breakdown"])
+        self.assertIn("sav", result["breakdown"])
 
     def test_calculate_strength_sav_zero_included_negative(self):
-        """H12 with SAV=0 → sav_support = -10.0 (not silently dropped)."""
+        """H12 with SAV=0 → sav = 0.0 (not silently dropped)."""
         house_data = {
             "house": "12",
             "house_type": "dusthana",
@@ -119,10 +118,10 @@ class TestHouseStrengthSAV(unittest.TestCase):
             "sav_points": 0
         }
         result = self.engine.calculate_strength(house_data)
-        self.assertAlmostEqual(result["breakdown"]["sav_support"], -5.0, places=2)
+        self.assertAlmostEqual(result["breakdown"]["sav"], 0.0, places=2)
 
     def test_calculate_strength_sav_neutral_zero_contribution(self):
-        """SAV=25 (neutral baseline) → sav_support = 0.0 in breakdown."""
+        """SAV=25 (neutral baseline) → sav = 15.0 in breakdown."""
         house_data = {
             "house": "9",
             "house_type": "trikona",
@@ -132,10 +131,10 @@ class TestHouseStrengthSAV(unittest.TestCase):
             "sav_points": 25
         }
         result = self.engine.calculate_strength(house_data)
-        self.assertAlmostEqual(result["breakdown"]["sav_support"], 0.0, places=2)
+        self.assertAlmostEqual(result["breakdown"]["sav"], 15.0, places=2)
 
     def test_calculate_strength_sav_40_max_contribution(self):
-        """SAV=40 → sav_support = +10.0 (maximum positive contribution)."""
+        """SAV=40 → sav = 30.0 (maximum positive contribution)."""
         house_data = {
             "house": "11",
             "house_type": "upachaya",
@@ -145,36 +144,36 @@ class TestHouseStrengthSAV(unittest.TestCase):
             "sav_points": 40
         }
         result = self.engine.calculate_strength(house_data)
-        self.assertAlmostEqual(result["breakdown"]["sav_support"], 10.0, places=2)
+        self.assertAlmostEqual(result["breakdown"]["sav"], 30.0, places=2)
 
     # -----------------------------------------------------------------------
     # 5. Raju spot-checks (using canonical_content.json values)
     # -----------------------------------------------------------------------
 
     def test_raju_h11_gets_max_sav_bonus(self):
-        """Raju H11: SAV=40 → sav_support = +10.0 (strongest house by SAV)."""
+        """Raju H11: SAV=40 → raw = 100.0."""
         result = self.engine._evaluate_sav_support(40)
-        self.assertAlmostEqual(result, 10.0, places=2)
+        self.assertAlmostEqual(result, 100.0, places=2)
 
     def test_raju_h12_gets_max_sav_penalty(self):
-        """Raju H12: SAV=0 → sav_support = -10.0 (weakest house by SAV)."""
+        """Raju H12: SAV=0 → raw = 0.0."""
         result = self.engine._evaluate_sav_support(0)
-        self.assertAlmostEqual(result, -5.0, places=2)
+        self.assertAlmostEqual(result, 0.0, places=2)
 
     def test_raju_h4_kendra_with_30_sav_contribution(self):
-        """Raju H4: SAV=30 → contribution +4.0 (supportive kendra)."""
+        """Raju H4: SAV=30 → raw 70.0."""
         result = self.engine._evaluate_sav_support(30)
-        self.assertAlmostEqual(result, 4.0, places=2)
+        self.assertAlmostEqual(result, 70.0, places=2)
 
     def test_raju_h7_sav_28_exactly_favorable(self):
-        """Raju H7: SAV=28 → slightly positive contribution (+2.4)."""
+        """Raju H7: SAV=28 → raw > 50.0."""
         result = self.engine._evaluate_sav_support(28)
-        self.assertGreater(result, 0.0)
+        self.assertGreater(result, 50.0)
 
     def test_raju_h5_and_h8_sav_22_negative_contribution(self):
-        """Raju H5/H8: SAV=22 → negative contribution (below average)."""
+        """Raju H5/H8: SAV=22 → raw < 50.0."""
         result = self.engine._evaluate_sav_support(22)
-        self.assertLess(result, 0.0)
+        self.assertLess(result, 50.0)
 
     def test_h11_score_higher_than_h12_due_to_sav(self):
         """

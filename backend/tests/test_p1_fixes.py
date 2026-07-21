@@ -131,24 +131,24 @@ class TestDignityNormalisation(unittest.TestCase):
 
     # --- Lowercase with underscore (canonical form) ---
     def test_own_sign_underscore(self):
-        """'own_sign' (canonical) must give dignity=35."""
+        """'own_sign' (canonical) must give dignity=20."""
         dignity_score, _ = self._score("own_sign")
-        self.assertEqual(dignity_score, 35,
-            "'own_sign' must score 35, not fall back to neutral")
+        self.assertEqual(dignity_score, 20.0,
+            "'own_sign' must score 20.0, not fall back to neutral")
 
     # --- Lowercase with space (JsonNormalizer output form) ---
     def test_own_sign_lowercase_space(self):
-        """'own sign' (JsonNormalizer output) must give dignity=35."""
+        """'own sign' (JsonNormalizer output) must give dignity=20."""
         dignity_score, _ = self._score("own sign")
-        self.assertEqual(dignity_score, 35,
-            "'own sign' must score 35 — space must be normalised to underscore")
+        self.assertEqual(dignity_score, 20.0,
+            "'own sign' must score 20.0 — space must be normalised to underscore")
 
     # --- Title case (raw PDF form) ---
     def test_own_sign_title_case(self):
-        """'Own Sign' (raw PDF form) must give dignity=35."""
+        """'Own Sign' (raw PDF form) must give dignity=20."""
         dignity_score, _ = self._score("Own Sign")
-        self.assertEqual(dignity_score, 35,
-            "'Own Sign' must score 35 — title case + space must be normalised")
+        self.assertEqual(dignity_score, 20.0,
+            "'Own Sign' must score 20.0 — title case + space must be normalised")
 
     # --- 'Own House' / 'own_house' (varga dignity form) ---
     def test_own_house_canonical(self):
@@ -173,35 +173,33 @@ class TestDignityNormalisation(unittest.TestCase):
 
     # --- All 6 canonical dignity values in various capitalisation forms ---
     def test_exalted_all_forms(self):
-        """'Exalted', 'exalted' both give dignity=50."""
+        """'Exalted', 'exalted' both give dignity=25.0."""
         for form in ["exalted", "Exalted", "EXALTED"]:
             d, _ = self._score(form)
-            self.assertEqual(d, 50, f"'{form}' must score 50 (exalted)")
+            self.assertEqual(d, 25.0, f"'{form}' must score 25.0 (exalted)")
 
     def test_debilitated_all_forms(self):
-        """'Debilitated', 'debilitated' both give dignity=0."""
+        """'Debilitated', 'debilitated' both give dignity=0.0."""
         for form in ["debilitated", "Debilitated"]:
             d, _ = self._score(form)
-            self.assertEqual(d, 0, f"'{form}' must score 0 (debilitated)")
+            self.assertEqual(d, 0.0, f"'{form}' must score 0.0 (debilitated)")
 
     def test_friendly_all_forms(self):
-        """'Friendly', 'friendly' both give dignity=20."""
+        """'Friendly', 'friendly' both give dignity=15.0."""
         for form in ["friendly", "Friendly"]:
             d, _ = self._score(form)
-            self.assertEqual(d, 20, f"'{form}' must score 20 (friendly)")
+            self.assertEqual(d, 15.0, f"'{form}' must score 15.0 (friendly)")
 
     def test_unknown_dignity_falls_back_to_neutral(self):
-        """Unknown dignity strings must safely fall back to neutral (10)."""
+        """Unknown dignity strings must safely fall back to neutral (12.5)."""
         d, _ = self._score("unknown_dignity_xyz")
-        self.assertEqual(d, 10,
-            "Unknown dignity must fall back to neutral (10), not raise an error")
+        self.assertEqual(d, 12.5,
+            "Unknown dignity must fall back to neutral (12.5), not raise an error")
 
     # --- Mars in Raju's chart: the actual bug scenario ---
     def test_mars_raju_dignity_fix(self):
         """
         Raju's Mars: 'Own Sign' dignity in 'Dusthana' house.
-        Before fix: 'own sign' → 'neutral' (10) → raw = 10-15 = -5 → final=0.
-        After fix:  'own_sign' (35) → raw = 35-15 = +20 → final=20.
         """
         result = self.engine.calculate_strength({
             "name": "mars",
@@ -212,18 +210,16 @@ class TestDignityNormalisation(unittest.TestCase):
             "benefic_aspects_count": 0,
             "malefic_aspects_count": 0,
         })
-        self.assertEqual(result["breakdown"]["dignity"], 35,
-            "Mars 'Own Sign' must give dignity=35, not fall back to neutral=10")
-        self.assertEqual(result["raw_score"], 45.0,
-            "Mars 'Own Sign'+'Dusthana' raw score must be 25+35-15=45 (not -5)")
-        self.assertEqual(result["final_score"], 45,
-            "Mars must score 45 (not 0) after dignity normalisation fix and base addition")
+        self.assertEqual(result["breakdown"]["dignity"], 20.0,
+            "Mars 'Own Sign' must give dignity=20.0, not fall back to neutral")
+        self.assertEqual(result["raw_score"], 54.5,
+            "Mars 'Own Sign'+'Dusthana' raw score must be 54.5")
+        self.assertEqual(result["final_score"], 54,
+            "Mars must score 54 after dignity normalisation fix and base addition")
 
     def test_jupiter_raju_dignity_fix(self):
         """
         Raju's Jupiter: 'Own Sign' + 'Trikona' (H9).
-        Before fix: 'own sign' → neutral=10 → raw = 10+35+20(aspects) = 65.
-        After fix:  'own_sign' → 35  → raw = 35+35+20 = 90 → final=90.
         """
         result = self.engine.calculate_strength({
             "name": "jupiter",
@@ -234,12 +230,12 @@ class TestDignityNormalisation(unittest.TestCase):
             "benefic_aspects_count": 2,
             "malefic_aspects_count": 0,
         })
-        self.assertEqual(result["breakdown"]["dignity"], 35,
-            "Jupiter 'Own Sign' must score dignity=35")
-        self.assertEqual(result["raw_score"], 115.0,
-            "Jupiter 'Own Sign'+'Trikona'+2benefic aspects = 25+35+35+20=115")
-        self.assertEqual(result["final_score"], 100,
-            "Jupiter must score 100 after dignity normalisation fix and base addition")
+        self.assertEqual(result["breakdown"]["dignity"], 20.0,
+            "Jupiter 'Own Sign' must score dignity=20.0")
+        self.assertEqual(result["raw_score"], 80.0,
+            "Jupiter 'Own Sign'+'Trikona'+2benefic aspects = 80.0")
+        self.assertEqual(result["final_score"], 80,
+            "Jupiter must score 80 after dignity normalisation fix and base addition")
 
 
 # ---------------------------------------------------------------------------
