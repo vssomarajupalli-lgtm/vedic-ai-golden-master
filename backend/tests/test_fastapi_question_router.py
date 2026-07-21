@@ -42,7 +42,7 @@ def test_ask_question_with_valid_id(mock_answer_question):
     # since we didn't pass question_text in the payload.
     mock_answer_question.assert_called_once()
     args, kwargs = mock_answer_question.call_args
-    assert kwargs["question"] == "Marriage Timing"
+    assert kwargs["question_or_id"] == "Marriage Timing"
     
 @patch('app.api.v1.endpoints.queries.pipeline_runner.answer_question')
 def test_ask_question_with_invalid_id(mock_answer_question):
@@ -91,4 +91,4 @@ def test_ask_question_legacy_free_text(mock_answer_question):
     # Verify it passed the exact text to the engine
     mock_answer_question.assert_called_once()
     args, kwargs = mock_answer_question.call_args
-    assert kwargs["question"] == "When will I get married?"
+    assert kwargs["question_or_id"] == "When will I get married?"
