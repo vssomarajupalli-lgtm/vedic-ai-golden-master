@@ -52,6 +52,24 @@ class PipelineRunner:
         self.master_engine   = MasterProbabilityEngine()
         self.ephemeris       = EphemerisService()
 
+    def _resolve_target_date_utc(self, metadata: dict, default_utc=None) -> "datetime.datetime":
+        """
+        Extracts and normalizes the consultation_date from the metadata payload.
+        Falls back to the provided default_utc or current UTC if missing/malformed.
+        """
+        c_date = metadata.get("consultation_date")
+        if c_date:
+            try:
+                clean_date = c_date.replace("Z", "+00:00")
+                parsed = datetime.datetime.fromisoformat(clean_date)
+                if parsed.tzinfo is None:
+                    parsed = parsed.replace(tzinfo=datetime.timezone.utc)
+                return parsed
+            except (ValueError, TypeError):
+                pass
+        
+        return default_utc if default_utc else datetime.datetime.now(datetime.timezone.utc)
+
     def process(self, raw_input_data: dict, target_date_utc: datetime.datetime = None) -> dict:
         """
         Executes the strict calculation pipeline sequentially.
@@ -78,17 +96,7 @@ class PipelineRunner:
 
         if target_date_utc is None:
             metadata = normalized_payload.get("metadata", {})
-            c_date = metadata.get("consultation_date")
-            if c_date:
-                try:
-                    clean_date = c_date.replace("Z", "+00:00")
-                    target_date_utc = datetime.datetime.fromisoformat(clean_date)
-                    if target_date_utc.tzinfo is None:
-                        target_date_utc = target_date_utc.replace(tzinfo=datetime.timezone.utc)
-                except (ValueError, TypeError):
-                    target_date_utc = datetime.datetime.now(datetime.timezone.utc)
-            else:
-                target_date_utc = datetime.datetime.now(datetime.timezone.utc)
+            target_date_utc = self._resolve_target_date_utc(metadata, target_date_utc)
 
         # 1.2. Dignity Derivation Enrichment (Mathematical Calculation)
         for planet_id, planet_data in normalized_payload.get("planets", {}).items():
@@ -449,6 +457,10 @@ class PipelineRunner:
                 print(f"Formula evaluation error for {formula_key}: {e}")
                 traceback.print_exc()
 
+        # Extract target date from the pipeline metadata using the unified architecture
+        metadata = pipeline_output.get("metadata", {})
+        target_date_utc = self._resolve_target_date_utc(metadata)
+
         return self.question_engine.compose_response(
             question=question_id if is_question_id else question_text,
             domain=domain,
@@ -459,7 +471,8 @@ class PipelineRunner:
             bav_timing_confidence=bav_confidence,
             yogas=engine_outputs.get("yogas", {}),
             formula_evaluation=formula_evaluation,
-            formula_key=formula_key
+            formula_key=formula_key,
+            target_date_utc=target_date_utc
         )
 
     def _build_isolated_signals(self, engine_outputs: dict, formula: "FormulaSchema") -> dict:
