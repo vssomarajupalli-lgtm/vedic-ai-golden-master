@@ -104,7 +104,8 @@ class JsonNormalizer:
             "pob": self._clean_string(raw_metadata.get("birth_place") or raw_metadata.get("pob") or raw_metadata.get("place_of_birth") or "Unknown"),
             "latitude": self._extract_float(raw_metadata.get("latitude") or raw_metadata.get("lat", 0.0)) or None,
             "longitude": self._extract_float(raw_metadata.get("longitude") or raw_metadata.get("lon", 0.0)) or None,
-            "timezone": self._extract_float(raw_metadata.get("timezone") or raw_metadata.get("tz", 0.0)) or None
+            "timezone": self._extract_float(raw_metadata.get("timezone") or raw_metadata.get("tz", 0.0)) or None,
+            "consultation_date": raw_metadata.get("consultation_date")
         }
 
     def _normalize_planets(self, raw_planets: dict) -> dict:
