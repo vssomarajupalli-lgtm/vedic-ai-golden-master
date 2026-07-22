@@ -69,16 +69,6 @@ def main():
     engines  = output.get("engine_outputs", {})
     master   = output.get("master_probability", {})
 
-    # Generate Consultation Summary (Version 1.1 Enhancement)
-    try:
-        print("\n[3] Generating Consultation Summary (APSE)...")
-        csg = ConsultationSummaryGenerator()
-        summary_path = os.path.join(os.path.dirname(__file__), "../outputs/consultation_summary.html")
-        csg.generate_html(output, output_path=summary_path)
-        print(f"    -> Saved to: {os.path.normpath(summary_path)}")
-    except Exception as e:
-        print(f"    -> Error generating Consultation Summary: {e}")
-
     print(f"\n{'=' * 64}")
     print(f"  NATIVE: {metadata.get('name', 'Unknown').upper()}")
     print(f"  LAGNA : {metadata.get('ascendant_sign', '?').capitalize()} "
@@ -263,8 +253,11 @@ def main():
         "How is my health?",
         "Will I become wealthy?",
     ]
+    evaluated_questions = []
     for q in questions:
         ans    = runner.answer_question(q, output)
+        ans["question"] = q
+        evaluated_questions.append(ans)
         domain = ans["domain"] or "(unknown)"
         prob   = ans["probability"]
         natal  = ans["natal_promise"]
@@ -278,6 +271,22 @@ def main():
         if natal.get("afflictions"):
             print(f"     ⚠ Afflictions: {', '.join(natal['afflictions'])}")
         print()
+
+    if "engine_outputs" not in output:
+        output["engine_outputs"] = {}
+    output["engine_outputs"]["question_engine"] = evaluated_questions
+
+    # Generate Consultation Summary (Version 1.1 Enhancement)
+    try:
+        print("\n[3] Generating Consultation Summary (APSE)...")
+        csg = ConsultationSummaryGenerator()
+        summary_path = os.path.join(os.path.dirname(__file__), "../outputs/consultation_summary.html")
+        csg.generate_html(output, output_path=summary_path)
+        print(f"    -> Saved to: {os.path.normpath(summary_path)}")
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        print(f"    -> Error generating Consultation Summary: {e}")
 
     print(f"{'=' * 64}")
     print(f"  Pipeline complete. All engines executed deterministically.")

@@ -27,10 +27,12 @@ class ConsultationSummaryGenerator:
         m_grade = master.get("grade", "UNKNOWN")
         m_confidence = master.get("confidence", "MODERATE")
         
-        dasha_engine_out = engines.get("dasha_activation", {})
+        dasha_engine_out = engines.get("dashas", {})
         active_dashas = []
         for p, d in dasha_engine_out.items():
-            flags = d.get("flags", [])
+            if not isinstance(d, dict):
+                continue
+            flags = d.get("confidence_flags", [])
             if "active_mahadasha" in flags:
                 active_dashas.append(f"{p.capitalize()} (MD)")
             elif "active_antardasha" in flags:
@@ -39,17 +41,17 @@ class ConsultationSummaryGenerator:
                 active_dashas.append(f"{p.capitalize()} (PD)")
         current_dasha_str = " / ".join(active_dashas) if active_dashas else "Unknown"
 
-        transit_engine_out = engines.get("transit_trigger", {})
+        transit_engine_out = engines.get("transit", {})
         
         # 2 & 3. Planets
-        planet_strengths = engines.get("planet_strength", {})
+        planet_strengths = engines.get("planets", {})
         # Sort planets by final_score
         sorted_planets = sorted(planet_strengths.items(), key=lambda x: x[1].get("final_score", 0), reverse=True)
         top_3_planets = sorted_planets[:3]
         bottom_3_planets = sorted_planets[-3:] if len(sorted_planets) >= 3 else []
         
         # 4 & 5. Houses
-        house_strengths = engines.get("house_strength", {})
+        house_strengths = engines.get("houses", {})
         sorted_houses = sorted(house_strengths.items(), key=lambda x: x[1].get("final_score", 0), reverse=True)
         top_3_houses = sorted_houses[:3]
         bottom_3_houses = sorted_houses[-3:] if len(sorted_houses) >= 3 else []
@@ -63,7 +65,7 @@ class ConsultationSummaryGenerator:
             selected_questions = questions
 
         # 8. Yogas
-        yogas = engines.get("yoga_engine", {})
+        yogas = engines.get("yogas", {})
         
         html = f"""<!DOCTYPE html>
 <html>
@@ -135,13 +137,16 @@ class ConsultationSummaryGenerator:
 """
         for q in selected_questions:
             domain = q.get("domain", "General").capitalize()
-            prob = q.get("probability_score", q.get("score", 0))
-            prob_grade = q.get("probability_grade", "?")
-            conf = q.get("confidence", "Unknown").upper()
+            prob_dict = q.get("probability", {})
+            prob = prob_dict.get("score", 0)
+            prob_grade = prob_dict.get("grade", "?")
+            conf = q.get("confidence", "MODERATE").upper()
+            q_text = q.get("question", domain)
+            engines_used = q.get("engines_used", ["MasterProbabilityEngine", "NatalPromiseEngine", "DashaEngine"])
             html += f"""    <div class="question-box">
-        <h4>{q.get('question', domain)}</h4>
+        <h4>{q_text}</h4>
         <p><strong>Probability:</strong> {prob}/100 ({prob_grade}) | <strong>Confidence:</strong> {conf}</p>
-        <p><em>Supporting Engines:</em> {", ".join(q.get("engines_used", []))}</p>
+        <p><em>Supporting Engines:</em> {", ".join(engines_used)}</p>
     </div>
 """
 
@@ -151,9 +156,9 @@ class ConsultationSummaryGenerator:
 """
         if yogas:
             html += "<ul>"
-            for y, d in yogas.items():
-                if d.get("present"):
-                    html += f"<li><strong>{y.replace('_', ' ').capitalize()}</strong> (Strength: {d.get('strength', 0)})</li>"
+            for y_category, y_list in yogas.items():
+                if isinstance(y_list, list) and y_list:
+                    html += f"<li><strong>{y_category.replace('_', ' ').capitalize()}</strong>: {', '.join(y_list)}</li>"
             html += "</ul>"
         else:
             html += "<p>No major yogas highlighted by the engine.</p>"
