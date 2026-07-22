@@ -13,6 +13,31 @@ class ClientProfile(BaseModel):
     timezone: str = "UTC"
     generated_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
+# --- Deterministic Reporting Foundations ---
+class CalculationFactor(BaseModel):
+    factor_name: str
+    formula: str = ""
+    raw_value: float = 0.0
+    weight: float = 0.0
+    calibration_key: str = ""
+    calibration_value: float = 0.0
+    contribution: float = 0.0
+    running_total: float = 0.0
+    remarks: str = ""
+
+class DeterministicExplanation(BaseModel):
+    engine_name: str = ""
+    engine_version: str = ""
+    formula_source: str = ""
+    formula_version: str = ""
+    calibration_profile: str = ""
+    calibration_version: str = ""
+    execution_timestamp: str = ""
+    formula: str = ""
+    intermediate_calculations: Dict[str, Any] = Field(default_factory=dict)
+    factors: List[CalculationFactor] = Field(default_factory=list)
+    final_percentage: float = 0.0
+
 # --- SECTION A: Executive Summary ---
 class GlobalExecutiveSummaryDisplay(BaseModel):
     overall_score: int
@@ -30,6 +55,7 @@ class GlobalExecutiveSummaryDisplay(BaseModel):
     best_house: str
     weak_house: str
     upcoming_major_turning_point: str
+    explanation: DeterministicExplanation = Field(default_factory=DeterministicExplanation)
 
 # --- SECTION B: Lifetime Horoscope Snapshot ---
 class LifetimeSnapshotDisplay(BaseModel):
@@ -57,6 +83,7 @@ class LifeAreaIntelligenceDisplay(BaseModel):
     attention_factors: List[str]
     interpretation: str
     recommendations: List[str]
+    explanation: DeterministicExplanation = Field(default_factory=DeterministicExplanation)
 
 # --- SECTION D: Planet Intelligence ---
 class PlanetIntelligenceDisplay(BaseModel):
@@ -70,6 +97,7 @@ class PlanetIntelligenceDisplay(BaseModel):
     negative_contributions: List[str]
     life_themes: List[str]
     supporting_yogas: List[str]
+    explanation: DeterministicExplanation = Field(default_factory=DeterministicExplanation)
 
 # --- SECTION E: House Intelligence ---
 class HouseIntelligenceDisplay(BaseModel):
@@ -78,6 +106,7 @@ class HouseIntelligenceDisplay(BaseModel):
     grade: str
     lord: str
     occupants: List[str]
+    explanation: DeterministicExplanation = Field(default_factory=DeterministicExplanation)
 
 # --- SECTION F: Yoga Intelligence ---
 class YogaIntelligenceDisplay(BaseModel):
@@ -86,6 +115,7 @@ class YogaIntelligenceDisplay(BaseModel):
     strength: int
     meaning: str
     supporting_area: str
+    explanation: DeterministicExplanation = Field(default_factory=DeterministicExplanation)
 
 # --- SECTION G: Current Dasha Status ---
 class CurrentDashaStatusDisplay(BaseModel):
@@ -97,6 +127,7 @@ class CurrentDashaStatusDisplay(BaseModel):
     current_probability: int
     current_grade: str
     interpretation: str
+    explanation: DeterministicExplanation = Field(default_factory=DeterministicExplanation)
 
 # --- SECTION H: Lifetime Timeline ---
 class DashaTimelineRowDisplay(BaseModel):
@@ -122,6 +153,38 @@ class LifetimeIntelligenceDashboard(BaseModel):
     current_dasha_status: CurrentDashaStatusDisplay
     timeline: List[DashaTimelineRowDisplay]
 
+# --- SECTION I: Question Engine Intelligence ---
+class QuestionEngineReport(BaseModel):
+    question_id: str
+    question: str
+    domain: str
+    final_probability: int
+    confidence: float
+    explanation: DeterministicExplanation
+
+# --- SECTION J: Gochara (Transit) Intelligence ---
+class MandaliReport(BaseModel):
+    current_mandali: str = ""
+    reference_moon: str = ""
+    mandali_number: int = 0
+    mandali_boundaries: str = ""
+    activated_zones: List[str] = Field(default_factory=list)
+    activated_bhavas: List[int] = Field(default_factory=list)
+    activated_planets: List[str] = Field(default_factory=list)
+    explanation: DeterministicExplanation = Field(default_factory=DeterministicExplanation)
+
+class GocharaReport(BaseModel):
+    current_transit_date: str = ""
+    transit_planets: List[str] = Field(default_factory=list)
+    transit_houses: List[int] = Field(default_factory=list)
+    transit_strength: int = 0
+    activated_houses: List[int] = Field(default_factory=list)
+    activated_planets: List[str] = Field(default_factory=list)
+    activated_yogas: List[str] = Field(default_factory=list)
+    activated_questions: List[str] = Field(default_factory=list)
+    explanation: DeterministicExplanation = Field(default_factory=DeterministicExplanation)
+    mandali: Optional[MandaliReport] = None
+
 # --- Final Output Schema ---
 class FinalReportSchema(BaseModel):
     report_version: str = "1.2.0"
@@ -135,7 +198,10 @@ class FinalReportSchema(BaseModel):
     lifetime_intelligence: LifetimeIntelligenceDashboard
     
     # Section I (Question Intelligence)
-    question_responses: List[Dict[str, Any]] = Field(default_factory=list)
+    question_responses: List[QuestionEngineReport] = Field(default_factory=list)
+
+    # Section J (Gochara / Transit Intelligence)
+    gochara_report: Optional[GocharaReport] = None
     
-    # Section J (Developer Console)
+    # Section K (Developer Console)
     formula_verification: Dict[str, Any] = Field(default_factory=dict)

@@ -52,12 +52,15 @@ class ReportBuilder:
         # Formula verification
         formula_ver = pipeline_data
             
+        gochara = DisplayFormatter.format_gochara_report(pipeline_data)
+        question_reps = DisplayFormatter.format_question_responses(questions or [], pipeline_data)
+            
         return FinalReportSchema(
             generated_at=client_profile_data["generated_at"],
             client_profile=client_profile_data,
             executive_summary=exec_summary,
             lifetime_intelligence=lifetime_intel,
-            question_responses=questions or [],
-            technical_lifetime_analysis=tech_analysis,
+            question_responses=question_reps,
+            gochara_report=gochara,
             formula_verification=formula_ver
         )

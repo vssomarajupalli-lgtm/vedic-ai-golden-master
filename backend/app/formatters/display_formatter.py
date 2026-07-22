@@ -21,7 +21,12 @@ from app.reports.schemas import (
     YogaIntelligenceDisplay,
     CurrentDashaStatusDisplay,
     DashaTimelineRowDisplay,
-    LifetimeIntelligenceDashboard
+    LifetimeIntelligenceDashboard,
+    GocharaReport, 
+    QuestionEngineReport, 
+    MandaliReport, 
+    DeterministicExplanation, 
+    CalculationFactor
 )
 
 class DisplayFormatter:
@@ -106,6 +111,38 @@ class DisplayFormatter:
             except:
                 pass
         return remaining
+
+    @staticmethod
+    def _build_explanation(engine_data: Dict[str, Any], final_score: float, formula: str = "") -> DeterministicExplanation:
+        metadata = engine_data.get("metadata", {})
+        breakdown = engine_data.get("breakdown", {})
+        
+        factors = []
+        for k, v in breakdown.items():
+            try:
+                val = float(v)
+            except (ValueError, TypeError):
+                val = 0.0
+            factors.append(CalculationFactor(
+                factor_name=k,
+                raw_value=val,
+                weight=1.0,
+                contribution=val
+            ))
+            
+        return DeterministicExplanation(
+            engine_name=metadata.get("engine", "Unknown"),
+            engine_version=metadata.get("version", "1.0"),
+            formula_source=metadata.get("formula_source", "Unknown"),
+            formula_version=metadata.get("formula_version", "1.0"),
+            calibration_profile=metadata.get("calibration_profile", "Unknown"),
+            calibration_version=metadata.get("calibration_version", "1.0"),
+            execution_timestamp=metadata.get("timestamp", ""),
+            formula=formula,
+            intermediate_calculations={"final_score": final_score},
+            factors=factors,
+            final_percentage=float(final_score)
+        )
 
     @staticmethod
     def format_question_result(
@@ -360,7 +397,8 @@ class DisplayFormatter:
             weak_planet=weak_planet,
             best_house=best_house,
             weak_house=weak_house,
-            upcoming_major_turning_point="End of " + current_md
+            upcoming_major_turning_point="End of " + current_md,
+            explanation=DisplayFormatter._build_explanation(pipeline_data.get("master_probability", {}), overall_score, "Executive Synthesis")
         )
 
     @staticmethod
@@ -401,7 +439,8 @@ class DisplayFormatter:
                 score=h_score,
                 grade=DisplayFormatter.format_percentage(h_score, h_grade),
                 lord=h_data.get("lord", "unknown").capitalize(),
-                occupants=h_data.get("occupants", [])
+                occupants=h_data.get("occupants", []),
+                explanation=DisplayFormatter._build_explanation(h_data, h_score, "House Strength Calculation")
             ))
         house_list.sort(key=lambda x: list(house_domain_map.values()).index(x.house_name) if x.house_name in house_domain_map.values() else 99)
 
@@ -422,7 +461,8 @@ class DisplayFormatter:
                 positive_contributions=[f"Strong influence when dignified"] if p_score >= 60 else [],
                 negative_contributions=[f"May cause delays if afflicted"] if p_score < 40 else [],
                 life_themes=[f"Matters related to {p_key.capitalize()}"],
-                supporting_yogas=[]
+                supporting_yogas=[],
+                explanation=DisplayFormatter._build_explanation(p_data, p_score, "Planet Strength Calculation")
             ))
 
         # Life Areas
@@ -444,7 +484,8 @@ class DisplayFormatter:
                     long_term_outlook="Promising" if d_score >= 70 else "Stable" if d_score >= 40 else "Challenging",
                     attention_factors=[f"Requires attention due to lower strength"] if d_score < 50 else [],
                     interpretation=f"The domain of {d_key.replace('_', ' ').title()} indicates {d_grade.lower()} promise based on planetary and house strengths.",
-                    recommendations=[f"Focus on strengthening the factors related to {d_key.replace('_', ' ').title()}."] if d_score < 50 else [f"Leverage your natural strengths in {d_key.replace('_', ' ').title()}."]
+                    recommendations=[f"Focus on strengthening the factors related to {d_key.replace('_', ' ').title()}."] if d_score < 50 else [f"Leverage your natural strengths in {d_key.replace('_', ' ').title()}."],
+                    explanation=DisplayFormatter._build_explanation(d_data, d_score, "Life Area Promise Calculation")
                 ))
 
         # Yogas
@@ -457,7 +498,8 @@ class DisplayFormatter:
                 status="Present",
                 strength=int(y_str),
                 meaning=y.get("meaning", f"Enhances {y_name}"),
-                supporting_area=y.get("supporting_area", "General")
+                supporting_area=y.get("supporting_area", "General"),
+                explanation=DisplayFormatter._build_explanation(y, y_str, "Yoga Strength Calculation")
             ))
 
         # Current Dasha Status
@@ -483,7 +525,8 @@ class DisplayFormatter:
             current_activation=DisplayFormatter.format_percentage(act_score),
             current_probability=int(act_score),
             current_grade=act_grade,
-            interpretation=f"Current period focuses on themes related to {current_md} and {current_ad}."
+            interpretation=f"Current period focuses on themes related to {current_md} and {current_ad}.",
+            explanation=DisplayFormatter._build_explanation(engine_outputs.get("dashas", {}), act_score, "Dasha Activation Calculation")
         )
 
         # Timeline
@@ -567,3 +610,67 @@ class DisplayFormatter:
             current_dasha_status=dasha_status,
             timeline=timeline_rows
         )
+
+    @staticmethod
+    def format_gochara_report(pipeline_data: Dict[str, Any]) -> GocharaReport:
+        transit_data = pipeline_data.get("engine_outputs", {}).get("transit", {})
+        metadata = transit_data.get("metadata", {})
+        
+        mandali_data = transit_data.get("mandali", {})
+        mandali = None
+        if mandali_data:
+            mandali = MandaliReport(
+                current_mandali=mandali_data.get("current_mandali", ""),
+                reference_moon=mandali_data.get("reference_moon", ""),
+                mandali_number=mandali_data.get("mandali_number", 0),
+                mandali_boundaries=mandali_data.get("mandali_boundaries", ""),
+                activated_zones=mandali_data.get("activated_zones", []),
+                activated_bhavas=mandali_data.get("activated_bhavas", []),
+                activated_planets=mandali_data.get("activated_planets", []),
+                explanation=DisplayFormatter._build_explanation(mandali_data, mandali_data.get("score", 0), "Mandali evaluation based on Moon position")
+            )
+            
+        explanation = DisplayFormatter._build_explanation(
+            transit_data, 
+            transit_data.get("final_score", 0), 
+            "Gochara Activation = Primary*0.5 + Support*0.3 + BAV*0.2"
+        )
+        
+        return GocharaReport(
+            current_transit_date=metadata.get("target_date", ""),
+            transit_planets=transit_data.get("activated_planets", []),
+            transit_houses=transit_data.get("activated_houses", []),
+            transit_strength=int(transit_data.get("final_score", 0)),
+            activated_houses=transit_data.get("activated_houses", []),
+            activated_planets=transit_data.get("activated_planets", []),
+            activated_yogas=transit_data.get("activated_yogas", []),
+            activated_questions=transit_data.get("activated_questions", []),
+            explanation=explanation,
+            mandali=mandali
+        )
+
+    @staticmethod
+    def format_question_responses(questions: List[Dict[str, Any]], pipeline_data: Dict[str, Any]) -> List[QuestionEngineReport]:
+        reports = []
+        for q in questions:
+            explanation = DisplayFormatter._build_explanation(
+                q, 
+                q.get("final_probability", 0), 
+                "Probability = (Natal*0.6) + (Dasha*0.4) + Gochara Modifiers"
+            )
+            
+            confidence = q.get("confidence")
+            if isinstance(confidence, str):
+                confidence_val = 100.0 if confidence.lower() in ["high", "very high"] else 50.0
+            else:
+                confidence_val = float(confidence or 0.0)
+                
+            reports.append(QuestionEngineReport(
+                question_id=q.get("id", "Unknown"),
+                question=q.get("question", "Unknown"),
+                domain=q.get("domain", "Unknown"),
+                final_probability=int(q.get("final_probability", 0)),
+                confidence=confidence_val,
+                explanation=explanation
+            ))
+        return reports

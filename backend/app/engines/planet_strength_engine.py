@@ -14,6 +14,14 @@ class PlanetStrengthEngine:
             calibration = CalibrationManager()
         # Load scoring constants from central config to improve maintainability
         self.scoring_matrix = calibration.planet_strength.get('PLANET_SCORING_MATRIX', {})
+        self.calibration = calibration
+        try:
+            self.weights = calibration.active_profile.get("sections", {}).get("planet_strength", {}).get("parameters", {})
+        except (KeyError, TypeError):
+            self.weights = {}
+
+    def _get_weight(self, param_name: str, default: float) -> float:
+        return self.weights.get(param_name, {}).get("weight_pct", default * 100.0) / 100.0
 
     def calculate_strength(self, planet_data: dict, shadbala_data: dict = None) -> dict:
         """
@@ -23,12 +31,12 @@ class PlanetStrengthEngine:
 
         # 1. Evaluate Dignity (25%)
         dignity_raw = self._evaluate_dignity(planet_data.get("dignity", "neutral"))
-        dignity_score = dignity_raw * 0.25
+        dignity_score = dignity_raw * self._get_weight("dignity", 0.25)
         breakdown["dignity"] = dignity_score
 
         # 2. Evaluate House Placement (20%)
         house_raw = self._evaluate_house(planet_data.get("house_type", "neutral"))
-        house_score = house_raw * 0.20
+        house_score = house_raw * self._get_weight("house_placement", 0.20)
         breakdown["house_placement"] = house_score
 
         # 3. Evaluate Aspects (15%)
@@ -36,7 +44,7 @@ class PlanetStrengthEngine:
             planet_data.get("benefic_aspects_count", 0),
             planet_data.get("malefic_aspects_count", 0)
         )
-        aspect_score = aspect_raw * 0.15
+        aspect_score = aspect_raw * self._get_weight("aspects", 0.15)
         breakdown["aspects"] = aspect_score
 
         # 4. Evaluate Conjunctions (10%)
@@ -44,19 +52,19 @@ class PlanetStrengthEngine:
             planet_data.get("benefic_conjunctions_count", 0),
             planet_data.get("malefic_conjunctions_count", 0)
         )
-        conj_score = conj_raw * 0.10
+        conj_score = conj_raw * self._get_weight("conjunctions", 0.10)
         breakdown["conjunctions"] = conj_score
 
         # 5. Evaluate Combustion (10%)
         is_combust = planet_data.get("is_combust", False)
         combust_raw = self.scoring_matrix["state_modifiers"]["combust_score"] if is_combust else 100
-        combust_score = combust_raw * 0.10
+        combust_score = combust_raw * self._get_weight("combustion", 0.10)
         breakdown["combustion"] = combust_score
 
         # 6. Evaluate Retrogression (5%)
         is_retro = planet_data.get("is_retrograde", False)
         retro_raw = self.scoring_matrix["state_modifiers"]["retrograde_score"] if is_retro else 50
-        retro_score = retro_raw * 0.05
+        retro_score = retro_raw * self._get_weight("retrogression", 0.05)
         breakdown["retrogression"] = retro_score
 
         # 7. Evaluate Shadbala (10%)
@@ -69,12 +77,12 @@ class PlanetStrengthEngine:
             shadbala_raw = self._map_shadbala_to_score(req_pct)
         else:
             shadbala_raw = 50.0 # Neutral fallback
-        shadbala_score = shadbala_raw * 0.10
+        shadbala_score = shadbala_raw * self._get_weight("shadbala", 0.10)
         breakdown["shadbala"] = shadbala_score
 
         # 8. Evaluate Varga Dignity (5%)
         varga_raw = 50.0 # Placeholder for D9 dignity extraction
-        varga_score = varga_raw * 0.05
+        varga_score = varga_raw * self._get_weight("varga_dignity", 0.05)
         breakdown["varga_dignity"] = varga_score
 
         total_score = (dignity_score + house_score + aspect_score + conj_score + 

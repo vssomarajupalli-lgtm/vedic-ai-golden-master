@@ -252,61 +252,65 @@
       "description": "Sign (Rasi) environmental strength scoring \u2014 4 factors",
       "total_weight_pct": 100.0,
       "parameters": {
-        "bhava": {
-          "name": "bhava",
+        "sav_bindus": {
+          "name": "sav_bindus",
           "description": "SAV environment factor (35%)",
-          "purpose": "SAV environment weight in rasi strength formula",
+          "purpose": "factor_a weight in rasi strength",
           "default_value": 35.0,
           "current_value": 35.0,
-          "recommended_range": [
-            25,
-            45
-          ],
           "editable": true,
           "protected": true,
           "weight_pct": 35.0
         },
-        "bhavadhipati": {
-          "name": "bhavadhipati",
-          "description": "Sign Lord Strength factor (30%)",
-          "purpose": "Sign lord weight in rasi strength formula",
-          "default_value": 30.0,
-          "current_value": 30.0,
-          "recommended_range": [
-            20,
-            40
-          ],
+        "sign_lord": {
+          "name": "sign_lord",
+          "description": "Sign Lord factor (25%)",
+          "purpose": "factor_b weight in rasi strength",
+          "default_value": 25.0,
+          "current_value": 25.0,
           "editable": true,
           "protected": true,
-          "weight_pct": 30.0
+          "weight_pct": 25.0
         },
-        "karaka": {
-          "name": "karaka",
-          "description": "Karaka factor (20%)",
-          "purpose": "Karaka weight in rasi strength formula",
+        "occupant_quality": {
+          "name": "occupant_quality",
+          "description": "Occupant quality factor (20%)",
+          "purpose": "factor_c weight in rasi strength",
           "default_value": 20.0,
           "current_value": 20.0,
-          "recommended_range": [
-            15,
-            25
-          ],
           "editable": true,
           "protected": true,
           "weight_pct": 20.0
         },
-        "varga": {
-          "name": "varga",
-          "description": "Varga validation factor (15%)",
-          "purpose": "Varga weight in rasi strength formula",
-          "default_value": 15.0,
-          "current_value": 15.0,
-          "recommended_range": [
-            10,
-            20
-          ],
+        "occupant_balance": {
+          "name": "occupant_balance",
+          "description": "Occupant balance factor (10%)",
+          "purpose": "factor_d weight in rasi strength",
+          "default_value": 10.0,
+          "current_value": 10.0,
           "editable": true,
           "protected": true,
-          "weight_pct": 15.0
+          "weight_pct": 10.0
+        },
+        "dignity_impact": {
+          "name": "dignity_impact",
+          "description": "Dignity impact factor (5%)",
+          "purpose": "factor_e weight in rasi strength",
+          "default_value": 5.0,
+          "current_value": 5.0,
+          "editable": true,
+          "protected": true,
+          "weight_pct": 5.0
+        },
+        "varga_refinement": {
+          "name": "varga_refinement",
+          "description": "Varga refinement factor (5%)",
+          "purpose": "factor_f weight in rasi strength",
+          "default_value": 5.0,
+          "current_value": 5.0,
+          "editable": true,
+          "protected": true,
+          "weight_pct": 5.0
         }
       },
       "additional_factor_1": {
@@ -1807,6 +1811,24 @@
             "md_transit_bav_high": 8
           },
           "recommended_range": null,
+          "editable": true,
+          "protected": true,
+          "weight_pct": null
+        },
+        "house_transit_weights": {
+          "name": "house_transit_weights",
+          "description": "Weights for house transit sub-score",
+          "purpose": "Weights for primary, support, and bav",
+          "default_value": {
+            "primary": 0.5,
+            "support": 0.3,
+            "bav": 0.2
+          },
+          "current_value": {
+            "primary": 0.5,
+            "support": 0.3,
+            "bav": 0.2
+          },
           "editable": true,
           "protected": true,
           "weight_pct": null

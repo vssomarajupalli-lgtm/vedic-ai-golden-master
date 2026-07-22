@@ -71,16 +71,24 @@ class TransitEngine:
         if calibration is None:
             from app.calibration.calibration_manager import CalibrationManager
             calibration = CalibrationManager()
-        self.weights       = calibration.transit.get('TRANSIT_WEIGHTS', {})
-        self.vedha_pairs   = calibration.transit.get('VEDHA_PAIRS', {})
-        self.house_quality = calibration.transit.get('TRANSIT_HOUSE_QUALITY', {})
-        self.conj_matrix   = calibration.transit.get('TRANSIT_CONJUNCTION_MATRIX', {})
-        self.aspect_weights = calibration.transit.get('TRANSIT_ASPECT_WEIGHTS', {})
-        self.special_aspects = calibration.transit.get('TRANSIT_SPECIAL_ASPECTS', {})
-        self.special_weight  = calibration.transit.get('TRANSIT_SPECIAL_ASPECT_WEIGHT', 0)
-        self.vedha_cap     = calibration.transit.get('TRANSIT_VEDHA_CAP', 0)
-        self.sync_bonuses  = calibration.transit.get('TRANSIT_DASHA_SYNC_BONUSES', {})
+        self.weights         = calibration.transit.get("weights", {})
+        self.house_quality   = calibration.transit.get("house_quality", {})
+        self.conjunctions    = calibration.transit.get("conjunction_matrix", {})
+        self.aspect_w        = calibration.transit.get("aspect_weights", {})
+        self.special_asp     = calibration.transit.get("special_aspects", {})
+        self.sp_asp_wt       = calibration.transit.get("special_aspect_weight", 0.6)
+        self.vedha           = calibration.transit.get("vedha_pairs", {})
+        self.vedha_cap       = calibration.transit.get("vedha_cap", -15)
+        self.dasha_bonuses   = calibration.transit.get("dasha_sync_bonuses", {})
+        self.calibration = calibration
+        try:
+            self.house_transit_weights = calibration.active_profile.get("sections", {}).get("transit", {}).get("parameters", {}).get("house_transit_weights", {}).get("current_value", {})
+        except (KeyError, TypeError):
+            self.house_transit_weights = {}
         self.stub_score    = 50.0
+
+    def _get_weight(self, param_name: str, default: float) -> float:
+        return float(self.house_transit_weights.get(param_name, default))
 
     # -------------------------------------------------------------------------
     # Public Interface
@@ -149,7 +157,7 @@ class TransitEngine:
             "dasha_sync":        dasha_sync,
             "vedha_layer":       vedha_raw,
         }
-        activation_raw = sum(breakdown[k] * self.weights[k] for k in self.weights)
+        activation_raw = sum(breakdown[k] * self.weights.get(k, 0) for k in self.weights)
         activation_score = clamp_score(activation_raw)
 
         # --- Domain activation ---
@@ -203,7 +211,7 @@ class TransitEngine:
         for planet, house in t_houses.items():
             if house < 1 or house > 12:
                 continue
-            quality = self.house_quality.get(planet, {}).get(house, 0)
+            quality = self.house_quality.get(planet, {}).get(str(house), 0)
             scores.append(quality)
             if quality != 0:
                 factors.append({
@@ -290,10 +298,10 @@ class TransitEngine:
         for planet, house in t_houses.items():
             if house < 1 or house > 12:
                 continue
-            quality = self.house_quality.get(planet, {}).get(house, 0)
+            quality = self.house_quality.get(planet, {}).get(str(house), 0)
             if quality <= 0:
                 continue   # only positive transits can be Vedha-blocked
-            vedha_house = self.vedha_pairs.get(house)
+            vedha_house = self.vedha.get(str(house))
             if vedha_house and vedha_house in malefic_houses:
                 vedha_penalty -= 5
                 factors.append({
@@ -343,7 +351,7 @@ class TransitEngine:
 
                 # Check conjunction (same house)
                 if t_house == n_house:
-                    score = self.conj_matrix.get((t_planet, n_nature), 0)
+                    score = self.conjunctions.get(t_planet, {}).get(n_nature, 0)
                     if score != 0:
                         total += score
                         factors.append({
@@ -356,13 +364,13 @@ class TransitEngine:
                     continue  # conjunction takes priority over aspect
 
                 # Check special aspects first (they include 7th)
-                aspect_houses = self.special_aspects.get(t_planet, [7])
+                aspect_houses = self.special_asp.get(t_planet, [7])
                 for aspect_offset in aspect_houses:
                     aspected_house = ((t_house - 1 + aspect_offset - 1) % 12) + 1
                     if aspected_house == n_house:
-                        base_score = self.aspect_weights.get((t_nature, n_nature), 0)
+                        base_score = self.aspect_w.get(t_nature, {}).get(n_nature, 0)
                         # Apply weight reduction for non-7th special aspects
-                        weight = 1.0 if aspect_offset == 7 else self.special_weight
+                        weight = 1.0 if aspect_offset == 7 else self.sp_asp_wt
                         score  = round(base_score * weight)
                         if score != 0:
                             total += score
@@ -435,7 +443,7 @@ class TransitEngine:
 
         total_bonus = 0.0
         factors     = []
-        bonuses     = self.sync_bonuses
+        bonuses     = self.dasha_bonuses
 
         for t_planet, t_house in t_houses.items():
             if t_house < 1 or t_house > 12:
@@ -443,7 +451,7 @@ class TransitEngine:
 
             # Case 1: Transit planet IS the MD lord
             if t_planet == md_lord:
-                bonus = round(bonuses["transit_is_md_lord"] * md_mult, 1)
+                bonus = round(bonuses.get("transit_is_md_lord", 20) * md_mult, 1)
                 total_bonus += bonus
                 factors.append({
                     "factor":  "dasha_transit_sync_md",
@@ -455,7 +463,7 @@ class TransitEngine:
 
             # Case 2: Transit planet IS the AD lord
             elif t_planet == ad_lord:
-                bonus = round(bonuses["transit_is_ad_lord"] * ad_mult, 1)
+                bonus = round(bonuses.get("transit_is_ad_lord", 12) * ad_mult, 1)
                 total_bonus += bonus
                 factors.append({
                     "factor":  "dasha_transit_sync_ad",
@@ -469,7 +477,7 @@ class TransitEngine:
             if md_natal_house > 0:
                 seventh_from_t = ((t_house - 1 + 6) % 12) + 1
                 if seventh_from_t == md_natal_house and t_planet != md_lord:
-                    b = bonuses["transit_aspects_md_natal"]
+                    b = bonuses.get("transit_aspects_md_natal", 8)
                     total_bonus += b
                     factors.append({
                         "factor":  f"{t_planet}_aspects_md_lord_natal",
@@ -483,7 +491,7 @@ class TransitEngine:
             if ad_natal_house > 0:
                 seventh_from_t = ((t_house - 1 + 6) % 12) + 1
                 if seventh_from_t == ad_natal_house and t_planet != ad_lord:
-                    b = bonuses["transit_aspects_ad_natal"]
+                    b = bonuses.get("transit_aspects_ad_natal", 5)
                     total_bonus += b
                     factors.append({
                         "factor":  f"{t_planet}_aspects_ad_lord_natal",
@@ -495,7 +503,7 @@ class TransitEngine:
 
             # Case 5: Transit planet in same natal house as MD lord natal
             if md_natal_house > 0 and t_house == md_natal_house and t_planet != md_lord:
-                b = bonuses["transit_same_sign_as_md"]
+                b = bonuses.get("transit_same_sign_as_md", 6)
                 total_bonus += b
                 factors.append({
                     "factor":  f"{t_planet}_in_md_lord_natal_house",
@@ -515,7 +523,7 @@ class TransitEngine:
                          if isinstance(house_entry, dict)
                          else house_entry)
             if bindus >= 5:
-                b = bonuses["md_transit_bav_high"]
+                b = bonuses.get("md_transit_bav_high", 8)
                 total_bonus += b
                 factors.append({
                     "factor":  f"md_lord_{md_lord}_transit_bav_high",
@@ -544,9 +552,9 @@ class TransitEngine:
         Formula per domain:
             house_transit_score(H) = clamp(quality_for_house(H) + 50, 0, 100)
             domain_transit_score   =
-                house_transit_score(primary_house)                * 0.50
-                + avg(house_transit_score(support_houses))        * 0.30
-                + bav_transit_score(karaka_planet, primary_house) * 0.20
+                house_transit_score(primary_house)                * self._get_weight("primary", 0.50)
+            + avg(house_transit_score(support_houses))        * self._get_weight("support", 0.30)
+            + bav_transit_score(karaka_planet, primary_house) * self._get_weight("bav", 0.20)
 
         Returns:
             dict mapping domain_name → int score [0, 100]
@@ -602,9 +610,9 @@ class TransitEngine:
                     bav_score = sum(karaka_bav_scores) / len(karaka_bav_scores)
 
             domain_score = (
-                primary_score * 0.50
-                + support_score * 0.30
-                + bav_score    * 0.20
+                primary_score * self._get_weight("primary", 0.50)
+                + support_score * self._get_weight("support", 0.30)
+                + bav_score    * self._get_weight("bav", 0.20)
             )
             result[domain] = clamp_score(domain_score)
 

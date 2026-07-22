@@ -34,9 +34,16 @@ class RasiStrengthEngine:
             from app.calibration.calibration_manager import CalibrationManager
             calibration = CalibrationManager()
         self.matrix     = calibration.rasi_strength.get('RASI_SCORING_MATRIX', {})
-        self.weights    = self.matrix.get('weights', {})
         self.benefics   = set(calibration.planet_strength.get('NATAL_BENEFICS', []))
         self.malefics   = set(calibration.planet_strength.get('NATAL_MALEFICS', []))
+        self.calibration = calibration
+        try:
+            self.weights = calibration.active_profile.get("sections", {}).get("rasi_strength", {}).get("parameters", {})
+        except (KeyError, TypeError):
+            self.weights = {}
+
+    def _get_weight(self, param_name: str, default: float) -> float:
+        return self.weights.get(param_name, {}).get("weight_pct", default * 100.0) / 100.0
 
     # -------------------------------------------------------------------------
     # Public Interface
@@ -91,12 +98,12 @@ class RasiStrengthEngine:
 
             # --- Composite weighted formula ---
             raw = (
-                0.35 * factor_a +
-                0.25 * factor_b +
-                0.20 * factor_c +
-                0.10 * factor_d +
-                0.05 * factor_e +
-                0.05 * factor_f
+                self._get_weight("sav_bindus", 0.35) * factor_a +
+                self._get_weight("sign_lord", 0.25) * factor_b +
+                self._get_weight("occupant_quality", 0.20) * factor_c +
+                self._get_weight("occupant_balance", 0.10) * factor_d +
+                self._get_weight("dignity_impact", 0.05) * factor_e +
+                self._get_weight("varga_refinement", 0.05) * factor_f
             )
 
             final_score = clamp_score(round(raw))

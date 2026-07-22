@@ -17,6 +17,15 @@ class DashaEngine:
             from app.calibration.calibration_manager import CalibrationManager
             calibration = CalibrationManager()
         self.scoring_matrix = calibration.dasha.get('DASHA_SCORING_MATRIX', {})
+        self.calibration = calibration
+        try:
+            self.weights = calibration.active_profile.get("sections", {}).get("dasha", {}).get("parameters", {}).get("synthesis_weights", {}).get("current_value", {})
+        except (KeyError, TypeError):
+            self.weights = {}
+
+    def _get_weight(self, param_name: str, default: float) -> float:
+        # Note: synthesis_weights is a dict of floats, not the standard weight_pct schema
+        return float(self.weights.get(param_name, default))
 
     def evaluate(self, normalized_data: Dict[str, Any], dependency_scores: Dict[str, Any] = None, target_date: str = None) -> Dict[str, Any]:
         """
@@ -108,7 +117,7 @@ class DashaEngine:
         )
         
         # Calculate aggregated dasha strength
-        dasha_strength = (md_base_score * 0.50) + (ad_base_score * 0.30) + (pd_base_score * 0.20)
+        dasha_strength = (md_base_score * self._get_weight("md", 0.50)) + (ad_base_score * self._get_weight("ad", 0.30)) + (pd_base_score * self._get_weight("pd", 0.20))
         dasha_strength = max(0.0, min(100.0, dasha_strength))
         
         # Active index
@@ -176,7 +185,7 @@ class DashaEngine:
             record["ad_planet_strength"] = ad_s
             record["pd_planet_strength"] = pd_s
             
-            d_str = (md_s * 0.50) + (ad_s * 0.30) + (pd_s * 0.20)
+            d_str = (md_s * self._get_weight("md", 0.50)) + (ad_s * self._get_weight("ad", 0.30)) + (pd_s * self._get_weight("pd", 0.20))
             record["dasha_activation"] = round(max(0.0, min(100.0, d_str)), 2)
             
             if i + 1 < len(timeline):

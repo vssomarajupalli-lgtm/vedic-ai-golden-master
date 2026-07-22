@@ -16,6 +16,14 @@ class HouseStrengthEngine:
         self.scoring_matrix = calibration.house_strength.get('HOUSE_SCORING_MATRIX', {})
         self.benefics = calibration.planet_strength.get('NATAL_BENEFICS', [])
         self.malefics = calibration.planet_strength.get('NATAL_MALEFICS', [])
+        self.calibration = calibration
+        try:
+            self.weights = calibration.active_profile.get("sections", {}).get("house_strength", {}).get("parameters", {})
+        except (KeyError, TypeError):
+            self.weights = {}
+
+    def _get_weight(self, param_name: str, default: float) -> float:
+        return self.weights.get(param_name, {}).get("weight_pct", default * 100.0) / 100.0
 
     def calculate_strength(self, house_data: dict, bhava_bala_data: dict = None) -> dict:
         """
@@ -25,32 +33,32 @@ class HouseStrengthEngine:
 
         # 1. Evaluate SAV (30%)
         sav_raw = self._evaluate_sav_support(house_data.get("sav_points", 0))
-        sav_score = sav_raw * 0.30
+        sav_score = sav_raw * self._get_weight("sav", 0.30)
         breakdown["sav"] = sav_score
 
         # 2. Evaluate Occupants (20%)
         occupants_raw = self._evaluate_influences(house_data.get("occupants", []), "occupants")
-        occupants_score = occupants_raw * 0.20
+        occupants_score = occupants_raw * self._get_weight("occupants", 0.20)
         breakdown["occupants"] = occupants_score
 
         # 3. Evaluate Benefic Aspects (15%) & Malefic Aspects (15%)
         # Note: We split aspects into separate benefic and malefic buckets.
         benefic_aspects_raw = self._evaluate_specific_aspects(house_data.get("aspected_by", []), self.benefics)
-        benefic_aspects_score = benefic_aspects_raw * 0.15
+        benefic_aspects_score = benefic_aspects_raw * self._get_weight("benefic_aspects", 0.15)
         breakdown["benefic_aspects"] = benefic_aspects_score
 
         malefic_aspects_raw = self._evaluate_specific_aspects(house_data.get("aspected_by", []), self.malefics)
-        malefic_aspects_score = malefic_aspects_raw * 0.15
+        malefic_aspects_score = malefic_aspects_raw * self._get_weight("malefic_aspects", 0.15)
         breakdown["malefic_aspects"] = malefic_aspects_score
 
         # 4. Evaluate House Nature (10%)
         type_raw = self._evaluate_house_type(house_data.get("house_type", "neutral"))
-        type_score = type_raw * 0.10
+        type_score = type_raw * self._get_weight("house_type", 0.10)
         breakdown["house_type"] = type_score
 
         # 5. Evaluate House Specific Yogas (10%)
         yogas_raw = 50.0  # Default fallback until Phase 3 integration
-        yogas_score = yogas_raw * 0.10
+        yogas_score = yogas_raw * self._get_weight("yogas", 0.10)
         breakdown["house_yogas"] = yogas_score
 
         # Restore lord_contribution for contract compatibility with pipeline runner tests
