@@ -272,7 +272,8 @@ class PipelineRunner:
         final_output = {
             "metadata":           normalized_payload.get("metadata", {}),
             "master_probability": master_result,
-            "engine_outputs":     engine_outputs
+            "engine_outputs":     engine_outputs,
+            "target_date_utc":    target_date_utc.isoformat() if target_date_utc else None
         }
         print("PipelineRunner Final Output Score:", final_output["master_probability"]["final_score"])
         return final_output
@@ -457,9 +458,11 @@ class PipelineRunner:
                 print(f"Formula evaluation error for {formula_key}: {e}")
                 traceback.print_exc()
 
-        # Extract target date from the pipeline metadata using the unified architecture
-        metadata = pipeline_output.get("metadata", {})
-        target_date_utc = self._resolve_target_date_utc(metadata)
+        # Read the canonical target_date_utc already resolved and written by process().
+        # Do NOT re-resolve from raw metadata — that would create a second resolution
+        # path that diverges when consultation_date is absent (Single Source of Truth).
+        target_date_iso = pipeline_output.get("target_date_utc")
+        target_date_utc = datetime.datetime.fromisoformat(target_date_iso) if target_date_iso else None
 
         return self.question_engine.compose_response(
             question=question_id if is_question_id else question_text,

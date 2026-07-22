@@ -90,12 +90,12 @@ class DisplayFormatter:
             return 0
 
     @staticmethod
-    def _calculate_remaining_dasha(ends_on_raw: str) -> str:
+    def _calculate_remaining_dasha(ends_on_raw: str, target_date_utc: datetime = None) -> str:
         remaining = "Unknown"
         if ends_on_raw != "Unknown":
             try:
                 end_dt = datetime.strptime(ends_on_raw, "%Y-%m-%d")
-                now_dt = datetime.now()
+                now_dt = target_date_utc.replace(tzinfo=None) if target_date_utc else datetime.now()
                 days_left = (end_dt - now_dt).days
                 if days_left > 30:
                     remaining = f"{days_left // 30} months"
@@ -116,7 +116,8 @@ class DisplayFormatter:
         lifetime_projection: List[Dict[str, Any]],
         final_state: str,
         isolated_signals: Dict[str, Any],
-        client_metadata: Dict[str, Any] = None
+        client_metadata: Dict[str, Any] = None,
+        target_date_utc: datetime = None
     ) -> StructuredQuestionResult:
         
         client_metadata = client_metadata or {}
@@ -143,7 +144,8 @@ class DisplayFormatter:
         
         ends_on_raw = synthesis.get("pd_end", "Unknown")
         ends_on = DisplayFormatter.format_date(ends_on_raw)
-        remaining_duration = DisplayFormatter._calculate_remaining_dasha(ends_on_raw)
+        # target_date_utc is received as an explicit parameter — no clock dependency.
+        remaining_duration = DisplayFormatter._calculate_remaining_dasha(ends_on_raw, target_date_utc)
 
         current_dasha = QCurrentDashaStatusDisplay(
             current_md=current_md,
@@ -325,7 +327,9 @@ class DisplayFormatter:
         current_pd = synthesis.get("active_pd", "Unknown").capitalize()
         
         ends_on_raw = synthesis.get("pd_end", "Unknown")
-        remaining = DisplayFormatter._calculate_remaining_dasha(ends_on_raw)
+        target_date_iso = pipeline_data.get("target_date_utc")
+        target_date_utc = datetime.fromisoformat(target_date_iso) if target_date_iso else None
+        remaining = DisplayFormatter._calculate_remaining_dasha(ends_on_raw, target_date_utc)
         
         trend = "Stable"
         if overall_score >= 70: trend = "Improving"
@@ -461,7 +465,9 @@ class DisplayFormatter:
         current_ad = synthesis.get("active_ad", "Unknown").capitalize()
         current_pd = synthesis.get("active_pd", "Unknown").capitalize()
         ends_on_raw = synthesis.get("pd_end", "Unknown")
-        remaining = DisplayFormatter._calculate_remaining_dasha(ends_on_raw)
+        target_date_iso = pipeline_data.get("target_date_utc")
+        target_date_utc = datetime.fromisoformat(target_date_iso) if target_date_iso else None
+        remaining = DisplayFormatter._calculate_remaining_dasha(ends_on_raw, target_date_utc)
         
         md_str = synthesis.get("md_strength", 50.0)
         ad_str = synthesis.get("ad_strength", 50.0)

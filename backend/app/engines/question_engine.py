@@ -189,9 +189,13 @@ class QuestionEngine:
                 answer_text = " ".join(lines)
 
             # Step 4: Extract Top Future Opportunities (from MasterProbabilityEngine projection)
-            import datetime
+            # target_date_utc MUST be provided by the orchestrator (PipelineRunner).
+            # Falling back to the system clock is a determinism violation — fail loudly.
             if target_date_utc is None:
-                target_date_utc = datetime.datetime.now(datetime.timezone.utc)
+                raise ValueError(
+                    "QuestionEngine.compose_response requires an explicit target_date_utc. "
+                    "Received None. The orchestrator must pass the canonical date resolved by process()."
+                )
             now = target_date_utc.strftime('%Y-%m-%d')
 
             lifetime_projection = final_probability.get("lifetime_projection", [])

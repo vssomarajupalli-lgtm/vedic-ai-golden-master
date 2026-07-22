@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import HTMLResponse, Response
 from typing import Any, Optional, Dict
+from datetime import datetime
 import traceback
 
 from app.schemas.chart import ChartProcessRequest
@@ -55,6 +56,10 @@ def generate_report(
                 isolated_signals = SignalTranslator.translate(f.required_signals, engine_outputs_dict)
                 eval_res = FormulaEvaluator.evaluate(f, engine_outputs_dict, isolated_signals)
                 
+                # Extract canonical target_date_utc written by process() — no clock dependency.
+                _tdi = outputs.get("target_date_utc")
+                _tdu = datetime.fromisoformat(_tdi) if _tdi else None
+                
                 fmt = DisplayFormatter.format_question_result(
                     question_title=title,
                     domain=domain,
@@ -63,7 +68,8 @@ def generate_report(
                     lifetime_projection=outputs.get("master_probability", {}).get("lifetime_projection", []),
                     final_state=eval_res.final_state,
                     isolated_signals=eval_res.isolated_signals,
-                    client_metadata=request.machine_index.get("native_info", {}) if isinstance(request.machine_index, dict) else {}
+                    client_metadata=request.machine_index.get("native_info", {}) if isinstance(request.machine_index, dict) else {},
+                    target_date_utc=_tdu
                 )
                 q_responses.append(fmt.dict())
             except Exception as e:

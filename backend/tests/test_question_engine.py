@@ -189,6 +189,7 @@ class TestQuestionEngineAnswer(unittest.TestCase):
         dasha_data     = dasha_data     or {}
 
         return {
+            "target_date_utc": "2026-01-15T00:00:00+00:00",
             "engine_outputs": {
                 "natal_promise": {
                     domain: {"score": score, "promise": "MODERATE",
@@ -397,6 +398,7 @@ class TestQuestionEngineIntegration(unittest.TestCase):
     def _minimal_pipeline_output(self, natal_marriage=50):
         """Produce a pipeline-shaped output dict."""
         return {
+            "target_date_utc": "2026-01-15T00:00:00+00:00",
             "engine_outputs": {
                 "natal_promise": {
                     "marriage": {

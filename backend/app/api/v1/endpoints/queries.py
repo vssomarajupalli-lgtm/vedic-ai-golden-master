@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from typing import Any
+from datetime import datetime
 import traceback
 
 from app.schemas.question import QuestionRequest, QuestionResponse
@@ -133,6 +134,10 @@ def ask_structured_question(request: QuestionRequest) -> Any:
         
         client_metadata = request.engine_outputs.get("metadata", {})
         
+        # Extract canonical target_date_utc written by process() — no clock dependency.
+        _tdi = request.engine_outputs.get("target_date_utc")
+        _tdu = datetime.fromisoformat(_tdi) if _tdi else None
+        
         formatted_result = DisplayFormatter.format_question_result(
             question_title=question_title,
             domain=domain,
@@ -141,7 +146,8 @@ def ask_structured_question(request: QuestionRequest) -> Any:
             lifetime_projection=request.engine_outputs.get("master_probability", {}).get("lifetime_projection", []),
             final_state=evaluation_result.final_state,
             isolated_signals=evaluation_result.isolated_signals,
-            client_metadata=client_metadata
+            client_metadata=client_metadata,
+            target_date_utc=_tdu
         )
         
         try:

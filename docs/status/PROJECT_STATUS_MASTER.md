@@ -194,11 +194,11 @@ Yoga remains a descriptive information layer.
 
 * **GM-001 through GM-005:** COMPLETE & FROZEN
 * **GM-006:** COMPLETE
-* **GM-007 (Temporal Determinism - Completed for implemented scope):**
+* **GM-007 (Temporal Determinism): ✅ ALL ITEMS COMPLETE**
+  * R-1A (Display Formatter Deterministic Date Architecture): ✅ COMPLETE — NameError resolved, `datetime.now()` fallback removed, canonical `target_date_utc` propagation enforced end-to-end across `format_question_result`, `reports.py`, and `queries.py`.
   * R-1B (Question Engine Deterministic Propagation): ✅ COMPLETE
   * R-1C (JsonNormalizer Consultation Date Preservation): ✅ COMPLETE
 * **Backlog Items:**
-  * R-1A (Display Formatter Date Architecture): PENDING - Display Formatter still contains the legacy datetime.now() dependency and requires a future implementation.
   * BKL-001A (Calibration Discovery): ✅ COMPLETE
   * BKL-001B (Calibration Control Center): ✅ COMPLETE (49089cc)
   * BKL-002 (Gochara Integration Verification): ✅ COMPLETE (3664e81)
@@ -212,6 +212,7 @@ Yoga remains a descriptive information layer.
   * BKL-008 (End-to-End Product Completion): PENDING
   * BKL-009 (Release Candidate Build): PENDING
   * BKL-010 (Feature Freeze / Golden Master): PENDING
+
 
 ## Formula Calibration Framework (Architectural Extension)
 
