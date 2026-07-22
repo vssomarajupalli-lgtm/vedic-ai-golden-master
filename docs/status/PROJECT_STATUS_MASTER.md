@@ -206,12 +206,12 @@ Yoga remains a descriptive information layer.
   * BKL-004 (Complete Question Engine): ✅ COMPLETE (b2f8bc1)
   * BKL-005A (Pipeline & Formula Integration): ✅ COMPLETE (89fb92b)
   * BKL-005B (Formula Calibration Population): ✅ COMPLETE (f967bda)
-  * **BKL-005C (System Integration Validation): NEXT**
-  * BKL-006 (Desktop Runtime Integration): PENDING
-  * BKL-007 (Server Runtime Integration): PENDING
-  * BKL-008 (End-to-End Product Completion): PENDING
-  * BKL-009 (Release Candidate Build): PENDING
-  * BKL-010 (Feature Freeze / Golden Master): PENDING
+  * BKL-005C (System Integration Validation): ✅ COMPLETE (Jul 12, 2026 - Integration tests exist and pass `test_formula_pipeline_integration.py`)
+  * BKL-006 (Desktop Runtime Integration): ✅ COMPLETE (Jul 12, 2026 - Tauri sidecar implemented and packaged)
+  * BKL-007 (Server Runtime Integration): ✅ COMPLETE (Jul 16, 2026 - Docker, Nginx, Compose deployed)
+  * BKL-008 (End-to-End Product Completion): ✅ COMPLETE (Jul 17, 2026 - Tag `gm-008-bkl008c2-client-management-ui` verified)
+  * BKL-009 (Release Candidate Build): ✅ COMPLETE (Jul 22, 2026 - All RC-1 deliverables generated and packaging successful)
+  * **BKL-010 (Feature Freeze / Golden Master): NEXT**
 
 
 ## Formula Calibration Framework (Architectural Extension)
