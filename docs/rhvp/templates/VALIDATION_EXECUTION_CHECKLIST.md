@@ -5,7 +5,7 @@
 
 ## Execution Sequence
 1. [ ] **Load Version 1.0:** Ensure the environment is strictly running Golden Master v1.0.
-2. [ ] **Run deterministic pipeline:** Feed the `canonical.json` into the engine.
+2. [ ] **Run deterministic pipeline:** Feed the centralized `canonical_content.json` (referenced in `CASE_METADATA.md`) into the engine.
 3. [ ] **Generate consultation report:** Extract the `top_opportunities` and complete deterministic output.
 4. [ ] **Compare with Ground Truth:** Cross-reference the engine's output against the verified `ground_truth.md`.
 5. [ ] **Record observations:** Document all findings (successes and variances) in `validation_notes.md` and the Validation Register.

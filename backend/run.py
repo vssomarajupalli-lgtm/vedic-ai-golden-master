@@ -17,6 +17,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from app.parsers.horoscope_source_loader import HoroscopeSourceLoader
 from app.pipeline_runner import PipelineRunner
+from app.reports.consultation_summary_generator import ConsultationSummaryGenerator
 
 # ---------------------------------------------------------------------------
 # Default file paths (relative to backend/)
@@ -67,6 +68,16 @@ def main():
     metadata = output.get("metadata", {})
     engines  = output.get("engine_outputs", {})
     master   = output.get("master_probability", {})
+
+    # Generate Consultation Summary (Version 1.1 Enhancement)
+    try:
+        print("\n[3] Generating Consultation Summary (APSE)...")
+        csg = ConsultationSummaryGenerator()
+        summary_path = os.path.join(os.path.dirname(__file__), "../outputs/consultation_summary.html")
+        csg.generate_html(output, output_path=summary_path)
+        print(f"    -> Saved to: {os.path.normpath(summary_path)}")
+    except Exception as e:
+        print(f"    -> Error generating Consultation Summary: {e}")
 
     print(f"\n{'=' * 64}")
     print(f"  NATIVE: {metadata.get('name', 'Unknown').upper()}")

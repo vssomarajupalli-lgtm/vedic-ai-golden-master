@@ -4,8 +4,7 @@
 **Case ID:** `CASE-###`
 
 ## Prerequisites
-- [ ] Horoscope available (`horoscope.pdf`)
-- [ ] Canonical JSON generated (`canonical.json`)
+- [ ] Centralized Canonical Reference specified (`CASE_METADATA.md` points to existing HoroscopeCleaner outputs)
 - [ ] Ground Truth completed (`ground_truth.md`)
 - [ ] Important dates verified (Double-checked against reliable sources)
 - [ ] Client identity anonymized (All PII removed from JSON and PDF)
