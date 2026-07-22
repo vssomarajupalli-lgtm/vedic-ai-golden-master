@@ -9,7 +9,8 @@ from pathlib import Path
 from app.core.logging import log
 
 
-DATA_DIR = Path(__file__).resolve().parent.parent / "database"
+from app.core.paths import get_app_data_dir
+DATA_DIR = get_app_data_dir()
 DATA_FILE = DATA_DIR / "knowledge_graph.json"
 
 _lock = threading.Lock()

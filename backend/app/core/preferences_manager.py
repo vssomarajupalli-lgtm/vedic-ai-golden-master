@@ -18,8 +18,8 @@ class PreferencesManager:
         
         if file_path is None:
             # Default to a local JSON file in the database directory
-            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-            file_path = os.path.join(base_dir, 'database', 'user_preferences.json')
+            from app.core.paths import get_app_data_dir
+            file_path = str(get_app_data_dir() / 'user_preferences.json')
             
         self.file_path = file_path
         
