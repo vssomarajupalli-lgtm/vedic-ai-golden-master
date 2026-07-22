@@ -217,6 +217,8 @@ Yoga remains a descriptive information layer.
 
 **Project Status: Golden Master Version 1.0 CLOSED**
 
+*(Note: The Real Horoscope Validation Program (RHVP) is a distinct, new operational program and is NOT a continuation of Golden Master engineering milestones. All engineering remains frozen.)*
+
 
 ## Formula Calibration Framework (Architectural Extension)
 
