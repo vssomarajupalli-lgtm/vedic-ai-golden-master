@@ -1,9 +1,10 @@
 # Project Status Master
 
-**Last Updated:** 2026-07-11 (BKL-005B Complete Formula Calibration Population)
+**Last Updated:** 2026-07-22 (GM-007 Phase 2 Deterministic Temporal Propagation)
 
 ## Executive Summary
 The Vedic AI System has successfully completed:
+- **GM-007 Phase 2 (R-1B & R-1C)** — Unified deterministic date propagation across PipelineRunner and JsonNormalizer. Canonical consultation_date now flows through Raw Input → JsonNormalizer → PipelineRunner → QuestionEngine → top_opportunities without dependency on server time.
 - **BKL-005B: Formula Calibration Population** — 43/43 formulas calibrated (11 base + 32 child)
 - **BKL-005A: Pipeline & Formula Integration** — FormulaEvaluator wired into answer_question()
 - **BKL-004: Complete Question Engine** — 83 questions across 13 domains, all 43 formulas reused
@@ -192,7 +193,12 @@ Yoga remains a descriptive information layer.
 ## Phase Status
 
 * **GM-001 through GM-005:** COMPLETE & FROZEN
-* **GM-006 (Active):**
+* **GM-006:** COMPLETE
+* **GM-007 (Temporal Determinism - Completed for implemented scope):**
+  * R-1B (Question Engine Deterministic Propagation): ✅ COMPLETE
+  * R-1C (JsonNormalizer Consultation Date Preservation): ✅ COMPLETE
+* **Backlog Items:**
+  * R-1A (Display Formatter Date Architecture): PENDING - Display Formatter still contains the legacy datetime.now() dependency and requires a future implementation.
   * BKL-001A (Calibration Discovery): ✅ COMPLETE
   * BKL-001B (Calibration Control Center): ✅ COMPLETE (49089cc)
   * BKL-002 (Gochara Integration Verification): ✅ COMPLETE (3664e81)
@@ -275,6 +281,21 @@ Yoga remains a descriptive information layer.
 * **Formula Registry:** 43 unique formulas, 11 base + 32 child
 * **Question Registry:** 83 questions, all mapped to calibrated formulas
 * **Calibration Profiles:** v1.0_default (IMMUTABLE), v1.0_current (mutable), v1.0_frozen (production)
+
+## GM-007 Phase 2 Engineering Handover
+
+**Root Cause Discovered:** During the independent audit, it was discovered that `JsonNormalizer._normalize_metadata()` was actively dropping the canonical `consultation_date`, which starved `PipelineRunner._resolve_target_date_utc()` of the temporal truth and forced an unconditional fallback to the server's physical system clock.
+
+**Verification Process:** A full execution trace confirmed the vulnerability. Verified that restoring the key in `JsonNormalizer` allowed proper propagation to `PipelineRunner` and subsequently to `QuestionEngine.compose_response()`.
+
+**Architecture Decisions:** 
+- Unified date extraction into a single `_resolve_target_date_utc()` helper.
+- `JsonNormalizer` now acts as a transparent conduit, preserving `consultation_date`.
+- `QuestionEngine` is dynamically injected with `target_date_utc`, making `top_opportunities` projections mathematically deterministic and completely independent of the server's execution time.
+
+**Test Results:** 654 tests collected, 653 passed, 0 failed, 1 skipped. No architectural regressions.
+
+**Final Approval & Push Confirmation:** The independent architectural audit issued an APPROVED FOR PUSH verdict. The implementation has been successfully pushed to the remote `main` branch across commits `2aad681a` and `d9d62bc5`. The repository state remains completely clean.
 
 ## Next Immediate Goal
 
