@@ -38,8 +38,8 @@ export default function ConsultationLibrary() {
   
   const allTags = useMemo(() => getAllTags(), [consultations, getAllTags]);
   
-  const filteredConsultations = useConsultationStore((s: { getFilteredConsultations: () => Consultation[] }) => s.getFilteredConsultations());
-  
+  const getFilteredConsultations = useConsultationStore((s: { getFilteredConsultations: () => Consultation[] }) => s.getFilteredConsultations);
+  const filteredConsultations = getFilteredConsultations();
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
     setLocalFilters(prev => ({ ...prev, text }));

@@ -130,6 +130,19 @@ class DisplayFormatter:
                 contribution=val
             ))
             
+        # Manually add bav_modifier if present
+        if "bav_modifier" in engine_data:
+            try:
+                bav_val = float(engine_data["bav_modifier"])
+                factors.append(CalculationFactor(
+                    factor_name="bav_modifier",
+                    raw_value=bav_val,
+                    weight=1.0,
+                    contribution=bav_val
+                ))
+            except (ValueError, TypeError):
+                pass
+            
         return DeterministicExplanation(
             engine_name=metadata.get("engine", "Unknown"),
             engine_version=metadata.get("version", "1.0"),
@@ -373,14 +386,23 @@ class DisplayFormatter:
         elif overall_score < 40: trend = "Challenging"
 
         planets = engine_outputs.get("planets", {})
-        sorted_planets = sorted([(k, v.get("score", 50)) for k, v in planets.items() if k not in ["ascendant", "lagna"]], key=lambda x: x[1], reverse=True)
+        sorted_planets = sorted([(k, v.get("final_score", 50)) for k, v in planets.items() if k not in ["ascendant", "lagna"]], key=lambda x: x[1], reverse=True)
         best_planet = sorted_planets[0][0].capitalize() if sorted_planets else "Unknown"
         weak_planet = sorted_planets[-1][0].capitalize() if sorted_planets else "Unknown"
 
         houses = engine_outputs.get("houses", {})
-        sorted_houses = sorted([(k, v.get("score", 50)) for k, v in houses.items() if k.endswith("_house")], key=lambda x: x[1], reverse=True)
-        best_house = sorted_houses[0][0].replace("_house", "").capitalize() if sorted_houses else "Unknown"
-        weak_house = sorted_houses[-1][0].replace("_house", "").capitalize() if sorted_houses else "Unknown"
+        sorted_houses = sorted([(k, v.get("final_score", 50)) for k, v in houses.items() if str(k).isdigit()], key=lambda x: x[1], reverse=True)
+        best_house = f"House {sorted_houses[0][0]}" if sorted_houses else "Unknown"
+        weak_house = f"House {sorted_houses[-1][0]}" if sorted_houses else "Unknown"
+        
+        yogas = engine_outputs.get("yogas", {})
+        present_yogas = []
+        if isinstance(yogas, dict):
+            present_yogas.extend(yogas.get("universal_yogas", []))
+            for i in range(1, 13):
+                present_yogas.extend(yogas.get(f"house_{i}_yogas", []))
+        # Deduplicate while preserving order
+        unique_yogas = list(dict.fromkeys(present_yogas))
 
         return GlobalExecutiveSummaryDisplay(
             overall_score=overall_score,
@@ -398,6 +420,7 @@ class DisplayFormatter:
             best_house=best_house,
             weak_house=weak_house,
             upcoming_major_turning_point="End of " + current_md,
+            present_yogas=unique_yogas,
             explanation=DisplayFormatter._build_explanation(pipeline_data.get("master_probability", {}), overall_score, "Executive Synthesis")
         )
 
@@ -412,7 +435,15 @@ class DisplayFormatter:
         promise = engine_outputs.get("natal_promise", {})
         synthesis = engine_outputs.get("dashas", {}).get("synthesis", {})
         timeline_raw = pipeline_data.get("master_probability", {}).get("lifetime_projection", [])
-        yogas = engine_outputs.get("yogas", {}).get("active_yogas", [])
+        
+        yogas_dict = engine_outputs.get("yogas", {})
+        yogas = []
+        if isinstance(yogas_dict, dict):
+            yogas.extend(yogas_dict.get("universal_yogas", []))
+            for i in range(1, 13):
+                yogas.extend(yogas_dict.get(f"house_{i}_yogas", []))
+        # Remove duplicates preserving order
+        yogas = list(dict.fromkeys(yogas))
 
         # House Intelligence
         house_domain_map = {
@@ -423,13 +454,13 @@ class DisplayFormatter:
         
         house_list = []
         for h_key, h_data in houses.items():
-            if not h_key.endswith("_house"): continue
+            if not h_key.isdigit(): continue
             try:
-                num = int(h_key.split("_")[0].replace("th","").replace("st","").replace("nd","").replace("rd",""))
+                num = int(h_key)
             except:
                 num = 0
             
-            h_score = h_data.get("score", 50)
+            h_score = h_data.get("final_score", 50)
             h_grade = DisplayFormatter._map_display_grade(h_data.get("strength_category", "MODERATE"))
             
             domain_name = house_domain_map.get(num, f"House {num}")
@@ -448,7 +479,7 @@ class DisplayFormatter:
         planet_list = []
         for p_key, p_data in planets.items():
             if p_key in ["ascendant", "lagna"]: continue
-            p_score = p_data.get("score", 50)
+            p_score = p_data.get("final_score", 50)
             p_grade = DisplayFormatter._map_display_grade(p_data.get("strength_category", "MODERATE"))
             
             planet_list.append(PlanetIntelligenceDisplay(
@@ -475,8 +506,8 @@ class DisplayFormatter:
                     domain_name=d_key.replace("_", " ").title(),
                     promise_percentage=d_score,
                     grade=DisplayFormatter.format_percentage(d_score, d_grade),
-                    strengths=[],
-                    weaknesses=[],
+                    strengths=[d_data.get("karaka", "")] if d_data.get("karaka") else [],
+                    weaknesses=d_data.get("afflictions", []),
                     supporting_houses=[],
                     supporting_planets=[],
                     supporting_yogas=[],
@@ -490,16 +521,14 @@ class DisplayFormatter:
 
         # Yogas
         yoga_list = []
-        for y in yogas:
-            y_name = y.get("yoga_name", "Unknown Yoga")
-            y_str = y.get("strength", 50)
+        for y_name in yogas:
             yoga_list.append(YogaIntelligenceDisplay(
                 yoga_name=y_name,
                 status="Present",
-                strength=int(y_str),
-                meaning=y.get("meaning", f"Enhances {y_name}"),
-                supporting_area=y.get("supporting_area", "General"),
-                explanation=DisplayFormatter._build_explanation(y, y_str, "Yoga Strength Calculation")
+                strength=0,
+                meaning=f"Enhances {y_name}",
+                supporting_area="General",
+                explanation=DisplayFormatter._build_explanation({}, 0, "Yoga Detection Only")
             ))
 
         # Current Dasha Status
@@ -617,22 +646,40 @@ class DisplayFormatter:
         metadata = transit_data.get("metadata", {})
         
         mandali_data = transit_data.get("mandali", {})
-        mandali = None
-        if mandali_data:
-            mandali = MandaliReport(
-                current_mandali=mandali_data.get("current_mandali", ""),
-                reference_moon=mandali_data.get("reference_moon", ""),
-                mandali_number=mandali_data.get("mandali_number", 0),
-                mandali_boundaries=mandali_data.get("mandali_boundaries", ""),
-                activated_zones=mandali_data.get("activated_zones", []),
-                activated_bhavas=mandali_data.get("activated_bhavas", []),
-                activated_planets=mandali_data.get("activated_planets", []),
-                explanation=DisplayFormatter._build_explanation(mandali_data, mandali_data.get("score", 0), "Mandali evaluation based on Moon position")
-            )
+        
+        # Calculate Sade Sati from transit_houses (relative Mandali)
+        t_houses = transit_data.get("transit_houses", {})
+        sat_house = t_houses.get("saturn", 0)
+        sade_sati_status = "Not Active"
+        sade_sati_phase = "N/A"
+        
+        if sat_house == 12:
+            sade_sati_status = "Active"
+            sade_sati_phase = "Rising (Mandali 12)"
+        elif sat_house == 1:
+            sade_sati_status = "Active"
+            sade_sati_phase = "Peak (Mandali 1)"
+        elif sat_house == 2:
+            sade_sati_status = "Active"
+            sade_sati_phase = "Setting (Mandali 2)"
+
+        # Mandali might not be fully populated, but we can at least provide Sade Sati
+        mandali = MandaliReport(
+            current_mandali=mandali_data.get("current_mandali", ""),
+            reference_moon=mandali_data.get("reference_moon", ""),
+            mandali_number=mandali_data.get("mandali_number", 0) or sat_house,
+            mandali_boundaries=mandali_data.get("mandali_boundaries", ""),
+            sade_sati_status=sade_sati_status,
+            sade_sati_phase=sade_sati_phase,
+            activated_zones=mandali_data.get("activated_zones", []),
+            activated_bhavas=mandali_data.get("activated_bhavas", []),
+            activated_planets=mandali_data.get("activated_planets", []),
+            explanation=DisplayFormatter._build_explanation(mandali_data, mandali_data.get("score", 0), "Mandali evaluation based on Moon position")
+        )
             
         explanation = DisplayFormatter._build_explanation(
             transit_data, 
-            transit_data.get("final_score", 0), 
+            transit_data.get("activation_score", 0), 
             "Gochara Activation = Primary*0.5 + Support*0.3 + BAV*0.2"
         )
         
@@ -640,7 +687,7 @@ class DisplayFormatter:
             current_transit_date=metadata.get("target_date", ""),
             transit_planets=transit_data.get("activated_planets", []),
             transit_houses=transit_data.get("activated_houses", []),
-            transit_strength=int(transit_data.get("final_score", 0)),
+            transit_strength=int(transit_data.get("activation_score", 0)),
             activated_houses=transit_data.get("activated_houses", []),
             activated_planets=transit_data.get("activated_planets", []),
             activated_yogas=transit_data.get("activated_yogas", []),
@@ -653,9 +700,10 @@ class DisplayFormatter:
     def format_question_responses(questions: List[Dict[str, Any]], pipeline_data: Dict[str, Any]) -> List[QuestionEngineReport]:
         reports = []
         for q in questions:
+            final_prob = q.get("probability", {}).get("score", 0)
             explanation = DisplayFormatter._build_explanation(
                 q, 
-                q.get("final_probability", 0), 
+                final_prob, 
                 "Probability = (Natal*0.6) + (Dasha*0.4) + Gochara Modifiers"
             )
             
@@ -669,7 +717,7 @@ class DisplayFormatter:
                 question_id=q.get("id", "Unknown"),
                 question=q.get("question", "Unknown"),
                 domain=q.get("domain", "Unknown"),
-                final_probability=int(q.get("final_probability", 0)),
+                final_probability=int(final_prob),
                 confidence=confidence_val,
                 explanation=explanation
             ))

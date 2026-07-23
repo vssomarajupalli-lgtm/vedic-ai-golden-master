@@ -12,6 +12,7 @@ import type {
 } from '../types/consultation';
 import type { Client } from '../types/client';
 import { createConsultation, updateConsultation, markConsultationSaved, markConsultationOpened } from '../types/consultation';
+import { idbStorage } from './idbStorage';
 
 const STORAGE_KEY = 'vedic-ai-consultations';
 const MAX_CONSULTATIONS = 500;
@@ -406,7 +407,7 @@ export const useConsultationStore = create<ConsultationState>()(
     }),
     {
       name: STORAGE_KEY,
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => idbStorage),
       partialize: (state) => ({
         consultations: state.consultations,
         clients: state.clients,

@@ -41,3 +41,16 @@
 </div>
 {% endif %}
 {% endmacro %}
+
+{% macro render_status_dot(score_or_grade) %}
+{% set val = score_or_grade|string|lower %}
+{% if val in ['strong', 'good', 'excellent', 'favorable'] or (val|int(-1) >= 60 and val|int(-1) != -1) %}
+<span class="status-dot status-strong" title="Strong"></span>
+{% elif val in ['moderate', 'average', 'neutral', 'informational'] or (val|int(-1) >= 40 and val|int(-1) != -1) %}
+<span class="status-dot status-moderate" title="Moderate"></span>
+{% elif val in ['weak', 'too weak', 'bad', 'poor', 'unfavorable'] or (val|int(-1) >= 0 and val|int(-1) != -1) %}
+<span class="status-dot status-weak" title="Weak"></span>
+{% else %}
+<span class="status-dot status-info" title="Info"></span>
+{% endif %}
+{% endmacro %}

@@ -120,8 +120,6 @@ export interface ConsultationAudit {
   lastModifiedAt?: string;
 }
 
-export type ConsultationStatus = 'active' | 'archived' | 'recycle_bin' | 'deleted';
-
 // ============================================
 // REPOSITORY HOOK
 // ============================================

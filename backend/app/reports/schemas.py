@@ -55,6 +55,7 @@ class GlobalExecutiveSummaryDisplay(BaseModel):
     best_house: str
     weak_house: str
     upcoming_major_turning_point: str
+    present_yogas: List[str] = Field(default_factory=list)
     explanation: DeterministicExplanation = Field(default_factory=DeterministicExplanation)
 
 # --- SECTION B: Lifetime Horoscope Snapshot ---
@@ -168,6 +169,8 @@ class MandaliReport(BaseModel):
     reference_moon: str = ""
     mandali_number: int = 0
     mandali_boundaries: str = ""
+    sade_sati_status: str = "Not Active"
+    sade_sati_phase: str = "N/A"
     activated_zones: List[str] = Field(default_factory=list)
     activated_bhavas: List[int] = Field(default_factory=list)
     activated_planets: List[str] = Field(default_factory=list)

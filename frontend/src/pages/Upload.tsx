@@ -9,11 +9,20 @@ export default function Upload() {
   const navigate = useNavigate();
   const location = useLocation();
   const { setUploads, setResults } = useChartStore();
-  const { createConsultation, updateConsultation } = useConsultationStore();
+  const { createConsultation, updateConsultation, getActiveConsultation } = useConsultationStore();
   
-  // Check if we're editing an existing consultation
-  const consultationId = (location.state as any)?.consultationId;
-  const existingConsultation = consultationId ? useConsultationStore.getState().consultations.find(c => c.id === consultationId) : null;
+  // Check if we're editing an existing consultation or continuing the active session
+  const locationState = location.state as any;
+  const isNewExplicit = locationState?.isNew === true;
+  const activeSession = getActiveConsultation();
+  
+  const existingConsultation = isNewExplicit ? null : (
+    locationState?.consultationId 
+      ? useConsultationStore.getState().consultations.find(c => c.id === locationState.consultationId) 
+      : activeSession
+  );
+  
+  const consultationId = existingConsultation?.id;
   
   const [canonical, setCanonical] = useState<any>(existingConsultation?.canonicalContent || null);
   const [machine, setMachine] = useState<any>(existingConsultation?.machineIndex || null);

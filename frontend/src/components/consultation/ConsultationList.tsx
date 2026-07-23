@@ -83,7 +83,8 @@ export const ConsultationList: React.FC<{
   
   const allTags = getAllTags();
   
-  const filteredConsultations = useConsultationStore(s => s.getFilteredConsultations());
+  const getFilteredConsultations = useConsultationStore(s => s.getFilteredConsultations);
+  const filteredConsultations = getFilteredConsultations();
   
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;

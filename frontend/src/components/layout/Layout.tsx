@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useChartStore } from '../../store/useChartStore';
 import { useConsultationStore } from '../../store/useConsultationStore';
@@ -8,6 +9,26 @@ export default function Layout() {
   const location = useLocation();
   const hasData = useChartStore((state) => state.report !== null);
   const hasConsultations = useConsultationStore((state) => state.consultations.length > 0);
+  
+  const selectedConsultationId = useConsultationStore(s => s.selectedConsultationId);
+  const getConsultation = useConsultationStore(s => s.getConsultation);
+  const setUploads = useChartStore(s => s.setUploads);
+  const setResults = useChartStore(s => s.setResults);
+  const clearState = useChartStore(s => s.clearState);
+
+  useEffect(() => {
+    if (selectedConsultationId) {
+      const active = getConsultation(selectedConsultationId);
+      if (active) {
+        setUploads(active.canonicalContent, active.machineIndex);
+        if (active.rawOutputs && active.report) {
+          setResults(active.rawOutputs, active.report);
+        }
+      }
+    } else {
+      clearState();
+    }
+  }, [selectedConsultationId, getConsultation, setUploads, setResults, clearState]);
 
   const navLinks = [
     { name: 'Dashboard', path: '/', icon: Home, show: true },

@@ -37,6 +37,9 @@ class PDFGenerator:
         # 1. Generate the raw HTML string
         html_content = self.html_generator.generate(report_data)
         
+        # 1.5. PDF Parity: Forcibly expand all <details> tags so the Shadow DOM renders them
+        html_content = html_content.replace("<details", "<details open")
+        
         # Try WeasyPrint first (best quality for printing)
         if WEASYPRINT_AVAILABLE:
             try:

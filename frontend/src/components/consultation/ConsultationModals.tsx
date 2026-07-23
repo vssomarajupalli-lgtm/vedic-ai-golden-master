@@ -477,10 +477,10 @@ export const ConsultationEditModal: React.FC<ConsultationEditModalProps> = ({
   useEffect(() => {
     if (consultation) {
       setFormData({
-        consultationTitle: consultation.metadata.consultationTitle,
-        tags: [...consultation.metadata.tags],
-        status: consultation.status,
-        isFavorite: consultation.metadata.isFavorite,
+        consultationTitle: consultation.name || '',
+        tags: [...(consultation.tags || [])],
+        status: consultation.status || 'draft',
+        isFavorite: consultation.isFavorite || false,
       });
     }
   }, [consultation]);
@@ -587,10 +587,9 @@ export const ConsultationEditModal: React.FC<ConsultationEditModalProps> = ({
           <div className="border-t border-gray-200 pt-4">
             <h3 className="text-sm font-medium text-gray-700 mb-2">Immutable Fields (Reference Only)</h3>
             <div className="space-y-2 text-sm">
-              <div className="bg-gray-50 p-2 rounded"><span className="text-gray-500">Client:</span> <span className="font-medium text-gray-900 ml-2">{consultation.metadata.clientName}</span></div>
-              <div className="bg-gray-50 p-2 rounded"><span className="text-gray-500">Birth Hash:</span> <span className="font-mono text-gray-900 ml-2 break-all">{consultation.metadata.birthDataHash}</span></div>
+              <div className="bg-gray-50 p-2 rounded"><span className="text-gray-500">Client:</span> <span className="font-medium text-gray-900 ml-2">{consultation.client?.name || '—'}</span></div>
+              <div className="bg-gray-50 p-2 rounded"><span className="text-gray-500">Birth Hash:</span> <span className="font-mono text-gray-900 ml-2 break-all">{consultation.canonicalContent?.birthDataHash || 'N/A'}</span></div>
               <div className="bg-gray-50 p-2 rounded"><span className="text-gray-500">ID:</span> <span className="font-mono text-gray-900 ml-2 break-all">{consultation.id}</span></div>
-              <div className="bg-gray-50 p-2 rounded"><span className="text-gray-500">Version:</span> <span className="font-medium text-gray-900 ml-2">{consultation.version}</span></div>
             </div>
           </div>
         </div>
@@ -638,13 +637,10 @@ export const DuplicateDetectionDialog: React.FC<DuplicateDetectionDialogProps> =
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
             <p className="text-sm text-amber-800 mb-3">A consultation with identical deterministic configuration already exists:</p>
             <div className="space-y-1 text-sm">
-              <div><span className="font-medium text-gray-700">Title:</span> <span className="text-gray-900">{existingConsultation.metadata.consultationTitle}</span></div>
-              <div><span className="font-medium text-gray-700">Client:</span> <span className="text-gray-900">{existingConsultation.metadata.clientName}</span></div>
+              <div><span className="font-medium text-gray-700">Title:</span> <span className="text-gray-900">{existingConsultation.name}</span></div>
+              <div><span className="font-medium text-gray-700">Client:</span> <span className="text-gray-900">{existingConsultation.client?.name || '—'}</span></div>
               <div><span className="font-medium text-gray-700">Created:</span> <span className="text-gray-900">{new Date(existingConsultation.createdAt).toLocaleDateString()}</span></div>
-              <div><span className="font-medium text-gray-700">Version:</span> <span className="text-gray-900">{existingConsultation.version}</span></div>
-              <div><span className="font-medium text-gray-700">Birth Hash:</span> <span className="font-mono text-gray-900 break-all">{existingConsultation.metadata.birthDataHash}</span></div>
-              <div><span className="font-medium text-gray-700">Formula:</span> <span className="text-gray-900">{existingConsultation.snapshots[0]?.formulaRegistryVersion}</span></div>
-              <div><span className="font-medium text-gray-700">Calibration:</span> <span className="text-gray-900">{existingConsultation.snapshots[0]?.calibrationProfileVersion}</span></div>
+              <div><span className="font-medium text-gray-700">Birth Hash:</span> <span className="font-mono text-gray-900 break-all">{existingConsultation.canonicalContent?.birthDataHash || 'N/A'}</span></div>
             </div>
           </div>
 
@@ -691,7 +687,7 @@ export const RenameConsultationModal: React.FC<RenameConsultationModalProps> = (
 
   useEffect(() => {
     if (consultation) {
-      setNewName(consultation.name || consultation.metadata?.consultationTitle || '');
+      setNewName(consultation.name || '');
       setError(null);
     }
   }, [consultation]);
@@ -747,7 +743,7 @@ export const RenameConsultationModal: React.FC<RenameConsultationModalProps> = (
           </div>
 
           <div className="bg-gray-50 rounded-lg p-3">
-            <p className="text-xs text-gray-600">Current name: <span className="font-medium text-gray-900">{consultation.name || consultation.metadata?.consultationTitle || 'Untitled'}</span></p>
+            <p className="text-xs text-gray-600">Current name: <span className="font-medium text-gray-900">{consultation.name || 'Untitled'}</span></p>
           </div>
         </div>
 
@@ -805,7 +801,7 @@ export const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
 
   if (!isOpen || !consultation) return null;
 
-  const consultationName = consultation.name || consultation.metadata?.consultationTitle || 'Untitled Consultation';
+  const consultationName = consultation.name || 'Untitled Consultation';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">

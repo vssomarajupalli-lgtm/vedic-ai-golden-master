@@ -105,6 +105,19 @@
             font-weight: 600;
         }
         
+        /* Status Indicators */
+        .status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        .status-strong { background-color: #16a34a; }
+        .status-moderate { background-color: #eab308; }
+        .status-weak { background-color: #dc2626; }
+        .status-info { background-color: #3b82f6; }
+
         table {
             width: 100%;
             text-align: left;
@@ -121,6 +134,187 @@
             background-color: #f3f4f6;
             font-weight: 600;
         }
+
+        /* Layout */
+        .layout-wrapper {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 30px;
+            margin-top: 24px;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 20px;
+            align-self: start;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .sidebar h3 {
+            margin-top: 0;
+            color: var(--primary);
+            font-size: 16px;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-nav a {
+            text-decoration: none;
+            color: #374151;
+            font-size: 15px;
+            font-weight: 500;
+            display: block;
+            padding: 6px 0;
+            transition: color 0.2s;
+        }
+
+        .sidebar-nav a:hover {
+            color: var(--primary);
+        }
+
+        .global-controls {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .global-controls button {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #475569;
+            text-align: left;
+            transition: all 0.2s;
+        }
+
+        .global-controls button:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        /* Print expansion */
+        @media print {
+            details:not([open]) > *:not(summary) {
+                display: block !important;
+            }
+            details > summary::after {
+                display: none !important;
+            }
+            details.group > summary {
+                border-bottom: 1px solid var(--border) !important;
+            }
+            .sidebar, .global-controls, .no-print {
+                display: none !important;
+            }
+            .layout-wrapper {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .layout-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: static;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Nested details CSS */
+        details.group {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            scroll-margin-top: 20px;
+        }
+        details.group > summary {
+            padding: 15px 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary);
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        details.group > summary::-webkit-details-marker { display: none; }
+        details.group > summary::after {
+            content: '+';
+            font-size: 24px;
+            color: var(--text-muted);
+        }
+        details.group[open] > summary::after {
+            content: '−';
+        }
+        details.group[open] > summary {
+            border-bottom: 1px solid var(--border);
+        }
+        .group-content {
+            padding: 20px;
+        }
+
+        details.subgroup {
+            margin-bottom: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            background: #fff;
+        }
+        details.subgroup > summary {
+            padding: 12px 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8fafc;
+        }
+        details.subgroup > summary::-webkit-details-marker { display: none; }
+        details.subgroup > summary::after {
+            content: '▼';
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        details.subgroup[open] > summary::after {
+            content: '▲';
+        }
+        details.subgroup[open] > summary {
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .subgroup-content {
+            padding: 15px;
+        }
+
+        .summary-stats {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: normal;
+        }
     </style>
 </head>
 <body>
@@ -132,220 +326,655 @@
             <p style="color: #6b7280; font-size: 0.9em;">Generated: {{ report.client_profile.generated_at }}</p>
         </div>
 
-        <!-- SECTION A: Executive Summary -->
-        <div class="card avoid-break">
-            <h2>A. Executive Summary</h2>
-            <div class="grid-2">
-                <div>
-                    <p><strong>Overall Grade:</strong> <span class="badge" style="font-size: 1.2em;">{{ report.executive_summary.overall_grade }}</span></p>
-                    <p><strong>Lifetime Trend:</strong> {{ report.executive_summary.overall_lifetime_trend }}</p>
-                    <p><strong>Upcoming Turning Point:</strong> {{ report.executive_summary.upcoming_major_turning_point }}</p>
+        <div class="layout-wrapper">
+            <div class="sidebar no-print">
+                <h3>Navigation</h3>
+                <div class="global-controls">
+                    <button onclick="expandAll()">[ Expand All ]</button>
+                    <button onclick="collapseAll()">[ Collapse All ]</button>
+                    <button onclick="expandMajor()">[ Expand Major Sections ]</button>
+                    <button onclick="collapseMajor()">[ Collapse Major Sections ]</button>
                 </div>
-                <div>
-                    <p><strong>Current Mahadasha:</strong> {{ report.executive_summary.current_mahadasha }}</p>
-                    <p><strong>Current Antardasha:</strong> {{ report.executive_summary.current_antardasha }}</p>
-                    <p><strong>Remaining Duration:</strong> {{ report.executive_summary.current_dasha_remaining }}</p>
-                </div>
+                <ul class="sidebar-nav">
+                    <li><a href="#sec-dashboard">► Executive Dashboard</a></li>
+                    <li><a href="#sec-overview">► Birth Chart Overview</a></li>
+                    <li><a href="#sec-life-areas">► Life Area Intelligence</a></li>
+                    <li><a href="#sec-planets">► Planet Intelligence</a></li>
+                    <li><a href="#sec-houses">► Bhava Intelligence</a></li>
+                    <li><a href="#sec-yogas">► Yogas & Doshas</a></li>
+                    <li><a href="#sec-dasha">► Dasha Analysis</a></li>
+                    <li><a href="#sec-gochara">► Gochara Analysis</a></li>
+                    <li><a href="#sec-questions">► Question Engine</a></li>
+                    <li><a href="#sec-final">► Final Recommendations</a></li>
+                </ul>
             </div>
             
-            <div class="grid-2" style="margin-top: 20px;">
-                <div style="background: #f8fafc; padding: 15px; border-radius: 6px;">
-                    <p><strong>Strongest Life Area:</strong> {{ report.executive_summary.strongest_life_area }}</p>
-                    <p><strong>Best Planet:</strong> {{ report.executive_summary.best_planet }}</p>
-                    <p><strong>Best House:</strong> {{ report.executive_summary.best_house }}</p>
+            <div class="main-content">
+
+                <!-- SECTION A: Executive Summary Dashboard -->
+                <details id="sec-dashboard" class="group avoid-break" open>
+            <summary>Executive Dashboard</summary>
+            <div class="group-content">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h2 style="font-size: 24px; color: #1e3a8a; border-bottom: none; margin-bottom: 5px;">NATIVE DASHBOARD</h2>
+                    <div style="display: flex; justify-content: center; gap: 40px; font-size: 0.95em; color: #475569;">
+                        <span><strong>NATIVE:</strong> {{ report.client_profile.name }}</span>
+                        <span><strong>DOB:</strong> {{ report.client_profile.dob }}</span>
+                    </div>
                 </div>
-                <div style="background: #fff1f2; padding: 15px; border-radius: 6px;">
-                    <p><strong>Weakest Life Area:</strong> {{ report.executive_summary.weakest_life_area }}</p>
-                    <p><strong>Weak Planet:</strong> {{ report.executive_summary.weak_planet }}</p>
-                    <p><strong>Weak House:</strong> {{ report.executive_summary.weak_house }}</p>
+
+                <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                    <h3 style="margin-top: 0; margin-bottom: 10px; color: #334155; font-size: 14px; text-transform: uppercase;">MASTER PROBABILITY SCORE</h3>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span style="font-size: 28px; font-weight: bold; color: #0f172a;">{{ report.executive_summary.overall_score }} / 100</span>
+                        <div style="flex-grow: 1; height: 12px; background-color: #e2e8f0; border-radius: 6px; overflow: hidden;">
+                            <div style="height: 100%; width: {{ report.executive_summary.overall_score }}%; background-color: {% if report.executive_summary.overall_score >= 60 %}#16a34a{% elif report.executive_summary.overall_score >= 40 %}#ca8a04{% else %}#dc2626{% endif %};"></div>
+                        </div>
+                        <span class="badge" style="font-size: 14px;">{{ report.executive_summary.overall_grade }}</span>
+                    </div>
+                </div>
+
+                <div class="grid-3" style="margin-bottom: 20px; padding: 15px; border-bottom: 1px solid #e2e8f0;">
+                    <div>
+                        <span style="font-size: 0.8em; color: #64748b; text-transform: uppercase;">Lifetime Trend</span><br>
+                        <strong>{{ report.executive_summary.overall_lifetime_trend }}</strong>
+                    </div>
+                    <div>
+                        <span style="font-size: 0.8em; color: #64748b; text-transform: uppercase;">Current Timing</span><br>
+                        <strong>{{ report.executive_summary.current_mahadasha }} MD / {{ report.executive_summary.current_antardasha }} AD</strong>
+                    </div>
+                    <div>
+                        <span style="font-size: 0.8em; color: #64748b; text-transform: uppercase;">Upcoming Transition</span><br>
+                        <strong>{{ report.executive_summary.upcoming_major_turning_point }}</strong>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 0; margin-bottom: 15px; color: #334155; font-size: 14px; text-transform: uppercase;">AT A GLANCE</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; text-align: center;">
+                    <div style="padding: 15px; background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px;">
+                        <span style="font-size: 0.8em; color: #166534; text-transform: uppercase;">Strongest Domain</span><br>
+                        <strong style="font-size: 1.1em; color: #14532d;">{{ report.executive_summary.strongest_life_area }}</strong>
+                    </div>
+                    <div style="padding: 15px; background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 6px;">
+                        <span style="font-size: 0.8em; color: #991b1b; text-transform: uppercase;">Weakest Domain</span><br>
+                        <strong style="font-size: 1.1em; color: #7f1d1d;">{{ report.executive_summary.weakest_life_area }}</strong>
+                    </div>
+                    <div style="padding: 15px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; grid-row: span 2; text-align: left;">
+                        <span style="font-size: 0.8em; color: #475569; text-transform: uppercase;">Present Yogas</span><br>
+                        {% if report.executive_summary.present_yogas %}
+                        <ul style="margin: 5px 0 0 0; padding-left: 20px; color: #334155; font-size: 0.9em;">
+                            {% for yoga in report.executive_summary.present_yogas %}
+                            <li>{{ yoga }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <strong style="font-size: 1.1em; color: #334155;">None Detected</strong>
+                        {% endif %}
+                    </div>
+                    <div style="padding: 15px; background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px;">
+                        <span style="font-size: 0.8em; color: #166534; text-transform: uppercase;">Best Planet</span><br>
+                        <strong style="font-size: 1.1em; color: #14532d;">{{ report.executive_summary.best_planet }}</strong>
+                    </div>
+                    <div style="padding: 15px; background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 6px;">
+                        <span style="font-size: 0.8em; color: #991b1b; text-transform: uppercase;">Weakest Planet</span><br>
+                        <strong style="font-size: 1.1em; color: #7f1d1d;">{{ report.executive_summary.weak_planet }}</strong>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    {{ macros.render_deterministic_explanation(report.executive_summary.explanation) }}
                 </div>
             </div>
-            {{ macros.render_deterministic_explanation(report.executive_summary.explanation) }}
-        </div>
+        </details>
 
         <!-- SECTION B: Snapshot -->
-        <div class="card avoid-break">
-            <h2>B. Lifetime Snapshot</h2>
-            <div class="grid-3">
-                <p><strong>Overall Promise:</strong><br>{{ report.lifetime_intelligence.snapshot.overall_promise }}</p>
-                <p><strong>Current Trend:</strong><br>{{ report.lifetime_intelligence.snapshot.current_trend }}</p>
-                <p><strong>Current Opportunity:</strong><br>{{ report.lifetime_intelligence.snapshot.current_opportunity }}</p>
-                <p><strong>Current Challenge:</strong><br>{{ report.lifetime_intelligence.snapshot.current_challenge }}</p>
-                <p><strong>Best Future Period:</strong><br>{{ report.lifetime_intelligence.snapshot.best_future_period }}</p>
-                <p><strong>Current Activation:</strong><br>{{ report.lifetime_intelligence.snapshot.current_activation }}</p>
+        <details id="sec-overview" class="group avoid-break" open>
+            <summary>Birth Chart Overview</summary>
+            <div class="group-content">
+                <div class="grid-3">
+                    <p><strong>Overall Promise:</strong><br>{{ report.lifetime_intelligence.snapshot.overall_promise }}</p>
+                    <p><strong>Current Trend:</strong><br>{{ report.lifetime_intelligence.snapshot.current_trend }}</p>
+                    <p><strong>Current Opportunity:</strong><br>{{ report.lifetime_intelligence.snapshot.current_opportunity }}</p>
+                    <p><strong>Current Challenge:</strong><br>{{ report.lifetime_intelligence.snapshot.current_challenge }}</p>
+                    <p><strong>Best Future Period:</strong><br>{{ report.lifetime_intelligence.snapshot.best_future_period }}</p>
+                    <p><strong>Current Activation:</strong><br>{{ report.lifetime_intelligence.snapshot.current_activation }}</p>
+                </div>
             </div>
-        </div>
+        </details>
 
         <!-- SECTION C: Life Area Intelligence -->
-        <div class="card page-break">
-            <h2>C. Life Area Intelligence</h2>
-            {% for area in report.lifetime_intelligence.life_areas %}
-            <div class="avoid-break" style="margin-bottom: 20px; border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; background: #f8fafc;">
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #cbd5e1; padding-bottom: 8px; margin-bottom: 10px;">
-                    <strong style="font-size: 1.1em;">{{ area.domain_name }}</strong>
-                    <span class="badge">{{ area.grade }}</span>
-                </div>
-                <p style="margin: 0 0 10px 0; font-size: 0.95em;">{{ area.interpretation }}</p>
-                <div class="grid-2">
-                    <div>
-                        <p style="margin:0;"><strong>Strengths:</strong> {{ area.strengths | join(', ') if area.strengths else 'None' }}</p>
-                        <p style="margin:0;"><strong>Weaknesses:</strong> {{ area.weaknesses | join(', ') if area.weaknesses else 'None' }}</p>
+        <details id="sec-life-areas" class="group page-break">
+            <summary>
+                Life Area Intelligence
+                <span class="summary-stats">{{ report.lifetime_intelligence.life_areas|length }} Domains Analyzed</span>
+            </summary>
+            <div class="group-content">
+                {% for area in report.lifetime_intelligence.life_areas %}
+                <details class="subgroup avoid-break">
+                    <summary>
+                        <span>{{ macros.render_status_dot(area.grade) }}{{ area.domain_name }}</span>
+                        <span class="badge" style="font-size:0.85em">{{ area.grade }}</span>
+                    </summary>
+                    <div class="subgroup-content">
+                        <p style="margin: 0 0 10px 0; font-size: 0.95em;">{{ area.interpretation }}</p>
+                        <div class="grid-2">
+                            <div>
+                                <p style="margin:0;"><strong>Strengths:</strong> {{ area.strengths | join(', ') if area.strengths else 'None' }}</p>
+                                <p style="margin:0;"><strong>Weaknesses:</strong> {{ area.weaknesses | join(', ') if area.weaknesses else 'None' }}</p>
+                                <p style="margin:0;"><strong>Relevant Houses:</strong> {{ area.supporting_houses | join(', ') if area.supporting_houses else 'None' }}</p>
+                                <p style="margin:0;"><strong>Relevant Planets:</strong> {{ area.supporting_planets | join(', ') if area.supporting_planets else 'None' }}</p>
+                            </div>
+                            <div>
+                                <p style="margin:0;"><strong>Current Dasha:</strong> {{ area.current_dasha_influence }}</p>
+                                <p style="margin:0;"><strong>Long Term Outlook:</strong> {{ area.long_term_outlook }}</p>
+                            </div>
+                        </div>
+                        {% if area.recommendations %}
+                        <div style="margin-top: 15px; padding: 15px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px;">
+                            <h4 style="margin: 0 0 10px 0; color: #0f172a; font-size: 14px; text-transform: uppercase;">Recommendations</h4>
+                            <ul style="margin: 0; padding-left: 20px; font-size: 0.9em; color: #334155;">
+                                {% for rec in area.recommendations %}
+                                <li style="margin-bottom: 5px;">{{ rec }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        <details style="margin-top: 15px;">
+                            <summary style="cursor: pointer; color: var(--primary); font-weight: bold; font-size: 0.9em;">Engineering Traceability</summary>
+                            <div style="margin-top: 10px;">
+                                {{ macros.render_deterministic_explanation(area.explanation) }}
+                            </div>
+                        </details>
                     </div>
-                    <div>
-                        <p style="margin:0;"><strong>Dasha Influence:</strong> {{ area.current_dasha_influence }}</p>
-                        <p style="margin:0;"><strong>Outlook:</strong> {{ area.long_term_outlook }}</p>
-                    </div>
-                </div>
-                {{ macros.render_deterministic_explanation(area.explanation) }}
+                </details>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
+        </details>
 
-        <!-- SECTION D & E: Planets & Houses -->
-        <div class="card page-break">
-            <h2>D. Planet Intelligence</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Planet</th>
-                        <th>Score</th>
-                        <th>Dignity</th>
-                        <th>Functional Nature</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for p in report.lifetime_intelligence.planets %}
-                    <tr>
-                        <td><strong>{{ p.planet_name }}</strong></td>
-                        <td><span class="badge">{{ p.strength_score }}%</span></td>
-                        <td>{{ p.dignity }}</td>
-                        <td>{{ p.functional_nature }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" style="padding: 0; border: none;">
-                            <div style="padding: 10px 20px;">
+        <!-- SECTION D: Planet Intelligence -->
+        <details id="sec-planets" class="group page-break">
+            <summary>
+                Planet Intelligence
+                {% if report.lifetime_intelligence.planets %}
+                <span class="summary-stats">
+                    {{ report.lifetime_intelligence.planets|length }} Planets | 
+                    Avg: {{ (report.lifetime_intelligence.planets | sum(attribute='strength_score') / report.lifetime_intelligence.planets|length) | round | int }} | 
+                    Top: {{ (report.lifetime_intelligence.planets | sort(attribute='strength_score') | last).planet_name|title }} | 
+                    Weakest: {{ (report.lifetime_intelligence.planets | sort(attribute='strength_score') | first).planet_name|title }}
+                </span>
+                {% endif %}
+            </summary>
+            <div class="group-content">
+                <div style="background-color: #f8fafc; padding: 10px 15px; border-radius: 4px; margin-bottom: 15px; font-size: 0.9em; color: #475569; border-left: 4px solid var(--primary);">
+                    <strong>Formula:</strong> {{ report.lifetime_intelligence.planets[0].explanation.formula if report.lifetime_intelligence.planets else 'Final Score = Base (Natural + House + Dignity + Aspect + Conj + Combust + Retro) + BAV Modifier' }}
+                </div>
+                {% for p in report.lifetime_intelligence.planets %}
+                <details class="subgroup avoid-break">
+                    <summary>
+                        <span>{{ macros.render_status_dot(p.strength_score) }}{{ p.planet_name|title }}</span>
+                        <span class="badge">{{ p.strength_score }} / 100</span>
+                    </summary>
+                    <div class="subgroup-content">
+                        {% set factor_dict = {} %}
+                        {% for f in p.explanation.factors %}
+                            {% set _ = factor_dict.update({f.factor_name: f.contribution}) %}
+                        {% endfor %}
+                        <div style="overflow-x: auto; margin-bottom: 15px;">
+                            <table style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>NATRL</th><th>HOUSE</th><th>DIGNTY</th><th>ASPECT</th><th>CONJ.</th>
+                                        <th>COMBUST</th><th>RETRO</th><th>SHADBL</th><th>VARGA</th><th>BAV</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{ factor_dict.get('natural', 0) }}</td>
+                                        <td>{{ factor_dict.get('house_placement', 0) }}</td>
+                                        <td>{{ factor_dict.get('dignity', 0) }}</td>
+                                        <td>{{ factor_dict.get('aspects', 0) }}</td>
+                                        <td>{{ factor_dict.get('conjunctions', 0) }}</td>
+                                        <td>{{ factor_dict.get('combustion', 0) }}</td>
+                                        <td>{{ factor_dict.get('retrogression', 0) }}</td>
+                                        <td>{{ factor_dict.get('shadbala', 0) }}</td>
+                                        <td>{{ factor_dict.get('varga_dignity', 0) }}</td>
+                                        <td>{{ factor_dict.get('bav_modifier', 0) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <details>
+                            <summary style="cursor: pointer; color: var(--primary); font-weight: bold; font-size: 0.9em;">Engineering Traceability</summary>
+                            <div style="margin-top: 10px;">
                                 {{ macros.render_deterministic_explanation(p.explanation) }}
                             </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            
-            <h2 style="margin-top: 40px;">E. House Intelligence</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>House Domain</th>
-                        <th>Lord</th>
-                        <th>Grade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for h in report.lifetime_intelligence.houses %}
-                    <tr>
-                        <td><strong>{{ h.house_name }}</strong></td>
-                        <td>{{ h.lord }}</td>
-                        <td><span class="badge">{{ h.grade }}</span></td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" style="padding: 0; border: none;">
-                            <div style="padding: 10px 20px;">
+                        </details>
+                    </div>
+                </details>
+                {% endfor %}
+            </div>
+        </details>
+
+        <!-- SECTION E: House Intelligence -->
+        <details id="sec-houses" class="group page-break">
+            <summary>
+                Bhava (House) Intelligence
+                {% if report.lifetime_intelligence.houses %}
+                <span class="summary-stats">
+                    {{ report.lifetime_intelligence.houses|length }} Houses | 
+                    Avg: {{ (report.lifetime_intelligence.houses | sum(attribute='score') / report.lifetime_intelligence.houses|length) | round | int }} | 
+                    Top: {{ (report.lifetime_intelligence.houses | sort(attribute='score') | last).house_name }} | 
+                    Weakest: {{ (report.lifetime_intelligence.houses | sort(attribute='score') | first).house_name }}
+                </span>
+                {% endif %}
+            </summary>
+            <div class="group-content">
+                <div style="background-color: #f8fafc; padding: 10px 15px; border-radius: 4px; margin-bottom: 15px; font-size: 0.9em; color: #475569; border-left: 4px solid var(--primary);">
+                    <strong>Formula:</strong> {{ report.lifetime_intelligence.houses[0].explanation.formula if report.lifetime_intelligence.houses else 'Final Score = House Base + Lord Pos + Aspect + Karaka + Varga' }}
+                </div>
+                {% for h in report.lifetime_intelligence.houses %}
+                <details class="subgroup avoid-break">
+                    <summary>
+                        <span>{{ macros.render_status_dot(h.score) }}{{ h.house_name }}</span>
+                        <span class="badge">{{ h.score }} / 100</span>
+                    </summary>
+                    <div class="subgroup-content">
+                        {% set factor_dict = {} %}
+                        {% for f in h.explanation.factors %}
+                            {% set _ = factor_dict.update({f.factor_name: f.contribution}) %}
+                        {% endfor %}
+                        <div style="overflow-x: auto; margin-bottom: 15px;">
+                            <table style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>LORD C.</th><th>OCCUP.</th><th>BEN. ASP.</th><th>MAL. ASP.</th>
+                                        <th>TYPE</th><th>YOGAS</th><th>SAV</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{ factor_dict.get('lord_contribution', 0) }}</td>
+                                        <td>{{ factor_dict.get('occupants', 0) }}</td>
+                                        <td>{{ factor_dict.get('benefic_aspects', 0) }}</td>
+                                        <td>{{ factor_dict.get('malefic_aspects', 0) }}</td>
+                                        <td>{{ factor_dict.get('house_type', 0) }}</td>
+                                        <td>{{ factor_dict.get('house_yogas', 0) }}</td>
+                                        <td>{{ factor_dict.get('sav', 0) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <details>
+                            <summary style="cursor: pointer; color: var(--primary); font-weight: bold; font-size: 0.9em;">Engineering Traceability</summary>
+                            <div style="margin-top: 10px;">
                                 {{ macros.render_deterministic_explanation(h.explanation) }}
                             </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        <!-- SECTION G: Current Dasha -->
-        <div class="card avoid-break">
-            <h2>G. Current Dasha Status</h2>
-            <div style="text-align: center; padding: 20px; background: #e0e7ff; border-radius: 8px;">
-                <p style="margin:0; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; color: #4338ca;">Active Period</p>
-                <h3 style="margin: 10px 0; font-size: 24px; color: #312e81;">{{ report.lifetime_intelligence.current_dasha_status.current_md }} - {{ report.lifetime_intelligence.current_dasha_status.current_ad }} - {{ report.lifetime_intelligence.current_dasha_status.current_pd }}</h3>
-                <p style="margin:0; font-weight: bold; color: #4f46e5;">{{ report.lifetime_intelligence.current_dasha_status.remaining_duration }} remaining</p>
-                <p style="margin-top: 15px; font-size: 0.95em; color: #374151;">{{ report.lifetime_intelligence.current_dasha_status.interpretation }}</p>
+                        </details>
+                    </div>
+                </details>
+                {% endfor %}
             </div>
-            {{ macros.render_deterministic_explanation(report.lifetime_intelligence.current_dasha_status.explanation) }}
+        </details>
 
-        </div>
+        <!-- SECTION F: Yogas & Doshas -->
+        <details id="sec-yogas" class="group page-break">
+            <summary>
+                Yogas & Doshas
+                <span class="summary-stats">{{ report.lifetime_intelligence.yogas|length }} Detected</span>
+            </summary>
+            <div class="group-content">
+                {% set raj_yogas = [] %}
+                {% set dhana_yogas = [] %}
+                {% set sambandha_yogas = [] %}
+                {% set vipareeta_yogas = [] %}
+                {% set neecha_yogas = [] %}
+                {% set doshas = [] %}
+                {% set other_yogas = [] %}
+                
+                {% for y in report.lifetime_intelligence.yogas %}
+                    {% set y_lower = y.yoga_name|lower %}
+                    {% if 'raj' in y_lower and 'sambandha' not in y_lower %}
+                        {% set _ = raj_yogas.append(y) %}
+                    {% elif 'dhana' in y_lower or 'wealth' in y_lower %}
+                        {% set _ = dhana_yogas.append(y) %}
+                    {% elif 'sambandha' in y_lower %}
+                        {% set _ = sambandha_yogas.append(y) %}
+                    {% elif 'vipareeta' in y_lower %}
+                        {% set _ = vipareeta_yogas.append(y) %}
+                    {% elif 'neecha' in y_lower %}
+                        {% set _ = neecha_yogas.append(y) %}
+                    {% elif 'dosha' in y_lower %}
+                        {% set _ = doshas.append(y) %}
+                    {% else %}
+                        {% set _ = other_yogas.append(y) %}
+                    {% endif %}
+                {% endfor %}
 
-        <!-- SECTION H: Timeline -->
-        {% if report.lifetime_intelligence.timeline %}
-        <div class="page-break landscape-section">
-            <h2 style="color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px;">H. Technical Lifetime Timeline</h2>
-            <table style="font-size: 0.85em;">
-                <thead>
-                    <tr>
-                        <th>Age</th>
-                        <th>Start Date</th>
-                        <th>MD-AD-PD</th>
-                        <th>MD Str</th>
-                        <th>AD Str</th>
-                        <th>PD Str</th>
-                        <th>Activation %</th>
-                        <th>Grade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in report.lifetime_intelligence.timeline %}
-                    <tr>
-                        <td>{{ row.age }}</td>
-                        <td style="white-space: nowrap;">{{ row.start_date }}</td>
-                        <td><strong>{{ row.md | truncate(3, True, '') }}-{{ row.ad | truncate(3, True, '') }}-{{ row.pd | truncate(3, True, '') }}</strong></td>
-                        <td>{{ row.md_strength }}%</td>
-                        <td>{{ row.ad_strength }}%</td>
-                        <td>{{ row.pd_strength }}%</td>
-                        <td><span class="badge">{{ row.activation_percentage }}%</span></td>
-                        <td>{{ row.grade }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% endif %}
+                {% set yoga_categories = [
+                    ('Raj Yogas', raj_yogas),
+                    ('Dhana Yogas', dhana_yogas),
+                    ('Raja Sambandha Yogas', sambandha_yogas),
+                    ('Vipareeta Yogas', vipareeta_yogas),
+                    ('Neecha Bhanga Yogas', neecha_yogas),
+                    ('Other Yogas', other_yogas),
+                    ('Doshas', doshas)
+                ] %}
+
+                {% for cat_name, cat_yogas in yoga_categories %}
+                {% if cat_yogas %}
+                <details class="subgroup avoid-break">
+                    <summary>{{ cat_name }} <span class="badge">{{ cat_yogas|length }}</span></summary>
+                    <div class="subgroup-content">
+                        {% for y in cat_yogas %}
+                        <div style="margin-bottom: 20px; border-bottom: {% if loop.last %}none{% else %}1px solid #e2e8f0{% endif %}; padding-bottom: {% if loop.last %}0{% else %}15px{% endif %};">
+                            <h4 style="margin: 0 0 10px 0; font-size: 16px; color: #0f172a;">{{ macros.render_status_dot(y.strength) }}{{ y.yoga_name }}</h4>
+                            <div class="grid-2" style="font-size: 0.9em; margin-bottom: 10px;">
+                                <div>
+                                    <p style="margin: 2px 0;"><strong>Status:</strong> {{ y.status }}</p>
+                                    <p style="margin: 2px 0;"><strong>Strength:</strong> {{ y.strength }}/100</p>
+                                </div>
+                                <div>
+                                    <p style="margin: 2px 0;"><strong>Supporting Area:</strong> {{ y.supporting_area }}</p>
+                                </div>
+                            </div>
+                            <p style="font-size: 0.95em; color: #334155; margin: 10px 0;"><strong>Interpretation:</strong> {{ y.meaning }}</p>
+                            
+                            <details style="margin-top: 15px;">
+                                <summary style="cursor: pointer; color: var(--primary); font-weight: bold; font-size: 0.9em;">Engineering Traceability</summary>
+                                <div style="margin-top: 10px;">
+                                    {{ macros.render_deterministic_explanation(y.explanation) }}
+                                </div>
+                            </details>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </details>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </details>
+
+        <!-- SECTION G & H: Dasha Analysis -->
+        <details id="sec-dasha" class="group page-break">
+            <summary>
+                Dasha Analysis
+                <span class="summary-stats">Current MD: {{ report.lifetime_intelligence.current_dasha_status.current_md|upper }} | Current AD: {{ report.lifetime_intelligence.current_dasha_status.current_ad|upper }} | Remaining: {{ report.lifetime_intelligence.current_dasha_status.remaining_duration }}</span>
+            </summary>
+            <div class="group-content">
+                <details class="subgroup avoid-break" open>
+                    <summary>
+                        <span>{{ macros.render_status_dot(report.lifetime_intelligence.current_dasha_status.current_probability) }}Current Dasha Status</span>
+                        <span class="badge">{{ report.lifetime_intelligence.current_dasha_status.current_probability }}/100</span>
+                    </summary>
+                    <div class="subgroup-content">
+                        <div style="font-size: 16px; margin-bottom: 15px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                            <strong>MAHADASHA (MD) :</strong> <span style="color: #0f172a;">{{ report.lifetime_intelligence.current_dasha_status.current_md|upper }}</span><br>
+                            <strong>ANTARDASHA (AD):</strong> <span style="color: #0f172a;">{{ report.lifetime_intelligence.current_dasha_status.current_ad|upper }}</span><br>
+                            <strong>REMAINING      :</strong> <span style="color: #0f172a;">{{ report.lifetime_intelligence.current_dasha_status.remaining_duration }}</span>
+                        </div>
+                        
+                        <p style="margin: 0 0 15px 0; font-size: 0.9em; color: #64748b;"><strong>Formula:</strong> {{ report.lifetime_intelligence.current_dasha_status.explanation.formula if report.lifetime_intelligence.current_dasha_status.explanation.formula else 'MD Strength * AD Multiplier' }}</p>
+
+                        <div style="background-color: #f8fafc; padding: 15px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                            <strong style="color: #334155;">Calculation Components:</strong>
+                            <ul style="margin: 10px 0 0 0; padding-left: 20px; color: #475569;">
+                                {% for f in report.lifetime_intelligence.current_dasha_status.explanation.factors %}
+                                <li>{{ f.factor_name|replace('_', ' ')|title }}: {{ f.contribution|round(1) }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <p style="margin-top: 15px; font-size: 0.95em; color: #374151;">{{ report.lifetime_intelligence.current_dasha_status.interpretation }}</p>
+                        <details style="margin-top: 15px;">
+                            <summary style="cursor: pointer; color: var(--primary); font-weight: bold; font-size: 0.9em;">Engineering Traceability</summary>
+                            <div style="margin-top: 10px;">
+                                {{ macros.render_deterministic_explanation(report.lifetime_intelligence.current_dasha_status.explanation) }}
+                            </div>
+                        </details>
+                    </div>
+                </details>
+
+                {% if report.lifetime_intelligence.timeline %}
+                <details class="subgroup avoid-break">
+                    <summary>Technical Lifetime Timeline</summary>
+                    <div class="subgroup-content" style="overflow-x: auto;">
+                        <table style="font-size: 0.85em; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Age</th>
+                                    <th>Start Date</th>
+                                    <th>MD-AD-PD</th>
+                                    <th>MD Str</th>
+                                    <th>AD Str</th>
+                                    <th>PD Str</th>
+                                    <th>Activation %</th>
+                                    <th>Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in report.lifetime_intelligence.timeline %}
+                                <tr>
+                                    <td>{{ row.age }}</td>
+                                    <td style="white-space: nowrap;">{{ row.start_date }}</td>
+                                    <td><strong>{{ row.md | truncate(3, True, '') }}-{{ row.ad | truncate(3, True, '') }}-{{ row.pd | truncate(3, True, '') }}</strong></td>
+                                    <td>{{ row.md_strength }}%</td>
+                                    <td>{{ row.ad_strength }}%</td>
+                                    <td>{{ row.pd_strength }}%</td>
+                                    <td><span class="badge">{{ row.activation_percentage }}%</span></td>
+                                    <td>{{ row.grade }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
+                {% endif %}
+            </div>
+        </details>
 
         <!-- SECTION I: Question Engine Intelligence -->
         {% if report.question_responses %}
-        <div class="card page-break">
-            <h2>I. Question Engine Responses</h2>
-            {% for q in report.question_responses %}
-            <div style="margin-bottom: 20px; border-left: 4px solid var(--primary); padding-left: 15px;">
-                <h3 style="margin-top: 0;">{{ q.question }}</h3>
-                <p><strong>Domain:</strong> {{ q.domain }} | <strong>Probability:</strong> <span class="badge">{{ q.final_probability }}%</span> | <strong>Confidence:</strong> {{ q.confidence }}%</p>
-                {{ macros.render_deterministic_explanation(q.explanation) }}
+        <details id="sec-questions" class="group page-break">
+            <summary>
+                Question Engine
+                {% set num_domains = (report.question_responses|groupby('domain'))|length %}
+                {% set num_q = report.question_responses|length %}
+                <span class="summary-stats">{{ num_domains }} Domains | {{ num_q }} Questions | {{ num_q }} Answered</span>
+            </summary>
+            <div class="group-content">
+                {% for domain_name, group in report.question_responses|groupby('domain') %}
+                <details class="subgroup avoid-break">
+                    <summary>{{ domain_name|upper }} <span class="badge">{{ group|length }} Questions</span></summary>
+                    <div class="subgroup-content">
+                        {% for q in group %}
+                        <div style="margin-bottom: {% if loop.last %}0{% else %}25px{% endif %}; border-bottom: {% if loop.last %}none{% else %}1px solid #e2e8f0{% endif %}; padding-bottom: {% if loop.last %}0{% else %}20px{% endif %};">
+                            <h4 style="margin-top: 0; font-size: 18px; color: #0f172a;">Q: {{ q.question }}</h4>
+                            <p style="font-size: 16px;"><strong>Probability:</strong> {{ macros.render_status_dot(q.final_probability) }}<span class="badge" style="font-size: 1.1em;">{{ q.final_probability }}/100</span> (Confidence: {{ q.confidence|round(0) }}%)</p>
+                            
+                            <div style="background-color: #f8fafc; padding: 12px; border-radius: 4px; margin: 15px 0;">
+                                <strong>Calculation Breakdown:</strong><br>
+                                {% set factor_dict = {} %}
+                                {% for f in q.explanation.factors %}
+                                    {% set _ = factor_dict.update({f.factor_name: f.contribution}) %}
+                                {% endfor %}
+                                <span style="color: #475569;">[ Natal Promise: {{ factor_dict.get('natal_promise', 0) }} ] + [ Dasha Timing: {{ factor_dict.get('dasha_timing', 0) }} ] + [ Gochara Modifiers: {{ factor_dict.get('gochara_modifier', 0) }} ]</span>
+                            </div>
+                            
+                            <details style="margin-top: 15px;">
+                                <summary style="cursor: pointer; color: var(--primary); font-weight: bold; font-size: 0.9em;">Engineering Traceability</summary>
+                                <div style="margin-top: 10px;">
+                                    {{ macros.render_deterministic_explanation(q.explanation) }}
+                                </div>
+                            </details>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </details>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
+        </details>
         {% endif %}
 
         <!-- SECTION J: Gochara (Transit) Intelligence -->
         {% if report.gochara_report %}
-        <div class="card page-break">
-            <h2>J. Gochara (Transit) Intelligence</h2>
-            <div style="margin-bottom: 15px;">
-                <p><strong>Transit Date:</strong> {{ report.gochara_report.current_transit_date }}</p>
-                <p><strong>Activated Houses:</strong> {{ report.gochara_report.activated_houses | join(', ') }}</p>
-                <p><strong>Activated Planets:</strong> {{ report.gochara_report.activated_planets | join(', ') }}</p>
-            </div>
-            {{ macros.render_deterministic_explanation(report.gochara_report.explanation) }}
+        <details id="sec-gochara" class="group page-break">
+            <summary>
+                Gochara (Transit) Intelligence
+                {% set factors = report.gochara_report.explanation.factors %}
+                <span class="summary-stats">Score: {{ report.gochara_report.transit_strength }} | Houses Active: {{ (factors|selectattr('factor_name', 'equalto', 'house_activation')|first).raw_value|round|int if factors|selectattr('factor_name', 'equalto', 'house_activation')|first else 0 }} | Planets Active: {{ (factors|selectattr('factor_name', 'equalto', 'planet_activation')|first).raw_value|round|int if factors|selectattr('factor_name', 'equalto', 'planet_activation')|first else 0 }}</span>
+            </summary>
+            <div class="group-content">
+                <details class="subgroup avoid-break" open>
+                    <summary>
+                        <span>{{ macros.render_status_dot(report.gochara_report.transit_strength) }}Current Transits</span>
+                        <span class="badge">{{ report.gochara_report.transit_strength }}</span>
+                    </summary>
+                    <div class="subgroup-content">
+                        <div style="font-size: 16px; margin-bottom: 15px; border-bottom: 1px solid #cbd5e1; padding-bottom: 15px;">
+                            {% if report.gochara_report.mandali %}
+                            <strong>Reference Moon:</strong> <span style="color: #0f172a;">{{ report.gochara_report.mandali.reference_moon }}</span><br>
+                            <strong>Mandali Number:</strong> <span style="color: #0f172a;">{{ report.gochara_report.mandali.mandali_number }}</span><br>
+                            <strong>Sade Sati Status:</strong> 
+                            <span class="badge" style="background-color: {% if report.gochara_report.mandali.sade_sati_status == 'Active' %}#fee2e2; color: #991b1b;{% else %}#dcfce3; color: #166534;{% endif %}">
+                                {{ report.gochara_report.mandali.sade_sati_status }}
+                            </span><br>
+                            <strong>Sade Sati Phase:</strong> <span style="color: #0f172a;">{{ report.gochara_report.mandali.sade_sati_phase }}</span>
+                            {% else %}
+                            <strong>Transit Date:</strong> <span style="color: #0f172a;">{{ report.gochara_report.current_transit_date }}</span>
+                            {% endif %}
+                        </div>
+                        
+                        <h4 style="margin: 0 0 5px 0; color: #334155;">GOCHARA ACTIVATION MATRIX</h4>
+                        <p style="margin: 0 0 15px 0; font-size: 0.9em; color: #64748b;"><strong>Formula:</strong> {{ report.gochara_report.explanation.formula }}</p>
 
-            {% if report.gochara_report.mandali %}
-            <h3 style="margin-top: 30px;">Mandali Activation</h3>
-            <div style="margin-bottom: 15px;">
-                <p><strong>Reference Moon:</strong> {{ report.gochara_report.mandali.reference_moon }}</p>
-                <p><strong>Mandali Number:</strong> {{ report.gochara_report.mandali.mandali_number }}</p>
-                <p><strong>Boundaries:</strong> {{ report.gochara_report.mandali.mandali_boundaries }}</p>
-                <p><strong>Activated Zones:</strong> {{ report.gochara_report.mandali.activated_zones | join(', ') }}</p>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>H. ACTIVATION</th>
+                                        <th>BAV SUPPORT</th>
+                                        <th>P. ACTIVATION</th>
+                                        <th>DASHA SYNC</th>
+                                        <th>VEDHA LAYER</th>
+                                        <th>FINAL SCORE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% set factor_dict = {} %}
+                                    {% for f in report.gochara_report.explanation.factors %}
+                                        {% set _ = factor_dict.update({f.factor_name: f.contribution}) %}
+                                    {% endfor %}
+                                    <tr>
+                                        <td>{{ factor_dict.get('house_activation', 0)|round(1) }}</td>
+                                        <td>{{ factor_dict.get('bav_support', 0)|round(1) }}</td>
+                                        <td>{{ factor_dict.get('planet_activation', 0)|round(1) }}</td>
+                                        <td>{{ factor_dict.get('dasha_sync', 0)|round(1) }}</td>
+                                        <td>{{ factor_dict.get('vedha_layer', 0)|round(1) }}</td>
+                                        <td><span class="badge">{{ report.gochara_report.transit_strength }}</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <details style="margin-top: 15px;">
+                            <summary style="cursor: pointer; color: var(--primary); font-weight: bold; font-size: 0.9em;">Engineering Traceability</summary>
+                            <div style="margin-top: 10px;">
+                                {{ macros.render_deterministic_explanation(report.gochara_report.explanation) }}
+                                {% if report.gochara_report.mandali %}
+                                <h4 style="margin-top: 20px;">Mandali Explanation</h4>
+                                {{ macros.render_deterministic_explanation(report.gochara_report.mandali.explanation) }}
+                                {% endif %}
+                            </div>
+                        </details>
+                    </div>
+                </details>
             </div>
-            {{ macros.render_deterministic_explanation(report.gochara_report.mandali.explanation) }}
-            {% endif %}
-        </div>
+        </details>
         {% endif %}
 
+        <!-- SECTION K: Final Recommendations -->
+        <details id="sec-final" class="group page-break">
+            <summary>
+                Final Recommendations
+            </summary>
+            <div class="group-content">
+                <details class="subgroup avoid-break" open>
+                    <summary>Consultation Summary</summary>
+                    <div class="subgroup-content">
+                        <p style="font-size: 16px; line-height: 1.6; color: #334155; margin-top: 0;">
+                            Based on the deterministic evaluation of the chart, the native's overall life promise is categorized as <strong>{{ report.executive_summary.overall_grade }}</strong>.
+                            The strongest support comes from <strong>{{ report.executive_summary.best_planet }}</strong> and <strong>{{ report.executive_summary.best_house }}</strong>, highly benefiting the domain of <strong>{{ report.executive_summary.strongest_life_area }}</strong>.
+                            Conversely, challenges may arise from <strong>{{ report.executive_summary.weak_planet }}</strong> and <strong>{{ report.executive_summary.weak_house }}</strong>, affecting <strong>{{ report.executive_summary.weakest_life_area }}</strong>.
+                        </p>
+                        <p style="font-size: 16px; line-height: 1.6; color: #334155; margin-bottom: 0;">
+                            Currently, the native is running the <strong>{{ report.executive_summary.current_mahadasha }} MD</strong> and <strong>{{ report.executive_summary.current_antardasha }} AD</strong>.
+                            The next major transition will occur at the <strong>{{ report.executive_summary.upcoming_major_turning_point }}</strong>.
+                        </p>
+                    </div>
+                </details>
+
+                <div class="grid-2" style="margin-top: 15px;">
+                    <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 20px;">
+                        <h4 style="margin: 0 0 10px 0; color: #166534; font-size: 16px;">Top Strengths</h4>
+                        <ul style="margin: 0; padding-left: 20px; color: #14532d;">
+                            <li>Strongest Planet: {{ report.executive_summary.best_planet }}</li>
+                            <li>Strongest House: {{ report.executive_summary.best_house }}</li>
+                            <li>Best Life Area: {{ report.executive_summary.strongest_life_area }}</li>
+                        </ul>
+                    </div>
+                    <div style="background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 20px;">
+                        <h4 style="margin: 0 0 10px 0; color: #991b1b; font-size: 16px;">Key Challenges</h4>
+                        <ul style="margin: 0; padding-left: 20px; color: #7f1d1d;">
+                            <li>Weakest Planet: {{ report.executive_summary.weak_planet }}</li>
+                            <li>Weakest House: {{ report.executive_summary.weak_house }}</li>
+                            <li>Priority Life Area: {{ report.executive_summary.weakest_life_area }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <details class="subgroup avoid-break" style="margin-top: 15px;">
+                    <summary>Actionable Focus Areas</summary>
+                    <div class="subgroup-content">
+                        <ul style="margin: 0; padding-left: 20px; line-height: 1.8; color: #334155;">
+                            <li><strong>Priority Focus:</strong> Address the challenges in the <strong>{{ report.executive_summary.weakest_life_area }}</strong> domain through targeted remedies.</li>
+                            <li><strong>Current Dasha ({{ report.executive_summary.current_mahadasha }}):</strong> Ensure activities align with this period's nature to maximize {{ report.lifetime_intelligence.snapshot.current_opportunity|lower }}.</li>
+                            <li><strong>Important Transit Observations:</strong> Focus on navigating the current Gochara activations safely.</li>
+                            <li><strong>Remedies:</strong> Strengthen {{ report.executive_summary.weak_planet }} and protect the significations of {{ report.executive_summary.weak_house }}.</li>
+                        </ul>
+                    </div>
+                </details>
+                
+                <details class="subgroup avoid-break" style="margin-top: 15px;">
+                    <summary style="cursor: pointer; color: var(--primary); font-weight: bold; font-size: 0.9em;">Engineering Traceability</summary>
+                    <div class="subgroup-content">
+                        {{ macros.render_deterministic_explanation(report.executive_summary.explanation) }}
+                    </div>
+                </details>
+            </div>
+        </details>
+
     </div>
+    </div>
+    
+    <script>
+        function expandAll() {
+            document.querySelectorAll('details').forEach(el => el.open = true);
+        }
+        function collapseAll() {
+            document.querySelectorAll('details').forEach(el => el.open = false);
+            // Always keep the executive dashboard open
+            const dashboard = document.getElementById('sec-dashboard');
+            if (dashboard) dashboard.open = true;
+        }
+        function expandMajor() {
+            document.querySelectorAll('details.group').forEach(el => el.open = true);
+        }
+        function collapseMajor() {
+            document.querySelectorAll('details.group').forEach(el => {
+                if (el.id !== 'sec-dashboard') {
+                    el.open = false;
+                }
+            });
+        }
+    </script>
 </body>
 </html>
