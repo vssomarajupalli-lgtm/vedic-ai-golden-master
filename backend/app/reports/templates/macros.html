@@ -1,0 +1,43 @@
+{% macro render_deterministic_explanation(exp) %}
+{% if exp and exp.engine_name %}
+<div class="deterministic-explanation" style="margin-top: 15px; padding: 15px; border: 1px solid #cbd5e1; border-radius: 6px; background-color: #f8fafc; font-size: 0.85em; break-inside: avoid;">
+    <h4 style="margin-top: 0; color: #334155; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px;">Engineering Traceability</h4>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; color: #475569;">
+        <div><strong>Engine:</strong> {{ exp.engine_name }} (v{{ exp.engine_version }})</div>
+        <div><strong>Timestamp:</strong> {{ exp.execution_timestamp }}</div>
+        <div><strong>Formula:</strong> {{ exp.formula }}</div>
+        <div><strong>Formula Source:</strong> {{ exp.formula_source }} (v{{ exp.formula_version }})</div>
+        <div><strong>Calibration:</strong> {{ exp.calibration_profile }} (v{{ exp.calibration_version }})</div>
+    </div>
+    
+    {% if exp.factors %}
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.95em;">
+        <thead>
+            <tr style="background-color: #e2e8f0; text-align: left;">
+                <th style="padding: 6px; border: 1px solid #cbd5e1;">Calculation Factor</th>
+                <th style="padding: 6px; border: 1px solid #cbd5e1;">Raw Value</th>
+                <th style="padding: 6px; border: 1px solid #cbd5e1;">Weight</th>
+                <th style="padding: 6px; border: 1px solid #cbd5e1;">Contribution</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for factor in exp.factors %}
+            <tr>
+                <td style="padding: 6px; border: 1px solid #cbd5e1;">{{ factor.factor_name }}</td>
+                <td style="padding: 6px; border: 1px solid #cbd5e1;">{{ "%.2f"|format(factor.raw_value|float) }}</td>
+                <td style="padding: 6px; border: 1px solid #cbd5e1;">{{ factor.weight }}</td>
+                <td style="padding: 6px; border: 1px solid #cbd5e1;">{{ "%.2f"|format(factor.contribution|float) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr style="background-color: #f1f5f9; font-weight: bold;">
+                <td colspan="3" style="padding: 6px; border: 1px solid #cbd5e1; text-align: right;">Final Output Score</td>
+                <td style="padding: 6px; border: 1px solid #cbd5e1;">{{ "%.2f"|format(exp.final_percentage|float) }}</td>
+            </tr>
+        </tfoot>
+    </table>
+    {% endif %}
+</div>
+{% endif %}
+{% endmacro %}

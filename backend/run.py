@@ -276,17 +276,41 @@ def main():
         output["engine_outputs"] = {}
     output["engine_outputs"]["question_engine"] = evaluated_questions
 
-    # Generate Consultation Summary (Version 1.1 Enhancement)
+    # Generate Complete Deterministic Reports (HTML & PDF)
     try:
-        print("\n[3] Generating Consultation Summary (APSE)...")
-        csg = ConsultationSummaryGenerator()
-        summary_path = os.path.join(os.path.dirname(__file__), "../outputs/consultation_summary.html")
-        csg.generate_html(output, output_path=summary_path)
-        print(f"    -> Saved to: {os.path.normpath(summary_path)}")
+        print("\n[3] Generating Complete Deterministic Engineering Reports...")
+        from app.reports.builder import ReportBuilder
+        from app.reports.html_generator import HTMLGenerator
+        from app.reports.pdf_generator import PDFGenerator
+        
+        # Build the structured Phase 16E schema
+        builder = ReportBuilder()
+        final_schema = builder.build_json_report(output, raw_input_data, evaluated_questions)
+        
+        # Ensure outputs directory exists
+        out_dir = os.path.join(os.path.dirname(__file__), "../outputs")
+        os.makedirs(out_dir, exist_ok=True)
+        
+        # Generate HTML
+        html_gen = HTMLGenerator()
+        html_str = html_gen.generate(final_schema)
+        html_path = os.path.join(out_dir, "deterministic_report.html")
+        with open(html_path, "w", encoding="utf-8") as f:
+            f.write(html_str)
+        print(f"    -> HTML saved to: {os.path.normpath(html_path)}")
+        
+        # Generate PDF
+        pdf_gen = PDFGenerator()
+        pdf_bytes = pdf_gen.generate(final_schema)
+        pdf_path = os.path.join(out_dir, "deterministic_report.pdf")
+        with open(pdf_path, "wb") as f:
+            f.write(pdf_bytes)
+        print(f"    -> PDF saved to: {os.path.normpath(pdf_path)}")
+        
     except Exception as e:
         import traceback
         traceback.print_exc()
-        print(f"    -> Error generating Consultation Summary: {e}")
+        print(f"    -> Error generating Deterministic Reports: {e}")
 
     print(f"{'=' * 64}")
     print(f"  Pipeline complete. All engines executed deterministically.")

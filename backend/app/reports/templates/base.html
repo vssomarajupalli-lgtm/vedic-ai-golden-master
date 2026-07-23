@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% import 'macros.html' as macros %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -159,6 +160,7 @@
                     <p><strong>Weak House:</strong> {{ report.executive_summary.weak_house }}</p>
                 </div>
             </div>
+            {{ macros.render_deterministic_explanation(report.executive_summary.explanation) }}
         </div>
 
         <!-- SECTION B: Snapshot -->
@@ -194,6 +196,7 @@
                         <p style="margin:0;"><strong>Outlook:</strong> {{ area.long_term_outlook }}</p>
                     </div>
                 </div>
+                {{ macros.render_deterministic_explanation(area.explanation) }}
             </div>
             {% endfor %}
         </div>
@@ -218,6 +221,13 @@
                         <td>{{ p.dignity }}</td>
                         <td>{{ p.functional_nature }}</td>
                     </tr>
+                    <tr>
+                        <td colspan="4" style="padding: 0; border: none;">
+                            <div style="padding: 10px 20px;">
+                                {{ macros.render_deterministic_explanation(p.explanation) }}
+                            </div>
+                        </td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -238,6 +248,13 @@
                         <td>{{ h.lord }}</td>
                         <td><span class="badge">{{ h.grade }}</span></td>
                     </tr>
+                    <tr>
+                        <td colspan="3" style="padding: 0; border: none;">
+                            <div style="padding: 10px 20px;">
+                                {{ macros.render_deterministic_explanation(h.explanation) }}
+                            </div>
+                        </td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -252,6 +269,8 @@
                 <p style="margin:0; font-weight: bold; color: #4f46e5;">{{ report.lifetime_intelligence.current_dasha_status.remaining_duration }} remaining</p>
                 <p style="margin-top: 15px; font-size: 0.95em; color: #374151;">{{ report.lifetime_intelligence.current_dasha_status.interpretation }}</p>
             </div>
+            {{ macros.render_deterministic_explanation(report.lifetime_intelligence.current_dasha_status.explanation) }}
+
         </div>
 
         <!-- SECTION H: Timeline -->
@@ -286,6 +305,44 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+        {% endif %}
+
+        <!-- SECTION I: Question Engine Intelligence -->
+        {% if report.question_responses %}
+        <div class="card page-break">
+            <h2>I. Question Engine Responses</h2>
+            {% for q in report.question_responses %}
+            <div style="margin-bottom: 20px; border-left: 4px solid var(--primary); padding-left: 15px;">
+                <h3 style="margin-top: 0;">{{ q.question }}</h3>
+                <p><strong>Domain:</strong> {{ q.domain }} | <strong>Probability:</strong> <span class="badge">{{ q.final_probability }}%</span> | <strong>Confidence:</strong> {{ q.confidence }}%</p>
+                {{ macros.render_deterministic_explanation(q.explanation) }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- SECTION J: Gochara (Transit) Intelligence -->
+        {% if report.gochara_report %}
+        <div class="card page-break">
+            <h2>J. Gochara (Transit) Intelligence</h2>
+            <div style="margin-bottom: 15px;">
+                <p><strong>Transit Date:</strong> {{ report.gochara_report.current_transit_date }}</p>
+                <p><strong>Activated Houses:</strong> {{ report.gochara_report.activated_houses | join(', ') }}</p>
+                <p><strong>Activated Planets:</strong> {{ report.gochara_report.activated_planets | join(', ') }}</p>
+            </div>
+            {{ macros.render_deterministic_explanation(report.gochara_report.explanation) }}
+
+            {% if report.gochara_report.mandali %}
+            <h3 style="margin-top: 30px;">Mandali Activation</h3>
+            <div style="margin-bottom: 15px;">
+                <p><strong>Reference Moon:</strong> {{ report.gochara_report.mandali.reference_moon }}</p>
+                <p><strong>Mandali Number:</strong> {{ report.gochara_report.mandali.mandali_number }}</p>
+                <p><strong>Boundaries:</strong> {{ report.gochara_report.mandali.mandali_boundaries }}</p>
+                <p><strong>Activated Zones:</strong> {{ report.gochara_report.mandali.activated_zones | join(', ') }}</p>
+            </div>
+            {{ macros.render_deterministic_explanation(report.gochara_report.mandali.explanation) }}
+            {% endif %}
         </div>
         {% endif %}
 
