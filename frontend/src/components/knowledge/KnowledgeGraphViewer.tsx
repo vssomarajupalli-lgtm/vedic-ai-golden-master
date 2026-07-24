@@ -1,12 +1,13 @@
 // BKL-008B — Knowledge Graph Viewer Component
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useKnowledgeRepository, KnowledgeService, NODE_TYPES, DOMAINS } from '../../services/knowledge';
 import type { KnowledgeNode, KnowledgeNodeType, CrossReference, EvidenceChainStep } from '../../services/knowledge';
+import { apiService } from '../../api/backend';
 
 type ViewMode = 'browse' | 'detail' | 'evidence' | 'references' | 'insights' | 'integrity';
 
 export const KnowledgeGraphViewer: React.FC = () => {
-  const { nodes, relationships, search, getRelationships, validateIntegrity } = useKnowledgeRepository();
+  const { nodes, relationships, search, getRelationships, validateIntegrity, setKnowledgeState } = useKnowledgeRepository();
   const [query, setQuery] = useState('');
   const [filterType, setFilterType] = useState<KnowledgeNodeType | 'all'>('all');
   const [filterDomain, setFilterDomain] = useState<string>('all');
@@ -14,6 +15,27 @@ export const KnowledgeGraphViewer: React.FC = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('browse');
   const [evidenceChain, setEvidenceChain] = useState<EvidenceChainStep[]>([]);
   const [crossRefs, setCrossRefs] = useState<CrossReference[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchKnowledge = async () => {
+      try {
+        setLoading(true);
+        // First ensure backend is seeded if empty (optional, but robust)
+        await apiService.seedKnowledgeGraph().catch(() => {});
+        const state = await apiService.getKnowledgeState();
+        setKnowledgeState(state.nodes, state.relationships, state.version);
+        setError(null);
+      } catch (err) {
+        console.error('Failed to fetch knowledge graph:', err);
+        setError('Failed to load knowledge graph data.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchKnowledge();
+  }, [setKnowledgeState]);
 
   const integrity = useMemo(() => validateIntegrity(), [nodes, relationships, validateIntegrity]);
 
@@ -51,6 +73,14 @@ export const KnowledgeGraphViewer: React.FC = () => {
     }
     return (Object.keys(NODE_TYPES) as KnowledgeNodeType[]).filter(t => typeCounts[t]);
   }, [nodes]);
+
+  if (loading) {
+    return <div className="flex items-center justify-center h-full"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div></div>;
+  }
+  
+  if (error) {
+    return <div className="flex items-center justify-center h-full text-red-600">{error}</div>;
+  }
 
   return (
     <div className="flex flex-col h-full min-h-[calc(100vh-10rem)]">

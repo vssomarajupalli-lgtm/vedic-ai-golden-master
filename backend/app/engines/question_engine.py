@@ -122,7 +122,8 @@ class QuestionEngine:
             yogas: dict = None,
             formula_evaluation: "FormulaEvaluationResult" = None,
             formula_key: str = None,
-            target_date_utc=None
+            target_date_utc=None,
+            mandali_activation: dict = None
         ) -> dict:
             """
             Takes separated domain components from the orchestrator and composes the final
@@ -248,6 +249,7 @@ class QuestionEngine:
                 "transit": {
                     "activation_score": transit_score
                 },
+                "mandali": mandali_activation or {},
                 "yogas": yogas or {},
                 "factor_breakdown": final_probability.get("breakdown", {}),
                 "top_opportunities": top_opportunities,

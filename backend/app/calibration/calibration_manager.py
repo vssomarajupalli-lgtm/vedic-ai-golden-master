@@ -251,9 +251,9 @@ class CalibrationManager:
                         (56, 100)
                     ]
             # Add classical constants that are always needed
-            from app.config.astrology_constants import BAV_EXCLUDED_PLANETS, BAV_PLANETS
-            result["BAV_EXCLUDED_PLANETS"] = list(BAV_EXCLUDED_PLANETS)
-            result["BAV_PLANETS"] = list(BAV_PLANETS)
+            
+            result["BAV_EXCLUDED_PLANETS"] = ['rahu', 'ketu']
+            result["BAV_PLANETS"] = ['sun', 'moon', 'mars', 'mercury', 'jupiter', 'venus', 'saturn']
             # Convert BAV_GRADE_THRESHOLDS from dict {grade: threshold} to list of tuples [(threshold, grade), ...]
             if "BAV_GRADE_THRESHOLDS" in result and isinstance(result["BAV_GRADE_THRESHOLDS"], dict):
                 # Sort by threshold descending (EXCELLENT=7, STRONG=6, etc.)
@@ -267,11 +267,11 @@ class CalibrationManager:
             # Legacy already has UPPER_CASE keys
             result = dict(legacy_data)
             # Ensure required keys exist
-            from app.config.astrology_constants import BAV_EXCLUDED_PLANETS, BAV_PLANETS
+            
             if "BAV_EXCLUDED_PLANETS" not in result:
-                result["BAV_EXCLUDED_PLANETS"] = list(BAV_EXCLUDED_PLANETS)
+                result["BAV_EXCLUDED_PLANETS"] = ['rahu', 'ketu']
             if "BAV_PLANETS" not in result:
-                result["BAV_PLANETS"] = list(BAV_PLANETS)
+                result["BAV_PLANETS"] = ['sun', 'moon', 'mars', 'mercury', 'jupiter', 'venus', 'saturn']
             # Create SAV_BINDU_SCALE from individual thresholds for engine compatibility
             if "SAV_BINDU_SCALE" not in result:
                 favorable = result.get("SAV_FAVORABLE_THRESHOLD", 28)
@@ -289,10 +289,10 @@ class CalibrationManager:
             return result
 
         # Ultimate fallback
-        from app.config.astrology_constants import BAV_EXCLUDED_PLANETS, BAV_PLANETS
+        
         return {
-            "BAV_EXCLUDED_PLANETS": list(BAV_EXCLUDED_PLANETS),
-            "BAV_PLANETS": list(BAV_PLANETS),
+            "BAV_EXCLUDED_PLANETS": ['rahu', 'ketu'],
+            "BAV_PLANETS": ['sun', 'moon', 'mars', 'mercury', 'jupiter', 'venus', 'saturn'],
         }
 
     @property
@@ -375,58 +375,53 @@ class CalibrationManager:
     @property
     def planet_strength(self) -> Dict[str, Any]:
         """Return planet strength calibration in engine-expected format (PLANET_SCORING_MATRIX)."""
-        # Engine expects PLANET_SCORING_MATRIX, NATAL_BENEFICS, NATAL_MALEFICS
-        try:
-            from app.config.astrology_constants import PLANET_SCORING_MATRIX, NATURAL_BENEFICS, NATURAL_MALEFICS
-            return {
-                "PLANET_SCORING_MATRIX": PLANET_SCORING_MATRIX,
-                "NATAL_BENEFICS": NATURAL_BENEFICS,
-                "NATAL_MALEFICS": NATURAL_MALEFICS
-            }
-        except ImportError:
-            return self.active_profile.get("planet_strength", {})
+        section = self._extract_section_values("planet_strength")
+        return {
+            "PLANET_SCORING_MATRIX": section.get("PLANET_SCORING_MATRIX", {}),
+            "NATAL_BENEFICS": section.get("NATURAL_BENEFICS", []),
+            "NATAL_MALEFICS": section.get("NATURAL_MALEFICS", [])
+        }
 
     @property
     def house_strength(self) -> Dict[str, Any]:
         """Return house strength calibration in engine-expected format (HOUSE_SCORING_MATRIX)."""
-        try:
-            from app.config.astrology_constants import HOUSE_SCORING_MATRIX
-            return {
-                "HOUSE_SCORING_MATRIX": HOUSE_SCORING_MATRIX
-            }
-        except ImportError:
-            return self.active_profile.get("house_strength", {})
+        section = self._extract_section_values("house_strength")
+        return {
+            "HOUSE_SCORING_MATRIX": section.get("HOUSE_SCORING_MATRIX", {})
+        }
 
     @property
     def rasi_strength(self) -> Dict[str, Any]:
         """Return rasi strength calibration in engine-expected format (RASI_SCORING_MATRIX)."""
-        try:
-            from app.config.astrology_constants import RASI_SCORING_MATRIX
-            return {
-                "RASI_SCORING_MATRIX": RASI_SCORING_MATRIX
-            }
-        except ImportError:
-            return self.active_profile.get("rasi_strength", {})
+        section = self._extract_section_values("rasi_strength")
+        return {
+            "RASI_SCORING_MATRIX": section.get("RASI_SCORING_MATRIX", {}),
+            "SIGN_LORD_MAP": section.get("SIGN_LORD_MAP", {}),
+            "EXALTATION_MAP": section.get("EXALTATION_MAP", {}),
+            "DEBILITATION_MAP": section.get("DEBILITATION_MAP", {}),
+            "OWN_SIGN_MAP": section.get("OWN_SIGN_MAP", {}),
+            "SIGNS_IN_ORDER": section.get("SIGNS_IN_ORDER", []),
+            "SAV_BINDU_SCALE": section.get("SAV_BINDU_SCALE", [])
+        }
 
     @property
     def varga(self) -> Dict[str, Any]:
         """Return varga calibration in engine-expected format."""
         section = self._extract_section_values("varga")
         return {
-            "D9_SCORES": section.get("d9_scores", {}),
-            "D10_SCORES": section.get("d10_scores", {}),
-            "VARGOTTAMA_BONUS": section.get("vargottama_bonus", 15.0)
+            "D9_SCORES": section.get("D9_SCORES", {}),
+            "D10_SCORES": section.get("D10_SCORES", {}),
+            "VARGOTTAMA_BONUS": section.get("VARGOTTAMA_BONUS", 15.0)
         }
 
     @property
     def dasha(self) -> Dict[str, Any]:
         """Return dasha calibration in engine-expected format (DASHA_SCORING_MATRIX)."""
         section = self._extract_section_values("dasha")
+        matrix = section.get("DASHA_SCORING_MATRIX", {})
+        matrix["synthesis_weights"] = section.get("synthesis_weights", {})
         return {
-            "DASHA_SCORING_MATRIX": {
-                "relationship_scalars": section.get("relationship_scalars", {}),
-                "synthesis_weights": section.get("synthesis_weights", {})
-            }
+            "DASHA_SCORING_MATRIX": matrix
         }
 
     @property
@@ -434,44 +429,27 @@ class CalibrationManager:
         """Return master probability calibration in engine-expected format (MASTER_WEIGHTS)."""
         section = self._extract_section_values("probability")
         # Transform to engine-expected format
+        grades = section.get("PROBABILITY_GRADES", [])
+        if not grades:
+            grades = section.get("grades", [])
         return {
             "MASTER_WEIGHTS": section.get("weights", {}),
-            "PROBABILITY_GRADES": section.get("grades", {}),
+            "PROBABILITY_GRADES": grades,
             "STUB_SCORE": section.get("stub_score", 50.0)
         }
 
     @property
     def natal_promise(self) -> Dict[str, Any]:
         """Return natal promise calibration in engine-expected format."""
-        # Try new sections format first - include NATAL_PROMISE_GRADES from constants and DOMAIN_CONFIG from profile
-        try:
-            from app.config.astrology_constants import NATAL_PROMISE_GRADES, DOMAIN_KARAKA, DOMAIN_CONFIG, DOMAIN_BONUSES
-            from app.config.astrology_constants import SIGN_LORD_MAP
-            
-            # Get domains config from profile sections
-            np_section = self.active_profile.get("sections", {}).get("natal_promise", {})
-            domains_config = np_section.get("parameters", {}).get("domains", {}).get("current_value", {})
-            bonuses_config = np_section.get("parameters", {}).get("bonuses", {}).get("current_value", {})
-            
-            # Fallback to constants if profile doesn't have them
-            if not domains_config:
-                domains_config = DOMAIN_CONFIG
-            if not bonuses_config:
-                bonuses_config = DOMAIN_BONUSES
-            
-            return {
-                "DOMAIN_CONFIG": domains_config,
-                "DOMAIN_KARAKA": DOMAIN_KARAKA,
-                "NATAL_PROMISE_GRADES": NATAL_PROMISE_GRADES,
-                "DOMAIN_BONUSES": bonuses_config,
-                "SIGN_LORD_MAP": SIGN_LORD_MAP
-            }
-        except ImportError:
-            pass
-
-        # Fallback to legacy flat format
-        legacy_data = self.active_profile.get("natal_promise", {})
-        return legacy_data
+        section = self._extract_section_values("natal_promise")
+        return {
+            "NATAL_PROMISE_GRADES": section.get("NATAL_PROMISE_GRADES", []),
+            "DOMAIN_KARAKA": section.get("DOMAIN_KARAKA", {}),
+            "DOMAIN_CONFIG": section.get("DOMAIN_CONFIG", {}),
+            "DOMAIN_BONUSES": section.get("DOMAIN_BONUSES", {}),
+            "DUSTHANA_HOUSES": set(section.get("DUSTHANA_HOUSES", [])),
+            "SIGN_LORD_MAP": self._extract_section_values("rasi_strength").get("SIGN_LORD_MAP", {})
+        }
 
     @property
     def formula_calibration(self) -> Dict[str, Any]:

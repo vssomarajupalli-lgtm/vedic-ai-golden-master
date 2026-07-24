@@ -4,7 +4,7 @@
       "id": "22931b01-666b-4678-a268-79e64879db94",
       "type": "planet",
       "label": "Sun",
-      "description": "Sun — Planet",
+      "description": "Sun \u2014 Planet",
       "source": "engine",
       "domain": "general",
       "properties": {
@@ -18,7 +18,7 @@
       "id": "bdb68d84-2b7f-4a5e-9bcf-d0ec186f5458",
       "type": "planet",
       "label": "Moon",
-      "description": "Moon — Planet",
+      "description": "Moon \u2014 Planet",
       "source": "engine",
       "domain": "general",
       "properties": {
@@ -32,7 +32,7 @@
       "id": "8b7c45d9-cc9f-4d55-bca0-f4a58dedc829",
       "type": "planet",
       "label": "Mars",
-      "description": "Mars — Planet",
+      "description": "Mars \u2014 Planet",
       "source": "engine",
       "domain": "general",
       "properties": {
@@ -46,7 +46,7 @@
       "id": "a849b2a7-58e0-4fdc-a0ef-8555356bf967",
       "type": "planet",
       "label": "Mercury",
-      "description": "Mercury — Planet",
+      "description": "Mercury \u2014 Planet",
       "source": "engine",
       "domain": "general",
       "properties": {
@@ -60,7 +60,7 @@
       "id": "a6913666-2a01-4034-9857-c9ab902cb1ae",
       "type": "planet",
       "label": "Jupiter",
-      "description": "Jupiter — Planet",
+      "description": "Jupiter \u2014 Planet",
       "source": "engine",
       "domain": "general",
       "properties": {
@@ -74,7 +74,7 @@
       "id": "eeea1a5a-aa1c-4ed5-831c-1141f8d07db9",
       "type": "planet",
       "label": "Venus",
-      "description": "Venus — Planet",
+      "description": "Venus \u2014 Planet",
       "source": "engine",
       "domain": "general",
       "properties": {
@@ -88,7 +88,7 @@
       "id": "2dd7aae4-8419-4944-a778-fba1f0fcb136",
       "type": "planet",
       "label": "Saturn",
-      "description": "Saturn — Planet",
+      "description": "Saturn \u2014 Planet",
       "source": "engine",
       "domain": "general",
       "properties": {
@@ -102,7 +102,7 @@
       "id": "6222b7bd-fe71-49ac-aa2c-7602435a60e7",
       "type": "planet",
       "label": "Rahu",
-      "description": "Rahu — Planet",
+      "description": "Rahu \u2014 Planet",
       "source": "engine",
       "domain": "general",
       "properties": {
@@ -116,7 +116,7 @@
       "id": "552da8da-31aa-4ae5-98f8-53011d9fb75d",
       "type": "planet",
       "label": "Ketu",
-      "description": "Ketu — Planet",
+      "description": "Ketu \u2014 Planet",
       "source": "engine",
       "domain": "general",
       "properties": {
@@ -130,7 +130,7 @@
       "id": "b2af3d6f-21bc-4e89-9209-af8849f47acb",
       "type": "house",
       "label": "House 1",
-      "description": "Bhava — Lagna/Ascendant",
+      "description": "Bhava \u2014 Lagna/Ascendant",
       "source": "engine",
       "domain": "house",
       "properties": {
@@ -144,7 +144,7 @@
       "id": "df047263-8561-4b92-ab6c-1324da805852",
       "type": "house",
       "label": "House 2",
-      "description": "Bhava — Dhana",
+      "description": "Bhava \u2014 Dhana",
       "source": "engine",
       "domain": "house",
       "properties": {
@@ -158,7 +158,7 @@
       "id": "b73173c5-ddda-44f9-a29c-244fb3927f1c",
       "type": "house",
       "label": "House 3",
-      "description": "Bhava — Sahaja",
+      "description": "Bhava \u2014 Sahaja",
       "source": "engine",
       "domain": "house",
       "properties": {
@@ -172,7 +172,7 @@
       "id": "892ead8b-f8a0-4dee-a17d-d5785e340248",
       "type": "house",
       "label": "House 4",
-      "description": "Bhava — Sukha",
+      "description": "Bhava \u2014 Sukha",
       "source": "engine",
       "domain": "house",
       "properties": {
@@ -186,7 +186,7 @@
       "id": "6bb7751c-80ed-4491-895f-4f50733ec3b6",
       "type": "house",
       "label": "House 5",
-      "description": "Bhava — Putra",
+      "description": "Bhava \u2014 Putra",
       "source": "engine",
       "domain": "house",
       "properties": {
@@ -200,7 +200,7 @@
       "id": "bc0a214a-21f6-4678-aca8-7ff9fa232c9d",
       "type": "house",
       "label": "House 6",
-      "description": "Bhava — Shatru",
+      "description": "Bhava \u2014 Shatru",
       "source": "engine",
       "domain": "house",
       "properties": {
@@ -214,7 +214,7 @@
       "id": "a02811ed-c542-4737-aac2-b60b23f8b09b",
       "type": "house",
       "label": "House 7",
-      "description": "Bhava — Kalatra",
+      "description": "Bhava \u2014 Kalatra",
       "source": "engine",
       "domain": "house",
       "properties": {
@@ -228,7 +228,7 @@
       "id": "252f02d5-b4a5-463f-9296-42471ed8a58c",
       "type": "house",
       "label": "House 8",
-      "description": "Bhava — Ayush",
+      "description": "Bhava \u2014 Ayush",
       "source": "engine",
       "domain": "house",
       "properties": {
@@ -242,7 +242,7 @@
       "id": "9d2539b5-40ea-49b3-8fb0-f3bf35170684",
       "type": "house",
       "label": "House 9",
-      "description": "Bhava — Dharma",
+      "description": "Bhava \u2014 Dharma",
       "source": "engine",
       "domain": "house",
       "properties": {
@@ -256,7 +256,7 @@
       "id": "d434f9ff-61da-48c4-a83b-98319c4579d5",
       "type": "house",
       "label": "House 10",
-      "description": "Bhava — Karma",
+      "description": "Bhava \u2014 Karma",
       "source": "engine",
       "domain": "house",
       "properties": {
@@ -270,7 +270,7 @@
       "id": "2c32fb7f-68a9-49aa-a680-be8ce2c04e4e",
       "type": "house",
       "label": "House 11",
-      "description": "Bhava — Labha",
+      "description": "Bhava \u2014 Labha",
       "source": "engine",
       "domain": "house",
       "properties": {
@@ -284,7 +284,7 @@
       "id": "c752913b-9948-4c6d-a27c-ce4ccaeb007f",
       "type": "house",
       "label": "House 12",
-      "description": "Bhava — Vyaya",
+      "description": "Bhava \u2014 Vyaya",
       "source": "engine",
       "domain": "house",
       "properties": {
@@ -298,7 +298,7 @@
       "id": "92fb87a7-4d71-4b77-8f72-3858e0e7a333",
       "type": "formula",
       "label": "House Activation (TRN-HA-001)",
-      "description": "30% weight — Measures house activation from transit",
+      "description": "30% weight \u2014 Measures house activation from transit",
       "source": "formula",
       "domain": "transit",
       "properties": {
@@ -312,7 +312,7 @@
       "id": "f71c9dba-3afd-4308-bebf-c464d647015b",
       "type": "formula",
       "label": "BAV Support (TRN-BV-001)",
-      "description": "20% weight — Ashtakavarga support evaluation",
+      "description": "20% weight \u2014 Ashtakavarga support evaluation",
       "source": "formula",
       "domain": "transit",
       "properties": {
@@ -326,7 +326,7 @@
       "id": "28e1b997-6a8c-4c25-b6ca-2e2b21252667",
       "type": "formula",
       "label": "Planet Activation (TRN-PA-001)",
-      "description": "20% weight — Planet activation strength",
+      "description": "20% weight \u2014 Planet activation strength",
       "source": "formula",
       "domain": "transit",
       "properties": {
@@ -340,7 +340,7 @@
       "id": "b313d3c5-f0e9-498d-916b-e63330c69dd8",
       "type": "formula",
       "label": "Dasha Sync (TRN-DS-001)",
-      "description": "20% weight — Dasha period synchronization",
+      "description": "20% weight \u2014 Dasha period synchronization",
       "source": "formula",
       "domain": "transit",
       "properties": {
@@ -354,7 +354,7 @@
       "id": "9f99172e-079f-4e5b-8e65-07ef822f0bb7",
       "type": "formula",
       "label": "Vedha Layer (TRN-VD-001)",
-      "description": "10% weight — Vedha obstruction detection",
+      "description": "10% weight \u2014 Vedha obstruction detection",
       "source": "formula",
       "domain": "transit",
       "properties": {
@@ -438,7 +438,7 @@
       "id": "2d7e11d4-54a8-443d-80fe-d1ba0b1f4d6b",
       "type": "calibration",
       "label": "Own Sign",
-      "description": "80 — Planet in own sign: 80% strength",
+      "description": "80 \u2014 Planet in own sign: 80% strength",
       "source": "calibration",
       "domain": "planet",
       "properties": {
@@ -452,7 +452,7 @@
       "id": "496c2928-7500-4a24-9a6d-1eeb7cac944e",
       "type": "calibration",
       "label": "Friendly Sign",
-      "description": "60 — Planet in friendly sign: 60% strength",
+      "description": "60 \u2014 Planet in friendly sign: 60% strength",
       "source": "calibration",
       "domain": "planet",
       "properties": {
@@ -466,7 +466,7 @@
       "id": "ae1fb363-20f8-4a7f-8c1b-b2ecf91fca8c",
       "type": "calibration",
       "label": "Neutral Sign",
-      "description": "50 — Planet in neutral sign: 50% strength",
+      "description": "50 \u2014 Planet in neutral sign: 50% strength",
       "source": "calibration",
       "domain": "planet",
       "properties": {
@@ -480,7 +480,7 @@
       "id": "b342c9d1-0a8d-433a-84b8-8d46953f8148",
       "type": "calibration",
       "label": "Enemy Sign",
-      "description": "40 — Planet in enemy sign: 40% strength",
+      "description": "40 \u2014 Planet in enemy sign: 40% strength",
       "source": "calibration",
       "domain": "planet",
       "properties": {
@@ -494,7 +494,7 @@
       "id": "d263f4b4-9f66-40e2-a2e3-a2248f2041f3",
       "type": "calibration",
       "label": "Debilitated",
-      "description": "20 — Planet debilitated: 20% strength",
+      "description": "20 \u2014 Planet debilitated: 20% strength",
       "source": "calibration",
       "domain": "planet",
       "properties": {
@@ -522,7 +522,7 @@
       "id": "7ad6be10-0c95-446e-ac6c-71655c5716e0",
       "type": "transit",
       "label": "Sadesati",
-      "description": "Saturn transit over Moon sign — 7.5 year period",
+      "description": "Saturn transit over Moon sign \u2014 7.5 year period",
       "source": "engine",
       "domain": "transit",
       "properties": {
@@ -729,6 +729,20 @@
       "version": 1,
       "created_at": "2026-07-16T16:29:25.408348",
       "updated_at": "2026-07-16T16:29:25.408348"
+    },
+    {
+      "id": "f802cfc2-0052-41d6-ac1e-465df9aea7c7",
+      "type": "concept",
+      "label": "Gochara Mandali",
+      "description": "Moon-centered transit grid tracking relative planetary positions for transit strength.",
+      "source": "engine",
+      "domain": "general",
+      "properties": {
+        "significance": "Determines the baseline Transit Activation Score based on relative moon position."
+      },
+      "version": 1,
+      "created_at": "2026-07-24T11:46:16.985292",
+      "updated_at": "2026-07-24T11:46:16.985292"
     }
   ],
   "relationships": [

@@ -13,6 +13,7 @@ from app.engines.ashtakavarga_engine import AshtakavargaEngine
 from app.engines.master_probability_engine import MasterProbabilityEngine
 from app.engines.natal_promise_engine import NatalPromiseEngine
 from app.engines.transit_engine import TransitEngine
+from app.engines.mandali_generator import MandaliGenerator
 from app.engines.yoga_engine import YogaEngine
 from app.engines.question_engine import QuestionEngine
 from app.engines.functional_nature_engine import FunctionalNatureEngine
@@ -45,6 +46,7 @@ class PipelineRunner:
         self.rasi_engine     = RasiStrengthEngine()
         self.av_engine       = AshtakavargaEngine()
         self.natal_engine    = NatalPromiseEngine()
+        self.mandali_generator = MandaliGenerator()
         self.transit_engine  = TransitEngine()
         self.yoga_engine     = YogaEngine()
         self.question_engine = QuestionEngine()
@@ -250,13 +252,21 @@ class PipelineRunner:
             # Merge with raw ephemeris data
             contextual_transits["planets"][p] = {**data, "house": house}
 
-        # 3. Evaluate transit impact using pre-computed natal + timing scores
+        # 3a. Generate canonical Mandali block
+        mandali = self.mandali_generator.evaluate(
+            transit_payload       = contextual_transits,
+            natal_payload         = normalized_payload
+        )
+        engine_outputs["mandali"] = mandali
+        
+        # 3b. Evaluate transit impact using pre-computed natal + timing scores
         transit_results = self.transit_engine.evaluate(
             transit_payload       = contextual_transits,
             natal_payload         = normalized_payload,
             dasha_results         = dasha_results,
             av_results            = av_results,
             natal_promise_results = natal_results,
+            mandali_results       = mandali,
         )
         engine_outputs["transit"] = transit_results
 
@@ -475,7 +485,8 @@ class PipelineRunner:
             yogas=engine_outputs.get("yogas", {}),
             formula_evaluation=formula_evaluation,
             formula_key=formula_key,
-            target_date_utc=target_date_utc
+            target_date_utc=target_date_utc,
+            mandali_activation=engine_outputs.get("mandali", {})
         )
 
     def _build_isolated_signals(self, engine_outputs: dict, formula: "FormulaSchema") -> dict:

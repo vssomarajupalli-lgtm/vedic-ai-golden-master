@@ -1,4 +1,3 @@
-from app.config.astrology_constants import PROBABILITY_GRADES
 from app.utils.astrology_math import clamp_score
 
 
@@ -47,6 +46,7 @@ class MasterProbabilityEngine:
         if calibration is None:
             from app.calibration.calibration_manager import CalibrationManager
             calibration = CalibrationManager()
+        self.calibration = calibration
         self.weights = calibration.master_probability.get('MASTER_WEIGHTS', {})
         self.stub    = _STUB_SCORE
 
@@ -291,7 +291,8 @@ class MasterProbabilityEngine:
 
     def _grade(self, score: int) -> str:
         """Looks up the probability grade label from PROBABILITY_GRADES."""
-        for threshold, label in PROBABILITY_GRADES:
+        grades = self.calibration.master_probability.get('PROBABILITY_GRADES', [])
+        for threshold, label in grades:
             if score >= threshold:
                 return label
-        return "TOO WEAK"
+        return "UNKNOWN"

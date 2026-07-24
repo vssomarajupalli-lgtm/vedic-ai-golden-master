@@ -19,7 +19,6 @@ export interface StructuredQuestionResult {
     current_ad: string;
     current_pd: string;
     current_activation_display: string;
-    current_probability_display: string;
     remaining_duration: string;
     ends_on: string;
   };
@@ -120,15 +119,12 @@ export const QuestionResultCard: React.FC<Props> = ({ result }) => {
             <span className="transition group-open:rotate-180">▼</span>
           </summary>
           <div className="p-4 bg-green-50">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <div><span className="font-semibold text-gray-500">MD-AD-PD:</span><br/>
                 <span className="font-bold">{result.current_dasha_status.current_md} - {result.current_dasha_status.current_ad} - {result.current_dasha_status.current_pd}</span>
               </div>
               <div><span className="font-semibold text-gray-500">Activation:</span><br/>
                 <span className="font-bold">{result.current_dasha_status.current_activation_display}</span>
-              </div>
-              <div><span className="font-semibold text-gray-500">Probability:</span><br/>
-                <span className="font-bold">{result.current_dasha_status.current_probability_display}</span>
               </div>
               <div><span className="font-semibold text-gray-500">Ends On:</span><br/>
                 <span className="font-bold">{result.current_dasha_status.ends_on} ({result.current_dasha_status.remaining_duration})</span>

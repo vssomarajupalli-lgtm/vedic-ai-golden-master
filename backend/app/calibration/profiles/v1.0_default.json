@@ -125,6 +125,111 @@
           "editable": true,
           "protected": true,
           "weight_pct": 5.0
+        },
+        "PLANET_SCORING_MATRIX": {
+          "name": "PLANET_SCORING_MATRIX",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "dignity": {
+              "exalted": 100,
+              "own_sign": 80,
+              "friendly": 60,
+              "neutral": 50,
+              "enemy": 20,
+              "debilitated": 0
+            },
+            "house_placement": {
+              "trikona": 100,
+              "kendra": 90,
+              "upachaya": 70,
+              "neutral": 50,
+              "dusthana": 10
+            },
+            "state_modifiers": {
+              "combust_score": 0,
+              "retrograde_score": 100
+            },
+            "aspects": {
+              "benefic_aspect": 25,
+              "malefic_aspect": -25
+            },
+            "conjunctions": {
+              "benefic_conjunction": 25,
+              "malefic_conjunction": -25
+            }
+          },
+          "current_value": {
+            "dignity": {
+              "exalted": 100,
+              "own_sign": 80,
+              "friendly": 60,
+              "neutral": 50,
+              "enemy": 20,
+              "debilitated": 0
+            },
+            "house_placement": {
+              "trikona": 100,
+              "kendra": 90,
+              "upachaya": 70,
+              "neutral": 50,
+              "dusthana": 10
+            },
+            "state_modifiers": {
+              "combust_score": 0,
+              "retrograde_score": 100
+            },
+            "aspects": {
+              "benefic_aspect": 25,
+              "malefic_aspect": -25
+            },
+            "conjunctions": {
+              "benefic_conjunction": 25,
+              "malefic_conjunction": -25
+            }
+          },
+          "editable": false,
+          "protected": true
+        },
+        "NATURAL_BENEFICS": {
+          "name": "NATURAL_BENEFICS",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": [
+            "jupiter",
+            "venus",
+            "moon",
+            "mercury"
+          ],
+          "current_value": [
+            "jupiter",
+            "venus",
+            "moon",
+            "mercury"
+          ],
+          "editable": false,
+          "protected": true
+        },
+        "NATURAL_MALEFICS": {
+          "name": "NATURAL_MALEFICS",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": [
+            "saturn",
+            "mars",
+            "sun",
+            "rahu",
+            "ketu"
+          ],
+          "current_value": [
+            "saturn",
+            "mars",
+            "sun",
+            "rahu",
+            "ketu"
+          ],
+          "editable": false,
+          "protected": true
         }
       },
       "additional_factor_1": {
@@ -230,6 +335,63 @@
           "editable": true,
           "protected": true,
           "weight_pct": 10.0
+        },
+        "HOUSE_SCORING_MATRIX": {
+          "name": "HOUSE_SCORING_MATRIX",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "house_type": {
+              "kendra": 100,
+              "trikona": 100,
+              "upachaya": 70,
+              "neutral": 50,
+              "dusthana": 10
+            },
+            "lord_dignity": {
+              "exalted": 100,
+              "own_sign": 80,
+              "friendly": 60,
+              "neutral": 50,
+              "enemy": 20,
+              "debilitated": 0
+            },
+            "occupants": {
+              "benefic": 25,
+              "malefic": -25
+            },
+            "aspects": {
+              "benefic_aspect": 25,
+              "malefic_aspect": -25
+            }
+          },
+          "current_value": {
+            "house_type": {
+              "kendra": 100,
+              "trikona": 100,
+              "upachaya": 70,
+              "neutral": 50,
+              "dusthana": 10
+            },
+            "lord_dignity": {
+              "exalted": 100,
+              "own_sign": 80,
+              "friendly": 60,
+              "neutral": 50,
+              "enemy": 20,
+              "debilitated": 0
+            },
+            "occupants": {
+              "benefic": 25,
+              "malefic": -25
+            },
+            "aspects": {
+              "benefic_aspect": 25,
+              "malefic_aspect": -25
+            }
+          },
+          "editable": false,
+          "protected": true
         }
       },
       "additional_factor_1": {
@@ -311,6 +473,325 @@
           "editable": true,
           "protected": true,
           "weight_pct": 5.0
+        },
+        "SIGN_LORD_MAP": {
+          "name": "SIGN_LORD_MAP",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "aries": "mars",
+            "taurus": "venus",
+            "gemini": "mercury",
+            "cancer": "moon",
+            "leo": "sun",
+            "virgo": "mercury",
+            "libra": "venus",
+            "scorpio": "mars",
+            "sagittarius": "jupiter",
+            "capricorn": "saturn",
+            "aquarius": "saturn",
+            "pisces": "jupiter"
+          },
+          "current_value": {
+            "aries": "mars",
+            "taurus": "venus",
+            "gemini": "mercury",
+            "cancer": "moon",
+            "leo": "sun",
+            "virgo": "mercury",
+            "libra": "venus",
+            "scorpio": "mars",
+            "sagittarius": "jupiter",
+            "capricorn": "saturn",
+            "aquarius": "saturn",
+            "pisces": "jupiter"
+          },
+          "editable": false,
+          "protected": true
+        },
+        "EXALTATION_MAP": {
+          "name": "EXALTATION_MAP",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "sun": "aries",
+            "moon": "taurus",
+            "mars": "capricorn",
+            "mercury": "virgo",
+            "jupiter": "cancer",
+            "venus": "pisces",
+            "saturn": "libra",
+            "rahu": "taurus",
+            "ketu": "scorpio"
+          },
+          "current_value": {
+            "sun": "aries",
+            "moon": "taurus",
+            "mars": "capricorn",
+            "mercury": "virgo",
+            "jupiter": "cancer",
+            "venus": "pisces",
+            "saturn": "libra",
+            "rahu": "taurus",
+            "ketu": "scorpio"
+          },
+          "editable": false,
+          "protected": true
+        },
+        "DEBILITATION_MAP": {
+          "name": "DEBILITATION_MAP",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "sun": "libra",
+            "moon": "scorpio",
+            "mars": "cancer",
+            "mercury": "pisces",
+            "jupiter": "capricorn",
+            "venus": "virgo",
+            "saturn": "aries",
+            "rahu": "scorpio",
+            "ketu": "taurus"
+          },
+          "current_value": {
+            "sun": "libra",
+            "moon": "scorpio",
+            "mars": "cancer",
+            "mercury": "pisces",
+            "jupiter": "capricorn",
+            "venus": "virgo",
+            "saturn": "aries",
+            "rahu": "scorpio",
+            "ketu": "taurus"
+          },
+          "editable": false,
+          "protected": true
+        },
+        "OWN_SIGN_MAP": {
+          "name": "OWN_SIGN_MAP",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "sun": [
+              "leo"
+            ],
+            "moon": [
+              "cancer"
+            ],
+            "mars": [
+              "aries",
+              "scorpio"
+            ],
+            "mercury": [
+              "gemini",
+              "virgo"
+            ],
+            "jupiter": [
+              "sagittarius",
+              "pisces"
+            ],
+            "venus": [
+              "taurus",
+              "libra"
+            ],
+            "saturn": [
+              "capricorn",
+              "aquarius"
+            ]
+          },
+          "current_value": {
+            "sun": [
+              "leo"
+            ],
+            "moon": [
+              "cancer"
+            ],
+            "mars": [
+              "aries",
+              "scorpio"
+            ],
+            "mercury": [
+              "gemini",
+              "virgo"
+            ],
+            "jupiter": [
+              "sagittarius",
+              "pisces"
+            ],
+            "venus": [
+              "taurus",
+              "libra"
+            ],
+            "saturn": [
+              "capricorn",
+              "aquarius"
+            ]
+          },
+          "editable": false,
+          "protected": true
+        },
+        "SIGNS_IN_ORDER": {
+          "name": "SIGNS_IN_ORDER",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": [
+            "aries",
+            "taurus",
+            "gemini",
+            "cancer",
+            "leo",
+            "virgo",
+            "libra",
+            "scorpio",
+            "sagittarius",
+            "capricorn",
+            "aquarius",
+            "pisces"
+          ],
+          "current_value": [
+            "aries",
+            "taurus",
+            "gemini",
+            "cancer",
+            "leo",
+            "virgo",
+            "libra",
+            "scorpio",
+            "sagittarius",
+            "capricorn",
+            "aquarius",
+            "pisces"
+          ],
+          "editable": false,
+          "protected": true
+        },
+        "SAV_BINDU_SCALE": {
+          "name": "SAV_BINDU_SCALE",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              30
+            ],
+            [
+              25,
+              50
+            ],
+            [
+              30,
+              70
+            ],
+            [
+              35,
+              85
+            ],
+            [
+              40,
+              100
+            ],
+            [
+              56,
+              100
+            ]
+          ],
+          "current_value": [
+            [
+              0,
+              0
+            ],
+            [
+              20,
+              30
+            ],
+            [
+              25,
+              50
+            ],
+            [
+              30,
+              70
+            ],
+            [
+              35,
+              85
+            ],
+            [
+              40,
+              100
+            ],
+            [
+              56,
+              100
+            ]
+          ],
+          "editable": false,
+          "protected": true
+        },
+        "RASI_SCORING_MATRIX": {
+          "name": "RASI_SCORING_MATRIX",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "weights": {
+              "bhava": 0.35,
+              "bhavadhipati": 0.3,
+              "karaka": 0.2,
+              "varga": 0.15
+            },
+            "occupant_modifiers": {
+              "benefic": 15,
+              "malefic": -15,
+              "benefic_aspect": 5,
+              "malefic_aspect": -5,
+              "aspect_cap": 10
+            },
+            "dignity_modifiers": {
+              "exalted": 30,
+              "own sign": 20,
+              "moolatrikona": 20,
+              "friendly": 10,
+              "neutral": 0,
+              "enemy": -10,
+              "debilitated": -20,
+              "lord_own_bonus": 10
+            },
+            "empty_sign_baseline": 50,
+            "default_lord_score": 50
+          },
+          "current_value": {
+            "weights": {
+              "bhava": 0.35,
+              "bhavadhipati": 0.3,
+              "karaka": 0.2,
+              "varga": 0.15
+            },
+            "occupant_modifiers": {
+              "benefic": 15,
+              "malefic": -15,
+              "benefic_aspect": 5,
+              "malefic_aspect": -5,
+              "aspect_cap": 10
+            },
+            "dignity_modifiers": {
+              "exalted": 30,
+              "own sign": 20,
+              "moolatrikona": 20,
+              "friendly": 10,
+              "neutral": 0,
+              "enemy": -10,
+              "debilitated": -20,
+              "lord_own_bonus": 10
+            },
+            "empty_sign_baseline": 50,
+            "default_lord_score": 50
+          },
+          "editable": false,
+          "protected": true
         }
       },
       "additional_factor_1": {
@@ -760,6 +1241,453 @@
           "editable": true,
           "protected": true,
           "weight_pct": null
+        },
+        "NATAL_PROMISE_GRADES": {
+          "name": "NATAL_PROMISE_GRADES",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": [
+            [
+              70,
+              "STRONG"
+            ],
+            [
+              50,
+              "MODERATE"
+            ],
+            [
+              30,
+              "WEAK"
+            ],
+            [
+              0,
+              "PRESENT"
+            ]
+          ],
+          "current_value": [
+            [
+              70,
+              "STRONG"
+            ],
+            [
+              50,
+              "MODERATE"
+            ],
+            [
+              30,
+              "WEAK"
+            ],
+            [
+              0,
+              "PRESENT"
+            ]
+          ],
+          "editable": false,
+          "protected": true
+        },
+        "DOMAIN_KARAKA": {
+          "name": "DOMAIN_KARAKA",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "marriage": {
+              "primary": "venus",
+              "secondary": "jupiter"
+            },
+            "career": {
+              "primary": "saturn",
+              "secondary": "sun"
+            },
+            "wealth": {
+              "primary": "jupiter",
+              "secondary": "venus"
+            },
+            "education": {
+              "primary": "mercury",
+              "secondary": "jupiter"
+            },
+            "children": {
+              "primary": "jupiter",
+              "secondary": "moon"
+            },
+            "property": {
+              "primary": "mars",
+              "secondary": "moon"
+            },
+            "health": {
+              "primary": "sun",
+              "secondary": "moon"
+            },
+            "spirituality": {
+              "primary": "jupiter",
+              "secondary": "ketu"
+            }
+          },
+          "current_value": {
+            "marriage": {
+              "primary": "venus",
+              "secondary": "jupiter"
+            },
+            "career": {
+              "primary": "saturn",
+              "secondary": "sun"
+            },
+            "wealth": {
+              "primary": "jupiter",
+              "secondary": "venus"
+            },
+            "education": {
+              "primary": "mercury",
+              "secondary": "jupiter"
+            },
+            "children": {
+              "primary": "jupiter",
+              "secondary": "moon"
+            },
+            "property": {
+              "primary": "mars",
+              "secondary": "moon"
+            },
+            "health": {
+              "primary": "sun",
+              "secondary": "moon"
+            },
+            "spirituality": {
+              "primary": "jupiter",
+              "secondary": "ketu"
+            }
+          },
+          "editable": false,
+          "protected": true
+        },
+        "DOMAIN_CONFIG": {
+          "name": "DOMAIN_CONFIG",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "marriage": {
+              "primary_house": "7",
+              "support_houses": [
+                "2",
+                "11"
+              ],
+              "varga": "D9",
+              "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+              }
+            },
+            "career": {
+              "primary_house": "10",
+              "support_houses": [
+                "6",
+                "11"
+              ],
+              "varga": "D10",
+              "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+              }
+            },
+            "wealth": {
+              "primary_house": [
+                "2",
+                "11"
+              ],
+              "support_houses": [
+                "5",
+                "9"
+              ],
+              "varga": "D2",
+              "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+              }
+            },
+            "education": {
+              "primary_house": "5",
+              "support_houses": [
+                "4",
+                "9"
+              ],
+              "varga": "D24",
+              "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+              }
+            },
+            "children": {
+              "primary_house": "5",
+              "support_houses": [
+                "9",
+                "11"
+              ],
+              "varga": "D7",
+              "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+              }
+            },
+            "property": {
+              "primary_house": "4",
+              "support_houses": [
+                "2",
+                "11"
+              ],
+              "varga": "D4",
+              "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+              }
+            },
+            "health": {
+              "primary_house": "1",
+              "support_houses": [
+                "6",
+                "8",
+                "12"
+              ],
+              "inverted_support": true,
+              "varga": "D6",
+              "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+              }
+            },
+            "spirituality": {
+              "primary_house": [
+                "9",
+                "12"
+              ],
+              "support_houses": [
+                "5"
+              ],
+              "varga": "D20",
+              "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+              }
+            }
+          },
+          "current_value": {
+            "marriage": {
+              "primary_house": "7",
+              "support_houses": [
+                "2",
+                "11"
+              ],
+              "varga": "D9",
+              "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+              }
+            },
+            "career": {
+              "primary_house": "10",
+              "support_houses": [
+                "6",
+                "11"
+              ],
+              "varga": "D10",
+              "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+              }
+            },
+            "wealth": {
+              "primary_house": [
+                "2",
+                "11"
+              ],
+              "support_houses": [
+                "5",
+                "9"
+              ],
+              "varga": "D2",
+              "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+              }
+            },
+            "education": {
+              "primary_house": "5",
+              "support_houses": [
+                "4",
+                "9"
+              ],
+              "varga": "D24",
+              "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+              }
+            },
+            "children": {
+              "primary_house": "5",
+              "support_houses": [
+                "9",
+                "11"
+              ],
+              "varga": "D7",
+              "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+              }
+            },
+            "property": {
+              "primary_house": "4",
+              "support_houses": [
+                "2",
+                "11"
+              ],
+              "varga": "D4",
+              "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+              }
+            },
+            "health": {
+              "primary_house": "1",
+              "support_houses": [
+                "6",
+                "8",
+                "12"
+              ],
+              "inverted_support": true,
+              "varga": "D6",
+              "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+              }
+            },
+            "spirituality": {
+              "primary_house": [
+                "9",
+                "12"
+              ],
+              "support_houses": [
+                "5"
+              ],
+              "varga": "D20",
+              "weights": {
+                "bhava": 0.35,
+                "bhavadhipati": 0.3,
+                "karaka": 0.2,
+                "varga": 0.15
+              }
+            }
+          },
+          "editable": false,
+          "protected": true
+        },
+        "DOMAIN_BONUSES": {
+          "name": "DOMAIN_BONUSES",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "same_2_11_lords": {
+              "wealth": 8
+            },
+            "jupiter_in_2_or_11": {
+              "wealth": 5
+            },
+            "jupiter_in_9": {
+              "wealth": 5,
+              "spirituality": 8
+            },
+            "jupiter_in_5": {
+              "wealth": 5,
+              "spirituality": 5
+            },
+            "venus_in_2": {
+              "wealth": 5
+            },
+            "ketu_strong_in_moksha": {
+              "spirituality": 10
+            },
+            "jupiter_aspects_7": {
+              "marriage": 8
+            },
+            "venus_exalted": {
+              "marriage": 5
+            }
+          },
+          "current_value": {
+            "same_2_11_lords": {
+              "wealth": 8
+            },
+            "jupiter_in_2_or_11": {
+              "wealth": 5
+            },
+            "jupiter_in_9": {
+              "wealth": 5,
+              "spirituality": 8
+            },
+            "jupiter_in_5": {
+              "wealth": 5,
+              "spirituality": 5
+            },
+            "venus_in_2": {
+              "wealth": 5
+            },
+            "ketu_strong_in_moksha": {
+              "spirituality": 10
+            },
+            "jupiter_aspects_7": {
+              "marriage": 8
+            },
+            "venus_exalted": {
+              "marriage": 5
+            }
+          },
+          "editable": false,
+          "protected": true
+        },
+        "DUSTHANA_HOUSES": {
+          "name": "DUSTHANA_HOUSES",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": [
+            "6",
+            "8",
+            "12"
+          ],
+          "current_value": [
+            "6",
+            "8",
+            "12"
+          ],
+          "editable": false,
+          "protected": true
         }
       },
       "additional_factor_1": {
@@ -845,6 +1773,57 @@
           "editable": true,
           "protected": true,
           "weight_pct": null
+        },
+        "PROBABILITY_GRADES": {
+          "name": "PROBABILITY_GRADES",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": [
+            [
+              80,
+              "EXCELLENT"
+            ],
+            [
+              65,
+              "VERY GOOD"
+            ],
+            [
+              50,
+              "GOOD"
+            ],
+            [
+              35,
+              "WEAK"
+            ],
+            [
+              0,
+              "TOO WEAK"
+            ]
+          ],
+          "current_value": [
+            [
+              80,
+              "EXCELLENT"
+            ],
+            [
+              65,
+              "VERY GOOD"
+            ],
+            [
+              50,
+              "GOOD"
+            ],
+            [
+              35,
+              "WEAK"
+            ],
+            [
+              0,
+              "TOO WEAK"
+            ]
+          ],
+          "editable": false,
+          "protected": true
         }
       },
       "additional_factor_1": {
@@ -912,6 +1891,35 @@
           "editable": true,
           "protected": true,
           "weight_pct": null
+        },
+        "DASHA_SCORING_MATRIX": {
+          "name": "DASHA_SCORING_MATRIX",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "relationship_scalars": {
+              "1_1": 1.0,
+              "2_12": 0.75,
+              "3_11": 1.15,
+              "4_10": 1.2,
+              "5_9": 1.25,
+              "6_8": 0.8,
+              "1_7": 1.1
+            }
+          },
+          "current_value": {
+            "relationship_scalars": {
+              "1_1": 1.0,
+              "2_12": 0.75,
+              "3_11": 1.15,
+              "4_10": 1.2,
+              "5_9": 1.25,
+              "6_8": 0.8,
+              "1_7": 1.1
+            }
+          },
+          "editable": false,
+          "protected": true
         }
       },
       "additional_factor_1": {
@@ -1832,6 +2840,473 @@
           "editable": true,
           "protected": true,
           "weight_pct": null
+        },
+        "TRANSIT_HOUSE_QUALITY": {
+          "name": "TRANSIT_HOUSE_QUALITY",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "sun": {
+              "3": 12,
+              "6": 12,
+              "10": 12,
+              "11": 12,
+              "1": -8,
+              "2": -8,
+              "4": -8,
+              "5": -8,
+              "7": -8,
+              "8": -8,
+              "9": -8,
+              "12": -8
+            },
+            "moon": {
+              "1": 12,
+              "3": 12,
+              "6": 12,
+              "7": 12,
+              "10": 12,
+              "11": 12,
+              "2": -8,
+              "4": -8,
+              "5": -8,
+              "8": -8,
+              "9": -8,
+              "12": -8
+            },
+            "mars": {
+              "3": 12,
+              "6": 12,
+              "11": 12,
+              "1": -8,
+              "2": -8,
+              "4": -8,
+              "5": -8,
+              "7": -8,
+              "8": -8,
+              "9": -8,
+              "10": -8,
+              "12": -8
+            },
+            "mercury": {
+              "2": 12,
+              "4": 12,
+              "6": 12,
+              "8": 12,
+              "10": 12,
+              "11": 12,
+              "1": -8,
+              "3": -8,
+              "5": -8,
+              "7": -8,
+              "9": -8,
+              "12": -8
+            },
+            "jupiter": {
+              "2": 12,
+              "5": 12,
+              "7": 12,
+              "9": 12,
+              "11": 12,
+              "1": -8,
+              "3": -8,
+              "4": -8,
+              "6": -8,
+              "8": -8,
+              "10": -8,
+              "12": -8
+            },
+            "venus": {
+              "1": 12,
+              "2": 12,
+              "3": 12,
+              "4": 12,
+              "5": 12,
+              "8": 12,
+              "9": 12,
+              "11": 12,
+              "12": 12,
+              "6": -8,
+              "7": -8,
+              "10": -8
+            },
+            "saturn": {
+              "3": 12,
+              "6": 12,
+              "11": 12,
+              "1": -8,
+              "2": -8,
+              "4": -8,
+              "5": -8,
+              "7": -8,
+              "8": -8,
+              "9": -8,
+              "10": -8,
+              "12": -8
+            },
+            "rahu": {
+              "3": 12,
+              "6": 12,
+              "10": 12,
+              "11": 12,
+              "1": -8,
+              "2": -8,
+              "4": -8,
+              "5": -8,
+              "7": -8,
+              "8": -8,
+              "9": -8,
+              "12": -8
+            },
+            "ketu": {
+              "3": 12,
+              "6": 12,
+              "11": 12,
+              "1": -8,
+              "2": -8,
+              "4": -8,
+              "5": -8,
+              "7": -8,
+              "8": -8,
+              "9": -8,
+              "10": -8,
+              "12": -8
+            }
+          },
+          "current_value": {
+            "sun": {
+              "3": 12,
+              "6": 12,
+              "10": 12,
+              "11": 12,
+              "1": -8,
+              "2": -8,
+              "4": -8,
+              "5": -8,
+              "7": -8,
+              "8": -8,
+              "9": -8,
+              "12": -8
+            },
+            "moon": {
+              "1": 12,
+              "3": 12,
+              "6": 12,
+              "7": 12,
+              "10": 12,
+              "11": 12,
+              "2": -8,
+              "4": -8,
+              "5": -8,
+              "8": -8,
+              "9": -8,
+              "12": -8
+            },
+            "mars": {
+              "3": 12,
+              "6": 12,
+              "11": 12,
+              "1": -8,
+              "2": -8,
+              "4": -8,
+              "5": -8,
+              "7": -8,
+              "8": -8,
+              "9": -8,
+              "10": -8,
+              "12": -8
+            },
+            "mercury": {
+              "2": 12,
+              "4": 12,
+              "6": 12,
+              "8": 12,
+              "10": 12,
+              "11": 12,
+              "1": -8,
+              "3": -8,
+              "5": -8,
+              "7": -8,
+              "9": -8,
+              "12": -8
+            },
+            "jupiter": {
+              "2": 12,
+              "5": 12,
+              "7": 12,
+              "9": 12,
+              "11": 12,
+              "1": -8,
+              "3": -8,
+              "4": -8,
+              "6": -8,
+              "8": -8,
+              "10": -8,
+              "12": -8
+            },
+            "venus": {
+              "1": 12,
+              "2": 12,
+              "3": 12,
+              "4": 12,
+              "5": 12,
+              "8": 12,
+              "9": 12,
+              "11": 12,
+              "12": 12,
+              "6": -8,
+              "7": -8,
+              "10": -8
+            },
+            "saturn": {
+              "3": 12,
+              "6": 12,
+              "11": 12,
+              "1": -8,
+              "2": -8,
+              "4": -8,
+              "5": -8,
+              "7": -8,
+              "8": -8,
+              "9": -8,
+              "10": -8,
+              "12": -8
+            },
+            "rahu": {
+              "3": 12,
+              "6": 12,
+              "10": 12,
+              "11": 12,
+              "1": -8,
+              "2": -8,
+              "4": -8,
+              "5": -8,
+              "7": -8,
+              "8": -8,
+              "9": -8,
+              "12": -8
+            },
+            "ketu": {
+              "3": 12,
+              "6": 12,
+              "11": 12,
+              "1": -8,
+              "2": -8,
+              "4": -8,
+              "5": -8,
+              "7": -8,
+              "8": -8,
+              "9": -8,
+              "10": -8,
+              "12": -8
+            }
+          },
+          "editable": false,
+          "protected": true
+        },
+        "VEDHA_PAIRS": {
+          "name": "VEDHA_PAIRS",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "1": 8,
+            "2": 12,
+            "3": 6,
+            "4": 5,
+            "5": 4,
+            "6": 3,
+            "7": 2,
+            "8": 1,
+            "9": 12,
+            "10": 3,
+            "11": 6,
+            "12": 9
+          },
+          "current_value": {
+            "1": 8,
+            "2": 12,
+            "3": 6,
+            "4": 5,
+            "5": 4,
+            "6": 3,
+            "7": 2,
+            "8": 1,
+            "9": 12,
+            "10": 3,
+            "11": 6,
+            "12": 9
+          },
+          "editable": false,
+          "protected": true
+        },
+        "TRANSIT_CONJUNCTION_MATRIX": {
+          "name": "TRANSIT_CONJUNCTION_MATRIX",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "jupiter|benefic": 12,
+            "jupiter|malefic": 3,
+            "venus|benefic": 8,
+            "venus|malefic": 2,
+            "moon|benefic": 6,
+            "moon|malefic": 0,
+            "mercury|benefic": 5,
+            "mercury|malefic": 0,
+            "sun|benefic": 4,
+            "sun|malefic": -2,
+            "mars|benefic": -8,
+            "mars|malefic": -4,
+            "saturn|benefic": -10,
+            "saturn|malefic": -5,
+            "rahu|benefic": -6,
+            "rahu|malefic": -6,
+            "ketu|benefic": -6,
+            "ketu|malefic": -6
+          },
+          "current_value": {
+            "jupiter|benefic": 12,
+            "jupiter|malefic": 3,
+            "venus|benefic": 8,
+            "venus|malefic": 2,
+            "moon|benefic": 6,
+            "moon|malefic": 0,
+            "mercury|benefic": 5,
+            "mercury|malefic": 0,
+            "sun|benefic": 4,
+            "sun|malefic": -2,
+            "mars|benefic": -8,
+            "mars|malefic": -4,
+            "saturn|benefic": -10,
+            "saturn|malefic": -5,
+            "rahu|benefic": -6,
+            "rahu|malefic": -6,
+            "ketu|benefic": -6,
+            "ketu|malefic": -6
+          },
+          "editable": false,
+          "protected": true
+        },
+        "TRANSIT_ASPECT_WEIGHTS": {
+          "name": "TRANSIT_ASPECT_WEIGHTS",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "benefic|benefic": 6,
+            "malefic|benefic": -5,
+            "benefic|malefic": 2,
+            "malefic|malefic": -3
+          },
+          "current_value": {
+            "benefic|benefic": 6,
+            "malefic|benefic": -5,
+            "benefic|malefic": 2,
+            "malefic|malefic": -3
+          },
+          "editable": false,
+          "protected": true
+        },
+        "TRANSIT_SPECIAL_ASPECTS": {
+          "name": "TRANSIT_SPECIAL_ASPECTS",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "saturn": [
+              3,
+              7,
+              10
+            ],
+            "jupiter": [
+              5,
+              7,
+              9
+            ],
+            "mars": [
+              4,
+              7,
+              8
+            ]
+          },
+          "current_value": {
+            "saturn": [
+              3,
+              7,
+              10
+            ],
+            "jupiter": [
+              5,
+              7,
+              9
+            ],
+            "mars": [
+              4,
+              7,
+              8
+            ]
+          },
+          "editable": false,
+          "protected": true
+        },
+        "TRANSIT_SPECIAL_ASPECT_WEIGHT": {
+          "name": "TRANSIT_SPECIAL_ASPECT_WEIGHT",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": 0.6,
+          "current_value": 0.6,
+          "editable": false,
+          "protected": true
+        },
+        "TRANSIT_WEIGHTS": {
+          "name": "TRANSIT_WEIGHTS",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "house_activation": 0.3,
+            "bav_support": 0.2,
+            "planet_activation": 0.2,
+            "dasha_sync": 0.2,
+            "vedha_layer": 0.1
+          },
+          "current_value": {
+            "house_activation": 0.3,
+            "bav_support": 0.2,
+            "planet_activation": 0.2,
+            "dasha_sync": 0.2,
+            "vedha_layer": 0.1
+          },
+          "editable": false,
+          "protected": true
+        },
+        "TRANSIT_VEDHA_CAP": {
+          "name": "TRANSIT_VEDHA_CAP",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": -15,
+          "current_value": -15,
+          "editable": false,
+          "protected": true
+        },
+        "TRANSIT_DASHA_SYNC_BONUSES": {
+          "name": "TRANSIT_DASHA_SYNC_BONUSES",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "transit_is_md_lord": 20,
+            "transit_is_ad_lord": 12,
+            "transit_aspects_md_natal": 8,
+            "transit_aspects_ad_natal": 5,
+            "transit_same_sign_as_md": 6,
+            "md_transit_bav_high": 8
+          },
+          "current_value": {
+            "transit_is_md_lord": 20,
+            "transit_is_ad_lord": 12,
+            "transit_aspects_md_natal": 8,
+            "transit_aspects_ad_natal": 5,
+            "transit_same_sign_as_md": 6,
+            "md_transit_bav_high": 8
+          },
+          "editable": false,
+          "protected": true
         }
       },
       "additional_factor_1": {
@@ -2023,6 +3498,174 @@
           "editable": true,
           "protected": true,
           "weight_pct": null
+        },
+        "BAV_GRADE_THRESHOLDS": {
+          "name": "BAV_GRADE_THRESHOLDS",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": [
+            [
+              7,
+              "EXCELLENT"
+            ],
+            [
+              6,
+              "STRONG"
+            ],
+            [
+              5,
+              "GOOD"
+            ],
+            [
+              4,
+              "AVERAGE"
+            ],
+            [
+              3,
+              "BELOW_AVG"
+            ],
+            [
+              2,
+              "WEAK"
+            ],
+            [
+              0,
+              "CRITICAL"
+            ]
+          ],
+          "current_value": [
+            [
+              7,
+              "EXCELLENT"
+            ],
+            [
+              6,
+              "STRONG"
+            ],
+            [
+              5,
+              "GOOD"
+            ],
+            [
+              4,
+              "AVERAGE"
+            ],
+            [
+              3,
+              "BELOW_AVG"
+            ],
+            [
+              2,
+              "WEAK"
+            ],
+            [
+              0,
+              "CRITICAL"
+            ]
+          ],
+          "editable": false,
+          "protected": true
+        },
+        "BAV_PLANET_MODIFIER": {
+          "name": "BAV_PLANET_MODIFIER",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "high": 5,
+            "neutral": 0,
+            "low": -5
+          },
+          "current_value": {
+            "high": 5,
+            "neutral": 0,
+            "low": -5
+          },
+          "editable": false,
+          "protected": true
+        },
+        "SAV_FAVORABLE_THRESHOLD": {
+          "name": "SAV_FAVORABLE_THRESHOLD",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": 28,
+          "current_value": 28,
+          "editable": false,
+          "protected": true
+        },
+        "SAV_STRONG_THRESHOLD": {
+          "name": "SAV_STRONG_THRESHOLD",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": 30,
+          "current_value": 30,
+          "editable": false,
+          "protected": true
+        },
+        "SAV_WEAK_THRESHOLD": {
+          "name": "SAV_WEAK_THRESHOLD",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": 22,
+          "current_value": 22,
+          "editable": false,
+          "protected": true
+        },
+        "DASHA_BAV_CONFIDENCE": {
+          "name": "DASHA_BAV_CONFIDENCE",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "high": 1.1,
+            "moderate": 1.05,
+            "low": 0.95
+          },
+          "current_value": {
+            "high": 1.1,
+            "moderate": 1.05,
+            "low": 0.95
+          },
+          "editable": false,
+          "protected": true
+        },
+        "BAV_EXCLUDED_PLANETS": {
+          "name": "BAV_EXCLUDED_PLANETS",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": [
+            "ketu",
+            "rahu"
+          ],
+          "current_value": [
+            "ketu",
+            "rahu"
+          ],
+          "editable": false,
+          "protected": true
+        },
+        "BAV_PLANETS": {
+          "name": "BAV_PLANETS",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": [
+            "sun",
+            "moon",
+            "mars",
+            "mercury",
+            "jupiter",
+            "venus",
+            "saturn"
+          ],
+          "current_value": [
+            "sun",
+            "moon",
+            "mars",
+            "mercury",
+            "jupiter",
+            "venus",
+            "saturn"
+          ],
+          "editable": false,
+          "protected": true
         }
       },
       "additional_factor_1": {
@@ -2112,6 +3755,65 @@
           "editable": true,
           "protected": true,
           "weight_pct": null
+        },
+        "D9_SCORES": {
+          "name": "D9_SCORES",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "exalted": 15.0,
+            "moolatrikona": 10.0,
+            "own_house": 10.0,
+            "friendly": 5.0,
+            "neutral": 0.0,
+            "enemy": -5.0,
+            "debilitated": -10.0
+          },
+          "current_value": {
+            "exalted": 15.0,
+            "moolatrikona": 10.0,
+            "own_house": 10.0,
+            "friendly": 5.0,
+            "neutral": 0.0,
+            "enemy": -5.0,
+            "debilitated": -10.0
+          },
+          "editable": false,
+          "protected": true
+        },
+        "D10_SCORES": {
+          "name": "D10_SCORES",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": {
+            "exalted": 10.0,
+            "moolatrikona": 5.0,
+            "own_house": 5.0,
+            "friendly": 2.5,
+            "neutral": 0.0,
+            "enemy": -2.5,
+            "debilitated": -5.0
+          },
+          "current_value": {
+            "exalted": 10.0,
+            "moolatrikona": 5.0,
+            "own_house": 5.0,
+            "friendly": 2.5,
+            "neutral": 0.0,
+            "enemy": -2.5,
+            "debilitated": -5.0
+          },
+          "editable": false,
+          "protected": true
+        },
+        "VARGOTTAMA_BONUS": {
+          "name": "VARGOTTAMA_BONUS",
+          "description": "Migrated constant",
+          "purpose": "Structural formula matrix",
+          "default_value": 15.0,
+          "current_value": 15.0,
+          "editable": false,
+          "protected": true
         }
       },
       "additional_factor_1": {

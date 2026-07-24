@@ -51,6 +51,7 @@ export interface KnowledgeRepositoryState {
   // Version
   getVersion: () => number;
   incrementVersion: () => void;
+  setKnowledgeState: (nodes: KnowledgeNode[], relationships: KnowledgeRelationship[], version: number) => void;
 }
 
 export const useKnowledgeRepository = create<KnowledgeRepositoryState>()(
@@ -59,6 +60,10 @@ export const useKnowledgeRepository = create<KnowledgeRepositoryState>()(
       nodes: [],
       relationships: [],
       version: 1,
+
+      setKnowledgeState: (nodes, relationships, version) => {
+        set({ nodes, relationships, version });
+      },
 
       addNode: (node) => {
         const id = uuidv4();
@@ -111,7 +116,8 @@ export const useKnowledgeRepository = create<KnowledgeRepositoryState>()(
         return get().nodes.filter(n =>
           n.label.toLowerCase().includes(lower) ||
           n.description.toLowerCase().includes(lower) ||
-          n.domain.toLowerCase().includes(lower)
+          n.domain.toLowerCase().includes(lower) ||
+          n.type.toLowerCase().includes(lower)
         );
       },
 

@@ -39,7 +39,6 @@ class CurrentDashaStatusDisplay(BaseModel):
     current_ad: str
     current_pd: str
     current_activation_display: str
-    current_probability_display: str
     remaining_duration: str
     ends_on: str
 

@@ -95,6 +95,7 @@ class TransitEngine:
         dasha_results:         dict = None,
         av_results:            dict = None,
         natal_promise_results: dict = None,
+        mandali_results:       dict = None,
     ) -> dict:
         """
         Evaluates all five transit sub-systems and returns the full result dict.

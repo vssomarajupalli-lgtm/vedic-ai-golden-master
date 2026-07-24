@@ -71,3 +71,60 @@ class MandaliGenerator:
                 
         # Failsafe (mathematically should never be reached)
         return 1
+
+    @classmethod
+    def evaluate(cls, transit_payload: dict, natal_payload: dict) -> dict:
+        """
+        Evaluates the transit planets against the Moon-centered Mandali grid.
+        Returns the canonical Mandali output schema.
+        """
+        if not transit_payload or "planets" not in transit_payload:
+            return cls._stub_result()
+
+        t_planets = transit_payload["planets"]
+        moon_longitude = natal_payload.get("planets", {}).get("moon", {}).get("longitude", 0.0)
+        moon_pada = cls.get_absolute_pada(moon_longitude)
+
+        t_houses = {}
+        activated_planets = []
+        for p, v in t_planets.items():
+            if "longitude" in v:
+                m_num = cls.resolve_transit_mandali(v["longitude"], moon_pada)
+                t_houses[p] = m_num
+                activated_planets.append(p)
+
+        grid = cls.generate_mandali_grid(moon_pada)
+        sat_house = t_houses.get("saturn", 0)
+        activated_zones = list(set(t_houses.values()))
+
+        return {
+            "transit_houses": t_houses,
+            "moon_pada": moon_pada,
+            "grid": grid,
+            "current_mandali": f"Mandali {sat_house}" if sat_house else "Unknown",
+            "mandali_number": sat_house,
+            "reference_moon": f"Pada {moon_pada}",
+            "activated_planets": activated_planets,
+            "activated_zones": activated_zones,
+            "activated_bhavas": activated_zones,
+            "score": 50, # Stub for TransitEngine to replace or use
+            "confidence_flags": [],
+            "explanation": "Mandali evaluation based on Moon position"
+        }
+
+    @classmethod
+    def _stub_result(cls) -> dict:
+        return {
+            "transit_houses": {},
+            "moon_pada": 0,
+            "grid": {},
+            "current_mandali": "Unknown",
+            "mandali_number": 0,
+            "reference_moon": "Unknown",
+            "activated_planets": [],
+            "activated_zones": [],
+            "activated_bhavas": [],
+            "score": 50,
+            "confidence_flags": ["transit_stub_no_input"],
+            "explanation": "No transit data supplied"
+        }

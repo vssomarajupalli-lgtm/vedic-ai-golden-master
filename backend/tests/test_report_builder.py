@@ -40,7 +40,7 @@ class TestReportBuilder(unittest.TestCase):
         self.assertEqual(report.client_profile.name, "Test User")
         
         # Test executive summary
-        self.assertEqual(report.executive_summary.overall_score, 70) # (90+50)/2
+        self.assertEqual(report.executive_summary.overall_score, 85) # from master_probability final_score
         self.assertEqual(report.executive_summary.current_mahadasha, "Venus")
         
         # Test lifetime intelligence (dynamic from promise)

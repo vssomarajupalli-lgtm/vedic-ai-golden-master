@@ -186,11 +186,8 @@ class DisplayFormatter:
         ad_str = synthesis.get("ad_strength", 50.0)
         pd_str = synthesis.get("pd_strength", 50.0)
         
-        act_score = round((md_str + ad_str + pd_str) / 3.0)
+        act_score = synthesis.get("dasha_strength", 50.0)
         current_activation_display = DisplayFormatter.format_percentage(act_score)
-        
-        current_prob_score = round((p_score * 0.6) + (act_score * 0.4))
-        current_prob_display = DisplayFormatter.format_percentage(current_prob_score)
         
         ends_on_raw = synthesis.get("pd_end", "Unknown")
         ends_on = DisplayFormatter.format_date(ends_on_raw)
@@ -202,7 +199,6 @@ class DisplayFormatter:
             current_ad=current_ad,
             current_pd=current_pd,
             current_activation_display=current_activation_display,
-            current_probability_display=current_prob_display,
             remaining_duration=remaining_duration,
             ends_on=ends_on
         )
@@ -358,14 +354,8 @@ class DisplayFormatter:
         dashas = engine_outputs.get("dashas", {}).get("timeline", [])
         synthesis = engine_outputs.get("dashas", {}).get("synthesis", {})
         
-        total_score = 0
-        count = 0
-        for k, v in promise.items():
-            if isinstance(v, dict) and 'score' in v:
-                total_score += v.get("score", 50)
-                count += 1
-                
-        overall_score = round(total_score / count) if count > 0 else 50
+        master_prob = pipeline_data.get("master_probability", {})
+        overall_score = int(master_prob.get("final_score", 50.0))
         overall_grade = DisplayFormatter.format_percentage(overall_score)
         
         sorted_areas = sorted([(k, v.get("score", 50)) for k, v in promise.items() if isinstance(v, dict)], key=lambda x: x[1], reverse=True)
@@ -543,7 +533,7 @@ class DisplayFormatter:
         md_str = synthesis.get("md_strength", 50.0)
         ad_str = synthesis.get("ad_strength", 50.0)
         pd_str = synthesis.get("pd_strength", 50.0)
-        act_score = round((md_str + ad_str + pd_str) / 3.0)
+        act_score = synthesis.get("dasha_strength", 50.0)
         act_grade = DisplayFormatter._map_display_grade("STRONG" if act_score >= 70 else "MODERATE")
         
         dasha_status = CurrentDashaStatusDisplay(
@@ -593,13 +583,8 @@ class DisplayFormatter:
         timeline_rows.sort(key=lambda x: datetime.strptime(x.start_date, "%d %b %Y") if x.start_date != "Unknown" else datetime.min)
 
         # Dynamic Snapshot Logic
-        total_score = 0
-        count = 0
-        for k, v in promise.items():
-            if isinstance(v, dict) and 'score' in v:
-                total_score += v.get("score", 50)
-                count += 1
-        overall_score = round(total_score / count) if count > 0 else 50
+        master_prob = pipeline_data.get("master_probability", {})
+        overall_score = int(master_prob.get("final_score", 50.0))
         overall_promise_disp = DisplayFormatter.format_percentage(overall_score)
         
         current_trend = "Stable"
@@ -645,10 +630,10 @@ class DisplayFormatter:
         transit_data = pipeline_data.get("engine_outputs", {}).get("transit", {})
         metadata = transit_data.get("metadata", {})
         
-        mandali_data = transit_data.get("mandali", {})
+        mandali_data = pipeline_data.get("engine_outputs", {}).get("mandali", {})
         
         # Calculate Sade Sati from transit_houses (relative Mandali)
-        t_houses = transit_data.get("transit_houses", {})
+        t_houses = mandali_data.get("transit_houses", {})
         sat_house = t_houses.get("saturn", 0)
         sade_sati_status = "Not Active"
         sade_sati_phase = "N/A"
@@ -671,7 +656,7 @@ class DisplayFormatter:
             mandali_boundaries=mandali_data.get("mandali_boundaries", ""),
             sade_sati_status=sade_sati_status,
             sade_sati_phase=sade_sati_phase,
-            activated_zones=mandali_data.get("activated_zones", []),
+            activated_zones=[str(z) for z in mandali_data.get("activated_zones", [])],
             activated_bhavas=mandali_data.get("activated_bhavas", []),
             activated_planets=mandali_data.get("activated_planets", []),
             explanation=DisplayFormatter._build_explanation(mandali_data, mandali_data.get("score", 0), "Mandali evaluation based on Moon position")
@@ -680,7 +665,7 @@ class DisplayFormatter:
         explanation = DisplayFormatter._build_explanation(
             transit_data, 
             transit_data.get("activation_score", 0), 
-            "Gochara Activation = Primary*0.5 + Support*0.3 + BAV*0.2"
+            "Calculated by TransitEngine"
         )
         
         return GocharaReport(
@@ -704,7 +689,7 @@ class DisplayFormatter:
             explanation = DisplayFormatter._build_explanation(
                 q, 
                 final_prob, 
-                "Probability = (Natal*0.6) + (Dasha*0.4) + Gochara Modifiers"
+                "Calculated by MasterProbabilityEngine"
             )
             
             confidence = q.get("confidence")

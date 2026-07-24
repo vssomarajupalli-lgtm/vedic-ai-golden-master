@@ -3,10 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { registerSW } from 'virtual:pwa-register'
 import './index.css'
 import App from './App.tsx'
-import { seedKnowledgeGraph } from './services/knowledge'
 import ErrorBoundary from './components/ErrorBoundary'
-
-seedKnowledgeGraph()
 
 // Register service worker with update prompt
 registerSW({
