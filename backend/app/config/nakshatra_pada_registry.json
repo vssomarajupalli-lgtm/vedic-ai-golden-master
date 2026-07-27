@@ -1,0 +1,548 @@
+{
+    "registry_id": "nakshatra_pada_registry",
+    "version": "1.0",
+    "description": "Canonical Nakshatra-Pada sequence mapping absolute pada index (1-108) to Nakshatra name and Pada number",
+    "governance_ref": "GOCHARA_MANDALI_GOVERNANCE_v1.md Section 6.1",
+    "entries": [
+        {
+            "absolute_pada": 1,
+            "nakshatra": "Ashwini",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 2,
+            "nakshatra": "Ashwini",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 3,
+            "nakshatra": "Ashwini",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 4,
+            "nakshatra": "Ashwini",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 5,
+            "nakshatra": "Bharani",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 6,
+            "nakshatra": "Bharani",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 7,
+            "nakshatra": "Bharani",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 8,
+            "nakshatra": "Bharani",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 9,
+            "nakshatra": "Krittika",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 10,
+            "nakshatra": "Krittika",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 11,
+            "nakshatra": "Krittika",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 12,
+            "nakshatra": "Krittika",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 13,
+            "nakshatra": "Rohini",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 14,
+            "nakshatra": "Rohini",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 15,
+            "nakshatra": "Rohini",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 16,
+            "nakshatra": "Rohini",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 17,
+            "nakshatra": "Mrigashira",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 18,
+            "nakshatra": "Mrigashira",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 19,
+            "nakshatra": "Mrigashira",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 20,
+            "nakshatra": "Mrigashira",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 21,
+            "nakshatra": "Ardra",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 22,
+            "nakshatra": "Ardra",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 23,
+            "nakshatra": "Ardra",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 24,
+            "nakshatra": "Ardra",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 25,
+            "nakshatra": "Punarvasu",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 26,
+            "nakshatra": "Punarvasu",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 27,
+            "nakshatra": "Punarvasu",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 28,
+            "nakshatra": "Punarvasu",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 29,
+            "nakshatra": "Pushya",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 30,
+            "nakshatra": "Pushya",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 31,
+            "nakshatra": "Pushya",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 32,
+            "nakshatra": "Pushya",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 33,
+            "nakshatra": "Ashlesha",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 34,
+            "nakshatra": "Ashlesha",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 35,
+            "nakshatra": "Ashlesha",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 36,
+            "nakshatra": "Ashlesha",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 37,
+            "nakshatra": "Magha",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 38,
+            "nakshatra": "Magha",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 39,
+            "nakshatra": "Magha",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 40,
+            "nakshatra": "Magha",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 41,
+            "nakshatra": "Purva Phalguni",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 42,
+            "nakshatra": "Purva Phalguni",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 43,
+            "nakshatra": "Purva Phalguni",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 44,
+            "nakshatra": "Purva Phalguni",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 45,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 46,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 47,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 48,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 49,
+            "nakshatra": "Hasta",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 50,
+            "nakshatra": "Hasta",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 51,
+            "nakshatra": "Hasta",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 52,
+            "nakshatra": "Hasta",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 53,
+            "nakshatra": "Chitra",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 54,
+            "nakshatra": "Chitra",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 55,
+            "nakshatra": "Chitra",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 56,
+            "nakshatra": "Chitra",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 57,
+            "nakshatra": "Swati",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 58,
+            "nakshatra": "Swati",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 59,
+            "nakshatra": "Swati",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 60,
+            "nakshatra": "Swati",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 61,
+            "nakshatra": "Vishakha",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 62,
+            "nakshatra": "Vishakha",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 63,
+            "nakshatra": "Vishakha",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 64,
+            "nakshatra": "Vishakha",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 65,
+            "nakshatra": "Anuradha",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 66,
+            "nakshatra": "Anuradha",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 67,
+            "nakshatra": "Anuradha",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 68,
+            "nakshatra": "Anuradha",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 69,
+            "nakshatra": "Jyeshtha",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 70,
+            "nakshatra": "Jyeshtha",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 71,
+            "nakshatra": "Jyeshtha",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 72,
+            "nakshatra": "Jyeshtha",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 73,
+            "nakshatra": "Mula",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 74,
+            "nakshatra": "Mula",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 75,
+            "nakshatra": "Mula",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 76,
+            "nakshatra": "Mula",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 77,
+            "nakshatra": "Purva Ashadha",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 78,
+            "nakshatra": "Purva Ashadha",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 79,
+            "nakshatra": "Purva Ashadha",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 80,
+            "nakshatra": "Purva Ashadha",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 81,
+            "nakshatra": "Uttara Ashadha",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 82,
+            "nakshatra": "Uttara Ashadha",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 83,
+            "nakshatra": "Uttara Ashadha",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 84,
+            "nakshatra": "Uttara Ashadha",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 85,
+            "nakshatra": "Shravana",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 86,
+            "nakshatra": "Shravana",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 87,
+            "nakshatra": "Shravana",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 88,
+            "nakshatra": "Shravana",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 89,
+            "nakshatra": "Dhanishta",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 90,
+            "nakshatra": "Dhanishta",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 91,
+            "nakshatra": "Dhanishta",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 92,
+            "nakshatra": "Dhanishta",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 93,
+            "nakshatra": "Shatabhisha",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 94,
+            "nakshatra": "Shatabhisha",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 95,
+            "nakshatra": "Shatabhisha",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 96,
+            "nakshatra": "Shatabhisha",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 97,
+            "nakshatra": "Purva Bhadrapada",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 98,
+            "nakshatra": "Purva Bhadrapada",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 99,
+            "nakshatra": "Purva Bhadrapada",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 100,
+            "nakshatra": "Purva Bhadrapada",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 101,
+            "nakshatra": "Uttara Bhadrapada",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 102,
+            "nakshatra": "Uttara Bhadrapada",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 103,
+            "nakshatra": "Uttara Bhadrapada",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 104,
+            "nakshatra": "Uttara Bhadrapada",
+            "pada": 4
+        },
+        {
+            "absolute_pada": 105,
+            "nakshatra": "Revati",
+            "pada": 1
+        },
+        {
+            "absolute_pada": 106,
+            "nakshatra": "Revati",
+            "pada": 2
+        },
+        {
+            "absolute_pada": 107,
+            "nakshatra": "Revati",
+            "pada": 3
+        },
+        {
+            "absolute_pada": 108,
+            "nakshatra": "Revati",
+            "pada": 4
+        }
+    ]
+}

@@ -13,13 +13,12 @@ from app.engines.ashtakavarga_engine import AshtakavargaEngine
 from app.engines.master_probability_engine import MasterProbabilityEngine
 from app.engines.natal_promise_engine import NatalPromiseEngine
 from app.engines.transit_engine import TransitEngine
-from app.engines.mandali_generator import MandaliGenerator
+from app.engines.universal_mandali_engine import UniversalMandaliEngine
 from app.engines.yoga_engine import YogaEngine
 from app.engines.question_engine import QuestionEngine
 from app.engines.functional_nature_engine import FunctionalNatureEngine
 from app.formulas.loader import formula_repository_loader
 from app.formulas.evaluator import FormulaEvaluator
-from app.utils.ephemeris_service import EphemerisService
 from app.config.astrology_constants import (
     SIGNS_IN_ORDER,
     PROBABILITY_GRADES,
@@ -46,13 +45,12 @@ class PipelineRunner:
         self.rasi_engine     = RasiStrengthEngine()
         self.av_engine       = AshtakavargaEngine()
         self.natal_engine    = NatalPromiseEngine()
-        self.mandali_generator = MandaliGenerator()
         self.transit_engine  = TransitEngine()
+        self.universal_mandali_engine = UniversalMandaliEngine()
         self.yoga_engine     = YogaEngine()
         self.question_engine = QuestionEngine()
         self.functional_nature_engine = FunctionalNatureEngine()
         self.master_engine   = MasterProbabilityEngine()
-        self.ephemeris       = EphemerisService()
 
     def _resolve_target_date_utc(self, metadata: dict, default_utc=None) -> "datetime.datetime":
         """
@@ -231,44 +229,39 @@ class PipelineRunner:
         engine_outputs["natal_promise"] = natal_results
 
         # 7.75 Transit Engine (Timing Layer)
-        # 1. Fetch stateless sidereal planet transits for "right now"
-        raw_transits = self.ephemeris.generate_transit_snapshot(target_date_utc=target_date_utc)
-
-        # 2. Contextualize transits using the native's D1 Lagna
-        # Formula: house = ((transit_sign - lagna_sign + 12) % 12) + 1
-        asc_sign = normalized_payload.get("metadata", {}).get("ascendant_sign", "aries").lower()
-        try:
-            lagna_idx = SIGNS_IN_ORDER.index(asc_sign)
-        except ValueError:
-            lagna_idx = 0
-
-        contextual_transits = {"planets": {}}
-        for p, data in raw_transits.get("planets", {}).items():
-            try:
-                t_sign_idx = SIGNS_IN_ORDER.index(data["sign"])
-                house = ((t_sign_idx - lagna_idx + 12) % 12) + 1
-            except ValueError:
-                house = 1
-            # Merge with raw ephemeris data
-            contextual_transits["planets"][p] = {**data, "house": house}
-
-        # 3a. Generate canonical Mandali block
-        mandali = self.mandali_generator.evaluate(
-            transit_payload       = contextual_transits,
-            natal_payload         = normalized_payload
-        )
-        engine_outputs["mandali"] = mandali
-        
-        # 3b. Evaluate transit impact using pre-computed natal + timing scores
-        transit_results = self.transit_engine.evaluate(
-            transit_payload       = contextual_transits,
-            natal_payload         = normalized_payload,
-            dasha_results         = dasha_results,
-            av_results            = av_results,
-            natal_promise_results = natal_results,
-            mandali_results       = mandali,
-        )
+        # Use Canonical JSON's current_transit directly (Option A path)
+        # Only run if Canonical JSON has the required transit structure
+        canonical_json = raw_input_data.get("canonical_content") or raw_input_data.get("canonical_json") or raw_input_data
+        transit_results = None
+        if isinstance(canonical_json, dict) and "natal" in canonical_json and "current_transit" in canonical_json:
+            # Convert Canonical JSON's current_transit to TransitEngine format
+            transit_payload = {"planets": {}}
+            for tp in canonical_json.get("current_transit", []):
+                transit_payload["planets"][tp["planet"]] = {
+                    "house": tp.get("house_from_moon"),
+                    "sign": tp.get("rasi"),
+                    "degree": 0  # degree not used in Option A path
+                }
+            transit_results = self.transit_engine.evaluate(
+                transit_payload       = transit_payload,
+                natal_payload         = normalized_payload,
+                dasha_results         = dasha_results,
+                av_results            = av_results,
+                natal_promise_results = natal_results,
+                mandali_results       = None,
+            )
+        else:
+            # Stub fallback if no Canonical JSON transit data
+            transit_results = {"activation_score": 50, "grade": "GOOD", "activated_domains": {}, "supporting_factors": [], "obstructing_factors": [], "breakdown": {}, "confidence_flags": ["transit_stub_no_input"], "stub_factors": ["all"]}
         engine_outputs["transit"] = transit_results
+
+        # --- Universal Mandali Engine (Capability 7.7) ---
+        # Execute after TransitEngine, using Canonical JSON from input
+        canonical_json = raw_input_data.get("canonical_content") or raw_input_data.get("canonical_json") or raw_input_data
+        # Only run if Canonical JSON has the required transit structure
+        if isinstance(canonical_json, dict) and "natal" in canonical_json and "current_transit" in canonical_json:
+            mandali_advisory = self.universal_mandali_engine.generate_mandali_advisory(canonical_json)
+            engine_outputs["mandali_advisory"] = mandali_advisory
 
         # Add yoga results to outputs for the master engine
         engine_outputs["yogas"] = yoga_results

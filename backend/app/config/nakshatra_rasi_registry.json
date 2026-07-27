@@ -1,0 +1,548 @@
+{
+    "registry_id": "nakshatra_rasi_registry",
+    "version": "1.0",
+    "description": "Canonical Nakshatra to Rasi mapping with pada-level granularity for nakshatras spanning rasi boundaries",
+    "governance_ref": "GOCHARA_MANDALI_GOVERNANCE_v1.md Section 6.2",
+    "mappings": [
+        {
+            "nakshatra": "Ashwini",
+            "pada": 1,
+            "rasi": "Mesha"
+        },
+        {
+            "nakshatra": "Ashwini",
+            "pada": 2,
+            "rasi": "Mesha"
+        },
+        {
+            "nakshatra": "Ashwini",
+            "pada": 3,
+            "rasi": "Mesha"
+        },
+        {
+            "nakshatra": "Ashwini",
+            "pada": 4,
+            "rasi": "Mesha"
+        },
+        {
+            "nakshatra": "Bharani",
+            "pada": 1,
+            "rasi": "Mesha"
+        },
+        {
+            "nakshatra": "Bharani",
+            "pada": 2,
+            "rasi": "Mesha"
+        },
+        {
+            "nakshatra": "Bharani",
+            "pada": 3,
+            "rasi": "Mesha"
+        },
+        {
+            "nakshatra": "Bharani",
+            "pada": 4,
+            "rasi": "Mesha"
+        },
+        {
+            "nakshatra": "Krittika",
+            "pada": 1,
+            "rasi": "Mesha"
+        },
+        {
+            "nakshatra": "Krittika",
+            "pada": 2,
+            "rasi": "Vrishabha"
+        },
+        {
+            "nakshatra": "Krittika",
+            "pada": 3,
+            "rasi": "Vrishabha"
+        },
+        {
+            "nakshatra": "Krittika",
+            "pada": 4,
+            "rasi": "Vrishabha"
+        },
+        {
+            "nakshatra": "Rohini",
+            "pada": 1,
+            "rasi": "Vrishabha"
+        },
+        {
+            "nakshatra": "Rohini",
+            "pada": 2,
+            "rasi": "Vrishabha"
+        },
+        {
+            "nakshatra": "Rohini",
+            "pada": 3,
+            "rasi": "Vrishabha"
+        },
+        {
+            "nakshatra": "Rohini",
+            "pada": 4,
+            "rasi": "Vrishabha"
+        },
+        {
+            "nakshatra": "Mrigashira",
+            "pada": 1,
+            "rasi": "Vrishabha"
+        },
+        {
+            "nakshatra": "Mrigashira",
+            "pada": 2,
+            "rasi": "Vrishabha"
+        },
+        {
+            "nakshatra": "Mrigashira",
+            "pada": 3,
+            "rasi": "Mithuna"
+        },
+        {
+            "nakshatra": "Mrigashira",
+            "pada": 4,
+            "rasi": "Mithuna"
+        },
+        {
+            "nakshatra": "Ardra",
+            "pada": 1,
+            "rasi": "Mithuna"
+        },
+        {
+            "nakshatra": "Ardra",
+            "pada": 2,
+            "rasi": "Mithuna"
+        },
+        {
+            "nakshatra": "Ardra",
+            "pada": 3,
+            "rasi": "Mithuna"
+        },
+        {
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "rasi": "Mithuna"
+        },
+        {
+            "nakshatra": "Punarvasu",
+            "pada": 1,
+            "rasi": "Mithuna"
+        },
+        {
+            "nakshatra": "Punarvasu",
+            "pada": 2,
+            "rasi": "Mithuna"
+        },
+        {
+            "nakshatra": "Punarvasu",
+            "pada": 3,
+            "rasi": "Mithuna"
+        },
+        {
+            "nakshatra": "Punarvasu",
+            "pada": 4,
+            "rasi": "Karkata"
+        },
+        {
+            "nakshatra": "Pushya",
+            "pada": 1,
+            "rasi": "Karkata"
+        },
+        {
+            "nakshatra": "Pushya",
+            "pada": 2,
+            "rasi": "Karkata"
+        },
+        {
+            "nakshatra": "Pushya",
+            "pada": 3,
+            "rasi": "Karkata"
+        },
+        {
+            "nakshatra": "Pushya",
+            "pada": 4,
+            "rasi": "Karkata"
+        },
+        {
+            "nakshatra": "Ashlesha",
+            "pada": 1,
+            "rasi": "Karkata"
+        },
+        {
+            "nakshatra": "Ashlesha",
+            "pada": 2,
+            "rasi": "Karkata"
+        },
+        {
+            "nakshatra": "Ashlesha",
+            "pada": 3,
+            "rasi": "Karkata"
+        },
+        {
+            "nakshatra": "Ashlesha",
+            "pada": 4,
+            "rasi": "Karkata"
+        },
+        {
+            "nakshatra": "Magha",
+            "pada": 1,
+            "rasi": "Simha"
+        },
+        {
+            "nakshatra": "Magha",
+            "pada": 2,
+            "rasi": "Simha"
+        },
+        {
+            "nakshatra": "Magha",
+            "pada": 3,
+            "rasi": "Simha"
+        },
+        {
+            "nakshatra": "Magha",
+            "pada": 4,
+            "rasi": "Simha"
+        },
+        {
+            "nakshatra": "Purva Phalguni",
+            "pada": 1,
+            "rasi": "Simha"
+        },
+        {
+            "nakshatra": "Purva Phalguni",
+            "pada": 2,
+            "rasi": "Simha"
+        },
+        {
+            "nakshatra": "Purva Phalguni",
+            "pada": 3,
+            "rasi": "Simha"
+        },
+        {
+            "nakshatra": "Purva Phalguni",
+            "pada": 4,
+            "rasi": "Simha"
+        },
+        {
+            "nakshatra": "Uttara Phalguni",
+            "pada": 1,
+            "rasi": "Simha"
+        },
+        {
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "rasi": "Kanya"
+        },
+        {
+            "nakshatra": "Uttara Phalguni",
+            "pada": 3,
+            "rasi": "Kanya"
+        },
+        {
+            "nakshatra": "Uttara Phalguni",
+            "pada": 4,
+            "rasi": "Kanya"
+        },
+        {
+            "nakshatra": "Hasta",
+            "pada": 1,
+            "rasi": "Kanya"
+        },
+        {
+            "nakshatra": "Hasta",
+            "pada": 2,
+            "rasi": "Kanya"
+        },
+        {
+            "nakshatra": "Hasta",
+            "pada": 3,
+            "rasi": "Kanya"
+        },
+        {
+            "nakshatra": "Hasta",
+            "pada": 4,
+            "rasi": "Kanya"
+        },
+        {
+            "nakshatra": "Chitra",
+            "pada": 1,
+            "rasi": "Kanya"
+        },
+        {
+            "nakshatra": "Chitra",
+            "pada": 2,
+            "rasi": "Kanya"
+        },
+        {
+            "nakshatra": "Chitra",
+            "pada": 3,
+            "rasi": "Tula"
+        },
+        {
+            "nakshatra": "Chitra",
+            "pada": 4,
+            "rasi": "Tula"
+        },
+        {
+            "nakshatra": "Swati",
+            "pada": 1,
+            "rasi": "Tula"
+        },
+        {
+            "nakshatra": "Swati",
+            "pada": 2,
+            "rasi": "Tula"
+        },
+        {
+            "nakshatra": "Swati",
+            "pada": 3,
+            "rasi": "Tula"
+        },
+        {
+            "nakshatra": "Swati",
+            "pada": 4,
+            "rasi": "Tula"
+        },
+        {
+            "nakshatra": "Vishakha",
+            "pada": 1,
+            "rasi": "Tula"
+        },
+        {
+            "nakshatra": "Vishakha",
+            "pada": 2,
+            "rasi": "Tula"
+        },
+        {
+            "nakshatra": "Vishakha",
+            "pada": 3,
+            "rasi": "Tula"
+        },
+        {
+            "nakshatra": "Vishakha",
+            "pada": 4,
+            "rasi": "Vrishchika"
+        },
+        {
+            "nakshatra": "Anuradha",
+            "pada": 1,
+            "rasi": "Vrishchika"
+        },
+        {
+            "nakshatra": "Anuradha",
+            "pada": 2,
+            "rasi": "Vrishchika"
+        },
+        {
+            "nakshatra": "Anuradha",
+            "pada": 3,
+            "rasi": "Vrishchika"
+        },
+        {
+            "nakshatra": "Anuradha",
+            "pada": 4,
+            "rasi": "Vrishchika"
+        },
+        {
+            "nakshatra": "Jyeshtha",
+            "pada": 1,
+            "rasi": "Vrishchika"
+        },
+        {
+            "nakshatra": "Jyeshtha",
+            "pada": 2,
+            "rasi": "Vrishchika"
+        },
+        {
+            "nakshatra": "Jyeshtha",
+            "pada": 3,
+            "rasi": "Vrishchika"
+        },
+        {
+            "nakshatra": "Jyeshtha",
+            "pada": 4,
+            "rasi": "Vrishchika"
+        },
+        {
+            "nakshatra": "Mula",
+            "pada": 1,
+            "rasi": "Dhanus"
+        },
+        {
+            "nakshatra": "Mula",
+            "pada": 2,
+            "rasi": "Dhanus"
+        },
+        {
+            "nakshatra": "Mula",
+            "pada": 3,
+            "rasi": "Dhanus"
+        },
+        {
+            "nakshatra": "Mula",
+            "pada": 4,
+            "rasi": "Dhanus"
+        },
+        {
+            "nakshatra": "Purva Ashadha",
+            "pada": 1,
+            "rasi": "Dhanus"
+        },
+        {
+            "nakshatra": "Purva Ashadha",
+            "pada": 2,
+            "rasi": "Dhanus"
+        },
+        {
+            "nakshatra": "Purva Ashadha",
+            "pada": 3,
+            "rasi": "Dhanus"
+        },
+        {
+            "nakshatra": "Purva Ashadha",
+            "pada": 4,
+            "rasi": "Dhanus"
+        },
+        {
+            "nakshatra": "Uttara Ashadha",
+            "pada": 1,
+            "rasi": "Dhanus"
+        },
+        {
+            "nakshatra": "Uttara Ashadha",
+            "pada": 2,
+            "rasi": "Makara"
+        },
+        {
+            "nakshatra": "Uttara Ashadha",
+            "pada": 3,
+            "rasi": "Makara"
+        },
+        {
+            "nakshatra": "Uttara Ashadha",
+            "pada": 4,
+            "rasi": "Makara"
+        },
+        {
+            "nakshatra": "Shravana",
+            "pada": 1,
+            "rasi": "Makara"
+        },
+        {
+            "nakshatra": "Shravana",
+            "pada": 2,
+            "rasi": "Makara"
+        },
+        {
+            "nakshatra": "Shravana",
+            "pada": 3,
+            "rasi": "Makara"
+        },
+        {
+            "nakshatra": "Shravana",
+            "pada": 4,
+            "rasi": "Makara"
+        },
+        {
+            "nakshatra": "Dhanishta",
+            "pada": 1,
+            "rasi": "Makara"
+        },
+        {
+            "nakshatra": "Dhanishta",
+            "pada": 2,
+            "rasi": "Makara"
+        },
+        {
+            "nakshatra": "Dhanishta",
+            "pada": 3,
+            "rasi": "Kumbha"
+        },
+        {
+            "nakshatra": "Dhanishta",
+            "pada": 4,
+            "rasi": "Kumbha"
+        },
+        {
+            "nakshatra": "Shatabhisha",
+            "pada": 1,
+            "rasi": "Kumbha"
+        },
+        {
+            "nakshatra": "Shatabhisha",
+            "pada": 2,
+            "rasi": "Kumbha"
+        },
+        {
+            "nakshatra": "Shatabhisha",
+            "pada": 3,
+            "rasi": "Kumbha"
+        },
+        {
+            "nakshatra": "Shatabhisha",
+            "pada": 4,
+            "rasi": "Kumbha"
+        },
+        {
+            "nakshatra": "Purva Bhadrapada",
+            "pada": 1,
+            "rasi": "Kumbha"
+        },
+        {
+            "nakshatra": "Purva Bhadrapada",
+            "pada": 2,
+            "rasi": "Kumbha"
+        },
+        {
+            "nakshatra": "Purva Bhadrapada",
+            "pada": 3,
+            "rasi": "Kumbha"
+        },
+        {
+            "nakshatra": "Purva Bhadrapada",
+            "pada": 4,
+            "rasi": "Meena"
+        },
+        {
+            "nakshatra": "Uttara Bhadrapada",
+            "pada": 1,
+            "rasi": "Meena"
+        },
+        {
+            "nakshatra": "Uttara Bhadrapada",
+            "pada": 2,
+            "rasi": "Meena"
+        },
+        {
+            "nakshatra": "Uttara Bhadrapada",
+            "pada": 3,
+            "rasi": "Meena"
+        },
+        {
+            "nakshatra": "Uttara Bhadrapada",
+            "pada": 4,
+            "rasi": "Meena"
+        },
+        {
+            "nakshatra": "Revati",
+            "pada": 1,
+            "rasi": "Meena"
+        },
+        {
+            "nakshatra": "Revati",
+            "pada": 2,
+            "rasi": "Meena"
+        },
+        {
+            "nakshatra": "Revati",
+            "pada": 3,
+            "rasi": "Meena"
+        },
+        {
+            "nakshatra": "Revati",
+            "pada": 4,
+            "rasi": "Meena"
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "registry_id": "rasi_sequence_registry",
+    "version": "1.0",
+    "description": "Canonical Rasi (zodiac sign) sequence in zodiacal order",
+    "governance_ref": "GOCHARA_MANDALI_GOVERNANCE_v1.md Section 6.3",
+    "sequence": [
+        "Mesha",
+        "Vrishabha",
+        "Mithuna",
+        "Karkata",
+        "Simha",
+        "Kanya",
+        "Tula",
+        "Vrishchika",
+        "Dhanus",
+        "Makara",
+        "Kumbha",
+        "Meena"
+    ]
+}
