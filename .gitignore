@@ -150,6 +150,7 @@ out/
 *.swp
 *.swo
 *~
+.kilo/
 
 # OS
 .DS_Store
@@ -160,6 +161,11 @@ Thumbs.db
 *.tmp
 *.temp
 *.bak
+
+# Nginx
+nginx/*.tmp
+nginx/*.new
+nginx/ssl/
 
 *.pyc
 *.pyo

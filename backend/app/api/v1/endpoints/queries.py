@@ -32,7 +32,23 @@ def ask_question(request: QuestionRequest) -> Any:
             raise HTTPException(status_code=400, detail="Must provide either question_text or question_id")
         
         # Extract actual internal payload if wrapped inside a ChartProcessResponse
-        internal_payload = request.engine_outputs.get("engine_outputs", request.engine_outputs.get("breakdown", request.engine_outputs))
+        # The question engine expects the full pipeline output structure
+        internal_payload = request.engine_outputs
+        if isinstance(internal_payload, dict) and "engine_outputs" in internal_payload:
+            # Already has the full structure
+            pass
+        else:
+            # Wrap in the expected pipeline output structure
+            internal_payload = {
+                "engine_outputs": internal_payload,
+                "master_probability": request.master_probability,
+                "metadata": request.metadata,
+                "target_date_utc": request.target_date_utc
+            }
+        
+        # Pass target_date_utc through to pipeline_runner (Single Source of Truth)
+        if request.target_date_utc:
+            internal_payload["target_date_utc"] = request.target_date_utc
         
         resolved_question_id = None
         question_text_to_process = request.question_text

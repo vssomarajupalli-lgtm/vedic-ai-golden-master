@@ -22,3 +22,5 @@ class ChartProcessResponse(BaseModel):
     # New fields for full engine outputs
     master_probability: Optional[Dict[str, Any]] = Field(None, description="Master probability synthesis with breakdown and lifetime projection")
     engine_outputs: Optional[Dict[str, Any]] = Field(None, description="All engine outputs (planets, houses, vargas, dashas, rasis, ashtakavarga, natal_promise, transit, yogas)")
+    target_date_utc: Optional[str] = Field(None, description="UTC timestamp resolved by pipeline for transit/dasha calculations")
+    metadata: Optional[Dict[str, Any]] = Field(None, description="Pipeline metadata including consultation date")

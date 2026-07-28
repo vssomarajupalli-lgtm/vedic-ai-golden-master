@@ -42,6 +42,9 @@ class KnowledgeNode(BaseModel):
     version: int
     created_at: str
     updated_at: str
+    evidence: Optional[Dict[str, Any]] = Field(default=None, description="Computed evidence summary")
+    references: Optional[List[Dict[str, Any]]] = Field(default=None, description="Computed cross-references")
+    relationships: Optional[Dict[str, int]] = Field(default=None, description="Computed relationship counts by type")
 
 
 class KnowledgeRelationship(BaseModel):

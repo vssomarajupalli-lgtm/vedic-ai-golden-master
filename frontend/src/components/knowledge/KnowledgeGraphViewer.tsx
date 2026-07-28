@@ -1,6 +1,6 @@
 // BKL-008B — Knowledge Graph Viewer Component
 import React, { useState, useMemo, useEffect } from 'react';
-import { useKnowledgeRepository, KnowledgeService, NODE_TYPES, DOMAINS } from '../../services/knowledge';
+import { useKnowledgeRepository, KnowledgeService, NODE_TYPES, RELATIONSHIP_TYPES, DOMAINS } from '../../services/knowledge';
 import type { KnowledgeNode, KnowledgeNodeType, CrossReference, EvidenceChainStep } from '../../services/knowledge';
 import { apiService } from '../../api/backend';
 
@@ -261,6 +261,74 @@ export const KnowledgeGraphViewer: React.FC = () => {
                         <div className="text-gray-700">{nodeRels.length}</div>
                       </div>
                     </div>
+                    {/* Computed Evidence Summary */}
+                    {selectedNode.evidence && (
+                      <div className="bg-blue-50 border border-blue-100 rounded-lg p-3">
+                        <div className="text-xs font-medium text-blue-700 uppercase tracking-wide mb-2">Evidence Summary</div>
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                          <div>
+                            <span className="text-blue-600">Level: </span>
+                            <span className="font-medium text-gray-700">{selectedNode.evidence.level}</span>
+                          </div>
+                          <div>
+                            <span className="text-blue-600">Confidence: </span>
+                            <span className="font-medium text-gray-700">{selectedNode.evidence.confidence}%</span>
+                          </div>
+                          <div>
+                            <span className="text-blue-600">Source: </span>
+                            <span className="font-medium text-gray-700">{selectedNode.evidence.source}</span>
+                          </div>
+                          <div>
+                            <span className="text-blue-600">Revision: </span>
+                            <span className="font-medium text-gray-700">{selectedNode.evidence.revision}</span>
+                          </div>
+                        </div>
+                        <div className="mt-2 text-xs text-blue-600">{selectedNode.evidence.summary}</div>
+                        {selectedNode.evidence.chain && selectedNode.evidence.chain.length > 0 && (
+                          <div className="mt-2 text-xs text-gray-500">
+                            Chain: {selectedNode.evidence.chain.map(s => s.description).join(' → ')}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    {/* Computed References */}
+                    {selectedNode.references && selectedNode.references.length > 0 && (
+                      <div className="bg-purple-50 border border-purple-100 rounded-lg p-3">
+                        <div className="text-xs font-medium text-purple-700 uppercase tracking-wide mb-2">
+                          Cross-References ({selectedNode.references.length})
+                        </div>
+                        <div className="space-y-1 max-h-40 overflow-y-auto">
+                          {selectedNode.references.slice(0, 5).map((ref: any, i: number) => (
+                            <div key={i} className="flex items-center gap-2 text-xs p-1 bg-white rounded">
+                              <span className={`px-1.5 py-0.5 rounded ${
+                                ref.relevance === 'direct' ? 'bg-emerald-100 text-emerald-700' :
+                                ref.relevance === 'indirect' ? 'bg-amber-100 text-amber-700' :
+                                'bg-gray-100 text-gray-600'
+                              }`}>{ref.relevance}</span>
+                              <span className="text-purple-600">{ref.relationship}</span>
+                              <span>{NODE_TYPES[ref.type as keyof typeof NODE_TYPES]?.icon}</span>
+                              <span className="font-medium text-gray-700 truncate">{ref.label}</span>
+                            </div>
+                          ))}
+                          {selectedNode.references.length > 5 && (
+                            <div className="text-xs text-gray-400">+{selectedNode.references.length - 5} more...</div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    {/* Computed Relationship Counts by Type */}
+                    {selectedNode.relationships && Object.keys(selectedNode.relationships).length > 0 && (
+                      <div className="bg-amber-50 border border-amber-100 rounded-lg p-3">
+                        <div className="text-xs font-medium text-amber-700 uppercase tracking-wide mb-2">Relationships by Type</div>
+                        <div className="flex flex-wrap gap-2">
+                          {Object.entries(selectedNode.relationships).map(([type, count]) => (
+                            <span key={type} className="px-2 py-0.5 bg-amber-100 text-amber-700 rounded text-xs">
+                              {RELATIONSHIP_TYPES[type as keyof typeof RELATIONSHIP_TYPES]?.label || type}: {count}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                     {Object.keys(selectedNode.properties).length > 0 && (
                       <div>
                         <div className="text-xs font-medium text-gray-500 uppercase tracking-wide">Properties</div>

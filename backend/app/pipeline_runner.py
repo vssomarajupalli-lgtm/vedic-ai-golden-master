@@ -88,11 +88,13 @@ class PipelineRunner:
         # 1. Extract canonical content if wrapped
         if "canonical_content" in raw_input_data:
             canonical_data = raw_input_data["canonical_content"]
+            canonical_json = raw_input_data.get("canonical_json")
         else:
             canonical_data = raw_input_data
+            canonical_json = raw_input_data.get("canonical_json")
 
         # 1. Normalize the raw data into our strict deterministic schema
-        normalized_payload = self.normalizer.normalize(canonical_data)
+        normalized_payload = self.normalizer.normalize(canonical_data, canonical_json=canonical_json)
 
         if target_date_utc is None:
             metadata = normalized_payload.get("metadata", {})

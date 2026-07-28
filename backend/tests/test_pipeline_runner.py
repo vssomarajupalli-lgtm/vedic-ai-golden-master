@@ -63,7 +63,7 @@ class TestPipelineRunner(unittest.TestCase):
         }
         
         # Monkey-patch the normalizer to inject our perfectly structured test data
-        self.runner.normalizer.normalize = lambda raw: self.mock_normalized_payload
+        self.runner.normalizer.normalize = lambda raw, canonical_json=None: self.mock_normalized_payload
 
         # Execute the pipeline once for all tests to use
         self.results = self.runner.process({})

@@ -10,6 +10,10 @@ class QuestionRequest(BaseModel):
     question_text: Optional[str] = Field(None, description="User's natural language question")
     question_id: Optional[str] = Field(None, description="Specific Question ID from the Question Registry")
     engine_outputs: Dict[str, Any] = Field(..., description="The complete ChartProcessResponse breakdown from a previous calculation")
+    target_date_utc: Optional[str] = Field(None, description="Canonical consultation date in UTC ISO format (e.g., '2024-06-15T12:00:00+00:00')")
+    target_date_utc: Optional[str] = Field(None, description="ISO format target date UTC resolved by the pipeline (Single Source of Truth)")
+    master_probability: Optional[Dict[str, Any]] = Field(None, description="Master probability breakdown from pipeline")
+    metadata: Optional[Dict[str, Any]] = Field(None, description="Additional metadata from pipeline")
 
 class QuestionResponse(BaseModel):
     """

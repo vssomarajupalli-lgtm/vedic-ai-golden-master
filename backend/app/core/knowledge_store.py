@@ -207,6 +207,12 @@ class KnowledgeStore:
         chain: List[Dict[str, Any]] = []
         visited: set = set()
 
+        # Relationship types that contribute to evidence chain
+        evidence_rel_types = (
+            "derived_from", "depends_on", "validated_by",
+            "explains", "influences", "produces", "uses", "strengthens", "weakens"
+        )
+
         def traverse(nid: str, step: int) -> None:
             if nid in visited or nid not in nodes:
                 return
@@ -215,7 +221,7 @@ class KnowledgeStore:
             for rel in rels:
                 if rel.get("source_node_id") != nid:
                     continue
-                if rel.get("type") in ("derived_from", "depends_on", "validated_by"):
+                if rel.get("type") in evidence_rel_types:
                     target = nodes.get(rel.get("target_node_id", ""))
                     chain.append({
                         "step": step,
@@ -307,6 +313,108 @@ class KnowledgeStore:
             "relationship_count": len(rels),
             "checked_at": _now(),
         }
+
+    # ── Computed Fields ──────────────────────────────────────────────────────────
+
+    def get_node_evidence(self, node_id: str) -> Dict[str, Any]:
+        """Compute evidence summary for a node based on its relationships and type."""
+        node = self.get_node(node_id, enrich=False)
+        if not node:
+            return {"summary": "Node not found", "level": "L10", "confidence": 10, "chain": []}
+        
+        chain = self.build_evidence_chain(node_id)
+        highest_level = "L10"
+        confidence = 10
+        
+        # Determine highest evidence level from chain
+        level_map = {
+            "depends_on": "L3",  # Calibration
+            "derived_from": "L2",  # Formula
+            "validated_by": "L1",  # Canonical Rule
+            "explains": "L4",  # Engine Output
+            "influences": "L4",  # Engine Output
+            "produces": "L4",  # Engine Output
+        }
+        
+        for step in chain:
+            # Find the relationship type for this step
+            for rel in self._data.get("relationships", []):
+                if rel.get("id") == step.get("relationship_id"):
+                    rel_type = rel.get("type", "")
+                    if rel_type in level_map:
+                        level = level_map[rel_type]
+                        if level > highest_level:
+                            highest_level = level
+        
+        # Convert level to confidence
+        level_confidence = {"L1": 100, "L2": 90, "L3": 80, "L4": 70, "L5": 60, "L6": 50, "L7": 40, "L8": 30, "L9": 20, "L10": 10}
+        confidence = level_confidence.get(highest_level, 10)
+        
+        return {
+            "summary": f"Evidence chain: {len(chain)} step(s)" if chain else "No evidence chain",
+            "level": highest_level,
+            "confidence": confidence,
+            "source": node.get("source", "unknown"),
+            "revision": f"v{node.get('version', 1)}",
+            "traceability": f"{node.get('type', 'unknown')} → {chain[0]['description'] if chain else 'terminal'}",
+            "chain": chain[:5],  # Limit for display
+        }
+
+    def get_node_references(self, node_id: str) -> List[Dict[str, Any]]:
+        """Get cross-references for a node."""
+        refs = self.get_cross_references(node_id)
+        return [
+            {
+                "node_id": r["related_node"]["id"],
+                "label": r["related_node"]["label"],
+                "type": r["related_node"]["type"],
+                "relationship": r["relationship"]["type"],
+                "relevance": r["relevance"],
+            }
+            for r in refs
+        ]
+
+    def get_node_relationships(self, node_id: str) -> Dict[str, int]:
+        """Get relationship counts by type for a node."""
+        rels = self.get_relationships(node_id)
+        counts: Dict[str, int] = {}
+        for rel in rels:
+            rel_type = rel.get("type", "unknown")
+            counts[rel_type] = counts.get(rel_type, 0) + 1
+        return counts
+
+    def _enrich_node(self, node: Dict[str, Any]) -> Dict[str, Any]:
+        """Add computed fields to a node."""
+        enriched = dict(node)
+        enriched["evidence"] = self.get_node_evidence(node["id"])
+        enriched["references"] = self.get_node_references(node["id"])
+        enriched["relationships"] = self.get_node_relationships(node["id"])
+        return enriched
+
+    # Update list_nodes and get_node to include computed fields
+    def list_nodes(
+        self,
+        node_type: Optional[str] = None,
+        domain: Optional[str] = None,
+        source: Optional[str] = None,
+        enrich: bool = True,
+    ) -> List[Dict[str, Any]]:
+        nodes = self._data.get("nodes", [])
+        if node_type:
+            nodes = [n for n in nodes if n.get("type") == node_type]
+        if domain:
+            nodes = [n for n in nodes if n.get("domain") == domain]
+        if source:
+            nodes = [n for n in nodes if n.get("source") == source]
+        if enrich:
+            nodes = [self._enrich_node(n) for n in nodes]
+        return nodes
+
+    def get_node(self, node_id: str, enrich: bool = True) -> Optional[Dict[str, Any]]:
+        for n in self._data.get("nodes", []):
+            if n["id"] == node_id:
+                return self._enrich_node(n) if enrich else n
+        return None
 
     # ── Seed ────────────────────────────────────────────────────────────────────
 
@@ -453,6 +561,147 @@ class KnowledgeStore:
                 add_rel(gov_ids["system"], gov_ids["ai"], "supersedes", "System Governance is supreme", 1.0, "Governance hierarchy")
             if gov_ids.get("freeze") and gov_ids.get("system"):
                 add_rel(gov_ids["freeze"], gov_ids["system"], "validated_by", "Freeze enforced by governance", 1.0, "Freeze governance")
+
+            # ── Gochara Mandali & Mandali Nodes (Capability 7.1-7.7) ──────────────────
+            gochara_id = add_node(
+                "gochara_mandali",
+                "Gochara Mandali (Current)",
+                "Moon-centered 12-mandali grid resolving current transit positions to mandali numbers for precise gochara analysis",
+                "engine",
+                "transit",
+                {
+                    "mandali_number": 0,
+                    "center_nakshatra": "Krittika",
+                    "center_pada": 1,
+                    "reference_moon_nakshatra": "Krittika",
+                    "reference_moon_pada": 1,
+                    "current_transit_mandali": {}
+                }
+            )
+
+            # 12 Mandali nodes (1-12)
+            mandali_ids: List[str] = []
+            nakshatra_centers = [
+                (1, "Krittika", 1, "Mesha"),      (2, "Rohini", 2, "Vrishabha"),
+                (3, "Mrigashira", 3, "Mithuna"),  (4, "Ardra", 4, "Mithuna"),
+                (5, "Punarvasu", 1, "Karka"),     (6, "Pushya", 2, "Karka"),
+                (7, "Ashlesha", 3, "Karka"),      (8, "Magha", 4, "Simha"),
+                (9, "Purva Phalguni", 1, "Simha"), (10, "Uttara Phalguni", 2, "Kanya"),
+                (11, "Hasta", 3, "Kanya"),        (12, "Chitra", 4, "Tula"),
+            ]
+            for num, center_nak, center_pada, rasi in nakshatra_centers:
+                # Calculate 9 padas for this mandali (center pada ±4)
+                start_pada = (center_pada - 5) if center_pada > 4 else (center_pada + 103)
+                padas = [(start_pada + i - 1) % 108 + 1 for i in range(9)]
+                mid = add_node(
+                    "mandali",
+                    f"Mandali {num}",
+                    f"Center={center_nak} Pada {center_pada}, Rasi={rasi}. Contains 9 padas from {padas[0]} to {padas[-1]}",
+                    "engine",
+                    "transit",
+                    {
+                        "number": num,
+                        "center_pada": center_pada + (num - 1) * 9,  # approximate absolute pada
+                        "center_nakshatra": center_nak,
+                        "center_pada_num": center_pada,
+                        "rasi_name": rasi,
+                        "padas": padas,
+                        "pada_details": [{"pada": p, "nakshatra": center_nak} for p in padas]
+                    }
+                )
+                mandali_ids.append(mid)
+
+            # Gochara Mandali relationships
+            # Moon → Gochara Mandali (centered_on)
+            moon_id = planets.get("Moon")
+            if moon_id:
+                add_rel(moon_id, gochara_id, "centered_on", "Moon nakshatra/pada centers the mandali", 1.0, "Moon-centered frame")
+
+            # Gochara Mandali → Mandali 1-12 (contains)
+            for mid in mandali_ids:
+                add_rel(gochara_id, mid, "contains", "Gochara Mandali contains this mandali", 0.9, "Mandali grid")
+
+            # Gochara Mandali → Transit nodes (resolves)
+            for tid in transit_ids.values():
+                add_rel(gochara_id, tid, "resolves", "Mandali resolves transit to mandali number", 0.8, "Transit resolution")
+
+            # Gochara Mandali → Sadesati/Ashtam/Elinati (activates)
+            for key in ("sadesati", "ashtam"):
+                if key in transit_ids:
+                    add_rel(gochara_id, transit_ids[key], "activates", "Mandali activates this transit cycle", 0.7, "Cycle activation")
+
+            # Universal Mandali Engine → Gochara Mandali (produces)
+            # We'll add this after engine node creation conceptually
+
+            # ── Yoga Nodes ─────────────────────────────────────────────────────────
+            yoga_data = [
+                ("Gaja Kesari Yoga", "Jupiter in Kendra from Moon. Bestows wisdom, wealth, royal status.", ["Jupiter", "Moon"], [1, 4, 7, 10]),
+                ("Raja Yoga", "Lords of Kendra and Trikona in mutual association.", ["Jupiter", "Venus", "Mercury"], [1, 4, 7, 10, 5, 9]),
+                ("Dhana Yoga", "Lords of 2nd and 11th houses in conjunction or mutual aspect.", ["Jupiter", "Venus"], [2, 11]),
+                ("Moksha Yoga", "Ketu in 12th or 4th from Moon; spiritual liberation indicators.", ["Ketu", "Moon"], [4, 12]),
+                ("Ruchaka Yoga", "Mars in own sign in Kendra. Bestows courage, leadership, military success.", ["Mars"], [1, 4, 7, 10]),
+            ]
+            yoga_ids: List[str] = []
+            for yname, ydesc, yplanets, yhouses in yoga_data:
+                yid = add_node("yoga", yname, ydesc, "engine", "yoga", {
+                    "yoga_name": yname,
+                    "classical_type": "raja" if "Raja" in yname else "dhana" if "Dhana" in yname else "moksha" if "Moksha" in yname else "pancha_mahapurusha",
+                    "strength": 80,
+                    "planets_involved": yplanets,
+                    "houses_involved": yhouses,
+                })
+                yoga_ids.append(yid)
+                # Yoga detected by Yoga Engine (produces relationship)
+                add_rel(yid, formula_ids.get("YOG-DT-001", ""), "produced_by", "Yoga detected by Yoga Detection formula", 0.9, "Yoga engine output")
+                # Yoga modifies domains (strengthens/weakens)
+                if "Dhana" in yname:
+                    add_rel(yid, transit_ids["activation"], "strengthens", "Dhana Yoga strengthens wealth transit", 0.7, "Yoga modifier")
+                if "Moksha" in yname:
+                    add_rel(yid, transit_ids["activation"], "strengthens", "Moksha Yoga strengthens spiritual transit", 0.7, "Yoga modifier")
+
+            # ── Probability Node (Master Probability) ────────────────────────────────
+            prob_id = add_node(
+                "probability",
+                "Master Probability (Marriage: 61/100)",
+                "Marriage: 61/100 (MODERATE). Natal Promise: 45, Transit: 78, Dasha: 65",
+                "engine",
+                "probability",
+                {
+                    "final_score": 61,
+                    "grade": "MODERATE",
+                    "breakdown": {"natal_promise": 45, "transit": 78, "dasha": 65},
+                    "weights": {"natal": 0.4, "transit": 0.05, "dasha": 0.1, "planet": 0.15, "house": 0.1, "rasi": 0.1, "varga": 0.1},
+                    "stub_factors": ["Saturn MD", "Jupiter AD", "Jupiter transit H9"],
+                }
+            )
+            # Probability aggregates from subsystems (aggregates relationships)
+            add_rel(prob_id, formula_ids.get("PRB-AG-001", ""), "aggregates", "Probability aggregated by formula", 1.0, "Master probability")
+
+            # ── Engine → Node relationships (produces) ──────────────────────────────
+            # Conceptual: UniversalMandaliEngine produces Gochara Mandali
+            # We represent engines as implicit producers
+            engine_nodes = {
+                "UniversalMandaliEngine": "Universal Mandali Engine",
+                "TransitEngine": "Transit Engine",
+                "PlanetStrengthEngine": "Planet Strength Engine",
+                "NatalPromiseEngine": "Natal Promise Engine",
+                "MasterProbabilityEngine": "Master Probability Engine",
+                "YogaEngine": "Yoga Engine",
+                "DashaEngine": "Dasha Engine",
+                "LifetimeCycleProjector": "Lifetime Cycle Projector",
+            }
+            # Add engine as concept nodes for traceability
+            for eid, elabel in engine_nodes.items():
+                add_node("concept", elabel, f"Deterministic engine: {elabel}", "engine", "engine", {"engine_id": eid})
+
+            # Engine → Node (produces)
+            # UniversalMandaliEngine → Gochara Mandali
+            # TransitEngine → Transit Activation
+            # PlanetStrengthEngine → Planet nodes
+            # MasterProbabilityEngine → Probability node
+            # YogaEngine → Yoga nodes
+            # DashaEngine → Dasha nodes
+            # LifetimeCycleProjector → Transit cycles
 
             self._data["nodes"] = nodes
             self._data["relationships"] = rels

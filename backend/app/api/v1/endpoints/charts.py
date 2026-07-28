@@ -20,12 +20,18 @@ def process_chart(request: ChartProcessRequest) -> Any:
     try:
         log.info("Processing new chart computation request.")
         
-        # Merge canonical content and machine index as expected by PipelineRunner
-        raw_data = request.canonical_content
-        raw_data["_machine_index"] = request.machine_index
+        # The pipeline expects the full request structure with canonical_content key
+        raw_input = {
+            "canonical_content": request.canonical_content,
+            "canonical_json": request.canonical_content.get("canonical_json") if isinstance(request.canonical_content, dict) else None,
+            "_machine_index": request.machine_index
+        }
+        
+        # DEBUG: Log the consultation_date
+        log.info(f"Consultation date in request: {request.canonical_content.get('raw_metadata', {}).get('consultation_date')}")
         
         # Execute the frozen astrological engine
-        outputs = pipeline.process(raw_data)
+        outputs = pipeline.process(raw_input)
         
         # Extract master synthesis block
         master_synth = outputs.get("master_probability", {})
@@ -42,7 +48,9 @@ def process_chart(request: ChartProcessRequest) -> Any:
             breakdown=outputs,
             yogas=yogas,
             master_probability=master_synth,
-            engine_outputs=outputs.get("engine_outputs", {})
+            engine_outputs=outputs.get("engine_outputs", {}),
+            target_date_utc=outputs.get("target_date_utc"),
+            metadata=outputs.get("metadata")
         )
         print("API Response /process-chart Final Score:", response_obj.final_score)
         print("API Response /process-chart Yogas Count:", len(response_obj.yogas))

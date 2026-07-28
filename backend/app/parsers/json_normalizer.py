@@ -73,14 +73,14 @@ class JsonNormalizer:
             "meena rasi": "pisces",
         }
 
-    def normalize(self, raw_data: dict) -> dict:
+    def normalize(self, raw_data: dict, canonical_json: dict = None) -> dict:
         """Main entry point to normalize a complete raw extraction dictionary."""
         print("====== DEBUG START ======")
         print("JsonNormalizer received keys:", list(raw_data.keys()))
         normalized_planets = self._normalize_planets(raw_data.get("raw_planets") or raw_data.get("planets", {}))
         print("Normalized Planets Count:", len(normalized_planets))
         return {
-            "metadata": self._normalize_metadata(raw_data.get("raw_metadata") or raw_data.get("metadata") or raw_data.get("birth_data", {})),
+            "metadata": self._normalize_metadata(raw_data.get("raw_metadata") or raw_data.get("metadata") or raw_data.get("birth_data", {}), canonical_json),
             "planets": normalized_planets,
             "houses": self._normalize_houses(raw_data.get("raw_houses") or raw_data.get("houses", {})),
             "vargas": self._normalize_vargas(raw_data.get("raw_vargas") or raw_data.get("vargas", {}), normalized_planets),
@@ -94,7 +94,10 @@ class JsonNormalizer:
             }
         }
 
-    def _normalize_metadata(self, raw_metadata: dict) -> dict:
+    def _normalize_metadata(self, raw_metadata: dict, canonical_json: dict = None) -> dict:
+        consultation_date = raw_metadata.get("consultation_date")
+        if not consultation_date and canonical_json:
+            consultation_date = canonical_json.get("consultation_date")
         return {
             "name": self._clean_string(raw_metadata.get("name", "Unknown")),
             "ascendant_sign": self._clean_name(raw_metadata.get("lagna", ""), self.sign_map) or "aries",
@@ -105,7 +108,7 @@ class JsonNormalizer:
             "latitude": self._extract_float(raw_metadata.get("latitude") or raw_metadata.get("lat", 0.0)) or None,
             "longitude": self._extract_float(raw_metadata.get("longitude") or raw_metadata.get("lon", 0.0)) or None,
             "timezone": self._extract_float(raw_metadata.get("timezone") or raw_metadata.get("tz", 0.0)) or None,
-            "consultation_date": raw_metadata.get("consultation_date")
+            "consultation_date": consultation_date
         }
 
     def _normalize_planets(self, raw_planets: dict) -> dict:
