@@ -1,5 +1,12 @@
 import axios from 'axios';
-import type { ChartProcessResponse, FinalReportSchema, QuestionResponse, StructuredQuestionResponse } from '../types/schema';
+import type { 
+  ChartProcessResponse, 
+  FinalReportSchema, 
+  QuestionResponse, 
+  StructuredQuestionResponse,
+  ExplanationRequest,
+  ExplanationResponse
+} from '../types/schema';
 import type { KnowledgeNode, KnowledgeRelationship } from '../services/knowledge';
 
 // Use an environment variable or fallback to local backend for development
@@ -59,6 +66,22 @@ export const apiService = {
     };
 
     const response = await backendApi.post<StructuredQuestionResponse>('/ask-structured-question', payload);
+    return response.data;
+  },
+
+  /**
+   * Generates an AI explanation grounded in deterministic pipeline outputs
+   */
+  async generateExplanation(request: ExplanationRequest): Promise<ExplanationResponse> {
+    const response = await backendApi.post<ExplanationResponse>('/explanations/generate', request);
+    return response.data;
+  },
+
+  /**
+   * Checks health of the explanations endpoint
+   */
+  async checkExplanationHealth(): Promise<any> {
+    const response = await backendApi.get('/explanations/health');
     return response.data;
   },
 

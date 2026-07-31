@@ -75,10 +75,7 @@ class JsonNormalizer:
 
     def normalize(self, raw_data: dict, canonical_json: dict = None) -> dict:
         """Main entry point to normalize a complete raw extraction dictionary."""
-        print("====== DEBUG START ======")
-        print("JsonNormalizer received keys:", list(raw_data.keys()))
         normalized_planets = self._normalize_planets(raw_data.get("raw_planets") or raw_data.get("planets", {}))
-        print("Normalized Planets Count:", len(normalized_planets))
         return {
             "metadata": self._normalize_metadata(raw_data.get("raw_metadata") or raw_data.get("metadata") or raw_data.get("birth_data", {}), canonical_json),
             "planets": normalized_planets,

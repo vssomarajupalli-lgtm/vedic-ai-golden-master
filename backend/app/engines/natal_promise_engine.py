@@ -1,5 +1,8 @@
 from typing import Any, Dict, List, Union
+import logging
 from app.utils.astrology_math import clamp_score
+
+log = logging.getLogger(__name__)
 
 _NEUTRAL = 50.0
 
@@ -54,7 +57,6 @@ class NatalPromiseEngine:
                 domain, planet_results, house_results,
                 varga_results, normalized_houses, yoga_results, normalized_vargas
             )
-        print("NatalPromiseEngine output sample (Marriage):", result.get("marriage", {}).get("score"))
         return result
 
     def _score_domain(

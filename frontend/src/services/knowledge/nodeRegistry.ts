@@ -35,7 +35,32 @@ export type KnowledgeRelationshipType =
   | 'used_in'
   | 'appears_in_report'
   | 'asked_by_question'
-  | 'used_by_engine';
+  | 'used_by_engine'
+  | 'contains'
+  | 'resolves';
+
+export type ComputedRelationshipType =
+  | 'uses'
+  | 'produces'
+  | 'affects'
+  | 'weakens'
+  | 'triggered_by'
+  | 'used_in'
+  | 'appears_in_report'
+  | 'asked_by_question'
+  | 'used_by_engine'
+  | 'derived_from'
+  | 'calibrated_by';
+
+export interface ComputedRelationship {
+  node_id: string;
+  label: string;
+  type: string;
+  relationship: string;
+  relevance: string;
+}
+
+export type ComputedRelationships = Record<ComputedRelationshipType, ComputedRelationship[]>;
 
 export interface KnowledgeNode {
   id: string;
@@ -66,6 +91,7 @@ export interface KnowledgeNode {
     relevance: string;
   }>;
   relationships?: Record<string, number>;
+  computed_relationships?: ComputedRelationships;
 }
 
 export interface KnowledgeRelationship {
@@ -133,4 +159,6 @@ export const RELATIONSHIP_TYPES: Record<KnowledgeRelationshipType, { label: stri
   appears_in_report: { label: 'appears in report', direction: '→' },
   asked_by_question: { label: 'asked by question', direction: '←' },
   used_by_engine: { label: 'used by engine', direction: '→' },
+  contains: { label: 'contains', direction: '→' },
+  resolves: { label: 'resolves', direction: '→' },
 };

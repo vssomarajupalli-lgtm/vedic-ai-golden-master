@@ -78,10 +78,9 @@ export default function QuestionBrowser() {
         const newFav = await apiService.addFavorite(question.question_id);
         setFavorites([...favorites, newFav]);
       }
-    } catch (err) {
-      console.error(err);
-    }
-  };
+    } catch {
+      }
+    };
 
   const groupedByDomain = useMemo(() => {
     const groups: Record<number, { domain_name: string, questions: Question[] }> = {};

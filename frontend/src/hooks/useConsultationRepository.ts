@@ -450,7 +450,6 @@ export const useConsultationRepository = create<any>()(
         const { repository } = get();
         const consultation = repository.consultations.find(c => c.id === consultationId);
         if (!consultation) throw new Error(`Consultation ${consultationId} not found`);
-        console.log('Loading consultation:', consultation.metadata.consultationTitle);
       },
 
       updateConsultationMetadata: async (consultationId: string, metadata: any) => {

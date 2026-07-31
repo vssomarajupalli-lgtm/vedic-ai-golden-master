@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.v1.endpoints import charts, queries, health, reports, browser, knowledge
+from app.api.v1.endpoints import charts, queries, health, reports, browser, knowledge, explanations
 
 api_router = APIRouter()
 
@@ -10,4 +10,5 @@ api_router.include_router(reports.router, prefix="", tags=["reports"])
 api_router.include_router(queries.router, prefix="", tags=["queries"])
 api_router.include_router(browser.router, prefix="/browser", tags=["browser"])
 api_router.include_router(knowledge.router, prefix="/knowledge", tags=["knowledge"])
+api_router.include_router(explanations.router, prefix="", tags=["explanations"])
 

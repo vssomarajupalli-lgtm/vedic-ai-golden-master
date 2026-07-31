@@ -132,7 +132,6 @@ export const ConsultationLibrary: React.FC<ConsultationLibraryProps> = ({
   };
 
   const bulkAction = (action: 'favorite' | 'duplicate' | 'delete' | 'export') => {
-    console.log(`Bulk ${action}:`, Array.from(selectedItems));
   };
 
   return (
@@ -245,7 +244,6 @@ export const ConsultationLibrary: React.FC<ConsultationLibraryProps> = ({
                   isSelected={selectedItems.has(consultation.id)}
                   onSelect={toggleSelection}
                   onLoad={() => onLoadConsultation(consultation)}
-                  onFavorite={() => console.log('Toggle favorite:', consultation.id)}
                 />
               ))}
             </div>
@@ -315,13 +313,13 @@ export const ConsultationLibrary: React.FC<ConsultationLibraryProps> = ({
                           <button onClick={() => onLoadConsultation(consultation)} className="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded" title="Load">
                             <Eye className="w-4 h-4" />
                           </button>
-                          <button onClick={() => console.log('Edit:', consultation.id)} className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded" title="Edit">
+                          <button className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded" title="Edit">
                             <Edit className="w-4 h-4" />
                           </button>
-                          <button onClick={() => console.log('Duplicate:', consultation.id)} className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded" title="Duplicate">
+                          <button className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded" title="Duplicate">
                             <Copy className="w-4 h-4" />
                           </button>
-                          <button onClick={() => console.log('Delete:', consultation.id)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded" title="Delete">
+                          <button className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded" title="Delete">
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>

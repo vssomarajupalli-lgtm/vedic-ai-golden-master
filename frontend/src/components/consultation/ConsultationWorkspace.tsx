@@ -37,8 +37,7 @@ export default function ConsultationWorkspace() {
     try {
       const duplicate = duplicateConsultation(consultation.id);
       navigate(`/consultation/${duplicate.id}`);
-    } catch (err) {
-      console.error('Failed to duplicate consultation:', err);
+    } catch {
       setError('Failed to duplicate consultation');
     }
   };
@@ -49,8 +48,7 @@ export default function ConsultationWorkspace() {
     try {
       archiveConsultation(consultation.id);
       setConsultation(prev => prev ? { ...prev, status: 'archived', updatedAt: new Date().toISOString() } : null);
-    } catch (err) {
-      console.error('Failed to archive consultation:', err);
+    } catch {
       setError('Failed to archive consultation');
     }
   };

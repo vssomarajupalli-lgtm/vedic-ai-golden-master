@@ -52,9 +52,6 @@ def process_chart(request: ChartProcessRequest) -> Any:
             target_date_utc=outputs.get("target_date_utc"),
             metadata=outputs.get("metadata")
         )
-        print("API Response /process-chart Final Score:", response_obj.final_score)
-        print("API Response /process-chart Yogas Count:", len(response_obj.yogas))
-        print("====== DEBUG END ======")
         return response_obj
         
     except Exception as e:

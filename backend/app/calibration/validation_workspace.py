@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 from datetime import datetime
 from typing import Dict, Any, List
 from pydantic import ValidationError
@@ -8,6 +9,8 @@ from .validation_models import (
     MatchStatus, CalibrationRecommendation, CalibrationHistoryRecord, RegressionAnalysis,
     ModuleResult, ComparisonRecord
 )
+
+log = logging.getLogger(__name__)
 
 class ValidationWorkspace:
     def __init__(self, workspace_file: str = "validation_workspace.json"):
@@ -22,7 +25,7 @@ class ValidationWorkspace:
                     raw = json.load(f)
                     self.data = ValidationWorkspaceData(**raw)
             except (json.JSONDecodeError, ValidationError) as e:
-                print(f"Error loading workspace: {e}")
+                log.error("Error loading workspace: %s", e)
                 self.data = ValidationWorkspaceData()
 
     def save_workspace(self):

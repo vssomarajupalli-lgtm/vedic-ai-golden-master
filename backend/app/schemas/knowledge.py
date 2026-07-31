@@ -45,6 +45,7 @@ class KnowledgeNode(BaseModel):
     evidence: Optional[Dict[str, Any]] = Field(default=None, description="Computed evidence summary")
     references: Optional[List[Dict[str, Any]]] = Field(default=None, description="Computed cross-references")
     relationships: Optional[Dict[str, int]] = Field(default=None, description="Computed relationship counts by type")
+    computed_relationships: Optional[Dict[str, List[Dict[str, Any]]]] = Field(default=None, description="Runtime computed relationships")
 
 
 class KnowledgeRelationship(BaseModel):

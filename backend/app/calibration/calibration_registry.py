@@ -1,7 +1,10 @@
 import json
 import os
+import logging
 from pathlib import Path
 from .calibration_types import CalibrationProfile
+
+log = logging.getLogger(__name__)
 
 class CalibrationRegistry:
     """
@@ -30,7 +33,7 @@ class CalibrationRegistry:
                         profile_data = self._transform_profile_data(data)
                         self._profiles[profile_id] = CalibrationProfile(**profile_data)
                 except Exception as e:
-                    print(f"Warning: Failed to load profile {filepath}: {e}")
+                    log.warning("Failed to load profile %s: %s", filepath, e)
     
     def _transform_profile_data(self, data: dict) -> dict:
                     """Transform new sections-based format to CalibrationProfile format."""

@@ -210,7 +210,8 @@ class KnowledgeStore:
         # Relationship types that contribute to evidence chain
         evidence_rel_types = (
             "derived_from", "depends_on", "validated_by",
-            "explains", "influences", "produces", "uses", "strengthens", "weakens"
+            "explains", "influences", "produces", "uses", "strengthens", "weakens",
+            "contains", "resolves", "activates", "centered_on", "aggregates", "produced_by"
         )
 
         def traverse(nid: str, step: int) -> None:
@@ -383,12 +384,311 @@ class KnowledgeStore:
             counts[rel_type] = counts.get(rel_type, 0) + 1
         return counts
 
+    # ── Runtime Computed Relationships (GM-012A Governance) ──────────────────────
+
+    def get_node_uses(self, node_id: str) -> List[Dict[str, Any]]:
+        """Engine → Formula: Engine uses formula (from engine imports/registry)."""
+        node = self.get_node(node_id, enrich=False)
+        if not node or node.get("type") != "concept" or "engine_id" not in node.get("properties", {}):
+            return []
+        engine_id = node["properties"]["engine_id"]
+        # Engine-Formula mapping from formula registry
+        engine_formula_map = {
+            "UniversalMandaliEngine": ["MGC-01", "MGC-02", "MGC-03", "MGC-04", "MGC-05", "MGC-06", "MGC-07", "TMR-01", "TMR-02", "TMR-03", "TMR-04", "TMR-05"],
+            "TransitEngine": ["TRN-HA-001", "TRN-BV-001", "TRN-PA-001", "TRN-DS-001", "TRN-VD-001"],
+            "PlanetStrengthEngine": ["PLN-DG-001", "PLN-HP-001"],
+            "NatalPromiseEngine": ["NPR-01", "NPR-02", "NPR-03", "NPR-04", "NPR-05", "NPR-06", "NPR-07", "NPR-08"],
+            "MasterProbabilityEngine": ["PRB-AG-001"],
+            "YogaEngine": ["YOG-DT-001"],
+            "DashaEngine": ["DSH-PR-001"],
+            "LifetimeCycleProjector": ["LCP-01", "LCP-02", "LCP-03", "LCP-04", "LCP-05", "LCP-06", "LCP-07", "LCP-08", "LCP-09", "LCP-10"],
+        }
+        formula_ids = engine_formula_map.get(engine_id, [])
+        results = []
+        for fid in formula_ids:
+            formula_node = None
+            for n in self._data.get("nodes", []):
+                if n.get("type") == "formula" and n.get("properties", {}).get("formula_id") == fid:
+                    formula_node = n
+                    break
+            if formula_node:
+                results.append({
+                    "node_id": formula_node["id"],
+                    "label": formula_node["label"],
+                    "type": "formula",
+                    "relationship": "uses",
+                    "relevance": "direct",
+                })
+        return results
+
+    def get_node_produces(self, node_id: str) -> List[Dict[str, Any]]:
+        """Engine → Node: Engine produces node (from node.source field)."""
+        results = []
+        for n in self._data.get("nodes", []):
+            if n.get("source") == "engine":
+                # Check if this engine produces the target node
+                engine_concept = None
+                for n2 in self._data.get("nodes", []):
+                    if n2.get("type") == "concept" and n2.get("properties", {}).get("engine_id") == n["properties"].get("engine_id"):
+                        engine_concept = n2
+                        break
+                if engine_concept and engine_concept["id"] == node_id:
+                    results.append({
+                        "node_id": n["id"],
+                        "label": n["label"],
+                        "type": n["type"],
+                        "relationship": "produces",
+                        "relevance": "direct",
+                    })
+        return results
+
+    def get_node_affects(self, node_id: str) -> List[Dict[str, Any]]:
+        """Transit → Domain: Transit affects domain (from TransitEngine output)."""
+        node = self.get_node(node_id, enrich=False)
+        if not node or node.get("type") != "transit":
+            return []
+        # Transit activation affects domains based on TransitEngine output
+        # This would be computed from transit activation scores
+        # For now, return empty - would need TransitEngine integration
+        return []
+
+    def get_node_weakens(self, node_id: str) -> List[Dict[str, Any]]:
+        """A → B (decreases score): From seed data (weakens relationships)."""
+        # Already persisted in seed data for transit quality < 0
+        # Runtime computation would check transit quality matrix
+        rels = self.get_relationships(node_id)
+        results = []
+        for rel in rels:
+            if rel.get("type") == "weakens":
+                target = self.get_node(rel.get("target_node_id", ""), enrich=False)
+                if target:
+                    results.append({
+                        "node_id": target["id"],
+                        "label": target["label"],
+                        "type": target["type"],
+                        "relationship": "weakens",
+                        "relevance": "direct",
+                    })
+        return results
+
+    def get_node_triggered_by(self, node_id: str) -> List[Dict[str, Any]]:
+        """Event → Transit: Inverse of activates (from Gochara Mandali)."""
+        results = []
+        # Find all activates relationships where this node is target
+        for rel in self._data.get("relationships", []):
+            if rel.get("type") == "activates" and rel.get("target_node_id") == node_id:
+                source = self.get_node(rel.get("source_node_id", ""), enrich=False)
+                if source:
+                    results.append({
+                        "node_id": source["id"],
+                        "label": source["label"],
+                        "type": source["type"],
+                        "relationship": "triggered_by",
+                        "relevance": "direct",
+                    })
+        return results
+
+    def get_node_used_in(self, node_id: str) -> List[Dict[str, Any]]:
+        """Formula → Engine: Formula used in engine (from formula registry used_by_engine)."""
+        node = self.get_node(node_id, enrich=False)
+        if not node or node.get("type") != "formula":
+            return []
+        fid = node.get("properties", {}).get("formula_id", "")
+        formula_engine_map = {
+            "TRN-HA-001": "TransitEngine",
+            "TRN-BV-001": "TransitEngine",
+            "TRN-PA-001": "TransitEngine",
+            "TRN-DS-001": "TransitEngine",
+            "TRN-VD-001": "TransitEngine",
+            "PLN-DG-001": "PlanetStrengthEngine",
+            "PLN-HP-001": "PlanetStrengthEngine",
+            "PRB-AG-001": "MasterProbabilityEngine",
+            "DSH-PR-001": "DashaEngine",
+            "YOG-DT-001": "YogaEngine",
+        }
+        engine_name = formula_engine_map.get(fid)
+        if not engine_name:
+            return []
+        engine_concept = None
+        for n in self._data.get("nodes", []):
+            if n.get("type") == "concept" and n.get("properties", {}).get("engine_id") == engine_name:
+                engine_concept = n
+                break
+        if engine_concept:
+            return [{
+                "node_id": engine_concept["id"],
+                "label": engine_concept["label"],
+                "type": "concept",
+                "relationship": "used_in",
+                "relevance": "direct",
+            }]
+        return []
+
+    def get_node_appears_in_report(self, node_id: str) -> List[Dict[str, Any]]:
+        """Node → Report: Node appears in report (from report templates)."""
+        # Report templates define which node types appear in which reports
+        report_templates = {
+            "planet": ["Planet Strength Report", "Natal Promise Domain Scores", "Transit Report"],
+            "house": ["House Strength Report", "Domain Promise Report"],
+            "transit": ["Transit Report", "Gochara Mandali Advisory", "Lifetime Cycle Projection"],
+            "formula": ["Formula Evaluation Report", "Subsystem Breakdown"],
+            "calibration": ["Calibration Audit", "Formula Evaluation"],
+            "yoga": ["Yoga Report", "Natal Promise modifiers"],
+            "dasha": ["Dasha Report", "Dasha-Transit Sync", "Lifetime Cycle Projection"],
+            "gochara_mandali": ["Gochara Mandali Advisory", "Mandali Activations"],
+            "mandali": ["Current Mandali", "Mandali Activations", "Transit Mandali Resolution"],
+            "probability": ["Master Probability Report", "Question Answer", "Consultation Report"],
+            "yoga": ["Yoga Report", "Natal Promise modifiers"],
+        }
+        node = self.get_node(node_id, enrich=False)
+        if not node:
+            return []
+        report_names = report_templates.get(node.get("type", ""), [])
+        return [{"report_name": rn, "relationship": "appears_in_report", "relevance": "direct"} for rn in report_names]
+
+    def get_node_asked_by_question(self, node_id: str) -> List[Dict[str, Any]]:
+        """Question → Node: Question queries node (from Question Registry domain)."""
+        node = self.get_node(node_id, enrich=False)
+        if not node:
+            return []
+        # Map node type/domain to question registry
+        domain_question_map = {
+            "marriage": ["Q2.1", "Q2.2", "Q2.3"],
+            "career": ["Q3.1", "Q3.2"],
+            "wealth": ["Q4.1", "Q4.2"],
+            "health": ["Q5.1", "Q5.2"],
+            "children": ["Q6.1", "Q6.2"],
+            "property": ["Q7.1", "Q7.2"],
+            "education": ["Q8.1", "Q8.2"],
+            "travel": ["Q9.1", "Q9.2"],
+            "spiritual": ["Q10.1", "Q10.2"],
+            "compatibility": ["Q11.1", "Q11.2"],
+            "retirement": ["Q12.1", "Q12.2"],
+        }
+        domain = node.get("domain", "")
+        question_ids = domain_question_map.get(domain, [])
+        results = []
+        for qid in question_ids:
+            results.append({
+                "question_id": qid,
+                "relationship": "asked_by_question",
+                "relevance": "direct",
+            })
+        return results
+
+    def get_node_used_by_engine(self, node_id: str) -> List[Dict[str, Any]]:
+        """Node → Engine: Node consumed by engine (from engine input schemas)."""
+        node = self.get_node(node_id, enrich=False)
+        if not node:
+            return []
+        engine_input_map = {
+            "planet": ["PlanetStrengthEngine", "TransitEngine", "NatalPromiseEngine", "MasterProbabilityEngine"],
+            "house": ["HouseStrengthEngine", "NatalPromiseEngine"],
+            "transit": ["TransitEngine", "UniversalMandaliEngine", "LifetimeCycleProjector"],
+            "formula": ["TransitEngine", "PlanetStrengthEngine", "MasterProbabilityEngine", "YogaEngine", "DashaEngine"],
+            "calibration": ["PlanetStrengthEngine", "TransitEngine", "MasterProbabilityEngine"],
+            "dasha": ["DashaEngine", "TransitEngine", "LifetimeCycleProjector"],
+            "yoga": ["YogaEngine", "NatalPromiseEngine"],
+            "gochara_mandali": ["UniversalMandaliEngine", "LifetimeCycleProjector"],
+            "probability": ["QuestionEngine"],
+            "yoga": ["YogaEngine", "NatalPromiseEngine"],
+        }
+        engines = engine_input_map.get(node.get("type", ""), [])
+        results = []
+        for engine_name in engines:
+            engine_concept = None
+            for n in self._data.get("nodes", []):
+                if n.get("type") == "concept" and n.get("properties", {}).get("engine_id") == engine_name:
+                    engine_concept = n
+                    break
+            if engine_concept:
+                results.append({
+                    "node_id": engine_concept["id"],
+                    "label": engine_concept["label"],
+                    "type": "concept",
+                    "relationship": "used_by_engine",
+                    "relevance": "direct",
+                })
+        return results
+
+    def get_node_derived_from(self, node_id: str) -> List[Dict[str, Any]]:
+        """Node → Formula: Node derived from formula (from formula registry output_node)."""
+        node = self.get_node(node_id, enrich=False)
+        if not node:
+            return []
+        # Map node types to their generating formulas
+        node_formula_map = {
+            "transit": ["TRN-HA-001", "TRN-BV-001", "TRN-PA-001", "TRN-DS-001", "TRN-VD-001"],
+            "planet": ["PLN-DG-001", "PLN-HP-001"],
+            "probability": ["PRB-AG-001"],
+            "yoga": ["YOG-DT-001"],
+            "dasha": ["DSH-PR-001"],
+            "gochara_mandali": ["MGC-01", "MGC-02", "MGC-03", "MGC-04", "MGC-04", "MGC-05", "MGC-06", "MGC-07"],
+            "mandali": ["MGC-01", "MGC-02", "MGC-03", "MGC-04", "MGC-05", "MGC-06", "MGC-07"],
+            "dasha": ["DSH-PR-001"],
+        }
+        formula_ids = node_formula_map.get(node.get("type", ""), [])
+        results = []
+        for fid in formula_ids:
+            formula_node = None
+            for n in self._data.get("nodes", []):
+                if n.get("type") == "formula" and n.get("properties", {}).get("formula_id") == fid:
+                    formula_node = n
+                    break
+            if formula_node:
+                results.append({
+                    "node_id": formula_node["id"],
+                    "label": formula_node["label"],
+                    "type": "formula",
+                    "relationship": "derived_from",
+                    "relevance": "direct",
+                })
+        return results
+
+    def get_node_calibrated_by(self, node_id: str) -> List[Dict[str, Any]]:
+        """Formula → Calibration: Inverse of depends_on (auto-generated)."""
+        node = self.get_node(node_id, enrich=False)
+        if not node or node.get("type") != "formula":
+            return []
+        # Find all depends_on relationships from this formula to calibrations
+        rels = self.get_relationships(node_id)
+        results = []
+        for rel in rels:
+            if rel.get("type") == "depends_on":
+                target = self.get_node(rel.get("target_node_id", ""), enrich=False)
+                if target and target.get("type") == "calibration":
+                    results.append({
+                        "node_id": target["id"],
+                        "label": target["label"],
+                        "type": "calibration",
+                        "relationship": "calibrated_by",
+                        "relevance": "direct",
+                    })
+        return results
+
+    def get_all_computed_relationships(self, node_id: str) -> Dict[str, List[Dict[str, Any]]]:
+        """Get all computed relationships for a node."""
+        return {
+            "uses": self.get_node_uses(node_id),
+            "produces": self.get_node_produces(node_id),
+            "affects": self.get_node_affects(node_id),
+            "weakens": self.get_node_weakens(node_id),
+            "triggered_by": self.get_node_triggered_by(node_id),
+            "used_in": self.get_node_used_in(node_id),
+            "appears_in_report": self.get_node_appears_in_report(node_id),
+            "asked_by_question": self.get_node_asked_by_question(node_id),
+            "used_by_engine": self.get_node_used_by_engine(node_id),
+            "derived_from": self.get_node_derived_from(node_id),
+            "calibrated_by": self.get_node_calibrated_by(node_id),
+        }
+
     def _enrich_node(self, node: Dict[str, Any]) -> Dict[str, Any]:
         """Add computed fields to a node."""
         enriched = dict(node)
         enriched["evidence"] = self.get_node_evidence(node["id"])
         enriched["references"] = self.get_node_references(node["id"])
         enriched["relationships"] = self.get_node_relationships(node["id"])
+        enriched["computed_relationships"] = self.get_all_computed_relationships(node["id"])
         return enriched
 
     # Update list_nodes and get_node to include computed fields

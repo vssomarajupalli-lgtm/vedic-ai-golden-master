@@ -280,7 +280,7 @@ class PipelineRunner:
             "engine_outputs":     engine_outputs,
             "target_date_utc":    target_date_utc.isoformat() if target_date_utc else None
         }
-        print("PipelineRunner Final Output Score:", final_output["master_probability"]["final_score"])
+        
         return final_output
 
     # -------------------------------------------------------------------------
@@ -460,7 +460,6 @@ class PipelineRunner:
                 # Log error but don't crash - formula evaluation is supplementary
                 formula_evaluation = None
                 import traceback
-                print(f"Formula evaluation error for {formula_key}: {e}")
                 traceback.print_exc()
 
         # Read the canonical target_date_utc already resolved and written by process().
@@ -611,5 +610,3 @@ if __name__ == "__main__":
 
     runner = PipelineRunner()
     unified_output = runner.process(sample_raw_pdf_data)
-
-    print(json.dumps(unified_output, indent=2))

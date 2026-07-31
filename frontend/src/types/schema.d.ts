@@ -142,3 +142,60 @@ export interface StructuredQuestionResponse {
     question_id: string;
     results: any[];
 }
+
+export interface ExplanationCitation {
+  type: string;
+  path?: string;
+  value?: string;
+  node_id?: string;
+  relationship?: string;
+  label?: string;
+  chain?: string[];
+  formula_id?: string;
+  field?: string;
+  constant_id?: string;
+  template?: string;
+  section?: string;
+  evidence_level?: string;
+}
+
+export interface ExplanationEvidenceSummary {
+  total_citations: number;
+  by_type: Record<string, number>;
+  highest_evidence_level: string;
+  engine_output_citations: number;
+  kg_node_citations: number;
+  evidence_chain_citations: number;
+}
+
+export interface ExplanationMetadata {
+  grounding_package_hash: string;
+  provider: string;
+  model: string;
+  processing_time_ms: number;
+  prompt_tokens: number;
+  completion_tokens: number;
+  total_tokens: number;
+}
+
+export interface ExplanationResponse {
+  question: string;
+  domain: string;
+  routed: boolean;
+  explanation: string;
+  citations: ExplanationCitation[];
+  evidence_summary: ExplanationEvidenceSummary;
+  confidence: string;
+  metadata: ExplanationMetadata;
+  processing_time_ms: number;
+}
+
+export interface ExplanationRequest {
+  question_id?: string;
+  question_text?: string;
+  pipeline_output: Record<string, any>;
+  target_date_utc?: string;
+  engine_outputs?: Record<string, any>;
+  master_probability?: Record<string, any>;
+  metadata?: Record<string, any>;
+}

@@ -94,8 +94,7 @@ export default function ConsultationLibrary() {
       setNewConsultationName('');
       setCreating(false);
       navigate(`/consultation/${newConsultation.id}`);
-    } catch (err) {
-      console.error(err);
+    } catch {
       setCreating(false);
     }
   };

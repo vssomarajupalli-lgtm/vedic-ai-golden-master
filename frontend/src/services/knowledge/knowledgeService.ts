@@ -20,6 +20,29 @@ export interface CrossReference {
   relevance: 'direct' | 'indirect' | 'contextual';
 }
 
+// Computed Relationship types (GM-012A Governance)
+export interface ComputedRelationship {
+  node_id: string;
+  label: string;
+  type: string;
+  relationship: string;
+  relevance: string;
+}
+
+export interface ComputedRelationships {
+  uses: ComputedRelationship[];
+  produces: ComputedRelationship[];
+  affects: ComputedRelationship[];
+  weakens: ComputedRelationship[];
+  triggered_by: ComputedRelationship[];
+  used_in: ComputedRelationship[];
+  appears_in_report: ComputedRelationship[];
+  asked_by_question: ComputedRelationship[];
+  used_by_engine: ComputedRelationship[];
+  derived_from: ComputedRelationship[];
+  calibrated_by: ComputedRelationship[];
+}
+
 export interface KnowledgeAuditEntry {
   auditId: string;
   action: 'create' | 'update' | 'delete' | 'query';
@@ -153,5 +176,37 @@ export class KnowledgeService {
     }
 
     return grouped;
+  }
+
+  /**
+   * Get computed relationships for a node (GM-012A Runtime Computed).
+   */
+  static getComputedRelationships(nodeId: string): ComputedRelationships {
+    const store = useKnowledgeRepository.getState();
+    const node = store.getNode(nodeId);
+    if (!node || !node.computed_relationships) {
+      return {
+        uses: [],
+        produces: [],
+        affects: [],
+        weakens: [],
+        triggered_by: [],
+        used_in: [],
+        appears_in_report: [],
+        asked_by_question: [],
+        used_by_engine: [],
+        derived_from: [],
+        calibrated_by: [],
+      };
+    }
+    return node.computed_relationships;
+  }
+
+  /**
+   * Get specific computed relationship type for a node.
+   */
+  static getComputedRelationshipType(nodeId: string, type: keyof ComputedRelationships): ComputedRelationship[] {
+    const computed = KnowledgeService.getComputedRelationships(nodeId);
+    return computed[type] || [];
   }
 }

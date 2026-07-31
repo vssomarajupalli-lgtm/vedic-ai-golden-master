@@ -14,10 +14,13 @@ Design Principles:
 
 import json
 import shutil
+import logging
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 from copy import deepcopy
+
+log = logging.getLogger(__name__)
 
 from .calibration_registry import CalibrationRegistry
 from .calibration_types import CalibrationProfile
@@ -121,10 +124,10 @@ class CalibrationManager:
         except Exception as e:
             # Safe fallback: restore last valid profile
             if self._last_valid_profile:
-                print(f"[CalibrationManager] Profile load failed, restoring last valid: {e}")
+                log.warning("[CalibrationManager] Profile load failed, restoring last valid: %s", e)
                 return deepcopy(self._last_valid_profile)
             # Ultimate fallback: load default
-            print(f"[CalibrationManager] Loading factory default: {e}")
+            log.warning("[CalibrationManager] Loading factory default: %s", e)
             return self._load_factory_default()
 
     def _load_factory_default(self) -> Dict[str, Any]:
