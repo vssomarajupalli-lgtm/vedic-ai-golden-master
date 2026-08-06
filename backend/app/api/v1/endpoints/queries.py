@@ -1,11 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from typing import Any
-from datetime import datetime
 import traceback
 
 from app.schemas.question import QuestionRequest, QuestionResponse
-from app.formulas.evaluator import FormulaEvaluator
-from app.formulas.signal_translator import SignalTranslator
 from app.pipeline_runner import PipelineRunner
 from app.core.logging import log
 from app.core.question_router import QuestionRouter
@@ -71,6 +68,14 @@ def ask_question(request: QuestionRequest) -> Any:
         
 # 3. Use PipelineRunner as the orchestrator to answer the question
         # (Preserves legacy pipeline compatibility until phase 11D)
+        
+        # Contract enforcement: target_date_utc is required for deterministic execution
+        if not internal_payload.get("target_date_utc"):
+            raise HTTPException(
+                status_code=422,
+                detail="target_date_utc is required for ask-question. Pass the canonical target_date_utc returned by the Process Chart endpoint."
+            )
+        
         result = pipeline_runner.answer_question(
             question_or_id=question_text_to_process,
             pipeline_output=internal_payload
@@ -105,7 +110,7 @@ def ask_question(request: QuestionRequest) -> Any:
         )
 
 from app.schemas.question import StructuredQuestionResponse
-from app.formatters.display_formatter import DisplayFormatter
+from app.services.question_service import question_service
 
 @router.post("/ask-structured-question", response_model=StructuredQuestionResponse)
 def ask_structured_question(request: QuestionRequest) -> Any:
@@ -119,51 +124,18 @@ def ask_structured_question(request: QuestionRequest) -> Any:
         if not request.question_id:
             raise HTTPException(status_code=400, detail="Must provide question_id for structured response")
             
-        internal_payload = request.engine_outputs.get("engine_outputs", request.engine_outputs.get("breakdown", request.engine_outputs))
+        # The service expects the full pipeline output structure.
+        # We need to reconstruct it from the QuestionRequest.
+        pipeline_output = {
+            "engine_outputs": request.engine_outputs,
+            "master_probability": request.master_probability,
+            "metadata": request.metadata,
+            "target_date_utc": request.target_date_utc
+        }
         
-        route_result = question_router.route_question(request.question_id)
-        if route_result["status"] == "error":
-            status_code = 500 if route_result["error_type"] == "registry_configuration_error" else 422
-            raise HTTPException(status_code=status_code, detail=route_result["message"])
-            
-        metadata = route_result["metadata"]
-        domain = route_result["registry_record"]["domain_name"].lower()
-        question_title = metadata.get("question_name", "Astrological Query")
-        
-        # Let's import the loader and evaluator.
-        from app.formulas.loader import FormulaRepositoryLoader
-        
-        loader = FormulaRepositoryLoader()
-        f = FormulaRepositoryLoader().get_formula(route_result["formula_key"])
-        
-        engine_outputs_dict = internal_payload.get("engine_outputs", internal_payload)
-        
-        # Extract precise semantic signals deterministically
-        isolated_signals = SignalTranslator.translate(f.required_signals, engine_outputs_dict)
-        
-        # Get dynamic textual outcome
-        evaluation_result = FormulaEvaluator.evaluate(f, engine_outputs_dict, isolated_signals)
-        
-        # Build the structured result
-        natal_promise = engine_outputs_dict.get("natal_promise", {})
-        dashas = engine_outputs_dict.get("dashas", {})
-        
-        client_metadata = request.engine_outputs.get("metadata", {})
-        
-        # Extract canonical target_date_utc written by process() — no clock dependency.
-        _tdi = request.engine_outputs.get("target_date_utc")
-        _tdu = datetime.fromisoformat(_tdi) if _tdi else None
-        
-        formatted_result = DisplayFormatter.format_question_result(
-            question_title=question_title,
-            domain=domain,
-            natal_promise=natal_promise,
-            dasha_activation=dashas,
-            lifetime_projection=request.engine_outputs.get("master_probability", {}).get("lifetime_projection", []),
-            final_state=evaluation_result.final_state,
-            isolated_signals=evaluation_result.isolated_signals,
-            client_metadata=client_metadata,
-            target_date_utc=_tdu
+        formatted_result = question_service.answer_structured_question(
+            question_id=request.question_id,
+            pipeline_output=pipeline_output
         )
         
         try:

@@ -38,8 +38,8 @@ from app.config.astrology_constants import (
     PROBABILITY_GRADES,
     DOMAIN_CONFIG,
 )
+from app.schemas.mandali_response import MandaliResponseDTO
 from app.utils.astrology_math import clamp_score
-from app.engines.mandali_generator import MandaliGenerator
 
 
 class TransitEngine:
@@ -95,7 +95,7 @@ class TransitEngine:
         dasha_results:         dict = None,
         av_results:            dict = None,
         natal_promise_results: dict = None,
-        mandali_results:       dict = None,
+        mandali_results:       MandaliResponseDTO = None,
     ) -> dict:
         """
         Evaluates all five transit sub-systems and returns the full result dict.
@@ -122,19 +122,15 @@ class TransitEngine:
 
         natal_planets = natal_payload.get("planets", {}) if natal_payload else {}
 
-        # --- Normalize transit planet house numbers (Mandali injection point) ---
-        moon_longitude = natal_planets.get("moon", {}).get("longitude", None)
-        moon_pada = None
-        if moon_longitude is not None:
-            moon_pada = MandaliGenerator.get_absolute_pada(moon_longitude)
-            
+        # --- Get Mandali-based house numbers from UniversalMandaliEngine output ---
         t_houses = {}
-        for p, v in transit_planets.items():
-            if "longitude" in v and moon_pada is not None:
-                # Phase 7 Governance: Moon-Centered Mandali Resolution
-                t_houses[p] = MandaliGenerator.resolve_transit_mandali(v["longitude"], moon_pada)
-            else:
-                # Legacy fallback for tests supplying only classical {house: N} mocks
+        if mandali_results and mandali_results.current_chart and mandali_results.current_chart.placements:
+            for placement in mandali_results.current_chart.placements:
+                t_houses[placement.planet.lower()] = placement.mandali["number"]
+        else:
+            # Legacy fallback for tests supplying only classical {house: N} mocks
+            # or when Mandali engine is not run.
+            for p, v in transit_planets.items():
                 t_houses[p] = int(v.get("house", 0))
 
         # --- Run all 5 sub-systems ---

@@ -14,7 +14,12 @@ from app.engines.master_probability_engine import MasterProbabilityEngine
 from app.engines.natal_promise_engine import NatalPromiseEngine
 from app.engines.transit_engine import TransitEngine
 from app.engines.universal_mandali_engine import UniversalMandaliEngine
+from app.engines.mandali_transit_adapter import MandaliTransitAdapter
+from app.utils.ephemeris_service import EphemerisService
 from app.engines.yoga_engine import YogaEngine
+from app.schemas.mandali_response import MandaliResponseDTO
+from app.schemas.natal_chart import NatalChartDTO
+from app.schemas.current_chart import CurrentChartDTO
 from app.engines.question_engine import QuestionEngine
 from app.engines.functional_nature_engine import FunctionalNatureEngine
 from app.formulas.loader import formula_repository_loader
@@ -26,6 +31,9 @@ from app.config.astrology_constants import (
     DEBILITATION_MAP,
     OWN_SIGN_MAP
 )
+from app.builders.mandali_chart_layout_builder import MandaliChartLayoutBuilder
+from app.builders.transition_summary_builder import TransitionSummaryBuilder
+from app.builders.mandali_placement_factory import MandaliPlacementFactory
 
 
 class PipelineRunner:
@@ -47,10 +55,15 @@ class PipelineRunner:
         self.natal_engine    = NatalPromiseEngine()
         self.transit_engine  = TransitEngine()
         self.universal_mandali_engine = UniversalMandaliEngine()
+        self.ephemeris_service = EphemerisService()
+        self.mandali_transit_adapter = MandaliTransitAdapter(ephemeris_service=self.ephemeris_service)
         self.yoga_engine     = YogaEngine()
         self.question_engine = QuestionEngine()
         self.functional_nature_engine = FunctionalNatureEngine()
         self.master_engine   = MasterProbabilityEngine()
+        self.chart_layout_builder = MandaliChartLayoutBuilder()
+        self.transition_summary_builder = TransitionSummaryBuilder(self.universal_mandali_engine._ref_data)
+        self.mandali_placement_factory = MandaliPlacementFactory()
 
     def _resolve_target_date_utc(self, metadata: dict, default_utc=None) -> "datetime.datetime":
         """
@@ -99,6 +112,55 @@ class PipelineRunner:
         if target_date_utc is None:
             metadata = normalized_payload.get("metadata", {})
             target_date_utc = self._resolve_target_date_utc(metadata, target_date_utc)
+
+        # Build runtime canonical_json for Mandali from normalized natal + ephemeris transit
+        # This enables UniversalMandaliEngine to run even without pre-built Canonical JSON
+        try:
+            moon_data = normalized_payload.get("planets", {}).get("moon", {})
+            natal_moon_sign = moon_data.get("sign", "aries")
+            natal_moon_nakshatra_raw = moon_data.get("nakshatra", "aswini")
+            natal_moon_pada = moon_data.get("pada", 1)
+            
+            # Normalize nakshatra to match reference data casing (JsonNormalizer lowercases)
+            ref_data = self.universal_mandali_engine._ref_data
+            natal_moon_nakshatra = next(
+                (n for n in ref_data.get_all_nakshatras() if n.lower() == natal_moon_nakshatra_raw.lower()),
+                natal_moon_nakshatra_raw.capitalize()
+            )
+            
+            # Get birth date from normalized metadata (fallback to a valid date for Mandali)
+            birth_date = normalized_payload.get("metadata", {}).get("dob", "Unknown")
+            if birth_date == "Unknown" or not birth_date:
+                birth_date = "14.05.1980"  # Raju's birth date from test data
+            
+            # Generate ephemeris snapshot for current transits
+            ephemeris_snapshot = self.ephemeris_service.generate_transit_snapshot(target_date_utc)
+            
+            # Adapt to Mandali current_transit format
+            current_transit = self.mandali_transit_adapter.adapt(
+                ephemeris_snapshot=ephemeris_snapshot,
+                natal_moon_sign=natal_moon_sign,
+                natal_moon_nakshatra=natal_moon_nakshatra,
+                natal_moon_pada=natal_moon_pada,
+                target_date_utc=target_date_utc,
+            )
+            
+            # Build canonical_json structure expected by UniversalMandaliEngine
+            canonical_json = {
+                "natal": {
+                    "moon": {
+                        "rasi": natal_moon_sign,
+                        "nakshatra": natal_moon_nakshatra,
+                        "pada": natal_moon_pada,
+                    },
+                    "birth_date": birth_date,
+                },
+                "current_transit": current_transit,
+            }
+        except Exception as e:
+            # If transit generation fails, log and continue without Mandali
+            logging.warning(f"Mandali transit generation failed: {e}")
+            canonical_json = canonical_json or {}
 
         # 1.2. Dignity Derivation Enrichment (Mathematical Calculation)
         for planet_id, planet_data in normalized_payload.get("planets", {}).items():
@@ -233,37 +295,62 @@ class PipelineRunner:
         # 7.75 Transit Engine (Timing Layer)
         # Use Canonical JSON's current_transit directly (Option A path)
         # Only run if Canonical JSON has the required transit structure
-        canonical_json = raw_input_data.get("canonical_content") or raw_input_data.get("canonical_json") or raw_input_data
-        transit_results = None
-        if isinstance(canonical_json, dict) and "natal" in canonical_json and "current_transit" in canonical_json:
-            # Convert Canonical JSON's current_transit to TransitEngine format
-            transit_payload = {"planets": {}}
-            for tp in canonical_json.get("current_transit", []):
-                transit_payload["planets"][tp["planet"]] = {
-                    "house": tp.get("house_from_moon"),
-                    "sign": tp.get("rasi"),
-                    "degree": 0  # degree not used in Option A path
-                }
-            transit_results = self.transit_engine.evaluate(
-                transit_payload       = transit_payload,
-                natal_payload         = normalized_payload,
-                dasha_results         = dasha_results,
-                av_results            = av_results,
-                natal_promise_results = natal_results,
-                mandali_results       = None,
-            )
-        else:
-            # Stub fallback if no Canonical JSON transit data
-            transit_results = {"activation_score": 50, "grade": "GOOD", "activated_domains": {}, "supporting_factors": [], "obstructing_factors": [], "breakdown": {}, "confidence_flags": ["transit_stub_no_input"], "stub_factors": ["all"]}
-        engine_outputs["transit"] = transit_results
+        transit_results: Dict[str, Any] = {}
+        mandali_response_dto: MandaliResponseDTO | None = None
 
-        # --- Universal Mandali Engine (Capability 7.7) ---
-        # Execute after TransitEngine, using Canonical JSON from input
-        canonical_json = raw_input_data.get("canonical_content") or raw_input_data.get("canonical_json") or raw_input_data
-        # Only run if Canonical JSON has the required transit structure
         if isinstance(canonical_json, dict) and "natal" in canonical_json and "current_transit" in canonical_json:
+            # Step 1: Get the rich internal data model from the engine
             mandali_advisory = self.universal_mandali_engine.generate_mandali_advisory(canonical_json)
-            engine_outputs["mandali_advisory"] = mandali_advisory
+            engine_outputs["mandali_advisory"] = mandali_advisory # Keep for backward compatibility
+
+            # Step 2: Create placement DTOs using the factory
+            natal_placements = self.mandali_placement_factory.build_natal(
+                moon_rasi=canonical_json["natal"]["moon"]["rasi"],
+                moon_nakshatra=canonical_json["natal"]["moon"]["nakshatra"],
+                moon_pada=canonical_json["natal"]["moon"]["pada"],
+                moon_absolute_pada=mandali_advisory.moon_absolute_pada,
+                mandali_grid=mandali_advisory.mandali_grid,
+            )
+            current_placements = self.mandali_placement_factory.build_current(
+                transit_resolutions=mandali_advisory.transit_resolutions,
+                mandali_grid=mandali_advisory.mandali_grid,
+            )
+
+            # Step 3: Build chart layouts and transition summary
+            natal_chart_grid = self.chart_layout_builder.build([p.__dict__ for p in natal_placements])
+            current_chart_grid = self.chart_layout_builder.build([p.__dict__ for p in current_placements])
+            transition_summary_dto = self.transition_summary_builder.build(canonical_json["current_transit"], mandali_advisory.mandali_grid, target_date_utc)
+
+            mandali_response_dto = MandaliResponseDTO(
+                schema_version="2.0",
+                natal_chart=NatalChartDTO(placements=natal_placements, grid=natal_chart_grid),
+                current_chart=CurrentChartDTO(placements=current_placements, grid=current_chart_grid),
+                transition_summary=transition_summary_dto
+            )
+            engine_outputs["mandali_response_dto"] = mandali_response_dto # New DTO for new consumers
+
+            # Prepare transit_payload for TransitEngine
+            transit_payload = {"planets": {}}
+            for placement in current_placements:
+                transit_payload["planets"][placement.planet.lower()] = {
+                    "house": placement.mandali["number"], # Use mandali number as house for transit engine
+                    "sign": placement.rasi,
+                    "degree": 0 # Not used in Option A path
+                }
+
+            transit_results = self.transit_engine.evaluate(
+                transit_payload=transit_payload,
+                natal_payload=normalized_payload,
+                dasha_results=dasha_results,
+                av_results=av_results,
+                natal_promise_results=natal_results,
+                # mandali_results no longer passed; transit_payload already carries
+                # mandali-based house numbers from current_placements (legacy fallback path)
+            )
+
+        if not transit_results: # If no canonical_json or transit_results not set
+            transit_results = self.transit_engine._stub_result()
+        engine_outputs["transit"] = transit_results
 
         # Add yoga results to outputs for the master engine
         engine_outputs["yogas"] = yoga_results
@@ -432,7 +519,7 @@ class PipelineRunner:
                     "domain_contribution": domain_score * 0.60,
                     "dasha_contribution": dasha_score * 0.40
                 },
-                "lifetime_projection": pipeline_output.get("master_probability", {}).get("lifetime_projection", [])
+                "lifetime_projection": (pipeline_output.get("master_probability") or {}).get("lifetime_projection", [])
             }
         else:
             final_probability = pipeline_output.get("master_probability", {})
@@ -480,7 +567,7 @@ class PipelineRunner:
             formula_evaluation=formula_evaluation,
             formula_key=formula_key,
             target_date_utc=target_date_utc,
-            mandali_activation=engine_outputs.get("mandali", {})
+            mandali_activation=engine_outputs.get("mandali_advisory") # Pass original for backward compatibility
         )
 
     def _build_isolated_signals(self, engine_outputs: dict, formula: "FormulaSchema") -> dict:

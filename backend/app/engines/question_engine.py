@@ -1,4 +1,5 @@
 """
+from typing import Optional
 QuestionEngine — Deterministic domain routing and probability synthesis.
 
 Architecture:
@@ -19,6 +20,9 @@ Rules:
     - QuestionEngine MUST NOT instantiate or call MasterProbabilityEngine (DR-007).
     - QuestionEngine must NOT collapse components (DR-008).
 """
+from typing import Optional
+import datetime
+from app.schemas.mandali_response import MandaliResponseDTO
 from app.config.astrology_constants import NATAL_PROMISE_GRADES, PROBABILITY_GRADES
 
 # ---------------------------------------------------------------------------
@@ -122,8 +126,8 @@ class QuestionEngine:
             yogas: dict = None,
             formula_evaluation: "FormulaEvaluationResult" = None,
             formula_key: str = None,
-            target_date_utc=None,
-            mandali_activation: dict = None
+            target_date_utc: Optional[datetime.datetime] = None,
+            mandali_activation: Optional[MandaliResponseDTO] = None
         ) -> dict:
             """
             Takes separated domain components from the orchestrator and composes the final
@@ -248,8 +252,8 @@ class QuestionEngine:
                 "timing": timing,
                 "transit": {
                     "activation_score": transit_score
-                },
-                "mandali": mandali_activation or {},
+                }, # Keep transit for now, will be removed in future phase
+                "mandali_response_dto": mandali_activation,
                 "yogas": yogas or {},
                 "factor_breakdown": final_probability.get("breakdown", {}),
                 "top_opportunities": top_opportunities,

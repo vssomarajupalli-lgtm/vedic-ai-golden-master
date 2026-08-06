@@ -164,6 +164,7 @@ class MandaliAdvisory:
     reference_moon: ReferenceMoon
     current_mandali: CurrentMandali
     current_transit_mandali: Dict[str, TransitMandaliPosition]
+    transit_resolutions: List[TransitMandaliResolution]
     mandali_activations: List[MandaliActivation]
     sade_sati: SadeSati
     elinati_shani: ElinatiShani
@@ -171,6 +172,8 @@ class MandaliAdvisory:
     timeline: List[TimelineEvent]
     important_advisory_statements: List[str]
     upcoming_mandali_events: List[Dict[str, Any]]
+    moon_absolute_pada: int
+    mandali_grid: Any = field(default=None)
 
 
 # -----------------------------------------------------------------------------
@@ -482,6 +485,7 @@ class UniversalMandaliEngine:
             reference_moon=ref_moon,
             current_mandali=current_mandali_info,
             current_transit_mandali=transit_positions,
+            transit_resolutions=transit_resolutions,
             mandali_activations=mandali_activations,
             sade_sati=sade_sati,
             elinati_shani=elinati_shani,
@@ -489,6 +493,8 @@ class UniversalMandaliEngine:
             timeline=timeline,
             important_advisory_statements=advisory_statements,
             upcoming_mandali_events=upcoming_events,
+            moon_absolute_pada=moon_absolute_pada,
+            mandali_grid=mandali_grid,
         )
     
     def _determine_status(self, resolution: TransitMandaliResolution, mandali_grid: MandaliGrid) -> str:

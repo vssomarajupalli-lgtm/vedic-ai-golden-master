@@ -1,10 +1,9 @@
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import HTMLResponse, Response
-from typing import Any, Optional, Dict
-from datetime import datetime
+from typing import Any
 import traceback
 
-from app.schemas.chart import ChartProcessRequest
+from app.schemas.report import ReportGenerationRequest
 from app.pipeline_runner import PipelineRunner
 from app.reports.builder import ReportBuilder
 from app.reports.html_generator import HTMLGenerator
@@ -19,7 +18,7 @@ pdf_generator = PDFGenerator()
 
 @router.post("/generate-report")
 def generate_report(
-    request: ChartProcessRequest, 
+    request: ReportGenerationRequest, 
     format: str = Query("json", description="Export format: json, html, pdf")
 ) -> Any:
     """
@@ -34,51 +33,27 @@ def generate_report(
         raw_data["_machine_index"] = request.machine_index
         outputs = pipeline.process(raw_data)
         
-        # 1.5. Execute Question Engine to generate structured opportunity windows
-        from app.core.question_router import QuestionRouter
-        from app.formulas.loader import FormulaRepositoryLoader
-        from app.formulas.signal_translator import SignalTranslator
-        from app.formulas.evaluator import FormulaEvaluator
-        from app.formatters.display_formatter import DisplayFormatter
-        
-        router_instance = QuestionRouter()
-        default_q_ids = ["10.1", "2.1", "7.1"]
+        # 2. Answer questions using the centralized service
+        from app.services.question_service import question_service
         q_responses = []
+        # Use provided question_ids or fallback to a default set
+        question_ids_to_process = request.question_ids or ["10.1", "2.1", "7.1"]
         
-        for q_id in default_q_ids:
+        for q_id in question_ids_to_process:
             try:
-                route_result = router_instance.route_question(q_id)
-                f = FormulaRepositoryLoader().get_formula(route_result["formula_key"])
-                domain = route_result["registry_record"]["domain_name"].lower()
-                title = route_result["metadata"].get("question_name", "Astrological Query")
-                
-                engine_outputs_dict = outputs.get("engine_outputs", outputs)
-                isolated_signals = SignalTranslator.translate(f.required_signals, engine_outputs_dict)
-                eval_res = FormulaEvaluator.evaluate(f, engine_outputs_dict, isolated_signals)
-                
-                # Extract canonical target_date_utc written by process() — no clock dependency.
-                _tdi = outputs.get("target_date_utc")
-                _tdu = datetime.fromisoformat(_tdi) if _tdi else None
-                
-                fmt = DisplayFormatter.format_question_result(
-                    question_title=title,
-                    domain=domain,
-                    natal_promise=engine_outputs_dict.get("natal_promise", {}),
-                    dasha_activation=engine_outputs_dict.get("dashas", {}),
-                    lifetime_projection=outputs.get("master_probability", {}).get("lifetime_projection", []),
-                    final_state=eval_res.final_state,
-                    isolated_signals=eval_res.isolated_signals,
-                    client_metadata=request.machine_index.get("native_info", {}) if isinstance(request.machine_index, dict) else {},
-                    target_date_utc=_tdu
+                # The service expects the full pipeline output
+                structured_answer = question_service.answer_structured_question(
+                    question_id=q_id,
+                    pipeline_output=outputs
                 )
-                q_responses.append(fmt.dict())
+                q_responses.append(structured_answer)
             except Exception as e:
-                log.warning(f"Failed to generate structured report for {q_id}: {str(e)}")
+                log.warning(f"Failed to generate structured report for question {q_id}: {str(e)}")
         
-        # 2. Extract into final schema
+        # 3. Build the final report structure
         report = report_builder.build_json_report(outputs, request.machine_index, questions=q_responses)
         
-        # 3. Handle export formats
+        # 4. Handle export formats
         if format.lower() == "json":
             return report
         elif format.lower() == "html":

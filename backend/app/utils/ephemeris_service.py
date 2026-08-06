@@ -32,9 +32,9 @@ class EphemerisService:
         }
         
         self.zodiac_signs = [
-            "aries", "taurus", "gemini", "cancer", 
-            "leo", "virgo", "libra", "scorpio", 
-            "sagittarius", "capricorn", "aquarius", "pisces"
+            "Mesha", "Vrishabha", "Mithuna", "Karkata", 
+            "Simha", "Kanya", "Tula", "Vrishchika", 
+            "Dhanus", "Makara", "Kumbha", "Meena"
         ]
 
     def generate_transit_snapshot(self, target_date_utc: datetime.datetime = None) -> Dict[str, Any]:

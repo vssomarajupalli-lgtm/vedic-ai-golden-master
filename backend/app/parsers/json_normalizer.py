@@ -22,55 +22,55 @@ class JsonNormalizer:
         
         self.sign_map = {
             # --- Aries ---
-            "ar": "aries", "ari": "aries", "mesha": "aries", "mesh": "aries",
+            "ar": "Mesha", "ari": "Mesha", "mesha": "Mesha", "mesh": "Mesha", "aries": "Mesha", "Aries": "Mesha",
 
             # --- Taurus ---
-            "ta": "taurus", "tau": "taurus",
-            "vrishabha": "taurus", "vrishaba": "taurus", "vrushabha": "taurus",
+            "ta": "Vrishabha", "tau": "Vrishabha", "taurus": "Vrishabha", "Taurus": "Vrishabha",
+            "vrishabha": "Vrishabha", "vrishaba": "Vrishabha", "vrushabha": "Vrishabha",
 
             # --- Gemini ---
-            "ge": "gemini", "gem": "gemini",
-            "mithuna": "gemini", "mithun": "gemini", "mithunam": "gemini",
+            "ge": "Mithuna", "gem": "Mithuna", "gemini": "Mithuna", "Gemini": "Mithuna",
+            "mithuna": "Mithuna", "mithun": "Mithuna", "mithunam": "Mithuna",
 
             # --- Cancer ---
-            "ca": "cancer", "can": "cancer",
-            "kataka": "cancer", "karka": "cancer", "karkataka": "cancer",
-            "katakam": "cancer",
+            "ca": "Karkata", "can": "Karkata", "cancer": "Karkata", "Cancer": "Karkata",
+            "kataka": "Karkata", "karka": "Karkata", "karkataka": "Karkata",
+            "katakam": "Karkata",
 
             # --- Leo ---
-            "le": "leo",
-            "simha": "leo", "singh": "leo", "simham": "leo",
+            "le": "Simha", "leo": "Simha", "Leo": "Simha",
+            "simha": "Simha", "singh": "Simha", "simham": "Simha",
 
             # --- Virgo ---
-            "vi": "virgo", "vir": "virgo",
-            "kanya": "virgo", "kani": "virgo", "kanyam": "virgo",
+            "vi": "Kanya", "vir": "Kanya", "virgo": "Kanya", "Virgo": "Kanya",
+            "kanya": "Kanya", "kani": "Kanya", "kanyam": "Kanya",
 
             # --- Libra ---
-            "li": "libra", "lib": "libra",
-            "tula": "libra", "thula": "libra", "tulam": "libra",
+            "li": "Tula", "lib": "Tula", "libra": "Tula", "Libra": "Tula",
+            "tula": "Tula", "thula": "Tula", "tulam": "Tula",
 
             # --- Scorpio ---
-            "sc": "scorpio", "sco": "scorpio",
-            "vrishchika": "scorpio", "vrischika": "scorpio", "vrischikam": "scorpio",
-            "vruschika": "scorpio", "scorpius": "scorpio",
+            "sc": "Vrishchika", "sco": "Vrishchika", "scorpio": "Vrishchika", "Scorpio": "Vrishchika",
+            "vrishchika": "Vrishchika", "vrischika": "Vrishchika", "vrischikam": "Vrishchika",
+            "vruschika": "Vrishchika", "scorpius": "Vrishchika",
 
             # --- Sagittarius ---
-            "sa": "sagittarius", "sag": "sagittarius",
-            "dhanu": "sagittarius", "dhanus": "sagittarius", "dhanush": "sagittarius",
-            "dhanussu": "sagittarius",
+            "sa": "Dhanus", "sag": "Dhanus", "sagittarius": "Dhanus", "Sagittarius": "Dhanus",
+            "dhanu": "Dhanus", "dhanus": "Dhanus", "dhanush": "Dhanus",
+            "dhanussu": "Dhanus",
 
             # --- Capricorn ---
-            "cp": "capricorn", "cap": "capricorn",
-            "makara": "capricorn", "makar": "capricorn", "makaram": "capricorn",
+            "cp": "Makara", "cap": "Makara", "capricorn": "Makara", "Capricorn": "Makara",
+            "makara": "Makara", "makar": "Makara", "makaram": "Makara",
 
             # --- Aquarius ---
-            "aq": "aquarius", "aqu": "aquarius",
-            "kumbha": "aquarius", "kumbam": "aquarius",
+            "aq": "Kumbha", "aqu": "Kumbha", "aquarius": "Kumbha", "Aquarius": "Kumbha",
+            "kumbha": "Kumbha", "kumbam": "Kumbha",
 
             # --- Pisces ---
-            "pi": "pisces", "pis": "pisces",
-            "meena": "pisces", "meen": "pisces", "meenam": "pisces",
-            "meena rasi": "pisces",
+            "pi": "Meena", "pis": "Meena", "pisces": "Meena", "Pisces": "Meena",
+            "meena": "Meena", "meen": "Meena", "meenam": "Meena",
+            "meena rasi": "Meena",
         }
 
     def normalize(self, raw_data: dict, canonical_json: dict = None) -> dict:
