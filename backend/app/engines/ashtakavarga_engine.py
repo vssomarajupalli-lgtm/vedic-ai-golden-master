@@ -74,7 +74,7 @@ class AshtakavargaEngine:
         normalized_planets = normalized_payload.get("planets", {})
         normalized_dashas  = normalized_payload.get("dashas", {})
         
-        asc_sign           = normalized_payload.get("metadata", {}).get("ascendant_sign", "aries").lower()
+        asc_sign           = normalized_payload.get("metadata", {}).get("ascendant_sign", "Mesha")
 
         raw_sav = av_data.get("sav_chart",  {})
         raw_bav = av_data.get("bav_charts", {})

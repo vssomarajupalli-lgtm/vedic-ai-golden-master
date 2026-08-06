@@ -156,13 +156,13 @@ class MandaliTransitAdapter:
     def _compute_house_from_moon(self, natal_moon_sign: str, transit_sign: str) -> int:
         """Compute classical house from Moon using existing logic (reused from TransitMandaliResolver)."""
         signs_order = [
-            "aries", "taurus", "gemini", "cancer", "leo", "virgo",
-            "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"
+            "Mesha", "Vrishabha", "Mithuna", "Karkata", "Simha", "Kanya",
+            "Tula", "Vrishchika", "Dhanus", "Makara", "Kumbha", "Meena"
         ]
         
         try:
-            moon_idx = signs_order.index(natal_moon_sign.lower())
-            transit_idx = signs_order.index(transit_sign.lower())
+            moon_idx = signs_order.index(natal_moon_sign.title())
+            transit_idx = signs_order.index(transit_sign.title())
             # House from Moon: (transit - moon) mod 12 + 1
             house = ((transit_idx - moon_idx) % 12) + 1
             return house

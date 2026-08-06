@@ -28,7 +28,8 @@ def test_ask_question_with_valid_id(mock_answer_question):
     
     payload = {
         "question_id": "7.2",
-        "engine_outputs": dummy_engine_output
+        "engine_outputs": dummy_engine_output,
+        "target_date_utc": "2026-01-15T12:00:00+00:00"
     }
     
     response = client.post("/ask-question", json=payload)
@@ -78,7 +79,8 @@ def test_ask_question_legacy_free_text(mock_answer_question):
     
     payload = {
         "question_text": "When will I get married?",
-        "engine_outputs": dummy_engine_output
+        "engine_outputs": dummy_engine_output,
+        "target_date_utc": "2026-01-15T12:00:00+00:00"
     }
     
     response = client.post("/ask-question", json=payload)

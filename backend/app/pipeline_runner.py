@@ -117,16 +117,21 @@ class PipelineRunner:
         # This enables UniversalMandaliEngine to run even without pre-built Canonical JSON
         try:
             moon_data = normalized_payload.get("planets", {}).get("moon", {})
-            natal_moon_sign = moon_data.get("sign", "aries")
-            natal_moon_nakshatra_raw = moon_data.get("nakshatra", "aswini")
+            natal_moon_sign = moon_data.get("sign", "Mesha")
+            natal_moon_nakshatra_raw = moon_data.get("nakshatra", "")
             natal_moon_pada = moon_data.get("pada", 1)
             
             # Normalize nakshatra to match reference data casing (JsonNormalizer lowercases)
             ref_data = self.universal_mandali_engine._ref_data
             natal_moon_nakshatra = next(
                 (n for n in ref_data.get_all_nakshatras() if n.lower() == natal_moon_nakshatra_raw.lower()),
-                natal_moon_nakshatra_raw.capitalize()
+                None
             )
+            if not natal_moon_nakshatra:
+                # Unresolvable Moon nakshatra — skip Mandali gracefully (no fabricated data)
+                raise ValueError(
+                    f"No canonical nakshatra resolution for moon nakshatra={natal_moon_nakshatra_raw!r}"
+                )
             
             # Get birth date from normalized metadata (fallback to a valid date for Mandali)
             birth_date = normalized_payload.get("metadata", {}).get("dob", "Unknown")
@@ -180,7 +185,7 @@ class PipelineRunner:
             planet_data["dignity"] = dignity
 
         # 1.5 Functional Nature Mapping (Structural layer)
-        lagna = normalized_payload.get("metadata", {}).get("ascendant_sign", "aries")
+        lagna = normalized_payload.get("metadata", {}).get("ascendant_sign", "Mesha")
         functional_map = self.functional_nature_engine.get_functional_nature(lagna)
 
         # 2. Planet Engine Execution (Foundation Layer)

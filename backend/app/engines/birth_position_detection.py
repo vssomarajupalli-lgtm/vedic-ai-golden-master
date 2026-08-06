@@ -234,13 +234,29 @@ class BirthPositionDetector:
             )]
 
         # BPD-01 & BPD-03: Inside a window or between windows
+        # Phase 1: exact window-START match takes precedence (resolves shared
+        # boundaries where one window ends and the next begins on the same date).
+        for window, cycle_num in windows:
+            window_start = _parse_date(window.start_date)
+            if birth_dt == window_start:
+                position = BirthPosition.BIRTH_INSIDE
+                description = f"Born during the {window_type.value} {window.phase} phase of cycle {cycle_num}."
+                return [BirthPositionResult(
+                    position=position,
+                    cycle_number=cycle_num,
+                    phase=window.phase,
+                    description=description,
+                    window_type=window_type,
+                    window_start_date=window.start_date,
+                    window_end_date=window.end_date,
+                )]
+
+        # Phase 2: birth strictly inside a window (inclusive start/end per BPD-01)
         for i, (window, cycle_num) in enumerate(windows):
             window_start = _parse_date(window.start_date)
             window_end = _parse_date(window.end_date)
 
-            # BPD-01: Birth inside window
-            if window_start <= birth_dt <= window_end:
-                # BPD-01: Birth inside window (inclusive boundaries)
+            if window_start < birth_dt <= window_end:
                 position = BirthPosition.BIRTH_INSIDE
                 description = f"Born during the {window_type.value} {window.phase} phase of cycle {cycle_num}."
                 return [BirthPositionResult(
@@ -258,7 +274,7 @@ class BirthPositionDetector:
                 # Check if birth is between previous window end and current window start
                 prev_window, prev_cycle_num = windows[i-1]
                 prev_end = _parse_date(prev_window.end_date)
-                if birth_dt > prev_end:
+                if prev_end < birth_dt < window_start:
                     # BPD-03: Between windows
                     position = BirthPosition.BIRTH_BEFORE_THIS_CYCLE
                     description = f"Born between {window_type.value} cycles (after cycle {prev_cycle_num}, before cycle {cycle_num})."

@@ -97,7 +97,7 @@ class JsonNormalizer:
             consultation_date = canonical_json.get("consultation_date")
         return {
             "name": self._clean_string(raw_metadata.get("name", "Unknown")),
-            "ascendant_sign": self._clean_name(raw_metadata.get("lagna", ""), self.sign_map) or "aries",
+            "ascendant_sign": self._clean_name(raw_metadata.get("lagna", ""), self.sign_map) or "Mesha",
             "ascendant_degree": self._extract_float(raw_metadata.get("lagna_degree", 0.0)),
             "dob": self._normalize_date(raw_metadata.get("birth_date") or raw_metadata.get("dob") or raw_metadata.get("date_of_birth") or ""),
             "tob": self._clean_string(raw_metadata.get("birth_time") or raw_metadata.get("tob") or raw_metadata.get("time_of_birth") or "Unknown"),
@@ -154,8 +154,8 @@ class JsonNormalizer:
                     break
             
             SIGNS_IN_ORDER = [
-                "aries", "taurus", "gemini", "cancer", "leo", "virgo",
-                "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"
+                "Mesha", "Vrishabha", "Mithuna", "Karkata", "Simha", "Kanya",
+                "Tula", "Vrishchika", "Dhanus", "Makara", "Kumbha", "Meena"
             ]
             lagna_idx = SIGNS_IN_ORDER.index(lagna_sign) if lagna_sign in SIGNS_IN_ORDER else -1
             
@@ -447,8 +447,8 @@ class JsonNormalizer:
     def _calculate_longitude(self, sign_name: str, degree: float) -> float:
         """Helper to compute absolute 0-360 longitude from sign and degree."""
         SIGNS_IN_ORDER = [
-            "aries", "taurus", "gemini", "cancer", "leo", "virgo",
-            "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"
+            "Mesha", "Vrishabha", "Mithuna", "Karkata", "Simha", "Kanya",
+            "Tula", "Vrishchika", "Dhanus", "Makara", "Kumbha", "Meena"
         ]
         try:
             sign_idx = SIGNS_IN_ORDER.index(sign_name)

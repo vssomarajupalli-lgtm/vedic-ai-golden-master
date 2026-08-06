@@ -115,61 +115,62 @@ DASHA_SCORING_MATRIX = {
 # ---------------------------------------------------------------------------
 
 # Parashari sign lordship — each sign's ruling planet (system key names)
+# Canonical sign vocabulary per ADR-004: Sanskrit (Mesha..Meena)
 SIGN_LORD_MAP = {
-    "aries":       "mars",
-    "taurus":      "venus",
-    "gemini":      "mercury",
-    "cancer":      "moon",
-    "leo":         "sun",
-    "virgo":       "mercury",
-    "libra":       "venus",
-    "scorpio":     "mars",
-    "sagittarius": "jupiter",
-    "capricorn":   "saturn",
-    "aquarius":    "saturn",
-    "pisces":      "jupiter"
+    "Mesha":       "mars",
+    "Vrishabha":   "venus",
+    "Mithuna":     "mercury",
+    "Karkata":     "moon",
+    "Simha":       "sun",
+    "Kanya":       "mercury",
+    "Tula":        "venus",
+    "Vrishchika":  "mars",
+    "Dhanus":      "jupiter",
+    "Makara":      "saturn",
+    "Kumbha":      "saturn",
+    "Meena":       "jupiter"
 }
 
 # Dignity Maps (Planet -> Sign / List of Signs)
 EXALTATION_MAP = {
-    "sun": "aries",
-    "moon": "taurus",
-    "mars": "capricorn",
-    "mercury": "virgo",
-    "jupiter": "cancer",
-    "venus": "pisces",
-    "saturn": "libra",
-    "rahu": "taurus",
-    "ketu": "scorpio"
+    "sun": "Mesha",
+    "moon": "Vrishabha",
+    "mars": "Makara",
+    "mercury": "Kanya",
+    "jupiter": "Karkata",
+    "venus": "Meena",
+    "saturn": "Tula",
+    "rahu": "Vrishabha",
+    "ketu": "Vrishchika"
 }
 
 DEBILITATION_MAP = {
-    "sun": "libra",
-    "moon": "scorpio",
-    "mars": "cancer",
-    "mercury": "pisces",
-    "jupiter": "capricorn",
-    "venus": "virgo",
-    "saturn": "aries",
-    "rahu": "scorpio",
-    "ketu": "taurus"
+    "sun": "Tula",
+    "moon": "Vrishchika",
+    "mars": "Karkata",
+    "mercury": "Meena",
+    "jupiter": "Makara",
+    "venus": "Kanya",
+    "saturn": "Mesha",
+    "rahu": "Vrishchika",
+    "ketu": "Vrishabha"
 }
 
 OWN_SIGN_MAP = {
-    "sun": ["leo"],
-    "moon": ["cancer"],
-    "mars": ["aries", "scorpio"],
-    "mercury": ["gemini", "virgo"],
-    "jupiter": ["sagittarius", "pisces"],
-    "venus": ["taurus", "libra"],
-    "saturn": ["capricorn", "aquarius"]
+    "sun": ["Simha"],
+    "moon": ["Karkata"],
+    "mars": ["Mesha", "Vrishchika"],
+    "mercury": ["Mithuna", "Kanya"],
+    "jupiter": ["Dhanus", "Meena"],
+    "venus": ["Vrishabha", "Tula"],
+    "saturn": ["Makara", "Kumbha"]
 }
 
-# Canonical sign order — index 0 = Aries, index 11 = Pisces
+# Canonical sign order — index 0 = Mesha, index 11 = Meena
 # Used to derive house number from sign given an ascendant sign
 SIGNS_IN_ORDER = [
-    "aries", "taurus", "gemini", "cancer", "leo", "virgo",
-    "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"
+    "Mesha", "Vrishabha", "Mithuna", "Karkata", "Simha", "Kanya",
+    "Tula", "Vrishchika", "Dhanus", "Makara", "Kumbha", "Meena"
 ]
 
 # SAV Bindu → Score mapping (piecewise linear anchors)

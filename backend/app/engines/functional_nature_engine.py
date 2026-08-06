@@ -10,7 +10,7 @@ class FunctionalNatureEngine:
     # Static Parashari functional mapping per Lagna.
     # Excludes Rahu and Ketu, as they act according to their dispositor.
     _MAP = {
-        "aries": {
+        "Mesha": {
             "mars":    {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "sun":     {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "jupiter": {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
@@ -19,7 +19,7 @@ class FunctionalNatureEngine:
             "venus":   {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": True},
             "saturn":  {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": False},
         },
-        "taurus": {
+        "Vrishabha": {
             "venus":   {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "saturn":  {"functional_role": "benefic", "is_yogakaraka": True,  "is_maraka": False},
             "mercury": {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
@@ -28,7 +28,7 @@ class FunctionalNatureEngine:
             "moon":    {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": False},
             "jupiter": {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": False},
         },
-        "gemini": {
+        "Mithuna": {
             "mercury": {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "venus":   {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "moon":    {"functional_role": "neutral", "is_yogakaraka": False, "is_maraka": True},
@@ -37,7 +37,7 @@ class FunctionalNatureEngine:
             "mars":    {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": False},
             "jupiter": {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": False},
         },
-        "cancer": {
+        "Karkata": {
             "moon":    {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "mars":    {"functional_role": "benefic", "is_yogakaraka": True,  "is_maraka": False},
             "jupiter": {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
@@ -46,7 +46,7 @@ class FunctionalNatureEngine:
             "venus":   {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": False},
             "saturn":  {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": False},
         },
-        "leo": {
+        "Simha": {
             "sun":     {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "mars":    {"functional_role": "benefic", "is_yogakaraka": True,  "is_maraka": False},
             "jupiter": {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
@@ -55,7 +55,7 @@ class FunctionalNatureEngine:
             "venus":   {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": False},
             "saturn":  {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": False},
         },
-        "virgo": {
+        "Kanya": {
             "mercury": {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "venus":   {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "sun":     {"functional_role": "neutral", "is_yogakaraka": False, "is_maraka": False},
@@ -64,7 +64,7 @@ class FunctionalNatureEngine:
             "mars":    {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": False},
             "jupiter": {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": True},
         },
-        "libra": {
+        "Tula": {
             "venus":   {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "saturn":  {"functional_role": "benefic", "is_yogakaraka": True,  "is_maraka": False},
             "mercury": {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
@@ -73,7 +73,7 @@ class FunctionalNatureEngine:
             "mars":    {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": True},
             "jupiter": {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": False},
         },
-        "scorpio": {
+        "Vrishchika": {
             "mars":    {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "sun":     {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "moon":    {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
@@ -82,7 +82,7 @@ class FunctionalNatureEngine:
             "venus":   {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": True},
             "saturn":  {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": False},
         },
-        "sagittarius": {
+        "Dhanus": {
             "jupiter": {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "sun":     {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "mars":    {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
@@ -91,7 +91,7 @@ class FunctionalNatureEngine:
             "venus":   {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": False},
             "saturn":  {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": True},
         },
-        "capricorn": {
+        "Makara": {
             "saturn":  {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "venus":   {"functional_role": "benefic", "is_yogakaraka": True,  "is_maraka": False},
             "mercury": {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
@@ -100,7 +100,7 @@ class FunctionalNatureEngine:
             "mars":    {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": False},
             "jupiter": {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": False},
         },
-        "aquarius": {
+        "Kumbha": {
             "saturn":  {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "venus":   {"functional_role": "benefic", "is_yogakaraka": True,  "is_maraka": False},
             "mars":    {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
@@ -109,7 +109,7 @@ class FunctionalNatureEngine:
             "moon":    {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": False},
             "jupiter": {"functional_role": "malefic", "is_yogakaraka": False, "is_maraka": True},
         },
-        "pisces": {
+        "Meena": {
             "jupiter": {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "moon":    {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": False},
             "mars":    {"functional_role": "benefic", "is_yogakaraka": False, "is_maraka": True},
@@ -131,7 +131,7 @@ class FunctionalNatureEngine:
         Retrieves the functional nature map for all visible planets based on the Ascendant sign.
         
         Args:
-            lagna (str): The Ascendant sign (e.g. "aries", "taurus", etc.)
+            lagna (str): The Ascendant sign (canonical Sanskrit, e.g. "Mesha", "Vrishabha")
             
         Returns:
             dict: Mapping of planet names to their functional properties. Returns
@@ -144,10 +144,14 @@ class FunctionalNatureEngine:
         
         # We perform a fallback alias mapping for common sanskrit-english names just in case
         alias_map = {
-            "mesha": "aries", "vrishabha": "taurus", "mithuna": "gemini",
-            "kataka": "cancer", "simha": "leo", "kanya": "virgo",
-            "tula": "libra", "vrishchika": "scorpio", "dhanu": "sagittarius",
-            "makara": "capricorn", "kumbha": "aquarius", "meena": "pisces"
+            "mesha": "Mesha", "vrishabha": "Vrishabha", "mithuna": "Mithuna",
+            "karkata": "Karkata", "simha": "Simha", "kanya": "Kanya",
+            "tula": "Tula", "vrishchika": "Vrishchika", "dhanus": "Dhanus",
+            "makara": "Makara", "kumbha": "Kumbha", "meena": "Meena",
+            "aries": "Mesha", "taurus": "Vrishabha", "gemini": "Mithuna",
+            "cancer": "Karkata", "leo": "Simha", "virgo": "Kanya",
+            "libra": "Tula", "scorpio": "Vrishchika", "sagittarius": "Dhanus",
+            "capricorn": "Makara", "aquarius": "Kumbha", "pisces": "Meena"
         }
         
         mapped_lagna = alias_map.get(lagna_key, lagna_key)

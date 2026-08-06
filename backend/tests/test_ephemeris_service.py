@@ -15,10 +15,10 @@ class TestEphemerisService(unittest.TestCase):
         self.assertNotIn("ketu", self.service.planet_map) # Ketu is dynamically generated
 
     def test_zodiac_signs_order(self):
-        """Test that zodiac signs are correctly ordered."""
+        """Test that zodiac signs are correctly ordered (canonical Sanskrit per ADR-004)."""
         self.assertEqual(len(self.service.zodiac_signs), 12)
-        self.assertEqual(self.service.zodiac_signs[0], "aries")
-        self.assertEqual(self.service.zodiac_signs[11], "pisces")
+        self.assertEqual(self.service.zodiac_signs[0], "Mesha")
+        self.assertEqual(self.service.zodiac_signs[11], "Meena")
 
     def test_generate_transit_snapshot_stub(self):
         """Test the stubbed generation logic."""
@@ -43,13 +43,13 @@ class TestEphemerisService(unittest.TestCase):
         """Test that Ketu is exactly 6 signs opposite Rahu."""
         rahu = {
             "name": "rahu",
-            "sign": "aries",
+            "sign": "Mesha",
             "degree": 15.5,
             "longitude": 15.5
         }
         ketu = self.service._calculate_ketu_position(rahu)
         self.assertEqual(ketu["name"], "ketu")
-        self.assertEqual(ketu["sign"], "libra")
+        self.assertEqual(ketu["sign"], "Tula")
         self.assertEqual(ketu["degree"], 15.5)
 
 if __name__ == '__main__':

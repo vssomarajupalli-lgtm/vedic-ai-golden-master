@@ -15,12 +15,12 @@ class TestPipelineRunner(unittest.TestCase):
         self.mock_normalized_payload = {
             "metadata": {
                 "name": "integration test native",
-                "ascendant_sign": "aries",
+                "ascendant_sign": "Mesha",
             },
             "planets": {
                 "sun": {
                     "name": "sun",
-                    "sign": "aries",
+                    "sign": "Mesha",
                     "house_type": "kendra",
                     "dignity": "exalted",     # D1 Exalted (50) + Kendra (30) = 80 Base Score (v1.1)
                     "is_combust": False,
@@ -28,7 +28,7 @@ class TestPipelineRunner(unittest.TestCase):
                 },
                 "mars": {
                     "name": "mars",
-                    "sign": "scorpio",
+                    "sign": "Vrishchika",
                     "house_type": "dusthana",
                     "dignity": "own_sign",    # D1 Own Sign (35) + Dusthana (-15) = 20 Base Score (v1.1)
                     "is_combust": False,
@@ -48,12 +48,12 @@ class TestPipelineRunner(unittest.TestCase):
                 "D9": {
                     "planets": {
                         "sun": {
-                            "sign": "libra",  # D1 Aries -> D9 Libra = Contradicted (Debilitated)
+                            "sign": "Tula",  # D1 Mesha -> D9 Tula = Contradicted (Debilitated)
                             "dignity": "debilitated",
                             "is_vargottama": False
                         },
                         "mars": {
-                            "sign": "scorpio", # D1 Scorpio -> D9 Scorpio = Vargottama
+                            "sign": "Vrishchika", # D1 Vrishchika -> D9 Vrishchika = Vargottama
                             "dignity": "own_house",
                             "is_vargottama": True
                         }

@@ -75,7 +75,7 @@ class RasiStrengthEngine:
 
         normalized_planets = normalized_payload.get("planets", {})
         normalized_houses  = normalized_payload.get("houses", {})
-        ascendant_sign     = normalized_payload.get("metadata", {}).get("ascendant_sign", "aries")
+        ascendant_sign     = normalized_payload.get("metadata", {}).get("ascendant_sign", "Mesha")
 
         # Pre-build sign→occupant map (one pass, avoids O(n²) inner loops)
         sign_occupants = self._build_sign_occupant_map(normalized_planets)

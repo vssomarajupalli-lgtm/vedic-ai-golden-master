@@ -26,11 +26,11 @@ class TestJsonNormalizer(unittest.TestCase):
         
         # Assertions
         self.assertEqual(result["metadata"]["name"], "test native")
-        self.assertEqual(result["metadata"]["ascendant_sign"], "aries")
+        self.assertEqual(result["metadata"]["ascendant_sign"], "Mesha")
         self.assertEqual(result["metadata"]["ascendant_degree"], 14.5)
         
         sun = result["planets"]["sun"]
-        self.assertEqual(sun["sign"], "aries")
+        self.assertEqual(sun["sign"], "Mesha")
         self.assertEqual(sun["degree"], 10.0)
         self.assertEqual(sun["house"], 1)
         self.assertEqual(sun["house_type"], "kendra")
@@ -94,7 +94,7 @@ class TestJsonNormalizer(unittest.TestCase):
         d9_planets = result["vargas"]["D9"]["planets"]
         
         # Sun should be Vargottama
-        self.assertEqual(d9_planets["sun"]["sign"], "aries")
+        self.assertEqual(d9_planets["sun"]["sign"], "Mesha")
         self.assertTrue(d9_planets["sun"]["is_vargottama"])
         
         # Moon should NOT be Vargottama
@@ -131,13 +131,13 @@ class TestJsonNormalizer(unittest.TestCase):
         self.assertEqual(result["1"]["lord"], "mars")
 
     def test_normalize_houses_sign_mapped_via_sign_map(self):
-        """House sign raw value (e.g. 'Mesha') is normalized to English ('aries')."""
+        """House sign raw value (e.g. 'Mesha') is normalized to canonical Sanskrit ('Mesha')."""
         raw_houses = {
             "1": {"house_type": "Kendra", "lord": "Kuja", "sign": "Mesha",
                   "occupants": [], "aspected_by": []}
         }
         result = self.normalizer._normalize_houses(raw_houses)
-        self.assertEqual(result["1"]["sign"], "aries")
+        self.assertEqual(result["1"]["sign"], "Mesha")
 
     def test_normalize_houses_occupants_mapped(self):
         """Occupant raw names are normalized through planet_map."""
@@ -245,7 +245,7 @@ class TestJsonNormalizer(unittest.TestCase):
         h1 = houses["1"]
         self.assertEqual(h1["house"], 1)
         self.assertEqual(h1["house_type"], "kendra")
-        self.assertEqual(h1["sign"], "aries")
+        self.assertEqual(h1["sign"], "Mesha")
         self.assertEqual(h1["lord"], "mars")
         self.assertEqual(h1["occupants"], ["sun"])
         self.assertEqual(h1["aspected_by"], ["saturn"])
@@ -253,7 +253,7 @@ class TestJsonNormalizer(unittest.TestCase):
 
         h9 = houses["9"]
         self.assertEqual(h9["house_type"], "trikona")
-        self.assertEqual(h9["sign"], "sagittarius")
+        self.assertEqual(h9["sign"], "Dhanus")
         self.assertEqual(h9["lord"], "jupiter")
         self.assertEqual(h9["occupants"], ["jupiter"])
 

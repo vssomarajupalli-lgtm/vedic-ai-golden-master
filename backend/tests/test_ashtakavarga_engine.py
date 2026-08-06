@@ -7,31 +7,31 @@ from app.config.astrology_constants import BAV_PLANETS
 # ---------------------------------------------------------------------------
 
 RAW_BAV = {
-    "sun":     {"aries": 5, "taurus": 4, "gemini": 3, "cancer": 6, "leo": 3, "virgo": 5, "libra": 4, "scorpio": 3, "sagittarius": 5, "capricorn": 4, "aquarius": 6, "pisces": 1},
-    "moon":    {"aries": 4, "taurus": 5, "gemini": 4, "cancer": 5, "leo": 2, "virgo": 4, "libra": 5, "scorpio": 3, "sagittarius": 4, "capricorn": 5, "aquarius": 5, "pisces": 1},
-    "mars":    {"aries": 3, "taurus": 3, "gemini": 3, "cancer": 4, "leo": 2, "virgo": 4, "libra": 3, "scorpio": 3, "sagittarius": 3, "capricorn": 3, "aquarius": 4, "pisces": 1},
-    "mercury": {"aries": 5, "taurus": 4, "gemini": 4, "cancer": 5, "leo": 3, "virgo": 5, "libra": 4, "scorpio": 3, "sagittarius": 4, "capricorn": 4, "aquarius": 6, "pisces": 2},
-    "jupiter": {"aries": 5, "taurus": 5, "gemini": 5, "cancer": 6, "leo": 5, "virgo": 7, "libra": 5, "scorpio": 4, "sagittarius": 5, "capricorn": 5, "aquarius": 7, "pisces": 2},
-    "venus":   {"aries": 3, "taurus": 4, "gemini": 3, "cancer": 4, "leo": 3, "virgo": 5, "libra": 3, "scorpio": 3, "sagittarius": 3, "capricorn": 3, "aquarius": 5, "pisces": 2},
-    "saturn":  {"aries": 1, "taurus": 0, "gemini": 4, "cancer": 0, "leo": 4, "virgo": 2, "libra": 4, "scorpio": 3, "sagittarius": 1, "capricorn": 2, "aquarius": 7, "pisces": 1}
+    "sun":     {"Mesha": 5, "Vrishabha": 4, "Mithuna": 3, "Karkata": 6, "Simha": 3, "Kanya": 5, "Tula": 4, "Vrishchika": 3, "Dhanus": 5, "Makara": 4, "Kumbha": 6, "Meena": 1},
+    "moon":    {"Mesha": 4, "Vrishabha": 5, "Mithuna": 4, "Karkata": 5, "Simha": 2, "Kanya": 4, "Tula": 5, "Vrishchika": 3, "Dhanus": 4, "Makara": 5, "Kumbha": 5, "Meena": 1},
+    "mars":    {"Mesha": 3, "Vrishabha": 3, "Mithuna": 3, "Karkata": 4, "Simha": 2, "Kanya": 4, "Tula": 3, "Vrishchika": 3, "Dhanus": 3, "Makara": 3, "Kumbha": 4, "Meena": 1},
+    "mercury": {"Mesha": 5, "Vrishabha": 4, "Mithuna": 4, "Karkata": 5, "Simha": 3, "Kanya": 5, "Tula": 4, "Vrishchika": 3, "Dhanus": 4, "Makara": 4, "Kumbha": 6, "Meena": 2},
+    "jupiter": {"Mesha": 5, "Vrishabha": 5, "Mithuna": 5, "Karkata": 6, "Simha": 5, "Kanya": 7, "Tula": 5, "Vrishchika": 4, "Dhanus": 5, "Makara": 5, "Kumbha": 7, "Meena": 2},
+    "venus":   {"Mesha": 3, "Vrishabha": 4, "Mithuna": 3, "Karkata": 4, "Simha": 3, "Kanya": 5, "Tula": 3, "Vrishchika": 3, "Dhanus": 3, "Makara": 3, "Kumbha": 5, "Meena": 2},
+    "saturn":  {"Mesha": 1, "Vrishabha": 0, "Mithuna": 4, "Karkata": 0, "Simha": 4, "Kanya": 2, "Tula": 4, "Vrishchika": 3, "Dhanus": 1, "Makara": 2, "Kumbha": 7, "Meena": 1}
 }
 
 RAW_SAV = {
-    "aries": 26, "taurus": 25, "gemini": 26, "cancer": 30,
-    "leo": 22, "virgo": 32, "libra": 28, "scorpio": 22,
-    "sagittarius": 25, "capricorn": 26, "aquarius": 40, "pisces": 0
+    "Mesha": 26, "Vrishabha": 25, "Mithuna": 26, "Karkata": 30,
+    "Simha": 22, "Kanya": 32, "Tula": 28, "Vrishchika": 22,
+    "Dhanus": 25, "Makara": 26, "Kumbha": 40, "Meena": 0
 }
 
 RAJU_PLANETS = {
-    "sun":     {"house": 1,  "sign": "aries"},
-    "moon":    {"house": 2,  "sign": "taurus"},
-    "mars":    {"house": 8,  "sign": "scorpio"},
-    "mercury": {"house": 12, "sign": "pisces"},
-    "jupiter": {"house": 9,  "sign": "sagittarius"},
-    "venus":   {"house": 12, "sign": "pisces"},
-    "saturn":  {"house": 7,  "sign": "libra"},
-    "rahu":    {"house": 6,  "sign": "virgo"},
-    "ketu":    {"house": 12, "sign": "pisces"}
+    "sun":     {"house": 1,  "sign": "Mesha"},
+    "moon":    {"house": 2,  "sign": "Vrishabha"},
+    "mars":    {"house": 8,  "sign": "Vrishchika"},
+    "mercury": {"house": 12, "sign": "Meena"},
+    "jupiter": {"house": 9,  "sign": "Dhanus"},
+    "venus":   {"house": 12, "sign": "Meena"},
+    "saturn":  {"house": 7,  "sign": "Tula"},
+    "rahu":    {"house": 6,  "sign": "Kanya"},
+    "ketu":    {"house": 12, "sign": "Meena"}
 }
 
 RAJU_DASHAS = {
@@ -54,7 +54,7 @@ RAJU_PLANET_SCORES = {
 
 RAJU_PAYLOAD = {
     "metadata": {
-        "ascendant_sign": "aries"
+        "ascendant_sign": "Mesha"
     },
     "ashtakavarga": {
         "sav_chart":  RAW_SAV,
@@ -316,7 +316,7 @@ class TestAshtakavargaEngine(unittest.TestCase):
 
     def test_sav_h11_40_bindus_favorable(self):
         """H11 SAV=40 is favorable and strong."""
-        result = self.engine._build_sav_chart(RAW_SAV, "aries")
+        result = self.engine._build_sav_chart(RAW_SAV, "Mesha")
         h11 = result["11"]
         self.assertEqual(h11["bindus"],       40)
         self.assertTrue(h11["is_favorable"])
@@ -325,7 +325,7 @@ class TestAshtakavargaEngine(unittest.TestCase):
 
     def test_sav_h12_0_bindus_unfavorable(self):
         """H12 SAV=0 is unfavorable, not strong, is weak, grade CRITICAL."""
-        result = self.engine._build_sav_chart(RAW_SAV, "aries")
+        result = self.engine._build_sav_chart(RAW_SAV, "Mesha")
         h12 = result["12"]
         self.assertEqual(h12["bindus"],       0)
         self.assertFalse(h12["is_favorable"])
@@ -335,14 +335,14 @@ class TestAshtakavargaEngine(unittest.TestCase):
 
     def test_sav_h7_28_bindus_exactly_favorable(self):
         """H7 SAV=28 (exactly at threshold) → is_favorable=True."""
-        result = self.engine._build_sav_chart(RAW_SAV, "aries")
+        result = self.engine._build_sav_chart(RAW_SAV, "Mesha")
         h7 = result["7"]
         self.assertEqual(h7["bindus"], 28)
         self.assertTrue(h7["is_favorable"])
 
     def test_sav_h5_22_bindus_is_weak(self):
         """H5 SAV=22 (below weak threshold 22) → is_weak=True? No — 22 < 22 is False."""
-        result = self.engine._build_sav_chart(RAW_SAV, "aries")
+        result = self.engine._build_sav_chart(RAW_SAV, "Mesha")
         h5 = result["5"]
         self.assertEqual(h5["bindus"], 22)
         # 22 is NOT < 22, so is_weak should be False (boundary case)
@@ -350,7 +350,7 @@ class TestAshtakavargaEngine(unittest.TestCase):
 
     def test_sav_chart_has_all_12_houses(self):
         """SAV chart always contains all 12 houses."""
-        result = self.engine._build_sav_chart(RAW_SAV, "aries")
+        result = self.engine._build_sav_chart(RAW_SAV, "Mesha")
         self.assertEqual(len(result), 12)
         for h in range(1, 13):
             self.assertIn(str(h), result)
@@ -361,7 +361,7 @@ class TestAshtakavargaEngine(unittest.TestCase):
 
     def test_bav_consistency_h11_correct(self):
         """H11: 6+5+4+6+7+5+7 = 40 = SAV → consistent."""
-        result = self.engine._compute_sav_analytics(RAW_SAV, RAW_BAV, "aries")
+        result = self.engine._compute_sav_analytics(RAW_SAV, RAW_BAV, "Mesha")
         h11 = result["house_consistency"]["11"]
         self.assertEqual(h11["bav_sum"], 40)
         self.assertEqual(h11["sav_val"], 40)
@@ -369,7 +369,7 @@ class TestAshtakavargaEngine(unittest.TestCase):
 
     def test_bav_consistency_h12_inconsistent(self):
         """H12: 1+1+1+2+2+2+1=10 ≠ 0 (SAV) → inconsistent → flag raised."""
-        result = self.engine._compute_sav_analytics(RAW_SAV, RAW_BAV, "aries")
+        result = self.engine._compute_sav_analytics(RAW_SAV, RAW_BAV, "Mesha")
         h12 = result["house_consistency"]["12"]
         self.assertEqual(h12["bav_sum"], 10)
         self.assertEqual(h12["sav_val"], 0)
@@ -377,17 +377,17 @@ class TestAshtakavargaEngine(unittest.TestCase):
 
     def test_bav_consistency_flag_false_when_any_mismatch(self):
         """bav_consistency_check is False if any house is inconsistent."""
-        result = self.engine._compute_sav_analytics(RAW_SAV, RAW_BAV, "aries")
+        result = self.engine._compute_sav_analytics(RAW_SAV, RAW_BAV, "Mesha")
         # H12 is inconsistent → overall flag must be False
         self.assertFalse(result["bav_consistency_check"])
 
     def test_bav_consistency_all_true_when_consistent(self):
         """When SAV exactly equals BAV sums, bav_consistency_check is True."""
-        bav = {"sun": {"aries": 3}, "moon": {"aries": 3}, "mars": {"aries": 2},
-               "mercury": {"aries": 2}, "jupiter": {"aries": 2}, "venus": {"aries": 2},
-               "saturn": {"aries": 2}}
-        sav = {"aries": 16}  # 3+3+2+2+2+2+2 = 16
-        result = self.engine._compute_sav_analytics(sav, bav, "aries")
+        bav = {"sun": {"Mesha": 3}, "moon": {"Mesha": 3}, "mars": {"Mesha": 2},
+               "mercury": {"Mesha": 2}, "jupiter": {"Mesha": 2}, "venus": {"Mesha": 2},
+               "saturn": {"Mesha": 2}}
+        sav = {"Mesha": 16}  # 3+3+2+2+2+2+2 = 16
+        result = self.engine._compute_sav_analytics(sav, bav, "Mesha")
         self.assertTrue(result["house_consistency"]["1"]["consistent"])
 
     # -----------------------------------------------------------------------
@@ -396,23 +396,23 @@ class TestAshtakavargaEngine(unittest.TestCase):
 
     def test_sav_analytics_total_bindus(self):
         """Total bindus = sum of all 12 SAV house values."""
-        result = self.engine._compute_sav_analytics(RAW_SAV, RAW_BAV, "aries")
+        result = self.engine._compute_sav_analytics(RAW_SAV, RAW_BAV, "Mesha")
         expected = sum(RAW_SAV.values())
         self.assertEqual(result["total_bindus"], expected)
 
     def test_sav_analytics_peak_house(self):
         """Peak house for Raju is H11 (SAV=40)."""
-        result = self.engine._compute_sav_analytics(RAW_SAV, RAW_BAV, "aries")
+        result = self.engine._compute_sav_analytics(RAW_SAV, RAW_BAV, "Mesha")
         self.assertEqual(result["peak_house"], "11")
 
     def test_sav_analytics_weakest_house(self):
         """Weakest house for Raju is H12 (SAV=0)."""
-        result = self.engine._compute_sav_analytics(RAW_SAV, RAW_BAV, "aries")
+        result = self.engine._compute_sav_analytics(RAW_SAV, RAW_BAV, "Mesha")
         self.assertEqual(result["weakest_house"], "12")
 
     def test_sav_analytics_favorable_houses(self):
         """Favorable houses (SAV >= 28) correctly identified."""
-        result = self.engine._compute_sav_analytics(RAW_SAV, RAW_BAV, "aries")
+        result = self.engine._compute_sav_analytics(RAW_SAV, RAW_BAV, "Mesha")
         favorable = result["favorable_houses"]
         # H4=30, H6=32, H7=28, H11=40 should all be favorable
         for h in ["4", "6", "7", "11"]:
@@ -420,7 +420,7 @@ class TestAshtakavargaEngine(unittest.TestCase):
 
     def test_sav_analytics_unfavorable_houses(self):
         """Unfavorable houses (SAV < 22) correctly identified."""
-        result = self.engine._compute_sav_analytics(RAW_SAV, RAW_BAV, "aries")
+        result = self.engine._compute_sav_analytics(RAW_SAV, RAW_BAV, "Mesha")
         unfavorable = result["unfavorable_houses"]
         # H12=0 is the only house below 22 (H5=22 is exactly 22, not < 22)
         self.assertIn("12", unfavorable)

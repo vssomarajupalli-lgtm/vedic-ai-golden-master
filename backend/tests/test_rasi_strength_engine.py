@@ -8,15 +8,15 @@ from app.config.astrology_constants import SIGNS_IN_ORDER, SIGN_LORD_MAP
 
 # Minimal planet set for Raju's chart (Mesha Lagna)
 RAJU_PLANETS = {
-    "sun":     {"name": "sun",     "sign": "aries",       "dignity": "exalted",     "house": 1,  "benefic_aspects_count": 0, "malefic_aspects_count": 1, "aspected_by": ["saturn"]},
-    "moon":    {"name": "moon",    "sign": "taurus",      "dignity": "neutral",     "house": 2,  "benefic_aspects_count": 1, "malefic_aspects_count": 0, "aspected_by": ["jupiter"]},
-    "mars":    {"name": "mars",    "sign": "scorpio",     "dignity": "own sign",    "house": 8,  "benefic_aspects_count": 0, "malefic_aspects_count": 0, "aspected_by": []},
-    "mercury": {"name": "mercury", "sign": "pisces",      "dignity": "debilitated", "house": 12, "benefic_aspects_count": 0, "malefic_aspects_count": 1, "aspected_by": ["mars"]},
-    "jupiter": {"name": "jupiter", "sign": "sagittarius", "dignity": "own sign",    "house": 9,  "benefic_aspects_count": 2, "malefic_aspects_count": 0, "aspected_by": []},
-    "venus":   {"name": "venus",   "sign": "pisces",      "dignity": "exalted",     "house": 12, "benefic_aspects_count": 1, "malefic_aspects_count": 0, "aspected_by": ["jupiter"]},
-    "saturn":  {"name": "saturn",  "sign": "libra",       "dignity": "exalted",     "house": 7,  "benefic_aspects_count": 0, "malefic_aspects_count": 1, "aspected_by": []},
-    "rahu":    {"name": "rahu",    "sign": "virgo",       "dignity": "neutral",     "house": 6,  "benefic_aspects_count": 0, "malefic_aspects_count": 0, "aspected_by": []},
-    "ketu":    {"name": "ketu",    "sign": "pisces",      "dignity": "neutral",     "house": 12, "benefic_aspects_count": 0, "malefic_aspects_count": 0, "aspected_by": []}
+    "sun":     {"name": "sun",     "sign": "Mesha",       "dignity": "exalted",     "house": 1,  "benefic_aspects_count": 0, "malefic_aspects_count": 1, "aspected_by": ["saturn"]},
+    "moon":    {"name": "moon",    "sign": "Vrishabha",      "dignity": "neutral",     "house": 2,  "benefic_aspects_count": 1, "malefic_aspects_count": 0, "aspected_by": ["jupiter"]},
+    "mars":    {"name": "mars",    "sign": "Vrishchika",     "dignity": "own sign",    "house": 8,  "benefic_aspects_count": 0, "malefic_aspects_count": 0, "aspected_by": []},
+    "mercury": {"name": "mercury", "sign": "Meena",      "dignity": "debilitated", "house": 12, "benefic_aspects_count": 0, "malefic_aspects_count": 1, "aspected_by": ["mars"]},
+    "jupiter": {"name": "jupiter", "sign": "Dhanus", "dignity": "own sign",    "house": 9,  "benefic_aspects_count": 2, "malefic_aspects_count": 0, "aspected_by": []},
+    "venus":   {"name": "venus",   "sign": "Meena",      "dignity": "exalted",     "house": 12, "benefic_aspects_count": 1, "malefic_aspects_count": 0, "aspected_by": ["jupiter"]},
+    "saturn":  {"name": "saturn",  "sign": "Tula",       "dignity": "exalted",     "house": 7,  "benefic_aspects_count": 0, "malefic_aspects_count": 1, "aspected_by": []},
+    "rahu":    {"name": "rahu",    "sign": "Kanya",       "dignity": "neutral",     "house": 6,  "benefic_aspects_count": 0, "malefic_aspects_count": 0, "aspected_by": []},
+    "ketu":    {"name": "ketu",    "sign": "Meena",      "dignity": "neutral",     "house": 12, "benefic_aspects_count": 0, "malefic_aspects_count": 0, "aspected_by": []}
 }
 
 RAJU_HOUSES = {
@@ -49,34 +49,34 @@ RAJU_PLANET_SCORES = {
 RAJU_VARGA_OUTPUTS = {
     "D9": {
         "planets": {
-            "sun":     {"sign": "libra",       "dignity": "enemy",    "is_vargottama": False},
-            "moon":    {"sign": "taurus",      "dignity": "exalted",  "is_vargottama": True},
-            "mars":    {"sign": "scorpio",     "dignity": "own_house","is_vargottama": True},
-            "mercury": {"sign": "gemini",      "dignity": "own_house","is_vargottama": False},
-            "jupiter": {"sign": "sagittarius", "dignity": "own_house","is_vargottama": True},
-            "venus":   {"sign": "pisces",      "dignity": "exalted",  "is_vargottama": True},
-            "saturn":  {"sign": "libra",       "dignity": "exalted",  "is_vargottama": False},
-            "rahu":    {"sign": "virgo",       "dignity": "neutral",  "is_vargottama": True},
-            "ketu":    {"sign": "pisces",      "dignity": "neutral",  "is_vargottama": True}
+            "sun":     {"sign": "Tula",       "dignity": "enemy",    "is_vargottama": False},
+            "moon":    {"sign": "Vrishabha",      "dignity": "exalted",  "is_vargottama": True},
+            "mars":    {"sign": "Vrishchika",     "dignity": "own_house","is_vargottama": True},
+            "mercury": {"sign": "Mithuna",      "dignity": "own_house","is_vargottama": False},
+            "jupiter": {"sign": "Dhanus", "dignity": "own_house","is_vargottama": True},
+            "venus":   {"sign": "Meena",      "dignity": "exalted",  "is_vargottama": True},
+            "saturn":  {"sign": "Tula",       "dignity": "exalted",  "is_vargottama": False},
+            "rahu":    {"sign": "Kanya",       "dignity": "neutral",  "is_vargottama": True},
+            "ketu":    {"sign": "Meena",      "dignity": "neutral",  "is_vargottama": True}
         }
     },
     "D10": {
         "planets": {
-            "sun":     {"sign": "aries",       "dignity": "exalted",  "is_vargottama": False},
-            "moon":    {"sign": "cancer",      "dignity": "own_house","is_vargottama": False},
-            "mars":    {"sign": "scorpio",     "dignity": "own_house","is_vargottama": True},
-            "mercury": {"sign": "virgo",       "dignity": "own_house","is_vargottama": False},
-            "jupiter": {"sign": "sagittarius", "dignity": "own_house","is_vargottama": True},
-            "venus":   {"sign": "taurus",      "dignity": "own_house","is_vargottama": False},
-            "saturn":  {"sign": "capricorn",   "dignity": "exalted",  "is_vargottama": False},
-            "rahu":    {"sign": "gemini",      "dignity": "neutral",  "is_vargottama": False},
-            "ketu":    {"sign": "sagittarius", "dignity": "neutral",  "is_vargottama": False}
+            "sun":     {"sign": "Mesha",       "dignity": "exalted",  "is_vargottama": False},
+            "moon":    {"sign": "Karkata",      "dignity": "own_house","is_vargottama": False},
+            "mars":    {"sign": "Vrishchika",     "dignity": "own_house","is_vargottama": True},
+            "mercury": {"sign": "Kanya",       "dignity": "own_house","is_vargottama": False},
+            "jupiter": {"sign": "Dhanus", "dignity": "own_house","is_vargottama": True},
+            "venus":   {"sign": "Vrishabha",      "dignity": "own_house","is_vargottama": False},
+            "saturn":  {"sign": "Makara",   "dignity": "exalted",  "is_vargottama": False},
+            "rahu":    {"sign": "Mithuna",      "dignity": "neutral",  "is_vargottama": False},
+            "ketu":    {"sign": "Dhanus", "dignity": "neutral",  "is_vargottama": False}
         }
     }
 }
 
 RAJU_PAYLOAD = {
-    "metadata": {"ascendant_sign": "aries"},
+    "metadata": {"ascendant_sign": "Mesha"},
     "planets":  RAJU_PLANETS,
     "houses":   RAJU_HOUSES
 }
@@ -132,26 +132,26 @@ class TestRasiStrengthEngine(unittest.TestCase):
     def test_sign_to_house_mesha_lagna_all_signs(self):
         """For Aries ascendant, each sign maps to its natural house number."""
         expected = {
-            "aries": 1, "taurus": 2, "gemini": 3, "cancer": 4,
-            "leo": 5, "virgo": 6, "libra": 7, "scorpio": 8,
-            "sagittarius": 9, "capricorn": 10, "aquarius": 11, "pisces": 12
+            "Mesha": 1, "Vrishabha": 2, "Mithuna": 3, "Karkata": 4,
+            "Simha": 5, "Kanya": 6, "Tula": 7, "Vrishchika": 8,
+            "Dhanus": 9, "Makara": 10, "Kumbha": 11, "Meena": 12
         }
         for sign, expected_house in expected.items():
-            result = self.engine._sign_to_house(sign, "aries")
+            result = self.engine._sign_to_house(sign, "Mesha")
             self.assertEqual(result, expected_house, f"Sign {sign} should be house {expected_house}")
 
     def test_sign_to_house_vrishabha_lagna(self):
         """For Taurus ascendant, Taurus=1, Aries=12."""
-        self.assertEqual(self.engine._sign_to_house("taurus",      "taurus"), 1)
-        self.assertEqual(self.engine._sign_to_house("gemini",      "taurus"), 2)
-        self.assertEqual(self.engine._sign_to_house("aries",       "taurus"), 12)
-        self.assertEqual(self.engine._sign_to_house("pisces",      "taurus"), 11)
+        self.assertEqual(self.engine._sign_to_house("Vrishabha",      "Vrishabha"), 1)
+        self.assertEqual(self.engine._sign_to_house("Mithuna",      "Vrishabha"), 2)
+        self.assertEqual(self.engine._sign_to_house("Mesha",       "Vrishabha"), 12)
+        self.assertEqual(self.engine._sign_to_house("Meena",      "Vrishabha"), 11)
 
     def test_sign_to_house_dhanu_lagna(self):
         """For Sagittarius ascendant, Sagittarius=1, Scorpio=12."""
-        self.assertEqual(self.engine._sign_to_house("sagittarius", "sagittarius"), 1)
-        self.assertEqual(self.engine._sign_to_house("capricorn",   "sagittarius"), 2)
-        self.assertEqual(self.engine._sign_to_house("scorpio",     "sagittarius"), 12)
+        self.assertEqual(self.engine._sign_to_house("Dhanus", "Dhanus"), 1)
+        self.assertEqual(self.engine._sign_to_house("Makara",   "Dhanus"), 2)
+        self.assertEqual(self.engine._sign_to_house("Vrishchika",     "Dhanus"), 12)
 
     def test_sign_to_house_result_always_in_1_to_12(self):
         """For any lagna/sign combination, result is always 1-12."""
@@ -193,21 +193,21 @@ class TestRasiStrengthEngine(unittest.TestCase):
 
     def test_occupant_quality_strong_benefic(self):
         """Strong benefic (score 80) → contribution = 80."""
-        occupant = [{"name": "jupiter", "sign": "sagittarius"}]
+        occupant = [{"name": "jupiter", "sign": "Dhanus"}]
         scores   = {"jupiter": {"final_score": 80}}
         result   = self.engine._factor_occupant_quality(occupant, scores)
         self.assertEqual(result, 80.0)
 
     def test_occupant_quality_strong_malefic_inverted(self):
         """Strong malefic (score 80) → contribution = 100-80 = 20 (high damage)."""
-        occupant = [{"name": "saturn", "sign": "libra"}]
+        occupant = [{"name": "saturn", "sign": "Tula"}]
         scores   = {"saturn": {"final_score": 80}}
         result   = self.engine._factor_occupant_quality(occupant, scores)
         self.assertEqual(result, 20.0)
 
     def test_occupant_quality_weak_malefic_less_damage(self):
         """Weak malefic (score 10) → contribution = 90 (low damage to sign)."""
-        occupant = [{"name": "mars", "sign": "scorpio"}]
+        occupant = [{"name": "mars", "sign": "Vrishchika"}]
         scores   = {"mars": {"final_score": 10}}
         result   = self.engine._factor_occupant_quality(occupant, scores)
         self.assertEqual(result, 90.0)
@@ -215,8 +215,8 @@ class TestRasiStrengthEngine(unittest.TestCase):
     def test_occupant_quality_mixed_averages(self):
         """Mixed occupants (strong Jupiter + weak Mars) → average of contributions."""
         occupants = [
-            {"name": "jupiter", "sign": "sagittarius"},  # benefic score 60 → 60
-            {"name": "mars",    "sign": "sagittarius"}   # malefic score 0 → 100
+            {"name": "jupiter", "sign": "Dhanus"},  # benefic score 60 → 60
+            {"name": "mars",    "sign": "Dhanus"}   # malefic score 0 → 100
         ]
         scores = {"jupiter": {"final_score": 60}, "mars": {"final_score": 0}}
         result = self.engine._factor_occupant_quality(occupants, scores)
@@ -258,21 +258,21 @@ class TestRasiStrengthEngine(unittest.TestCase):
 
     def test_dignity_empty_sign_returns_50(self):
         """Empty sign → neutral 50."""
-        result = self.engine._factor_dignity("aries", "mars", [], {})
+        result = self.engine._factor_dignity("Mesha", "mars", [], {})
         self.assertEqual(result, 50.0)
 
     def test_dignity_exalted_occupant(self):
         """Exalted planet → 50 + 30 = 80."""
         occupant = [{"name": "sun"}]
         planets  = {"sun": {"dignity": "exalted"}}
-        result   = self.engine._factor_dignity("aries", "mars", occupant, planets)
+        result   = self.engine._factor_dignity("Mesha", "mars", occupant, planets)
         self.assertEqual(result, 80.0)
 
     def test_dignity_debilitated_occupant(self):
         """Debilitated planet → 50 - 20 = 30."""
         occupant = [{"name": "mercury"}]
         planets  = {"mercury": {"dignity": "debilitated"}}
-        result   = self.engine._factor_dignity("pisces", "jupiter", occupant, planets)
+        result   = self.engine._factor_dignity("Meena", "jupiter", occupant, planets)
         self.assertEqual(result, 30.0)
 
     def test_dignity_lord_in_own_sign_bonus(self):
@@ -280,7 +280,7 @@ class TestRasiStrengthEngine(unittest.TestCase):
         occupant = [{"name": "jupiter"}]  # Jupiter in Sagittarius = own sign
         planets  = {"jupiter": {"dignity": "own sign"}}
         # dignity score = 50 + 20 (own sign) + 10 (lord bonus) = 80
-        result = self.engine._factor_dignity("sagittarius", "jupiter", occupant, planets)
+        result = self.engine._factor_dignity("Dhanus", "jupiter", occupant, planets)
         self.assertEqual(result, 80.0)
 
     def test_dignity_clamped_to_100(self):
@@ -288,7 +288,7 @@ class TestRasiStrengthEngine(unittest.TestCase):
         occupant = [{"name": "jupiter"}]
         planets  = {"jupiter": {"dignity": "exalted"}}
         # exalted(+30) + lord_own_bonus(+10) → 50+30+10=90, just under 100
-        result = self.engine._factor_dignity("sagittarius", "jupiter", occupant, planets)
+        result = self.engine._factor_dignity("Dhanus", "jupiter", occupant, planets)
         self.assertLessEqual(result, 100.0)
 
     # -----------------------------------------------------------------------
@@ -330,13 +330,13 @@ class TestRasiStrengthEngine(unittest.TestCase):
     def test_composite_all_neutral_inputs_near_50(self):
         """When all inputs are neutral (50), composite output should be near 50."""
         payload = {
-            "metadata": {"ascendant_sign": "aries"},
+            "metadata": {"ascendant_sign": "Mesha"},
             "planets":  {},
             "houses":   {"1": {"sav_points": 25}}  # 25 bindus → 50
         }
         dep_scores = {"mars": {"final_score": 50}}  # Aries lord
         result = self.engine.evaluate(payload, dependency_scores=dep_scores)
-        aries  = result["aries"]
+        aries  = result["Mesha"]
         # SAV=50×0.35 + Lord=50×0.25 + empty_baselines = near 50
         self.assertGreaterEqual(aries["final_score"], 40)
         self.assertLessEqual(aries["final_score"], 60)
@@ -344,28 +344,28 @@ class TestRasiStrengthEngine(unittest.TestCase):
     def test_composite_strong_sign_scores_high(self):
         """Sign with high SAV + strong lord + strong benefic occupant scores high."""
         payload = {
-            "metadata": {"ascendant_sign": "aries"},
+            "metadata": {"ascendant_sign": "Mesha"},
             "planets": {
-                "jupiter": {"name": "jupiter", "sign": "sagittarius",
+                "jupiter": {"name": "jupiter", "sign": "Dhanus",
                             "dignity": "own sign", "aspected_by": []}
             },
             "houses": {"9": {"sav_points": 40}}  # 40 bindus → 100
         }
         dep_scores = {"jupiter": {"final_score": 90}}
         result = self.engine.evaluate(payload, dependency_scores=dep_scores)
-        sag = result["sagittarius"]
+        sag = result["Dhanus"]
         self.assertGreater(sag["final_score"], 60)
 
     def test_composite_zero_sav_pulls_score_down(self):
         """SAV=0 (35% weight) significantly lowers the composite score."""
         payload = {
-            "metadata": {"ascendant_sign": "aries"},
+            "metadata": {"ascendant_sign": "Mesha"},
             "planets":  {},
             "houses":   {"12": {"sav_points": 0}}
         }
         dep_scores = {"jupiter": {"final_score": 80}}  # Pisces lord
         result = self.engine.evaluate(payload, dependency_scores=dep_scores)
-        pisces = result["pisces"]
+        pisces = result["Meena"]
         self.assertLess(pisces["final_score"], 50)
 
     # -----------------------------------------------------------------------
@@ -374,14 +374,14 @@ class TestRasiStrengthEngine(unittest.TestCase):
 
     def test_output_contains_all_12_signs(self):
         """evaluate() always returns all 12 signs."""
-        result = self.engine.evaluate({"metadata": {"ascendant_sign": "aries"}, "planets": {}, "houses": {}})
+        result = self.engine.evaluate({"metadata": {"ascendant_sign": "Mesha"}, "planets": {}, "houses": {}})
         self.assertEqual(len(result), 12)
         for sign in SIGNS_IN_ORDER:
             self.assertIn(sign, result)
 
     def test_output_schema_per_sign(self):
         """Each sign entry has all required schema keys."""
-        result = self.engine.evaluate({"metadata": {"ascendant_sign": "aries"}, "planets": {}, "houses": {}})
+        result = self.engine.evaluate({"metadata": {"ascendant_sign": "Mesha"}, "planets": {}, "houses": {}})
         required_top = ["metadata", "final_score", "grade", "raw_score", "breakdown", "modifiers", "confidence_flags"]
         required_breakdown = ["sav_bindus", "sav_score", "lord_score", "occupant_score", "balance_score", "dignity_score", "varga_score"]
         for sign, data in result.items():
@@ -393,8 +393,8 @@ class TestRasiStrengthEngine(unittest.TestCase):
     def test_output_metadata_correct(self):
         """Metadata contains correct entity_id, entity_type, lord, house_num."""
         result = self.engine.evaluate(RAJU_PAYLOAD, dependency_scores=RAJU_PLANET_SCORES)
-        aries = result["aries"]
-        self.assertEqual(aries["metadata"]["entity_id"],   "aries")
+        aries = result["Mesha"]
+        self.assertEqual(aries["metadata"]["entity_id"],   "Mesha")
         self.assertEqual(aries["metadata"]["entity_type"], "rasi")
         self.assertEqual(aries["metadata"]["lord"],        "mars")
         self.assertEqual(aries["metadata"]["house_num"],   1)
@@ -402,7 +402,7 @@ class TestRasiStrengthEngine(unittest.TestCase):
     def test_output_grade_is_valid_string(self):
         """Every sign's grade is one of the 5 defined grades."""
         valid_grades = {"EXCELLENT", "VERY GOOD", "GOOD", "WEAK", "TOO WEAK"}
-        result = self.engine.evaluate({"metadata": {"ascendant_sign": "aries"}, "planets": {}, "houses": {}})
+        result = self.engine.evaluate({"metadata": {"ascendant_sign": "Mesha"}, "planets": {}, "houses": {}})
         for sign, data in result.items():
             self.assertIn(data["grade"], valid_grades, f"Sign {sign} has invalid grade")
 
@@ -420,37 +420,37 @@ class TestRasiStrengthEngine(unittest.TestCase):
     def test_raju_aquarius_high_sav_scores_well(self):
         """Aquarius (H11, SAV=40 bindus) has highest SAV — should score GOOD+."""
         result  = self.engine.evaluate(RAJU_PAYLOAD, dependency_scores=RAJU_PLANET_SCORES)
-        aquarius = result["aquarius"]
+        aquarius = result["Kumbha"]
         # SAV=40 → 100 score (35% weight) drives the composite up
         self.assertGreater(aquarius["final_score"], 50)
 
     def test_raju_pisces_zero_sav_scores_weak(self):
         """Pisces (H12, SAV=0) should score WEAK or TOO WEAK due to zero SAV."""
         result = self.engine.evaluate(RAJU_PAYLOAD, dependency_scores=RAJU_PLANET_SCORES)
-        pisces = result["pisces"]
+        pisces = result["Meena"]
         self.assertLess(pisces["final_score"], 50)
 
     def test_raju_sagittarius_occupants_found(self):
         """Sagittarius should list Jupiter as its occupant."""
         result    = self.engine.evaluate(RAJU_PAYLOAD, dependency_scores=RAJU_PLANET_SCORES)
-        sag_occ   = result["sagittarius"]["metadata"]["occupants"]
+        sag_occ   = result["Dhanus"]["metadata"]["occupants"]
         self.assertIn("jupiter", sag_occ)
 
     def test_raju_virgo_malefic_dominant_flag(self):
         """Virgo contains only Rahu (malefic) → confidence flag 'malefic_dominant'."""
         result = self.engine.evaluate(RAJU_PAYLOAD, dependency_scores=RAJU_PLANET_SCORES)
-        virgo_flags = result["virgo"]["confidence_flags"]
+        virgo_flags = result["Kanya"]["confidence_flags"]
         self.assertIn("malefic_dominant", virgo_flags)
 
     def test_raju_pisces_zero_sav_flag(self):
         """Pisces with SAV=0 should have 'zero_sav' confidence flag."""
         result = self.engine.evaluate(RAJU_PAYLOAD, dependency_scores=RAJU_PLANET_SCORES)
-        self.assertIn("zero_sav", result["pisces"]["confidence_flags"])
+        self.assertIn("zero_sav", result["Meena"]["confidence_flags"])
 
     def test_raju_empty_signs_have_empty_sign_flag(self):
         """Signs with no occupants should have 'empty_sign' confidence flag."""
         result = self.engine.evaluate(RAJU_PAYLOAD, dependency_scores=RAJU_PLANET_SCORES)
-        empty_signs = ["gemini", "cancer", "leo", "capricorn", "aquarius"]
+        empty_signs = ["Mithuna", "Karkata", "Simha", "Makara", "Kumbha"]
         for sign in empty_signs:
             self.assertIn("empty_sign", result[sign]["confidence_flags"],
                           f"Expected 'empty_sign' flag on {sign}")
