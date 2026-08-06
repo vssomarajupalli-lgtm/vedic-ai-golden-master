@@ -1,6 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { apiService } from '../services/api';
-import { Node, EnrichedNode, KnowledgeSearchResponse } from '../schemas/knowledge';
+import type { KnowledgeNode } from '../services/knowledge';
+
+interface EnrichedNode extends KnowledgeNode { }
+interface KnowledgeSearchResponse {
+  nodes: KnowledgeNode[];
+  total: number;
+}
 
 // Debounce utility
 function debounce<F extends (...args: any[]) => any>(func: F, waitFor: number) {
@@ -43,7 +49,7 @@ export function useNode(nodeId: string | null) {
 }
 
 export function useNodes() {
-    const [nodes, setNodes] = useState<Node[]>([]);
+    const [nodes, setNodes] = useState<KnowledgeNode[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
 
@@ -53,7 +59,7 @@ export function useNodes() {
         try {
             const result = query
                 ? (await apiService.post<KnowledgeSearchResponse>('/knowledge/search', { query })).nodes
-                : await apiService.get<Node[]>('/knowledge/nodes?enrich=false');
+                : await apiService.get<KnowledgeNode[]>('/knowledge/nodes?enrich=false');
             setNodes(result);
         } catch (e) { setError(e as Error); }
         finally { setIsLoading(false); }

@@ -121,6 +121,8 @@ export interface FinalReportSchema {
         breakdown: Record<string, any>;
         lifetime_projection: any[];
     };
+    // Mandali integration — populated by ReportBuilder from the backend MandaliResponseDTO
+    mandali_analysis?: import('./mandali').MandaliAnalysisDTO;
 }
 
 
@@ -130,6 +132,14 @@ export interface ChartProcessResponse {
     probability_grade: string;
     breakdown: Record<string, any>;
     yogas: any[];
+    master_probability?: Record<string, any>;
+    engine_outputs?: {
+        mandali_advisory?: import('./mandali').MandaliAdvisoryDTO;
+        transit?: Record<string, any>;
+        [key: string]: any;
+    };
+    target_date_utc?: string;
+    metadata?: Record<string, any>;
 }
 
 export interface QuestionResponse {

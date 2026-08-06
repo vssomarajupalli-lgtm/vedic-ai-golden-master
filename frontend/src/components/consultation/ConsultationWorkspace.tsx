@@ -5,6 +5,7 @@ import { useConsultationStore } from '../../store/useConsultationStore';
 import type { Consultation } from '../../types/consultation';
 import { RenameConsultationModal, DeleteConfirmModal, ConsultationEditModal } from '../../components/consultation/ConsultationModals';
 import { PrintFrameworkModal } from '../../components/consultation/PrintFrameworkModal';
+import { MandaliAnalysisSection } from '../../components/consultation/MandaliAnalysisSection';
 
 export default function ConsultationWorkspace() {
   const { id } = useParams<{ id: string }>();
@@ -256,6 +257,12 @@ export default function ConsultationWorkspace() {
       day: 'numeric',
     });
   };
+
+  // Mandali data from backend MandaliResponseDTO (report) + MandaliAdvisory (rawOutputs)
+  const mandaliAnalysis = consultation.report?.mandali_analysis || null;
+  const advisory = (consultation.rawOutputs?.engine_outputs?.mandali_advisory) ||
+    (consultation.rawOutputs?.breakdown?.engine_outputs?.mandali_advisory) || null;
+  const hasMandali = Boolean(mandaliAnalysis || advisory);
 
   const formatDateTime = (dateStr: string) => {
     const date = new Date(dateStr);
@@ -653,6 +660,12 @@ export default function ConsultationWorkspace() {
                       <Printer className="w-4 h-4" />
                       Generate Report
                     </button>
+                  </div>
+                )}
+
+                {hasMandali && (
+                  <div className="mt-8">
+                    <MandaliAnalysisSection mandaliAnalysis={mandaliAnalysis} advisory={advisory} />
                   </div>
                 )}
               </div>

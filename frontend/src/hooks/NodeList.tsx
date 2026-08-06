@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNodes } from '../../hooks/useKnowledgeGraph'; // Assuming correct path
-
-interface Node { id: string; label: string; type: string; }
+import { useNodes } from './useKnowledgeGraph';
 
 interface NodeListProps {
   onSelectNode: (nodeId: string) => void;
@@ -37,7 +35,7 @@ export const NodeList: React.FC<NodeListProps> = ({ onSelectNode, selectedNodeId
         />
       </div>
       <ul className="space-y-1 max-h-[calc(100vh-12rem)] overflow-y-auto">
-        {nodes.map(node => (
+        {nodes.map((node) => (
           <li
             key={node.id}
             onClick={() => onSelectNode(node.id)}

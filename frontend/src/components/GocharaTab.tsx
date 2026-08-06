@@ -1,33 +1,30 @@
 import React from 'react';
 import { useChartStore } from '../store/useChartStore';
-import { MandaliChakraDisplay } from './MandaliChakraDisplay';
+import NatalMandaliChart from './NatalMandaliChart';
+import CurrentMandaliChart from './CurrentMandaliChart';
+import PlanetTransitionTable from './PlanetTransitionTable';
 
 interface SadeSatiCycle {
   cycle_number: number;
   period: string;
-  // Add other properties from the mandali_advisory schema as needed
 }
 
 export const GocharaTab: React.FC = () => {
-  const { report, isLoading } = useChartStore();
+  const { report, rawOutputs } = useChartStore();
 
-  const mandaliChakra = report?.pipeline_outputs?.mandali_chakra;
-  const transitReport = report?.engine_outputs?.transit;
-
-  const GRADE_COLOR_MAP: Record<string, string> = {
-    EXCELLENT: 'text-green-600',
-    VERY_GOOD: 'text-green-600',
-    GOOD: 'text-green-600',
-    POOR: 'text-red-600',
-    VERY_POOR: 'text-red-600',
-  };
+  const mandaliAnalysis = report?.mandali_analysis || null;
+  const advisory = rawOutputs?.engine_outputs?.mandali_advisory ||
+    rawOutputs?.breakdown?.engine_outputs?.mandali_advisory || null;
+  const transitReport = rawOutputs?.engine_outputs?.transit ||
+    rawOutputs?.breakdown?.engine_outputs?.transit || null;
 
   const getGradeColor = (grade: string) => {
     if (grade === 'EXCELLENT' || grade === 'VERY_GOOD' || grade === 'GOOD') return 'text-green-600';
     if (grade === 'POOR' || grade === 'VERY_POOR') return 'text-red-600';
-    return GRADE_COLOR_MAP[grade] || 'text-yellow-600'; // The if-statements above make this line unreachable. It should be the only return.
-    return GRADE_COLOR_MAP[grade] || 'text-yellow-600';
+    return 'text-yellow-600';
   };
+
+  const sadeSatiCycles: SadeSatiCycle[] = advisory?.sade_sati?.cycles || [];
 
   return (
     <div className="p-6">
@@ -38,16 +35,14 @@ export const GocharaTab: React.FC = () => {
         </p>
       </div>
 
-      {isLoading && <div className="text-center p-8 text-gray-500">Loading Report...</div>}
-
-      {!isLoading && !report && (
+      {!report && !rawOutputs && (
         <div className="text-center p-8 bg-gray-50 rounded-lg">
           <p className="text-gray-500">No chart loaded. Please upload a Canonical JSON file to generate a Gochara analysis.</p>
         </div>
       )}
 
       {transitReport && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <div>
             <h4 className="text-md font-semibold text-gray-800">Overall Transit Impact</h4>
             <p className={`text-3xl font-bold ${getGradeColor(transitReport.grade)}`}>
@@ -55,20 +50,33 @@ export const GocharaTab: React.FC = () => {
             </p>
           </div>
 
-          <div>
-            <h4 className="text-md font-semibold text-gray-800 mb-2">Active Major Cycles</h4>
-            <ul className="space-y-2">
-              {report?.engine_outputs?.mandali_advisory?.sade_sati?.cycles.map((cycle: SadeSatiCycle) => (
-                <li key={cycle.cycle_number} className="p-3 bg-gray-50 rounded-lg">
-                  <p className="font-semibold text-gray-900">Sade Sati Cycle {cycle.cycle_number}</p>
-                  <p className="text-sm text-gray-600">Period: {cycle.period}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-          {mandaliChakra && <div className="lg:col-span-2"><MandaliChakraDisplay chakraData={mandaliChakra} /></div>}
+          {sadeSatiCycles.length > 0 && (
+            <div>
+              <h4 className="text-md font-semibold text-gray-800 mb-2">Active Major Cycles</h4>
+              <ul className="space-y-2">
+                {sadeSatiCycles.map((cycle) => (
+                  <li key={cycle.cycle_number} className="p-3 bg-gray-50 rounded-lg">
+                    <p className="font-semibold text-gray-900">Sade Sati Cycle {cycle.cycle_number}</p>
+                    <p className="text-sm text-gray-600">Period: {cycle.period}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
+
+      <div className="space-y-8">
+        {mandaliAnalysis?.natal_chart && (
+          <section><NatalMandaliChart data={mandaliAnalysis.natal_chart} /></section>
+        )}
+        {mandaliAnalysis?.current_chart && (
+          <section><CurrentMandaliChart data={mandaliAnalysis.current_chart} /></section>
+        )}
+        {mandaliAnalysis?.transition_summary && (
+          <section><PlanetTransitionTable data={mandaliAnalysis.transition_summary} /></section>
+        )}
+      </div>
     </div>
   );
 };

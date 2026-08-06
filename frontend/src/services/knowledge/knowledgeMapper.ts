@@ -1,7 +1,7 @@
 // BKL-008B — Deterministic Knowledge Graph Platform
 // Knowledge Graph DTO Mapper: Backend (snake_case) → Frontend (camelCase)
 
-import type { KnowledgeNode, KnowledgeRelationship } from './nodeRegistry';
+import type { KnowledgeNode, KnowledgeRelationship, ComputedRelationships } from './nodeRegistry';
 
 // Raw backend types (snake_case) - mirror Pydantic schemas exactly
 interface RawKnowledgeNode {
@@ -32,13 +32,7 @@ interface RawKnowledgeNode {
     relevance: string;
   }>;
   relationships?: Record<string, number>;
-  computed_relationships?: Record<string, Array<{
-    node_id: string;
-    label: string;
-    type: string;
-    relationship: string;
-    relevance: string;
-  }>>;
+  computed_relationships?: ComputedRelationships;
 }
 
 interface RawKnowledgeRelationship {
