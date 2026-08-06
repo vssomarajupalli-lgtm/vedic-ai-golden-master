@@ -10,6 +10,21 @@ class ReportBuilder:
         """
         Transforms the complex pipeline output into a clean, hierarchical JSON report.
         """
+        # Normalize machine_index: accept None, Dict, or List[Dict] (real payloads are
+        # delivered as a list of page table blocks). Rejects invalid types gracefully.
+        if machine_index is None:
+            mi: Dict[str, Any] = {}
+        elif isinstance(machine_index, dict):
+            mi = machine_index
+        elif (
+            isinstance(machine_index, list)
+            and machine_index
+            and isinstance(machine_index[0], dict)
+        ):
+            mi = machine_index[0]
+        else:
+            mi = {}
+
         engine_outputs = pipeline_outputs.get("engine_outputs", {})
         master_prob = pipeline_outputs.get("master_probability", {})
 
@@ -20,7 +35,7 @@ class ReportBuilder:
             "metadata": {
                 "report_id": pipeline_outputs.get("metadata", {}).get("request_id"),
                 "generated_at": pipeline_outputs.get("metadata", {}).get("timestamp_utc"),
-                "client_info": (machine_index or {}).get("native_info", {}),
+                "client_info": mi.get("native_info", {}),
             },
             "master_summary": {
                 "final_score": master_prob.get("final_score"),
