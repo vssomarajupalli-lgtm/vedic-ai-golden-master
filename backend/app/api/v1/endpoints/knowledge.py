@@ -224,6 +224,17 @@ def get_integrity_report() -> Any:
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# ── Gochara / Transit ────────────────────────────────────────────────────────
+
+@router.get("/transit/report") # Simplified response model for brevity
+def get_gochara_report() -> Any:
+    try:
+        return store.get_gochara_report()
+    except Exception as e:
+        log.error(f"Error generating Gochara report: {str(e)}\n{traceback.format_exc()}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # ── State / Import / Export ──────────────────────────────────────────────────
 
 @router.get("/state", response_model=KnowledgeGraphState)

@@ -52,6 +52,7 @@ class BirthPosition(str, Enum):
     BIRTH_BEFORE_THIS_CYCLE = "BIRTH_BEFORE_THIS_CYCLE"
     BIRTH_BEFORE_FIRST_CYCLE = "BIRTH_BEFORE_FIRST_CYCLE"
     BIRTH_AFTER_LAST_CYCLE = "BIRTH_AFTER_LAST_CYCLE"
+    BIRTH_OUTSIDE = "BIRTH_OUTSIDE"
 
 
 class WindowType(str, Enum):
@@ -99,76 +100,6 @@ def _parse_date(date_str: str) -> datetime:
 def _format_date(dt: datetime) -> str:
     """Format datetime to DD.MM.YYYY string."""
     return dt.strftime("%d.%m.%Y")
-
-
-def _classify_birth_position(
-    birth_dt: datetime,
-    windows: List[CycleWindow],
-    window_type: WindowType,
-) -> List[BirthPositionResult]:
-    """
-    Classify birth position for a list of windows of a specific type.
-    
-    Governance Rules:
-    - BPD-01: birth_date ∈ [start_date, end_date] → BIRTH_INSIDE (inclusive)
-    - BPD-02: birth_date < start_date of first window → BIRTH_BEFORE_FIRST_CYCLE
-    - BPD-03: birth_date < start_date of window N and birth_date > end_date of window N-1 → BIRTH_BEFORE_THIS_CYCLE
-    - BPD-04: birth_date > end_date of last window → BIRTH_AFTER_LAST_CYCLE
-    - BPD-05: Classification is per-window-type — independent
-    - BPD-06: Output includes position enum, cycle_number, phase, description
-    """
-    if not windows:
-        return []
-    
-    results = []
-    
-    for i, window in enumerate(windows):
-        window_start = _parse_date(window.start_date)
-        window_end = _parse_date(window.end_date)
-        cycle_num = window.cycle_number if hasattr(window, 'cycle_number') else 0
-        
-        # Get the cycle number from the window's parent cycle
-        # The window itself doesn't have cycle_number, we need to infer it
-        # For now, we'll use a default and the caller should provide correct cycle numbers
-        
-        if birth_dt >= window_start and birth_dt <= window_end:
-            # BPD-01: Birth inside window (inclusive boundaries)
-            position = BirthPosition.BIRTH_INSIDE
-            description = f"Born during {window_type.value} {window.phase} phase (Cycle {window.cycle_number if hasattr(window, 'cycle_number') else 'N/A'})"
-        elif i == 0 and birth_dt < window_start:
-            # BPD-02: Before first window
-            position = BirthPosition.BIRTH_BEFORE_FIRST_CYCLE
-            description = f"Born before first {window_type.value} {window.phase} window (Cycle {window.cycle_number if hasattr(window, 'cycle_number') else 'N/A'})"
-        elif i > 0 and birth_dt < window_start:
-            # Check if birth is between previous window end and current window start
-            prev_window = windows[i - 1]
-            prev_end = _parse_date(prev_window.end_date)
-            if birth_dt > prev_end:
-                # BPD-03: Between windows
-                position = BirthPosition.BIRTH_BEFORE_THIS_CYCLE
-                description = f"Born between {window_type.value} {prev_window.phase} and {window.phase} windows (Cycle {window.cycle_number if hasattr(window, 'cycle_number') else 'N/A'})"
-            else:
-                # Birth is before previous window too, will be caught by earlier iteration
-                continue
-        elif i == len(windows) - 1 and birth_dt > window_end:
-            # BPD-04: After last window
-            position = BirthPosition.BIRTH_AFTER_LAST_CYCLE
-            description = f"Born after last {window_type.value} {window.phase} window (Cycle {window.cycle_number if hasattr(window, 'cycle_number') else 'N/A'})"
-        else:
-            # Birth doesn't fall in this window's classification range
-            continue
-        
-        results.append(BirthPositionResult(
-            position=position,
-            cycle_number=window.cycle_number if hasattr(window, 'cycle_number') else 0,
-            phase=window.phase,
-            description=description,
-            window_type=window_type,
-            window_start_date=window.start_date,
-            window_end_date=window.end_date,
-        ))
-    
-    return results
 
 
 # -----------------------------------------------------------------------------
@@ -271,51 +202,77 @@ class BirthPositionDetector:
         """
         if not windows:
             return []
-        
-        results = []
-        
+
+        # BPD-02: Before first window
+        first_window, first_cycle_num = windows[0]
+        if birth_dt < _parse_date(first_window.start_date):
+            position = BirthPosition.BIRTH_BEFORE_FIRST_CYCLE
+            description = f"Born before the first {window_type.value} period."
+            return [BirthPositionResult(
+                position=position,
+                cycle_number=first_cycle_num,
+                phase=first_window.phase,
+                description=description,
+                window_type=window_type,
+                window_start_date=first_window.start_date,
+                window_end_date=first_window.end_date,
+            )]
+
+        # BPD-04: After last window
+        last_window, last_cycle_num = windows[-1]
+        if birth_dt > _parse_date(last_window.end_date):
+            position = BirthPosition.BIRTH_AFTER_LAST_CYCLE
+            description = f"Born after the final projected {window_type.value} period."
+            return [BirthPositionResult(
+                position=position,
+                cycle_number=last_cycle_num,
+                phase=last_window.phase,
+                description=description,
+                window_type=window_type,
+                window_start_date=last_window.start_date,
+                window_end_date=last_window.end_date,
+            )]
+
+        # BPD-01 & BPD-03: Inside a window or between windows
         for i, (window, cycle_num) in enumerate(windows):
             window_start = _parse_date(window.start_date)
             window_end = _parse_date(window.end_date)
-            
-            if birth_dt >= window_start and birth_dt <= window_end:
+
+            # BPD-01: Birth inside window
+            if window_start <= birth_dt <= window_end:
                 # BPD-01: Birth inside window (inclusive boundaries)
                 position = BirthPosition.BIRTH_INSIDE
-                description = f"Born during {window_type.value} {window.phase} phase (Cycle {cycle_num})"
-            elif i == 0 and birth_dt < window_start:
-                # BPD-02: Before first window
-                position = BirthPosition.BIRTH_BEFORE_FIRST_CYCLE
-                description = f"Born before first {window_type.value} {window.phase} window (Cycle {cycle_num})"
-            elif i > 0 and birth_dt < window_start:
+                description = f"Born during the {window_type.value} {window.phase} phase of cycle {cycle_num}."
+                return [BirthPositionResult(
+                    position=position,
+                    cycle_number=cycle_num,
+                    phase=window.phase,
+                    description=description,
+                    window_type=window_type,
+                    window_start_date=window.start_date,
+                    window_end_date=window.end_date,
+                )]
+
+            # BPD-03: Between windows
+            if i > 0:
                 # Check if birth is between previous window end and current window start
-                prev_window, prev_cycle_num = windows[i - 1]
+                prev_window, prev_cycle_num = windows[i-1]
                 prev_end = _parse_date(prev_window.end_date)
                 if birth_dt > prev_end:
                     # BPD-03: Between windows
                     position = BirthPosition.BIRTH_BEFORE_THIS_CYCLE
-                    description = f"Born between {window_type.value} {prev_window.phase} and {window.phase} windows (Cycle {cycle_num})"
-                else:
-                    # Birth is before previous window too, will be caught by earlier iteration
-                    continue
-            elif i == len(windows) - 1 and birth_dt > window_end:
-                # BPD-04: After last window
-                position = BirthPosition.BIRTH_AFTER_LAST_CYCLE
-                description = f"Born after last {window_type.value} {window.phase} window (Cycle {cycle_num})"
-            else:
-                # Birth doesn't fall in this window's classification range
-                continue
-            
-            results.append(BirthPositionResult(
-                position=position,
-                cycle_number=cycle_num,
-                phase=window.phase,
-                description=description,
-                window_type=window_type,
-                window_start_date=window.start_date,
-                window_end_date=window.end_date,
-            ))
-        
-        return results
+                    description = f"Born between {window_type.value} cycles (after cycle {prev_cycle_num}, before cycle {cycle_num})."
+                    return [BirthPositionResult(
+                        position=position,
+                        cycle_number=cycle_num,  # Relative to the upcoming cycle
+                        phase=window.phase,
+                        description=description,
+                        window_type=window_type,
+                        window_start_date=window.start_date,
+                        window_end_date=window.end_date,
+                    )]
+
+        return []  # Should be unreachable if windows is not empty
 
 
 # -----------------------------------------------------------------------------

@@ -5,6 +5,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 import type { KnowledgeNode, KnowledgeRelationship, KnowledgeNodeType, KnowledgeRelationshipType } from './nodeRegistry';
+import { mapNode, mapRelationship } from './knowledgeMapper';
 
 export interface KnowledgeIndex {
   /** Index nodes by type */
@@ -62,7 +63,11 @@ export const useKnowledgeRepository = create<KnowledgeRepositoryState>()(
       version: 1,
 
       setKnowledgeState: (nodes, relationships, version) => {
-        set({ nodes, relationships, version });
+        set({
+          nodes: nodes.map(mapNode),
+          relationships: relationships.map(mapRelationship),
+          version,
+        });
       },
 
       addNode: (node) => {

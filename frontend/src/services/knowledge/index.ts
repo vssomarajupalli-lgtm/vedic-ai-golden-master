@@ -11,3 +11,5 @@ export type { KnowledgeNode, KnowledgeRelationship, KnowledgeNodeType, Knowledge
 export { DOMAINS, NODE_TYPES, RELATIONSHIP_TYPES } from './nodeRegistry';
 
 export { seedKnowledgeGraph } from './seedData';
+
+export { mapNode, mapRelationship, mapGraphState } from './knowledgeMapper';
