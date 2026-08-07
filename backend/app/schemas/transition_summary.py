@@ -10,8 +10,10 @@ class PlanetTransitionSummaryItem:
     current_pada: int
     current_mandali: str
     next_mandali: str
-    estimated_entry_date: str
+    start_date: str  # When the planet entered its current transit (DD.MM.YYYY)
+    estimated_entry_date: str  # When the planet is expected to enter the next Mandali
     days_remaining: int
+    duration_days: int  # estimated_entry_date - start_date, in days
 
 @dataclass(frozen=True)
 class TransitionSummaryDTO:

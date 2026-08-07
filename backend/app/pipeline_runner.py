@@ -2,6 +2,7 @@ import json
 import logging
 import datetime
 from typing import Dict, Any, List
+from dataclasses import asdict
 
 from app.parsers.json_normalizer import JsonNormalizer
 from app.engines.planet_strength_engine import PlanetStrengthEngine
@@ -15,6 +16,7 @@ from app.engines.natal_promise_engine import NatalPromiseEngine
 from app.engines.transit_engine import TransitEngine
 from app.engines.universal_mandali_engine import UniversalMandaliEngine
 from app.engines.mandali_transit_adapter import MandaliTransitAdapter
+from app.engines.mandali_generator import MandaliGenerator
 from app.utils.ephemeris_service import EphemerisService
 from app.engines.yoga_engine import YogaEngine
 from app.schemas.mandali_response import MandaliResponseDTO
@@ -119,25 +121,38 @@ class PipelineRunner:
             moon_data = normalized_payload.get("planets", {}).get("moon", {})
             natal_moon_sign = moon_data.get("sign", "Mesha")
             natal_moon_nakshatra_raw = moon_data.get("nakshatra", "")
-            natal_moon_pada = moon_data.get("pada", 1)
-            
+            natal_moon_pada = moon_data.get("pada")
+
             # Normalize nakshatra to match reference data casing (JsonNormalizer lowercases)
             ref_data = self.universal_mandali_engine._ref_data
             natal_moon_nakshatra = next(
                 (n for n in ref_data.get_all_nakshatras() if n.lower() == natal_moon_nakshatra_raw.lower()),
                 None
             )
-            if not natal_moon_nakshatra:
-                # Unresolvable Moon nakshatra — skip Mandali gracefully (no fabricated data)
-                raise ValueError(
-                    f"No canonical nakshatra resolution for moon nakshatra={natal_moon_nakshatra_raw!r}"
-                )
-            
-            # Get birth date from normalized metadata (fallback to a valid date for Mandali)
+
+            # If the canonical JSON omits the Moon nakshatra/pada, derive both from
+            # the Moon's longitude (Sign + Degree), reusing the existing backend chain:
+            #   longitude -> absolute pada -> nakshatra/pada
+            # (same as MandaliPlacementFactory.build_natal). This keeps the grid
+            # centered on the Moon's true pada instead of failing the Mandali block.
+            if not natal_moon_nakshatra or not natal_moon_pada:
+                moon_longitude = moon_data.get("longitude") or 0.0
+                moon_absolute_pada = MandaliGenerator.get_absolute_pada(moon_longitude)
+                derived_nakshatra, derived_pada = ref_data.get_nakshatra_pada(moon_absolute_pada)
+                natal_moon_nakshatra = natal_moon_nakshatra or derived_nakshatra
+                natal_moon_pada = natal_moon_pada or derived_pada
+
+            # Get birth date from normalized metadata (fallback to a valid date for Mandali).
+            # The Mandali engine requires DD.MM.YYYY; the normalizer emits ISO YYYY-MM-DD.
             birth_date = normalized_payload.get("metadata", {}).get("dob", "Unknown")
-            if birth_date == "Unknown" or not birth_date:
+            if not birth_date or birth_date == "Unknown":
                 birth_date = "14.05.1980"  # Raju's birth date from test data
-            
+            else:
+                try:
+                    birth_date = datetime.datetime.strptime(birth_date, "%Y-%m-%d").strftime("%d.%m.%Y")
+                except (ValueError, TypeError):
+                    pass  # Already in DD.MM.YYYY (or another accepted form)
+
             # Generate ephemeris snapshot for current transits
             ephemeris_snapshot = self.ephemeris_service.generate_transit_snapshot(target_date_utc)
             
@@ -306,14 +321,11 @@ class PipelineRunner:
         if isinstance(canonical_json, dict) and "natal" in canonical_json and "current_transit" in canonical_json:
             # Step 1: Get the rich internal data model from the engine
             mandali_advisory = self.universal_mandali_engine.generate_mandali_advisory(canonical_json)
-            engine_outputs["mandali_advisory"] = mandali_advisory # Keep for backward compatibility
+            engine_outputs["mandali_advisory"] = asdict(mandali_advisory) # Keep for backward compatibility
 
             # Step 2: Create placement DTOs using the factory
             natal_placements = self.mandali_placement_factory.build_natal(
-                moon_rasi=canonical_json["natal"]["moon"]["rasi"],
-                moon_nakshatra=canonical_json["natal"]["moon"]["nakshatra"],
-                moon_pada=canonical_json["natal"]["moon"]["pada"],
-                moon_absolute_pada=mandali_advisory.moon_absolute_pada,
+                natal_planets=normalized_payload.get("planets", {}),
                 mandali_grid=mandali_advisory.mandali_grid,
             )
             current_placements = self.mandali_placement_factory.build_current(
@@ -322,8 +334,18 @@ class PipelineRunner:
             )
 
             # Step 3: Build chart layouts and transition summary
-            natal_chart_grid = self.chart_layout_builder.build([p.__dict__ for p in natal_placements])
-            current_chart_grid = self.chart_layout_builder.build([p.__dict__ for p in current_placements])
+            # Moon-centered Rasi names for every cell (empty cells included) so the
+            # chart shows the true Rasi instead of a fixed sign order.
+            mandali_names = {
+                m.number: f"Mandali {m.number} ({m.rasi_name})"
+                for m in mandali_advisory.mandali_grid.mandalis
+            }
+            natal_chart_grid = self.chart_layout_builder.build(
+                [p.__dict__ for p in natal_placements], mandali_names=mandali_names
+            )
+            current_chart_grid = self.chart_layout_builder.build(
+                [p.__dict__ for p in current_placements], mandali_names=mandali_names
+            )
             transition_summary_dto = self.transition_summary_builder.build(canonical_json["current_transit"], mandali_advisory.mandali_grid, target_date_utc)
 
             mandali_response_dto = MandaliResponseDTO(
@@ -332,7 +354,7 @@ class PipelineRunner:
                 current_chart=CurrentChartDTO(placements=current_placements, grid=current_chart_grid),
                 transition_summary=transition_summary_dto
             )
-            engine_outputs["mandali_response_dto"] = mandali_response_dto # New DTO for new consumers
+            engine_outputs["mandali_response_dto"] = asdict(mandali_response_dto) # New DTO for new consumers
 
             # Prepare transit_payload for TransitEngine
             transit_payload = {"planets": {}}

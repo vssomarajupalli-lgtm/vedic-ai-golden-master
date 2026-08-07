@@ -199,7 +199,15 @@ export default function ConsultationWorkspace() {
       }
     };
 
-    loadConsultation();
+    if (useConsultationStore.persist.hasHydrated()) {
+      loadConsultation();
+    } else {
+      const unsub = useConsultationStore.persist.onFinishHydration(() => {
+        unsub();
+        loadConsultation();
+      });
+      return () => unsub();
+    }
   }, [id]);
 
   if (loading) {

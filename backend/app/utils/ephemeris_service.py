@@ -37,27 +37,48 @@ class EphemerisService:
             "Dhanus", "Makara", "Kumbha", "Meena"
         ]
 
+    def _julian_day(self, target_date_utc: datetime.datetime) -> float:
+        """
+        Convert a UTC datetime to a Julian day number.
+        Uses Swiss Ephemeris when available; otherwise a synthetic epoch equivalent.
+        """
+        if HAS_SWE:
+            return swe.julday(
+                target_date_utc.year, target_date_utc.month, target_date_utc.day,
+                target_date_utc.hour + target_date_utc.minute / 60.0
+            )
+        epoch = datetime.datetime(2000, 1, 1, tzinfo=datetime.timezone.utc)
+        if target_date_utc.tzinfo is None:
+            target_date_utc = target_date_utc.replace(tzinfo=datetime.timezone.utc)
+        return (target_date_utc - epoch).days + 2451545.0
+
+    def get_longitude(self, planet_name: str, date_utc: datetime.datetime) -> float:
+        """
+        Return the sidereal longitude (0.0-360.0) of a planet at a given UTC datetime.
+
+        Uses the same sidereal (Lahiri) computation as generate_transit_snapshot.
+        Ketu is derived as Rahu + 180 degrees, matching _calculate_ketu_position.
+        """
+        if planet_name == "ketu":
+            rahu_lon = self.get_longitude("rahu", date_utc)
+            return (rahu_lon + 180.0) % 360.0
+        if planet_name not in self.planet_map:
+            raise ValueError(f"Unknown planet: {planet_name}")
+        position = self._calculate_planet_position(
+            planet_name, self.planet_map[planet_name], self._julian_day(date_utc)
+        )
+        return position["longitude"]
+
     def generate_transit_snapshot(self, target_date_utc: datetime.datetime = None) -> Dict[str, Any]:
         """
         Generates a normalized snapshot of planetary positions for a specific UTC date.
         """
         target_date_utc = target_date_utc or datetime.datetime.now(datetime.timezone.utc)
         
-        if HAS_SWE:
-            julian_day = swe.julday(
-                target_date_utc.year, target_date_utc.month, target_date_utc.day, 
-                target_date_utc.hour + target_date_utc.minute/60.0
-            )
-        else:
-            # Synthetic julian day equivalent for fallback math
-            epoch = datetime.datetime(2000, 1, 1, tzinfo=datetime.timezone.utc)
-            # Ensure target_date_utc is aware before subtracting
-            if target_date_utc.tzinfo is None:
-                target_date_utc = target_date_utc.replace(tzinfo=datetime.timezone.utc)
-            julian_day = (target_date_utc - epoch).days + 2451545.0
+        julian_day = self._julian_day(target_date_utc)
 
         snapshot = {"planets": {}}
-        
+
         for planet_name, swe_id in self.planet_map.items():
             snapshot["planets"][planet_name] = self._calculate_planet_position(planet_name, swe_id, julian_day)
             
@@ -71,7 +92,15 @@ class EphemerisService:
         Converts 0-360 degree format into normalized Sign + Degree.
         """
         if HAS_SWE:
-            results = swe.calc_ut(julian_day, swe_id, swe.FLG_SIDEREAL)
+            # The pyswisseph sidereal mode is a GLOBAL setting that may be reset
+            # to its default (Fagan-Bradley) by the host process. Re-assert the
+            # Lahiri mode immediately before every calculation so the result is
+            # always deterministic and consistent (snapshot + transit-date scans).
+            swe.set_sid_mode(swe.SIDM_LAHIRI)
+            # FLG_SPEED is required for pyswisseph to compute velocities; without
+            # it results[0][3] is always 0 and is_retrograde can never be True.
+            # Adding it does not change the longitude.
+            results = swe.calc_ut(julian_day, swe_id, swe.FLG_SIDEREAL | swe.FLG_SPEED)
             raw_longitude = results[0][0]
             speed = results[0][3]
         else:
@@ -95,6 +124,7 @@ class EphemerisService:
             "sign": self.zodiac_signs[sign_index],
             "degree": degree_in_sign,
             "longitude": raw_longitude,
+            "speed": speed,
             "is_retrograde": is_retrograde
         }
 
@@ -111,5 +141,6 @@ class EphemerisService:
             "sign": self.zodiac_signs[ketu_sign_idx],
             "degree": rahu_data["degree"],
             "longitude": ketu_longitude,
+            "speed": rahu_data.get("speed", 0.0),
             "is_retrograde": True
         }

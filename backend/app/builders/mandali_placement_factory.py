@@ -12,6 +12,14 @@ from typing import List, Dict, Any
 from app.schemas.natal_chart import NatalPlanetPlacement
 from app.schemas.current_chart import CurrentTransitPlanetPlacement
 from app.engines.mandali_grid_construction import MandaliGrid
+from app.engines.mandali_generator import MandaliGenerator
+from app.engines.canonical_reference_data import get_canonical_reference_data
+
+
+# Canonical natal planet order (Sun -> Ketu), matching the transit planet set.
+NATAL_PLANET_IDS: List[str] = [
+    "sun", "moon", "mars", "mercury", "jupiter", "venus", "saturn", "rahu", "ketu",
+]
 
 
 class MandaliPlacementFactory:
@@ -32,43 +40,53 @@ class MandaliPlacementFactory:
 
     def build_natal(
         self,
-        moon_rasi: str,
-        moon_nakshatra: str,
-        moon_pada: int,
-        moon_absolute_pada: int,
+        natal_planets: Dict[str, Any],
         mandali_grid: MandaliGrid,
     ) -> List[NatalPlanetPlacement]:
         """
         Build natal planet placements DTO list.
-        
+
         Args:
-            moon_rasi: Natal Moon rasi from canonical JSON
-            moon_nakshatra: Natal Moon nakshatra from canonical JSON
-            moon_pada: Natal Moon pada from canonical JSON
-            moon_absolute_pada: Absolute pada index (1-108) for Moon
+            natal_planets: Normalized natal planets collection keyed by planet id
+                (e.g. {"sun": {...}, "moon": {...}, ...}) with longitude per planet.
             mandali_grid: The constructed MandaliGrid
-            
+
         Returns:
-            List of NatalPlanetPlacement DTOs
+            List of NatalPlanetPlacement DTOs, one per natal planet
         """
-        # Find the Mandali containing the natal Moon
-        natal_mandali_num = mandali_grid.find_mandali_for_pada(moon_absolute_pada)
-        natal_mandali = mandali_grid.get_mandali(natal_mandali_num)
-        
-        mandali_dict = {
-            "number": natal_mandali.number,
-            "name": f"Mandali {natal_mandali.number} ({natal_mandali.rasi_name})",
-        }
-        
-        return [
-            NatalPlanetPlacement(
-                planet="Moon",
-                rasi=moon_rasi,
-                nakshatra=moon_nakshatra,
-                pada=moon_pada,
-                mandali=mandali_dict,
+        # Same resolution chain as Current Transit: longitude -> absolute pada
+        # -> nakshatra/pada -> Mandali (reuses MandaliGenerator + reference data).
+        ref_data = get_canonical_reference_data()
+        placements = []
+
+        for planet_id in NATAL_PLANET_IDS:
+            planet_data = natal_planets.get(planet_id)
+            if not planet_data:
+                continue
+
+            longitude = planet_data.get("longitude") or 0.0
+            absolute_pada = MandaliGenerator.get_absolute_pada(longitude)
+            nakshatra, pada = ref_data.get_nakshatra_pada(absolute_pada)
+
+            mandali_num = mandali_grid.find_mandali_for_pada(absolute_pada)
+            mandali = mandali_grid.get_mandali(mandali_num)
+
+            mandali_dict = {
+                "number": mandali.number,
+                "name": f"Mandali {mandali.number} ({mandali.rasi_name})",
+            }
+
+            placements.append(
+                NatalPlanetPlacement(
+                    planet=planet_data.get("name", planet_id).capitalize(),
+                    rasi=planet_data.get("sign", ""),
+                    nakshatra=nakshatra,
+                    pada=pada,
+                    mandali=mandali_dict,
+                )
             )
-        ]
+
+        return placements
 
     def build_current(
         self,
@@ -107,9 +125,10 @@ class MandaliPlacementFactory:
             placements.append(
                 CurrentTransitPlanetPlacement(
                     planet=res.planet,
-                    rasi=res.mandali.get("rasi", ""),
-                    nakshatra=res.mandali.get("nakshatra", ""),
-                    pada=res.mandali.get("pada", 0),
+                    # TMR-04: preserve original Canonical JSON rasi/nakshatra/pada
+                    rasi=res.original.get("rasi", ""),
+                    nakshatra=res.original.get("nakshatra", ""),
+                    pada=res.original.get("pada", 0),
                     mandali=mandali_dict,
                     status=status,
                 )
