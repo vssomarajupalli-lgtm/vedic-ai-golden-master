@@ -2,9 +2,9 @@ import time
 from typing import Dict, Optional
 from collections import defaultdict
 import threading
-from fastapi import Request, HTTPException
+from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.responses import Response
+from starlette.responses import JSONResponse, Response
 
 from app.core.config import settings
 
@@ -43,9 +43,9 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
             # Check if IP is temporarily blocked
             if client_ip in self.blocked_ips:
                 if current_time < self.blocked_ips[client_ip]:
-                    raise HTTPException(
+                    return JSONResponse(
                         status_code=429,
-                        detail="Rate limit exceeded. Please try again later.",
+                        content={"detail": "Rate limit exceeded. Please try again later."},
                         headers={"Retry-After": str(int(self.blocked_ips[client_ip] - current_time))}
                     )
                 else:
@@ -65,17 +65,17 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
             if request_count >= self.burst:
                 # Block for 60 seconds
                 self.blocked_ips[client_ip] = current_time + 60
-                raise HTTPException(
+                return JSONResponse(
                     status_code=429,
-                    detail="Burst limit exceeded. Please slow down.",
+                    content={"detail": "Burst limit exceeded. Please slow down."},
                     headers={"Retry-After": "60"}
                 )
 
             # Check per-minute limit
             if request_count >= self.requests_per_minute:
-                raise HTTPException(
+                return JSONResponse(
                     status_code=429,
-                    detail=f"Rate limit exceeded. Max {self.requests_per_minute} requests per minute.",
+                    content={"detail": f"Rate limit exceeded. Max {self.requests_per_minute} requests per minute."},
                     headers={"Retry-After": "60"}
                 )
 
