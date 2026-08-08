@@ -1,6 +1,6 @@
 // BKL-008B — Knowledge Graph Viewer Component
 import React, { useState, useMemo, useEffect } from 'react';
-import { useKnowledgeRepository, KnowledgeService, NODE_TYPES, RELATIONSHIP_TYPES, DOMAINS } from '../../services/knowledge';
+import { useKnowledgeRepository, KnowledgeService, NODE_TYPES, RELATIONSHIP_TYPES, DOMAINS, mapGraphState } from '../../services/knowledge';
 import type { KnowledgeNode, KnowledgeNodeType, CrossReference, EvidenceChainStep } from '../../services/knowledge';
 import { apiService } from '../../api/backend';
 
@@ -25,7 +25,8 @@ export const KnowledgeGraphViewer: React.FC = () => {
         // First ensure backend is seeded if empty (optional, but robust)
         await apiService.seedKnowledgeGraph().catch(() => {});
         const state = await apiService.getKnowledgeState();
-        setKnowledgeState(state.nodes, state.relationships, state.version);
+        const mapped = mapGraphState(state as unknown as Parameters<typeof mapGraphState>[0]);
+        setKnowledgeState(mapped.nodes, mapped.relationships, mapped.version);
         setError(null);
       } catch (err) {
         console.error('Failed to fetch knowledge graph:', err);

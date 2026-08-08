@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useChartStore } from '../store/useChartStore';
 import { apiService } from '../api/backend';
 import { useConsultationRepository } from '../hooks/useConsultationRepository';
@@ -64,6 +64,61 @@ export const PrintFramework: React.FC<PrintFrameworkProps> = ({ isOpen, onClose,
   const [metadata, setMetadata] = useState<Partial<any>>({});
   const [sections, setSections] = useState<any[]>([]);
   const [selectedSections, setSelectedSections] = useState<string[]>([]);
+
+  // Shared generated HTML document used by Preview and Print.
+  // Download HTML and PDF are produced by the same backend endpoint, so all
+  // four output paths render identical content.
+  const [reportHtml, setReportHtml] = useState<string | null>(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [printPending, setPrintPending] = useState(false);
+  const previewIframeRef = useRef<HTMLIFrameElement>(null);
+
+  const ensureReportHtml = useCallback(async (): Promise<string> => {
+    if (reportHtml) return reportHtml;
+    const html = await apiService.getReportHtml(canonicalContent!, machineIndexRaw!);
+    setReportHtml(html);
+    return html;
+  }, [reportHtml, canonicalContent, machineIndexRaw]);
+
+  const openPreview = useCallback(async () => {
+    setIsGenerating(true);
+    setError(null);
+    try {
+      await ensureReportHtml();
+      setPreviewOpen(true);
+    } catch (err: any) {
+      setError(err.message || 'Failed to load preview');
+    } finally {
+      setIsGenerating(false);
+    }
+  }, [ensureReportHtml]);
+
+  const handlePrint = useCallback(async () => {
+    setIsGenerating(true);
+    setError(null);
+    try {
+      await ensureReportHtml();
+      setPrintPending(true);
+      setPreviewOpen(true);
+    } catch (err: any) {
+      setError(err.message || 'Failed to load document for printing');
+    } finally {
+      setIsGenerating(false);
+    }
+  }, [ensureReportHtml]);
+
+  const handlePreviewIframeLoad = useCallback(() => {
+    if (printPending && previewIframeRef.current?.contentWindow) {
+      previewIframeRef.current.contentWindow.focus();
+      previewIframeRef.current.contentWindow.print();
+      setPrintPending(false);
+    }
+  }, [printPending]);
+
+  const closePreview = useCallback(() => {
+    setPreviewOpen(false);
+    setPrintPending(false);
+  }, []);
 
   // Build report sections from available data
   useEffect(() => {
@@ -260,10 +315,6 @@ export const PrintFramework: React.FC<PrintFrameworkProps> = ({ isOpen, onClose,
     }
   }, [canonicalContent, machineIndexRaw, metadata, sections, selectedSections, consultation, selectedProfile, recordOutput]);
 
-  const handlePrint = useCallback(() => {
-    window.print();
-  }, []);
-
   if (!isOpen) return null;
 
   return (
@@ -419,12 +470,12 @@ export const PrintFramework: React.FC<PrintFrameworkProps> = ({ isOpen, onClose,
             {/* Actions */}
             <div className="flex flex-wrap gap-3 pt-4 border-t border-gray-200">
               <button
-                onClick={() => {}} // Preview not yet implemented
+                onClick={openPreview}
                 disabled={isGenerating}
                 className="flex-1 min-w-[160px] py-3 px-6 bg-gray-100 border border-gray-300 text-gray-700 rounded-xl font-medium hover:bg-gray-200 flex items-center justify-center gap-2"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                Preview
+                {isGenerating ? 'Loading...' : 'Preview'}
               </button>
               <button
                 onClick={() => handleGenerate('html')}
@@ -448,12 +499,35 @@ export const PrintFramework: React.FC<PrintFrameworkProps> = ({ isOpen, onClose,
                 className="flex-1 min-w-[160px] py-3 px-6 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700 flex items-center justify-center gap-2"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2h2"/></svg>
-                {isGenerating ? 'Printing...' : 'Print Direct'}
+                {isGenerating ? 'Preparing...' : 'Print Direct'}
               </button>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Preview overlay — renders the SAME generated HTML document used by
+          Download HTML / PDF / Print */}
+      {previewOpen && (
+        <div className="fixed inset-0 z-[60] bg-black/80 flex flex-col p-4">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-bold text-white">Report Preview</h2>
+            <button
+              onClick={closePreview}
+              className="px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 text-sm font-medium"
+            >
+              Close Preview
+            </button>
+          </div>
+          <iframe
+            ref={previewIframeRef}
+            title="Report Preview"
+            className="flex-1 w-full bg-white rounded-lg"
+            srcDoc={reportHtml ?? ''}
+            onLoad={handlePreviewIframeLoad}
+          />
+        </div>
+      )}
     </>
   );
 }

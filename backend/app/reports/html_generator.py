@@ -23,4 +23,6 @@ class HTMLGenerator:
         Returns the raw HTML string.
         """
         template = self.env.get_template("base.html")
+        if isinstance(report_data, dict):
+            return template.render(report=report_data)
         return template.render(report=report_data.dict())

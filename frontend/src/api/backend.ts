@@ -85,9 +85,9 @@ export const apiService = {
     return response.data;
   },
 
-  /**
-   * Triggers a browser download for the generated PDF or HTML report
-   */
+   /**
+    * Triggers a browser download for the generated PDF or HTML report
+    */
    async getReportBlob(canonical: any, machine: any, format: 'pdf' | 'html'): Promise<Blob> {
      const response = await backendApi.post(`/generate-report?format=${format}`, {
        canonical_content: canonical,
@@ -97,6 +97,21 @@ export const apiService = {
      });
 
      return response.data as Blob;
+   },
+
+   /**
+    * Fetches the rendered HTML report document as a string.
+    * Preview and Print use this same document, so all output formats
+    * (Preview / HTML / PDF / Print) render identical content.
+    */
+   async getReportHtml(canonical: any, machine: any): Promise<string> {
+     const response = await backendApi.post(`/generate-report?format=html`, {
+       canonical_content: canonical,
+       machine_index: machine
+     }, {
+       responseType: 'text'
+     });
+     return response.data as string;
    },
 
    /**

@@ -19,17 +19,40 @@
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 20mm;
+                margin: 18mm 14mm;
+                /* WeasyPrint running header/footer (Chromium ignores margin boxes;
+                   Playwright provides header/footer via its own templates) */
+                @top-center {
+                    content: "Vedic-AI Intelligence Report";
+                    font-size: 9px;
+                    color: #6b7280;
+                }
+                @bottom-center {
+                    content: "Page " counter(page) " of " counter(pages);
+                    font-size: 9px;
+                    color: #6b7280;
+                }
             }
             @page landscape_page {
                 size: A4 landscape;
-                margin: 15mm;
+                margin: 14mm 15mm;
             }
             body { background-color: white; }
-            .page-break { page-break-before: always; }
+            .page-break { page-break-before: always; break-before: page; }
             .landscape-section { page: landscape_page; }
-            .card { border: none; box-shadow: none; border-bottom: 1px solid var(--border); margin-bottom: 20px;}
-            table, tr, .avoid-break { page-break-inside: avoid; }
+            .card { border: none; box-shadow: none; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+            /* Never split a table row; repeat table headers across pages */
+            tr { page-break-inside: avoid; break-inside: avoid; }
+            thead { display: table-header-group; }
+            /* Small tables / Mandali grid / activation matrix stay intact */
+            .print-table-wrap { page-break-inside: avoid; break-inside: avoid; }
+            /* Overflow wrappers must not clip tables when printed */
+            [style*="overflow-x: auto"] { overflow: visible !important; }
+            /* The long lifetime timeline may flow across pages (with repeating headers) */
+            .print-allow-split { page-break-inside: auto; break-inside: auto; }
+            /* Big section containers flow; only compact sub-blocks avoid splits */
+            details.group { page-break-inside: auto; break-inside: auto; }
+            .avoid-break { page-break-inside: avoid; break-inside: avoid; }
             .no-print { display: none !important; }
         }
 
@@ -428,7 +451,7 @@
         </details>
 
         <!-- SECTION B: Snapshot -->
-        <details id="sec-overview" class="group avoid-break" open>
+        <details id="sec-overview" class="group page-break" open>
             <summary>Birth Chart Overview</summary>
             <div class="group-content">
                 <div class="grid-3">
@@ -520,7 +543,7 @@
                             {% set _ = factor_dict.update({f.factor_name: f.contribution}) %}
                         {% endfor %}
                         <div style="overflow-x: auto; margin-bottom: 15px;">
-                            <table style="width: 100%;">
+                            <table class="print-table-wrap" style="width: 100%;">
                                 <thead>
                                     <tr>
                                         <th>NATRL</th><th>HOUSE</th><th>DIGNTY</th><th>ASPECT</th><th>CONJ.</th>
@@ -584,7 +607,7 @@
                             {% set _ = factor_dict.update({f.factor_name: f.contribution}) %}
                         {% endfor %}
                         <div style="overflow-x: auto; margin-bottom: 15px;">
-                            <table style="width: 100%;">
+                            <table class="print-table-wrap" style="width: 100%;">
                                 <thead>
                                     <tr>
                                         <th>LORD C.</th><th>OCCUP.</th><th>BEN. ASP.</th><th>MAL. ASP.</th>
@@ -737,7 +760,7 @@
                 <details class="subgroup avoid-break">
                     <summary>Technical Lifetime Timeline</summary>
                     <div class="subgroup-content" style="overflow-x: auto;">
-                        <table style="font-size: 0.85em; width: 100%;">
+                        <table class="print-allow-split" style="font-size: 0.85em; width: 100%;">
                             <thead>
                                 <tr>
                                     <th>Age</th>
@@ -787,24 +810,74 @@
                     <div class="subgroup-content">
                         {% for q in group %}
                         <div style="margin-bottom: {% if loop.last %}0{% else %}25px{% endif %}; border-bottom: {% if loop.last %}none{% else %}1px solid #e2e8f0{% endif %}; padding-bottom: {% if loop.last %}0{% else %}20px{% endif %};">
-                            <h4 style="margin-top: 0; font-size: 18px; color: #0f172a;">Q: {{ q.question }}</h4>
-                            <p style="font-size: 16px;"><strong>Probability:</strong> {{ macros.render_status_dot(q.final_probability) }}<span class="badge" style="font-size: 1.1em;">{{ q.final_probability }}/100</span> (Confidence: {{ q.confidence|round(0) }}%)</p>
-                            
-                            <div style="background-color: #f8fafc; padding: 12px; border-radius: 4px; margin: 15px 0;">
-                                <strong>Calculation Breakdown:</strong><br>
-                                {% set factor_dict = {} %}
-                                {% for f in q.explanation.factors %}
-                                    {% set _ = factor_dict.update({f.factor_name: f.contribution}) %}
-                                {% endfor %}
-                                <span style="color: #475569;">[ Natal Promise: {{ factor_dict.get('natal_promise', 0) }} ] + [ Dasha Timing: {{ factor_dict.get('dasha_timing', 0) }} ] + [ Gochara Modifiers: {{ factor_dict.get('gochara_modifier', 0) }} ]</span>
+                            <h4 style="margin-top: 0; font-size: 18px; color: #0f172a;">Q: {{ q.question_title | default(q.question, true) }}</h4>
+                            <p style="font-size: 16px;"><strong>Probability:</strong> {{ macros.render_status_dot(q.executive_summary.promise_display | default(q.final_probability, true)) }}<span class="badge" style="font-size: 1.1em;">{{ q.executive_summary.promise_display | default(q.final_probability, true) }}</span>{% if q.executive_summary.current_support_display %} (Current Support: {{ q.executive_summary.current_support_display }}){% endif %}</p>
+
+                            {% if q.executive_summary %}
+                            <div style="background-color: #f8fafc; padding: 12px; border-radius: 4px; margin: 15px 0; font-size: 0.95em; color: #475569;">
+                                <strong>Summary:</strong> {{ q.executive_summary.promise_display | default('', true) }}<br>
+                                {% if q.executive_summary.main_strength %}<strong>Main Strength:</strong> {{ q.executive_summary.main_strength }}<br>{% endif %}
+                                {% if q.executive_summary.main_weakness %}<strong>Main Weakness:</strong> {{ q.executive_summary.main_weakness }}<br>{% endif %}
+                                {% if q.executive_summary.best_future_opportunity_display %}<strong>Best Future Opportunity:</strong> {{ q.executive_summary.best_future_opportunity_display }}{% if q.executive_summary.best_future_window %} ({{ q.executive_summary.best_future_window }}){% endif %}<br>{% endif %}
+                                {% if q.executive_summary.recommendation %}<strong>Recommendation:</strong> {{ q.executive_summary.recommendation }}{% endif %}
                             </div>
-                            
+                            {% endif %}
+
+                            {% if q.current_dasha_status %}
+                            <div style="margin: 15px 0; font-size: 0.9em; color: #475569;">
+                                <strong>Current Dasha:</strong> {{ q.current_dasha_status.current_md | default('', true) }} / {{ q.current_dasha_status.current_ad | default('', true) }} / {{ q.current_dasha_status.current_pd | default('', true) }}{% if q.current_dasha_status.remaining_duration %} · {{ q.current_dasha_status.remaining_duration }} remaining{% endif %}{% if q.current_dasha_status.ends_on %} · ends {{ q.current_dasha_status.ends_on }}{% endif %}
+                            </div>
+                            {% endif %}
+
+                            {% if q.future_opportunities %}
+                            <div style="margin: 15px 0; font-size: 0.9em; color: #475569;">
+                                <strong>Future Opportunities:</strong>
+                                <ul style="margin: 6px 0 0 0; padding-left: 20px;">
+                                    {% for opp in q.future_opportunities %}
+                                    <li style="margin-bottom: 3px;">{{ opp.rank | default(loop.index, true) }}. {{ opp.start_date | default('', true) }} – {{ opp.end_date | default('', true) }} ({{ opp.final_probability_display | default('', true) }}){% if opp.astrological_driver %} — {{ opp.astrological_driver }}{% endif %}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+
+                            {% if q.supporting_factors %}
+                            <div style="margin: 15px 0; font-size: 0.9em; color: #475569;">
+                                <strong>Supporting Factors:</strong>
+                                <ul style="margin: 6px 0 0 0; padding-left: 20px;">
+                                    {% for sf in q.supporting_factors %}
+                                    <li style="margin-bottom: 3px;">{{ sf.title | default('', true) }}{% if sf.impact %} — {{ sf.impact }}{% endif %}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+
+                            {% if q.attention_factors %}
+                            <div style="margin: 15px 0; font-size: 0.9em; color: #475569;">
+                                <strong>Attention Factors:</strong>
+                                <ul style="margin: 6px 0 0 0; padding-left: 20px;">
+                                    {% for af in q.attention_factors %}
+                                    <li style="margin-bottom: 3px;">{{ af.severity | default('', true) }} — {{ af.reason | default('', true) }}{% if af.recommendation %} ({{ af.recommendation }}){% endif %}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+
+                            {% if q.detailed_analysis and q.detailed_analysis.natural_language_explanation %}
+                            <div style="margin: 15px 0; font-size: 0.9em; color: #475569;">
+                                <strong>Detailed Analysis:</strong>
+                                <p style="margin: 6px 0 0 0;">{{ q.detailed_analysis.natural_language_explanation }}</p>
+                            </div>
+                            {% endif %}
+
+                            {% if q.formula_verification and q.formula_verification.data_lineage %}
                             <details style="margin-top: 15px;">
                                 <summary style="cursor: pointer; color: var(--primary); font-weight: bold; font-size: 0.9em;">Engineering Traceability</summary>
-                                <div style="margin-top: 10px;">
-                                    {{ macros.render_deterministic_explanation(q.explanation) }}
+                                <div style="margin-top: 10px; font-size: 0.85em; color: #475569;">
+                                    <strong>Data Lineage:</strong>
+                                    <pre style="white-space: pre-wrap; background-color: #f8fafc; padding: 10px; border-radius: 4px;">{{ q.formula_verification.data_lineage }}</pre>
                                 </div>
                             </details>
+                            {% endif %}
                         </div>
                         {% endfor %}
                     </div>
@@ -847,7 +920,7 @@
                         <p style="margin: 0 0 15px 0; font-size: 0.9em; color: #64748b;"><strong>Formula:</strong> {{ report.gochara_report.explanation.formula }}</p>
 
                         <div style="overflow-x: auto;">
-                            <table style="width: 100%;">
+                            <table class="print-table-wrap" style="width: 100%;">
                                 <thead>
                                     <tr>
                                         <th>H. ACTIVATION</th>
