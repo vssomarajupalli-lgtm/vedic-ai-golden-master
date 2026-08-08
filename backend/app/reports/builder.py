@@ -2,6 +2,7 @@ from typing import Any, Dict, List
 from dataclasses import asdict, is_dataclass
 from datetime import datetime, timezone
 from app.schemas.mandali_response import MandaliResponseDTO
+from app.formatters.display_formatter import DisplayFormatter
 
 class ReportBuilder:
     """
@@ -74,4 +75,43 @@ class ReportBuilder:
             "upcoming_mandali_events": mandali_advisory.get("upcoming_mandali_events", []),
             "current_mandali": mandali_advisory.get("current_mandali"),
         }
+
+        # --- Additive Restoration (GM-017E) ---
+        # Re-emit the historical FinalReportSchema display fields consumed by the
+        # existing Results frontend. Derived entirely from the existing pipeline
+        # output via the existing DisplayFormatter. No new calculations, engines,
+        # formulas, weights, or calibration are introduced. All existing keys above
+        # are preserved for the Consultation / Gochara frontend.
+        native = {}
+        if isinstance(machine_index, dict):
+            native = machine_index.get("native_info", {}) or {}
+        elif isinstance(machine_index, list):
+            for item in machine_index:
+                if isinstance(item, dict) and item.get("native_info"):
+                    native = item["native_info"]
+                    break
+
+        client_profile_data = {
+            "name": pipeline_meta.get("name") or native.get("name", "Unknown"),
+            "dob": pipeline_meta.get("dob") or native.get("dob", "Unknown"),
+            "tob": pipeline_meta.get("tob") or native.get("tob", "Unknown"),
+            "pob": pipeline_meta.get("pob") or native.get("pob", "Unknown"),
+            "latitude": pipeline_meta.get("latitude") or native.get("lat") or native.get("latitude") or 0.0,
+            "longitude": pipeline_meta.get("longitude") or native.get("lon") or native.get("longitude") or 0.0,
+            "timezone": pipeline_meta.get("timezone") or native.get("tz") or native.get("timezone") or "UTC",
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+        }
+
+        exec_summary = DisplayFormatter.format_executive_summary(pipeline_outputs)
+        lifetime_intel = DisplayFormatter.format_lifetime_dashboard(
+            pipeline_outputs, client_metadata=client_profile_data
+        )
+        gochara = DisplayFormatter.format_gochara_report(pipeline_outputs)
+
+        report["client_profile"] = client_profile_data
+        report["executive_summary"] = exec_summary.model_dump()
+        report["lifetime_intelligence"] = lifetime_intel.model_dump()
+        report["question_responses"] = questions or []
+        report["gochara_report"] = gochara.model_dump()
+        report["formula_verification"] = pipeline_outputs
         return report

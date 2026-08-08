@@ -125,12 +125,34 @@ def ask_structured_question(request: QuestionRequest) -> Any:
             raise HTTPException(status_code=400, detail="Must provide question_id for structured response")
             
         # The service expects the full pipeline output structure.
-        # We need to reconstruct it from the QuestionRequest.
+        # Reconstruct it from the QuestionRequest. The frontend sends the whole
+        # ChartProcessResponse as `engine_outputs`, so recover the actual nested
+        # engine_outputs / master_probability / metadata / target_date_utc values
+        # (historical GM-011 contract) rather than passing None.
+        payload_source = request.engine_outputs or {}
+        breakdown = payload_source.get("breakdown", {}) if isinstance(payload_source, dict) else {}
+
         pipeline_output = {
-            "engine_outputs": request.engine_outputs,
-            "master_probability": request.master_probability,
-            "metadata": request.metadata,
-            "target_date_utc": request.target_date_utc
+            "engine_outputs": (
+                payload_source.get("engine_outputs")
+                or breakdown.get("engine_outputs")
+                or payload_source
+            ),
+            "master_probability": (
+                request.master_probability
+                or payload_source.get("master_probability")
+                or breakdown.get("master_probability")
+            ),
+            "metadata": (
+                request.metadata
+                or payload_source.get("metadata")
+                or breakdown.get("metadata")
+            ),
+            "target_date_utc": (
+                request.target_date_utc
+                or payload_source.get("target_date_utc")
+                or breakdown.get("target_date_utc")
+            ),
         }
         
         formatted_result = question_service.answer_structured_question(
