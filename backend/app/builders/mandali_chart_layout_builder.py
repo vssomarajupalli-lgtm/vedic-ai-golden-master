@@ -1,4 +1,4 @@
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from app.schemas.mandali_chart_cell import MandaliChartCell
 
 class MandaliChartLayoutBuilder:
@@ -9,19 +9,27 @@ class MandaliChartLayoutBuilder:
     """
     CHART_ORDER = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
-    def build(self, placements: List[Dict[str, Any]]) -> List[MandaliChartCell]:
+    def build(
+        self,
+        placements: List[Dict[str, Any]],
+        mandali_names: Optional[Dict[int, str]] = None,
+    ) -> List[MandaliChartCell]:
         """
         Builds a list of MandaliChartCell objects representing the chart layout.
         
         Args:
             placements: A list of planet placement dictionaries.
                         Each dict must have 'planet' (str) and 'mandali' (dict with 'number' and 'name').
+            mandali_names: Optional mapping of mandali number (1-12) to its display name
+                        (e.g. "Mandali 2 (Mithuna)"). Used so empty cells carry the
+                        correct Moon-centered Rasi instead of a fixed sign order.
         Returns:
             A list of MandaliChartCell objects, ordered by CHART_ORDER.
         """
         cells: Dict[int, MandaliChartCell] = {}
         for i in range(1, 13):
-            cells[i] = MandaliChartCell(mandali_number=i, mandali_name=f"Mandali {i}", planets=[])
+            name = (mandali_names or {}).get(i, f"Mandali {i}")
+            cells[i] = MandaliChartCell(mandali_number=i, mandali_name=name, planets=[])
 
         for p in placements:
             mandali_num = p["mandali"]["number"]

@@ -38,19 +38,27 @@ class TransitionSummaryBuilder:
             current_mandali_obj = mandali_grid.get_mandali(current_mandali_num)
             current_mandali_name = f"Mandali {current_mandali_obj.number} ({current_mandali_obj.rasi_name})"
 
-            next_mandali_num = (current_mandali_num % 12) + 1 # Mandali 12's next is Mandali 1
+            # The next Mandali is the Mandali the planet actually enters at its
+            # next ephemeris crossing (computed by MandaliTransitAdapter from the
+            # real planetary motion — for a retrograde planet this may be the
+            # previous Mandali, not current + 1). Fall back to the sequential
+            # successor only when the crossing data is unavailable.
+            next_mandali_num = tp.get("next_mandali") or ((current_mandali_num % 12) + 1)
             next_mandali_obj = mandali_grid.get_mandali(next_mandali_num)
             next_mandali_name = f"Mandali {next_mandali_obj.number} ({next_mandali_obj.rasi_name})"
 
-            estimated_entry_date_str = tp["end_date"] # Assuming end_date of current transit is entry to next
+            estimated_entry_date_str = tp["end_date"] # end_date of current transit is entry to next
             days_remaining = -1
+            duration_days = -1
             try:
                 end_date_dt = datetime.strptime(estimated_entry_date_str, "%d.%m.%Y")
                 target_date_naive = target_date.replace(tzinfo=None)
                 delta = end_date_dt - target_date_naive
                 days_remaining = max(0, delta.days)
+                start_date_dt = datetime.strptime(tp.get("start_date", ""), "%d.%m.%Y")
+                duration_days = max(0, (end_date_dt - start_date_dt).days)
             except (ValueError, TypeError):
-                pass # Keep days_remaining as -1 if date parsing fails
+                pass # Keep days_remaining / duration_days as -1 if date parsing fails
 
             summary_items.append(PlanetTransitionSummaryItem(
                 planet=planet_name.capitalize(),
@@ -59,7 +67,9 @@ class TransitionSummaryBuilder:
                 current_pada=current_pada,
                 current_mandali=current_mandali_name,
                 next_mandali=next_mandali_name,
+                start_date=tp.get("start_date", ""),
                 estimated_entry_date=estimated_entry_date_str,
                 days_remaining=days_remaining,
+                duration_days=duration_days,
             ))
         return TransitionSummaryDTO(summary_items=summary_items)
