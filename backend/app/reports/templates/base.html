@@ -47,13 +47,16 @@
             /* Small tables / Mandali grid / activation matrix stay intact */
             .print-table-wrap { page-break-inside: avoid; break-inside: avoid; }
             /* Overflow wrappers must not clip tables when printed */
-            [style*="overflow-x: auto"] { overflow: visible !important; }
-            /* The long lifetime timeline may flow across pages (with repeating headers) */
+            [style*="overflow"] { overflow: visible !important; }
             .print-allow-split { page-break-inside: auto; break-inside: auto; }
             /* Big section containers flow; only compact sub-blocks avoid splits */
             details.group { page-break-inside: auto; break-inside: auto; }
             .avoid-break { page-break-inside: avoid; break-inside: avoid; }
             .no-print { display: none !important; }
+            /* Mandali grids: print-optimized 2-column flow (all 12 cells always shown) */
+            .mandali-grid { grid-template-columns: repeat(2, 1fr); }
+            .mandali-cell { page-break-inside: avoid; break-inside: avoid; }
+            .subgroup-content { overflow: visible !important; }
         }
 
         body {
@@ -117,6 +120,69 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .reference-item {
+            background-color: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px 12px;
+        }
+        .reference-item .label {
+            font-size: 0.8em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .reference-item .value {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .mandali-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .mandali-cell {
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px 12px;
+            background-color: #f8fafc;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        .mandali-cell-head {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.9em;
+            margin-bottom: 6px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 4px;
+        }
+        .mandali-cell-planets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            min-height: 22px;
+        }
+        .planet-chip {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+        .planet-chip-empty {
+            color: var(--text-muted);
+            font-size: 0.8em;
         }
 
         .badge {
@@ -345,8 +411,10 @@
         <!-- Client Profile -->
         <div class="header">
             <h1>Vedic-AI Intelligence Report</h1>
+            {% if report.client_profile is defined %}
             <p><strong>{{ report.client_profile.name }}</strong> | DOB: {{ report.client_profile.dob }} | POB: {{ report.client_profile.pob }}</p>
             <p style="color: #6b7280; font-size: 0.9em;">Generated: {{ report.client_profile.generated_at }}</p>
+            {% endif %}
         </div>
 
         <div class="layout-wrapper">
@@ -375,6 +443,7 @@
             <div class="main-content">
 
                 <!-- SECTION A: Executive Summary Dashboard -->
+                {% if report.executive_summary is defined %}
                 <details id="sec-dashboard" class="group avoid-break" open>
             <summary>Executive Dashboard</summary>
             <div class="group-content">
@@ -449,8 +518,10 @@
                 </div>
             </div>
         </details>
+        {% endif %}
 
         <!-- SECTION B: Snapshot -->
+        {% if report.lifetime_intelligence is defined %}
         <details id="sec-overview" class="group page-break" open>
             <summary>Birth Chart Overview</summary>
             <div class="group-content">
@@ -793,6 +864,7 @@
                 {% endif %}
             </div>
         </details>
+        {% endif %}
 
         <!-- SECTION I: Question Engine Intelligence -->
         {% if report.question_responses %}
@@ -964,7 +1036,209 @@
         </details>
         {% endif %}
 
+        <!-- SECTION J2: Complete Gochara & Mandali Analysis -->
+        <!-- Rendered entirely from the existing report dict (mandali_analysis and
+             mandali_advisory inside formula_verification). No new calculations. -->
+        {% set advisory = report.formula_verification.engine_outputs.mandali_advisory if report.formula_verification is defined and report.formula_verification.engine_outputs is defined and report.formula_verification.engine_outputs.mandali_advisory is defined else {} %}
+        {% set mandali_analysis = report.mandali_analysis if report.mandali_analysis is defined else {} %}
+        {% set has_mandali = (mandali_analysis and (mandali_analysis.natal_chart or mandali_analysis.current_chart or mandali_analysis.transition_summary)) or (advisory and advisory.reference_moon) or report.important_advisory or report.upcoming_mandali_events or report.current_mandali or (advisory and advisory.sade_sati) %}
+        {% if has_mandali %}
+        <details id="sec-gochara-mandali" class="group page-break" open>
+            <summary>Gochara &amp; Mandali Analysis</summary>
+            <div class="group-content">
+
+                {% if advisory and advisory.reference_moon %}
+                <details class="subgroup avoid-break" open>
+                    <summary>Mandali Analysis — Reference Information</summary>
+                    <div class="subgroup-content">
+                        <div class="grid-4">
+                            <div class="reference-item">
+                                <div class="label">Reference Moon Rasi</div>
+                                <div class="value">{{ advisory.reference_moon.rasi or '—' }}</div>
+                            </div>
+                            <div class="reference-item">
+                                <div class="label">Nakshatra</div>
+                                <div class="value">{{ advisory.reference_moon.nakshatra or '—' }}</div>
+                            </div>
+                            <div class="reference-item">
+                                <div class="label">Pada</div>
+                                <div class="value">{{ advisory.reference_moon.pada or '—' }}</div>
+                            </div>
+                            <div class="reference-item">
+                                <div class="label">Mandali 1 Center</div>
+                                <div class="value">{{ advisory.reference_moon.mandali_1_center or '—' }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+                {% endif %}
+
+                {% if mandali_analysis and mandali_analysis.natal_chart %}
+                <details class="subgroup avoid-break" open>
+                    <summary>Natal Moon-Centered Rasi Mandali</summary>
+                    <div class="subgroup-content">
+                        {% if mandali_analysis.natal_chart.grid %}
+                        <div class="mandali-grid">
+                            {% for cell in mandali_analysis.natal_chart.grid %}
+                            <div class="mandali-cell">
+                                <div class="mandali-cell-head">{{ cell.mandali_name }}</div>
+                                <div class="mandali-cell-planets">
+                                    {% if cell.planets %}
+                                    {% for p in cell.planets %}<span class="planet-chip">{{ p }}</span>{% endfor %}
+                                    {% else %}<span class="planet-chip-empty">—</span>{% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p>No natal mandali grid data available.</p>
+                        {% endif %}
+                    </div>
+                </details>
+                {% endif %}
+
+                {% if mandali_analysis and mandali_analysis.current_chart %}
+                <details class="subgroup avoid-break" open>
+                    <summary>Current Gochara Moon-Centered Rasi Mandali</summary>
+                    <div class="subgroup-content">
+                        {% if mandali_analysis.current_chart.grid %}
+                        <div class="mandali-grid">
+                            {% for cell in mandali_analysis.current_chart.grid %}
+                            <div class="mandali-cell">
+                                <div class="mandali-cell-head">{{ cell.mandali_name }}</div>
+                                <div class="mandali-cell-planets">
+                                    {% if cell.planets %}
+                                    {% for p in cell.planets %}<span class="planet-chip">{{ p }}</span>{% endfor %}
+                                    {% else %}<span class="planet-chip-empty">—</span>{% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p>No current gochara mandali grid data available.</p>
+                        {% endif %}
+                    </div>
+                </details>
+                {% endif %}
+
+                {% if mandali_analysis and mandali_analysis.transition_summary and mandali_analysis.transition_summary.summary_items %}
+                <details class="subgroup" open>
+                    <summary>Planet Transition Summary</summary>
+                    <div class="subgroup-content">
+                        <p style="margin-top: 0; font-size: 0.9em; color: #64748b;">Estimated timing for each transit planet to enter its next Mandali.</p>
+                        <table class="print-allow-split" style="width: 100%; font-size: 0.9em;">
+                            <thead>
+                                <tr>
+                                    <th>Planet</th>
+                                    <th>Current Rasi</th>
+                                    <th>Current Nakshatra</th>
+                                    <th>Current Mandali</th>
+                                    <th>Next Mandali</th>
+                                    <th>Est. Entry</th>
+                                    <th>Days Left</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in mandali_analysis.transition_summary.summary_items %}
+                                <tr>
+                                    <td><strong>{{ item.planet }}</strong></td>
+                                    <td>{{ item.current_rasi or '—' }}{% if item.current_nakshatra %}<br><small>{{ item.current_nakshatra }}{% if item.current_pada is defined %} Pada {{ item.current_pada }}{% endif %}</small>{% endif %}</td>
+                                    <td>{{ item.current_mandali or '—' }}</td>
+                                    <td>{{ item.next_mandali or '—' }}</td>
+                                    <td>{{ item.estimated_entry_date or '—' }}</td>
+                                    <td>{{ item.days_remaining if item.days_remaining is defined else '—' }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
+                {% endif %}
+
+                {% if report.current_mandali or (advisory and advisory.mandali_activations) %}
+                <details class="subgroup" open>
+                    <summary>Current Mandali &amp; Active Mandalis</summary>
+                    <div class="subgroup-content">
+                        {% if report.current_mandali %}
+                        <p style="margin-top: 0;">
+                            <strong>Current Mandali:</strong> {{ report.current_mandali.name or report.current_mandali.number or '—' }}
+                            {% if report.current_mandali.center_nakshatra %} — <strong>Center Nakshatra:</strong> {{ report.current_mandali.center_nakshatra }}{% endif %}
+                            {% if report.current_mandali.center_pada is defined %} — <strong>Center Pada:</strong> {{ report.current_mandali.center_pada }}{% endif %}
+                        </p>
+                        {% endif %}
+                        {% if advisory and advisory.mandali_activations %}
+                        <p style="font-weight: 600; margin-bottom: 6px;">Active Mandalis</p>
+                        <ul style="margin-top: 0;">
+                            {% for a in advisory.mandali_activations %}
+                            <li>Mandali {{ a.mandali }} — {{ (a.planets | join(', ')) if a.planets else '—' }} ({{ a.activation_strength or '—' }})</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                </details>
+                {% endif %}
+
+                {% if report.important_advisory %}
+                <details class="subgroup" open>
+                    <summary>Mandali Advisory</summary>
+                    <div class="subgroup-content">
+                        <ul style="margin: 0;">
+                            {% for s in report.important_advisory %}
+                            <li style="margin-bottom: 6px;">{{ s }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </details>
+                {% endif %}
+
+                {% if advisory and advisory.sade_sati and advisory.sade_sati.cycles %}
+                <details class="subgroup" open>
+                    <summary>Sade Sati (Saturn Transit)</summary>
+                    <div class="subgroup-content">
+                        {{ macros.render_cycle_windows(advisory.sade_sati.cycles, 'sade_sati_windows') }}
+                    </div>
+                </details>
+                {% endif %}
+
+                {% if advisory and advisory.ashtama_shani and advisory.ashtama_shani.cycles %}
+                <details class="subgroup" open>
+                    <summary>Ashtama Shani</summary>
+                    <div class="subgroup-content">
+                        {{ macros.render_cycle_windows(advisory.ashtama_shani.cycles, 'ashtama_shani_windows') }}
+                    </div>
+                </details>
+                {% endif %}
+
+                {% if advisory and advisory.elinati_shani and advisory.elinati_shani.cycles %}
+                <details class="subgroup" open>
+                    <summary>Elinati Shani</summary>
+                    <div class="subgroup-content">
+                        {{ macros.render_cycle_windows(advisory.elinati_shani.cycles, 'elinati_shani_windows') }}
+                    </div>
+                </details>
+                {% endif %}
+
+                {% if report.upcoming_mandali_events %}
+                <details class="subgroup" open>
+                    <summary>Upcoming Events</summary>
+                    <div class="subgroup-content">
+                        <ul style="margin: 0;">
+                            {% for e in report.upcoming_mandali_events %}
+                            <li style="margin-bottom: 6px;">
+                                {{ e.event }}{% if e.date %} — {{ e.date }}{% endif %}{% if e.mandali is defined %} · Mandali {{ e.mandali }}{% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </details>
+                {% endif %}
+
+            </div>
+        </details>
+        {% endif %}
+
         <!-- SECTION K: Final Recommendations -->
+        {% if report.executive_summary is defined %}
         <details id="sec-final" class="group page-break">
             <summary>
                 Final Recommendations
@@ -1024,6 +1298,7 @@
                 </details>
             </div>
         </details>
+        {% endif %}
 
     </div>
     </div>

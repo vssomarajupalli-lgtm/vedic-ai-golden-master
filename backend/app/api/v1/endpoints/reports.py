@@ -16,10 +16,40 @@ report_builder = ReportBuilder()
 html_generator = HTMLGenerator()
 pdf_generator = PDFGenerator()
 
+# Presentation-only section filter (GM-017.6).
+# Maps Print & Export Framework section ids to the top-level report keys they
+# require. Used solely to select which blocks the HTML/PDF document renders;
+# the JSON report and all calculations are never filtered or altered.
+SECTION_TO_REPORT_KEYS = {
+    "horoscope-summary": ["client_profile", "executive_summary", "lifetime_intelligence"],
+    "questions": ["question_responses"],
+    "activation-timeline": ["lifetime_intelligence"],
+    "gochara": ["gochara_report", "mandali_analysis", "important_advisory",
+                "upcoming_mandali_events", "current_mandali", "formula_verification"],
+    "appendix": ["formula_verification"],
+}
+# Keys always retained so the document shell never loses required layout data.
+ALWAYS_KEEP_KEYS = {"metadata", "master_summary"}
+
+
+def _filter_report_sections(report: dict, sections: list | None) -> dict:
+    """
+    Returns a copy of the report containing only the top-level keys required by
+    the selected sections. With no sections (the default) the complete report is
+    returned unchanged.
+    """
+    if not sections:
+        return report
+    allowed = set(ALWAYS_KEEP_KEYS)
+    for section in sections:
+        allowed.update(SECTION_TO_REPORT_KEYS.get(section, ()))
+    return {key: value for key, value in report.items() if key in allowed}
+
 @router.post("/generate-report")
 def generate_report(
-    request: ReportGenerationRequest, 
-    format: str = Query("json", description="Export format: json, html, pdf")
+    request: ReportGenerationRequest,
+    format: str = Query("json", description="Export format: json, html, pdf"),
+    sections: list[str] | None = Query(None, description="Presentation-only sections to include (e.g. gochara, questions). Default: all sections.")
 ) -> Any:
     """
     Stateless endpoint that accepts raw scraped JSON, runs the astrology engine,
@@ -57,17 +87,21 @@ def generate_report(
         if format.lower() == "json":
             return report
         elif format.lower() == "html":
-            html_content = html_generator.generate(report)
+            html_content = html_generator.generate(_filter_report_sections(report, sections))
             return HTMLResponse(content=html_content)
         elif format.lower() == "pdf":
             try:
-                pdf_bytes = pdf_generator.generate(report)
+                pdf_bytes = pdf_generator.generate(_filter_report_sections(report, sections))
                 return Response(content=pdf_bytes, media_type="application/pdf", headers={"Content-Disposition": "attachment; filename=vedic_ai_report.pdf"})
             except RuntimeError as re:
                 raise HTTPException(status_code=501, detail=str(re))
         else:
             raise HTTPException(status_code=400, detail="Invalid format requested. Supported: json, html, pdf.")
             
+    except HTTPException:
+        # Preserve intentional HTTP status codes (e.g. the 501 PDF-unavailable
+        # signal) instead of collapsing them into a generic 500.
+        raise
     except Exception as e:
         log.error(f"Error generating report: {str(e)}\n{traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=f"Report Generation failed: {str(e)}")

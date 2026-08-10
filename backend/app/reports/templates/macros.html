@@ -42,6 +42,39 @@
 {% endif %}
 {% endmacro %}
 
+{% macro render_cycle_windows(cycles, window_key) %}
+{% for cycle in cycles %}
+    {% set windows = cycle.get(window_key) or [] %}
+    {% if windows %}
+    <div style="margin-bottom: 14px; page-break-inside: auto; break-inside: auto;">
+        <p style="font-weight: 600; margin: 0 0 6px 0;">Cycle {{ cycle.cycle_number }} · {{ cycle.period }}</p>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+            <thead>
+                <tr style="background-color: #f3f4f6; text-align: left;">
+                    <th style="padding: 6px 8px; border-bottom: 1px solid #e5e7eb;">Phase</th>
+                    <th style="padding: 6px 8px; border-bottom: 1px solid #e5e7eb;">Rasi</th>
+                    <th style="padding: 6px 8px; border-bottom: 1px solid #e5e7eb;">Mandali</th>
+                    <th style="padding: 6px 8px; border-bottom: 1px solid #e5e7eb;">Start</th>
+                    <th style="padding: 6px 8px; border-bottom: 1px solid #e5e7eb;">End</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for w in windows %}
+                <tr>
+                    <td style="padding: 6px 8px; border-bottom: 1px solid #f3f4f6;">{{ w.phase or '—' }}</td>
+                    <td style="padding: 6px 8px; border-bottom: 1px solid #f3f4f6;">{{ w.rasi or '—' }}</td>
+                    <td style="padding: 6px 8px; border-bottom: 1px solid #f3f4f6;">{{ w.mandali or '—' }}</td>
+                    <td style="padding: 6px 8px; border-bottom: 1px solid #f3f4f6;">{{ w.start or '—' }}</td>
+                    <td style="padding: 6px 8px; border-bottom: 1px solid #f3f4f6;">{{ w.end or '—' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+{% endfor %}
+{% endmacro %}
+
 {% macro render_status_dot(score_or_grade) %}
 {% set val = score_or_grade|string|lower %}
 {% if val in ['strong', 'good', 'excellent', 'favorable'] or (val|int(-1) >= 60 and val|int(-1) != -1) %}

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, FileText, AlertCircle, MoreVertical, Edit, Copy, Archive, Trash2, Download, Eye, Printer, Settings, Save, Pin, Star, HelpCircle, X } from 'lucide-react';
 import { useConsultationStore } from '../../store/useConsultationStore';
 import type { Consultation } from '../../types/consultation';
+import { apiService } from '../../api/backend';
 import { RenameConsultationModal, DeleteConfirmModal, ConsultationEditModal } from '../../components/consultation/ConsultationModals';
 import { PrintFrameworkModal } from '../../components/consultation/PrintFrameworkModal';
 import { MandaliAnalysisSection } from '../../components/consultation/MandaliAnalysisSection';
@@ -16,6 +17,7 @@ export default function ConsultationWorkspace() {
   const [consultation, setConsultation] = useState<Consultation | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
   
   // Action menu state
   const [actionMenuOpen, setActionMenuOpen] = useState(false);
@@ -99,6 +101,29 @@ export default function ConsultationWorkspace() {
       tags: metadata.tags,
       updatedAt: new Date().toISOString() 
     } : null);
+  };
+
+  // Download the same canonical report PDF via the shared export pipeline.
+  // Falls back to the Print & Export Framework if no chart data is attached.
+  const handleDownloadPdf = async () => {
+    if (!consultation?.canonicalContent || !consultation?.machineIndex) {
+      setShowReportModal(true);
+      return;
+    }
+    setError(null);
+    setDownloadingPdf(true);
+    try {
+      await apiService.downloadReport(consultation.canonicalContent, consultation.machineIndex, 'pdf');
+    } catch (err: any) {
+      setError(`Failed to download PDF: ${err.response?.data?.detail || err.message}`);
+    } finally {
+      setDownloadingPdf(false);
+    }
+  };
+
+  const handleRegenerateReport = () => {
+    // Rebuild via the Print & Export Framework (same canonical report pipeline).
+    setShowReportModal(true);
   };
 
   // Keyboard shortcuts
@@ -639,12 +664,15 @@ export default function ConsultationWorkspace() {
                             View Full Report
                           </button>
                           <button
-                            className="w-full px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 flex items-center justify-center gap-2"
+                            onClick={handleDownloadPdf}
+                            disabled={downloadingPdf}
+                            className="w-full px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 flex items-center justify-center gap-2 disabled:opacity-50"
                           >
                             <Download className="w-4 h-4" />
-                            Download PDF
+                            {downloadingPdf ? 'Downloading...' : 'Download PDF'}
                           </button>
                           <button
+                            onClick={handleRegenerateReport}
                             className="w-full px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 flex items-center justify-center gap-2"
                           >
                             <Settings className="w-4 h-4" />

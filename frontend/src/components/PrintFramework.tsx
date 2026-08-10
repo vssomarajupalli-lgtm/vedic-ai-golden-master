@@ -15,6 +15,8 @@ interface ConsultationData {
     selectedQuestionIds: string[];
   };
   snapshots: any[];
+  canonicalContent?: any;
+  machineIndex?: any;
 }
 
 interface PrintFrameworkProps {
@@ -56,6 +58,11 @@ export const PrintFramework: React.FC<PrintFrameworkProps> = ({ isOpen, onClose,
   } = useChartStore();
   
   const { recordOutput } = useConsultationRepository();
+
+  // Report source: prefer the loaded chart-store chart, falling back to the
+  // consultation's own canonical data so Consultation export works directly.
+  const canonical = canonicalContent || consultation?.canonicalContent || null;
+  const machineIndex = machineIndexRaw ?? consultation?.machineIndex ?? null;
   
   const [selectedProfile] = useState<'quick' | 'standard' | 'professional' | 'research' | 'book'>('professional');
   const [selectedFormat, setSelectedFormat] = useState<'pdf' | 'html' | 'json'>('pdf');
@@ -73,12 +80,17 @@ export const PrintFramework: React.FC<PrintFrameworkProps> = ({ isOpen, onClose,
   const [printPending, setPrintPending] = useState(false);
   const previewIframeRef = useRef<HTMLIFrameElement>(null);
 
+  // Always regenerate the document from the currently selected sections so
+  // the section/profile controls are functional and stay in sync with the
+  // exported content.
   const ensureReportHtml = useCallback(async (): Promise<string> => {
-    if (reportHtml) return reportHtml;
-    const html = await apiService.getReportHtml(canonicalContent!, machineIndexRaw!);
+    if (!canonical || !machineIndex) {
+      throw new Error('No chart data available for the report. Load a chart or open a consultation with chart data first.');
+    }
+    const html = await apiService.getReportHtml(canonical, machineIndex, selectedSections);
     setReportHtml(html);
     return html;
-  }, [reportHtml, canonicalContent, machineIndexRaw]);
+  }, [canonical, machineIndex, selectedSections]);
 
   const openPreview = useCallback(async () => {
     setIsGenerating(true);
@@ -222,9 +234,9 @@ export const PrintFramework: React.FC<PrintFrameworkProps> = ({ isOpen, onClose,
         longitude: 0,
         timezone: 'UTC',
       };
-    } else if (canonicalContent && machineIndexRaw) {
-      const machineIndex = Array.isArray(machineIndexRaw) ? machineIndexRaw : [machineIndexRaw];
-      native = machineIndex.find((m: any) => m?.native_info)?.native_info || {};
+    } else if (canonical && machineIndex) {
+      const mi = Array.isArray(machineIndex) ? machineIndex : [machineIndex];
+      native = mi.find((m: any) => m?.native_info)?.native_info || {};
     }
 
     setMetadata({
@@ -240,7 +252,7 @@ export const PrintFramework: React.FC<PrintFrameworkProps> = ({ isOpen, onClose,
       reportMode: selectedProfile,
       questionCount: questionResults?.length || consultation?.structure?.selectedQuestionIds?.length || 0,
     });
-  }, [consultation, canonicalContent, machineIndexRaw, questionResults, selectedProfile]);
+  }, [consultation, canonical, machineIndex, questionResults, selectedProfile]);
 
   // Handle print generation
   const handleGenerate = useCallback(async (format: 'pdf' | 'html' | 'json') => {
@@ -285,11 +297,12 @@ export const PrintFramework: React.FC<PrintFrameworkProps> = ({ isOpen, onClose,
     
       const formatParam = format === 'pdf' ? 'pdf' : 'html';
       
-      // Use the canonical content from chart store for backend generation
+      // Use the canonical content for backend generation (chart store or consultation)
       const blob = await apiService.getReportBlob(
-        canonicalContent!,
-        machineIndexRaw!,
-        formatParam
+        canonical!,
+        machineIndex!,
+        formatParam,
+        selectedSections
       );
       const filename = `vedic_ai_report_${new Date().toISOString().split('T')[0]}.${format === 'pdf' ? 'pdf' : 'html'}`;
       downloadBlob(blob, filename);
@@ -313,7 +326,7 @@ export const PrintFramework: React.FC<PrintFrameworkProps> = ({ isOpen, onClose,
     } finally {
       setIsGenerating(false);
     }
-  }, [canonicalContent, machineIndexRaw, metadata, sections, selectedSections, consultation, selectedProfile, recordOutput]);
+  }, [canonical, machineIndex, metadata, sections, selectedSections, consultation, selectedProfile, recordOutput]);
 
   if (!isOpen) return null;
 

@@ -86,13 +86,18 @@ export const apiService = {
   },
 
    /**
-    * Triggers a browser download for the generated PDF or HTML report
+    * Triggers a browser download for the generated PDF or HTML report.
+    * Optional `sections` (Print & Export Framework ids) select which report
+    * blocks are rendered. Default (no sections) = complete report.
     */
-   async getReportBlob(canonical: any, machine: any, format: 'pdf' | 'html'): Promise<Blob> {
-     const response = await backendApi.post(`/generate-report?format=${format}`, {
+   async getReportBlob(canonical: any, machine: any, format: 'pdf' | 'html', sections?: string[]): Promise<Blob> {
+     const params: Record<string, unknown> = { format };
+     if (sections && sections.length) params.sections = sections;
+     const response = await backendApi.post(`/generate-report`, {
        canonical_content: canonical,
        machine_index: machine
      }, {
+       params,
        responseType: 'blob' // Important for file downloads
      });
 
@@ -104,11 +109,14 @@ export const apiService = {
     * Preview and Print use this same document, so all output formats
     * (Preview / HTML / PDF / Print) render identical content.
     */
-   async getReportHtml(canonical: any, machine: any): Promise<string> {
-     const response = await backendApi.post(`/generate-report?format=html`, {
+   async getReportHtml(canonical: any, machine: any, sections?: string[]): Promise<string> {
+     const params: Record<string, unknown> = { format: 'html' };
+     if (sections && sections.length) params.sections = sections;
+     const response = await backendApi.post(`/generate-report`, {
        canonical_content: canonical,
        machine_index: machine
      }, {
+       params,
        responseType: 'text'
      });
      return response.data as string;
@@ -117,8 +125,8 @@ export const apiService = {
    /**
     * Triggers a browser download for the generated PDF or HTML report
     */
-   async downloadReport(canonical: any, machine: any, format: 'pdf' | 'html'): Promise<void> {
-     const blob = await this.getReportBlob(canonical, machine, format);
+   async downloadReport(canonical: any, machine: any, format: 'pdf' | 'html', sections?: string[]): Promise<void> {
+     const blob = await this.getReportBlob(canonical, machine, format, sections);
      const url = window.URL.createObjectURL(blob);
      const link = document.createElement('a');
      link.href = url;
