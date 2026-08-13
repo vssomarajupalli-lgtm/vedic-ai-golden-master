@@ -155,6 +155,76 @@ class TestMandaliGocharReport(unittest.TestCase):
         self.assertEqual(report.chart[0].rasi, "Makara")
 
     # ------------------------------------------------------------------
+    # R2 — Fixed universal Rasi -> Nakshatra-Pada reference
+    # ------------------------------------------------------------------
+
+    def test_fixed_rasi_map_covers_108_padas_in_sequence_order(self):
+        report = self.builder.build(
+            current_transit=_rajus_transit(),
+            mandali_grid=self.grid,
+            target_date_utc=TARGET,
+        )
+        expected_sequence = [
+            "Mesha", "Vrishabha", "Mithuna", "Karkata", "Simha", "Kanya",
+            "Tula", "Vrishchika", "Dhanus", "Makara", "Kumbha", "Meena",
+        ]
+        self.assertEqual(list(report.fixed_rasi_map.keys()), expected_sequence)
+        total = 0
+        for rasi, entry in report.fixed_rasi_map.items():
+            self.assertEqual(entry["pada_count"], 9, rasi)
+            self.assertEqual(len(entry["absolute_padas"]), 9, rasi)
+            total += entry["pada_count"]
+        self.assertEqual(total, 108)
+
+    def test_fixed_rasi_map_authoritative_kumbha_meena_boundary(self):
+        """Registry truth: Purva Bhadrapada P1-P3 -> Kumbha, P4 -> Meena.
+
+        The universal reference must match the authoritative registry exactly
+        (this is the boundary that a previous self-check doc got wrong)."""
+        report = self.builder.build(
+            current_transit=_rajus_transit(),
+            mandali_grid=self.grid,
+            target_date_utc=TARGET,
+        )
+        kumbha_bands = report.fixed_rasi_map["Kumbha"]["nakshatra_padas"]
+        meena_bands = report.fixed_rasi_map["Meena"]["nakshatra_padas"]
+
+        purva_kumbha = next(b for b in kumbha_bands if b["nakshatra"] == "Purva Bhadrapada")
+        self.assertEqual((purva_kumbha["pada_from"], purva_kumbha["pada_to"]), (1, 3))
+        self.assertEqual(purva_kumbha["display"], "P1-P3")
+
+        purva_meena = next(b for b in meena_bands if b["nakshatra"] == "Purva Bhadrapada")
+        self.assertEqual((purva_meena["pada_from"], purva_meena["pada_to"]), (4, 4))
+        self.assertEqual(purva_meena["display"], "P4")
+
+    def test_fixed_rasi_map_matches_registry_get_rasi(self):
+        """Every absolute pada in the map must equal get_rasi() from the registry."""
+        report = self.builder.build(
+            current_transit=_rajus_transit(),
+            mandali_grid=self.grid,
+            target_date_utc=TARGET,
+        )
+        for absolute_pada in range(1, 109):
+            nakshatra, pada = self.ref_data.get_nakshatra_pada(absolute_pada)
+            expected_rasi = self.ref_data.get_rasi(nakshatra, pada)
+            owner_rasi = next(
+                r for r, entry in report.fixed_rasi_map.items()
+                if absolute_pada in entry["absolute_padas"]
+            )
+            self.assertEqual(owner_rasi, expected_rasi, absolute_pada)
+
+    def test_fixed_rasi_map_deterministic(self):
+        r1 = self.builder.build(
+            current_transit=_rajus_transit(), mandali_grid=self.grid,
+            target_date_utc=TARGET,
+        ).fixed_rasi_map
+        r2 = self.builder.build(
+            current_transit=_rajus_transit(), mandali_grid=self.grid,
+            target_date_utc=TARGET,
+        ).fixed_rasi_map
+        self.assertEqual(r1, r2)
+
+    # ------------------------------------------------------------------
     # Report B — Mandali-based period rows
     # ------------------------------------------------------------------
 

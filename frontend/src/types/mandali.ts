@@ -231,6 +231,21 @@ export interface LegacyRasiSaturnWindows {
   ashtama_shani?: LegacySaturnGroup;
 }
 
+/** One Nakshatra-Pada band inside a fixed universal Rāśi (e.g. "Shatabhisha P1-P4"). */
+export interface FixedRasiBand {
+  nakshatra: string;
+  pada_from: number;
+  pada_to: number;
+  display: string; // "P1-P4" | "P3-P4" | "P1" ...
+}
+
+/** One Rāśi entry of the identity-independent universal reference (9 absolute padas). */
+export interface FixedRasiMapEntry {
+  absolute_padas: number[];   // 1-108
+  nakshatra_padas: FixedRasiBand[];
+  pada_count: number;         // always 9
+}
+
 export interface MandaliGocharReport {
   schema_version: string;
   target_date: string;       // YYYY-MM-DD
@@ -248,4 +263,5 @@ export interface MandaliGocharReport {
     report_a: RasiGocharEntry[];
     report_b: MandaliPeriodEntry[];
   };
+  fixed_rasi_map: Record<string, FixedRasiMapEntry>;
 }

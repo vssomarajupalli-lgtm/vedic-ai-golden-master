@@ -117,3 +117,8 @@ class MandaliGocharReport:
     periods: List[MandaliPeriodEntry]
     saturn_periods: SaturnPeriods
     comparison: Dict[str, Any]
+    # R2 — Fixed universal Rasi -> Nakshatra-Pada reference (12 Rasis, 9
+    # absolute padas each). Built once from the authoritative
+    # nakshatra_rasi_registry + rasi_sequence_registry (identity-person
+    # independent), never hardcoded. Additive presentation field only.
+    fixed_rasi_map: Dict[str, Any] = field(default_factory=dict)

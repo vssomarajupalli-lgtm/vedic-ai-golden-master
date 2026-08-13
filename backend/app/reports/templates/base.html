@@ -435,6 +435,7 @@
                     <li><a href="#sec-yogas">► Yogas & Doshas</a></li>
                     <li><a href="#sec-dasha">► Dasha Analysis</a></li>
                     <li><a href="#sec-gochara">► Gochara Analysis</a></li>
+                    <li><a href="#sec-gochara-mandali-report">► Rāśi-Mandali Gochar (Report B)</a></li>
                     <li><a href="#sec-questions">► Question Engine</a></li>
                     <li><a href="#sec-final">► Final Recommendations</a></li>
                 </ul>
@@ -1229,6 +1230,284 @@
                             </li>
                             {% endfor %}
                         </ul>
+                    </div>
+                </details>
+                {% endif %}
+
+            </div>
+        </details>
+        {% endif %}
+
+        <!-- SECTION J3: Present Gochar Rasi-Mandali Report (Report B) -->
+        <!-- Rendered entirely from the existing report dict (mandali_gochar_report).
+             No new calculations. R1 print/export of the Rasi-Mandali gochar, R2 fixed
+             universal Rasi->Nakshatra-Pada reference, R3 personal Moon-derived Mandali
+             map, R4 per-planet comparison difference, R6 Saturn scan-range clarity. -->
+        {% if report.mandali_gochar_report is defined and report.mandali_gochar_report %}
+        {% set mgr = report.mandali_gochar_report %}
+        <details id="sec-gochara-mandali-report" class="group page-break" open>
+            <summary>Rāśi-Mandali Gochar — Present Report (Report B)</summary>
+            <div class="group-content">
+
+                {% if mgr.reference_moon %}
+                <details class="subgroup avoid-break" open>
+                    <summary>Reference — Mandali 1 centred on Natal Moon</summary>
+                    <div class="subgroup-content">
+                        <div class="grid-4">
+                            <div class="reference-item">
+                                <div class="label">Rāśi</div>
+                                <div class="value">{{ mgr.reference_moon.rasi or '—' }}</div>
+                            </div>
+                            <div class="reference-item">
+                                <div class="label">Nakshatra</div>
+                                <div class="value">{{ mgr.reference_moon.nakshatra or '—' }}</div>
+                            </div>
+                            <div class="reference-item">
+                                <div class="label">Pada</div>
+                                <div class="value">{{ mgr.reference_moon.pada or '—' }}</div>
+                            </div>
+                            <div class="reference-item">
+                                <div class="label">Absolute Pada</div>
+                                <div class="value">{{ mgr.reference_moon.absolute_pada or '—' }}</div>
+                            </div>
+                        </div>
+                        {% if mgr.target_date %}
+                        <p style="margin: 10px 0 0 0; font-size: 0.85em; color: #64748b;">
+                            Target date: <strong>{{ mgr.target_date }}</strong> · Moon-centred
+                            12-Mandali grid · 9 Nakshatra-Pada slots per box · transit planets
+                            placed by the backend.
+                        </p>
+                        {% endif %}
+                    </div>
+                </details>
+                {% endif %}
+
+                <!-- R3: Personal Moon-derived Mandali map (12 cells x 9 padas) -->
+                {% if mgr.chart %}
+                <details class="subgroup avoid-break" open>
+                    <summary>Present Gochara Rāśi-Mandali Chart (person-specific)</summary>
+                    <div class="subgroup-content">
+                        <div class="mandali-grid">
+                            {% for cell in mgr.chart %}
+                            <div class="mandali-cell" style="page-break-inside: avoid;">
+                                <div class="mandali-cell-head">
+                                    {{ cell.mandali_name }}
+                                    <span style="float: right; font-size: 0.8em; color: #94a3b8;">M{{ cell.mandali_number }}</span>
+                                </div>
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px;">
+                                    {% for slot in cell.padas %}
+                                    <div style="border: 1px solid var(--border); border-radius: 4px; padding: 2px; text-align: center; font-size: 0.68em; {% if slot.planets %}background-color: var(--primary-light);{% else %}background-color: #f8fafc;{% endif %}">
+                                        <div style="color: var(--text-muted);">{{ slot.nakshatra[:3] }}.{{ slot.pada }}</div>
+                                        <div style="min-height: 14px;">
+                                            {% if slot.planets %}
+                                            {% for code in slot.planets %}<span style="display: inline-block; margin: 0 1px; padding: 0 4px; border-radius: 8px; background-color: var(--primary); color: #ffffff; font-weight: 600;">{{ code }}</span>{% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </details>
+                {% endif %}
+
+                <!-- R2: Fixed universal Rasi -> Nakshatra-Pada reference -->
+                {% if mgr.fixed_rasi_map %}
+                <details class="subgroup avoid-break" open>
+                    <summary>Fixed Universal Rāśi → Nakshatra-Pada Reference</summary>
+                    <div class="subgroup-content">
+                        <p style="margin-top: 0; font-size: 0.85em; color: #64748b;">
+                            Identity-independent reference. Each Rāśi spans exactly 9 absolute
+                            padas (1–108), grouped by Nakshatra. Derived from the authoritative
+                            <em>nakshatra_rasi_registry</em> — the same registered source used
+                            by every engine.
+                        </p>
+                        <table class="print-allow-split" style="width: 100%; font-size: 0.85em;">
+                            <thead>
+                                <tr>
+                                    <th>Rāśi</th>
+                                    <th>Nakshatra-Padas</th>
+                                    <th>Absolute Padas</th>
+                                    <th>Pada Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rasi, entry in mgr.fixed_rasi_map.items() %}
+                                <tr>
+                                    <td><strong>{{ rasi }}</strong></td>
+                                    <td>
+                                        {% for band in entry.nakshatra_padas %}{{ band.nakshatra }} {{ band.display }}{% if not loop.last %}, {% endif %}{% endfor %}
+                                    </td>
+                                    <td>{{ entry.absolute_padas[0] }}–{{ entry.absolute_padas[-1] }}</td>
+                                    <td>{{ entry.pada_count }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
+                {% endif %}
+
+                <!-- R1: Report B per-planet Mandali periods -->
+                {% if mgr.periods %}
+                <details class="subgroup avoid-break" open>
+                    <summary>Rāśi-Mandali Transit Periods (Report B)</summary>
+                    <div class="subgroup-content">
+                        <p style="margin-top: 0; font-size: 0.85em; color: #64748b;">
+                            Moon-centred Mandali-based transit window for each planet. Not the
+                            conventional Rāśi period.
+                        </p>
+                        <table class="print-allow-split" style="width: 100%; font-size: 0.85em;">
+                            <thead>
+                                <tr>
+                                    <th>Planet</th>
+                                    <th>Current Rāśi</th>
+                                    <th>Current Mandali</th>
+                                    <th>Nakshatra</th>
+                                    <th>Pada</th>
+                                    <th>Entry</th>
+                                    <th>Exit</th>
+                                    <th>Status</th>
+                                    <th>Next Mandali</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in mgr.periods %}
+                                <tr>
+                                    <td><strong>{{ p.planet }}</strong></td>
+                                    <td>{{ p.current_rasi or '—' }}</td>
+                                    <td>{{ p.mandali_name or ('Mandali ' ~ p.mandali_number) }}</td>
+                                    <td>{{ p.nakshatra or '—' }}</td>
+                                    <td>{{ p.pada or '—' }}</td>
+                                    <td>{{ p.entry_date or '—' }}</td>
+                                    <td>{{ p.exit_date or '—' }}</td>
+                                    <td>{{ p.status }}</td>
+                                    <td>{{ p.next_mandali.name if p.next_mandali and p.next_mandali.name else '—' }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
+                {% endif %}
+
+                <!-- R1 + R4: Report A vs Report B comparison with per-planet difference -->
+                {% if mgr.comparison and mgr.comparison.report_a and mgr.comparison.report_b %}
+                <details class="subgroup avoid-break" open>
+                    <summary>Regular Gochar vs Rāśi-Mandali Gochar — Comparison</summary>
+                    <div class="subgroup-content">
+                        {% set a_lookup = {} %}
+                        {% for ra in mgr.comparison.report_a %}
+                            {% set _ = a_lookup.update({ra.planet: ra}) %}
+                        {% endfor %}
+                        <table class="print-allow-split" style="width: 100%; font-size: 0.8em;">
+                            <thead>
+                                <tr>
+                                    <th>Planet</th>
+                                    <th>Regular Rāśi</th>
+                                    <th>Regular Period</th>
+                                    <th>Mandali</th>
+                                    <th>Nakshatra</th>
+                                    <th>Pada</th>
+                                    <th>Mandali Period</th>
+                                    <th>Difference</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rb in mgr.comparison.report_b %}
+                                {% set ra = a_lookup.get(rb.planet) %}
+                                <tr>
+                                    <td><strong>{{ rb.planet }}</strong></td>
+                                    <td>{{ ra.current_rasi if ra and ra.current_rasi else '—' }}</td>
+                                    <td>{% if ra %}{{ ra.rasi_entry or '—' }} → {{ ra.rasi_exit or '—' }}{% else %}—{% endif %}</td>
+                                    <td>{{ rb.mandali_name or ('Mandali ' ~ rb.mandali_number) }}</td>
+                                    <td>{{ rb.nakshatra or '—' }}</td>
+                                    <td>{{ rb.pada or '—' }}</td>
+                                    <td>{{ rb.entry_date or '—' }} → {{ rb.exit_date or '—' }}</td>
+                                    <td style="font-size: 0.8em; color: #475569;">
+                                        {% if ra %}
+                                        Regular Rāśi gochar anchors to zodiacal Rāśi <strong>{{ ra.current_rasi }}</strong>;
+                                        the Rāśi-Mandali gochar anchors to the Moon-centred arc
+                                        <strong>{{ rb.mandali_name }}</strong> ({{ rb.nakshatra }} Pada {{ rb.pada }}).
+                                        Rāśi period: {{ ra.rasi_entry or '—' }}→{{ ra.rasi_exit or '—' }} ·
+                                        Mandali period: {{ rb.entry_date or '—' }}→{{ rb.exit_date or '—' }}.
+                                        {% else %}
+                                        Only the Rāśi-Mandali (Report B) period is available.
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% if mgr.comparison.note %}
+                        <p style="margin-top: 8px; font-size: 0.8em; color: #94a3b8;">{{ mgr.comparison.note }}</p>
+                        {% endif %}
+                    </div>
+                </details>
+                {% endif %}
+
+                <!-- R1 + R6: Saturn special periods via the Mandali resolver -->
+                {% if mgr.saturn_periods %}
+                <details class="subgroup" open>
+                    <summary>Saturn Special Periods — Mandali Resolver</summary>
+                    <div class="subgroup-content">
+                        {% set saturn = mgr.saturn_periods %}
+                        {% if saturn.current_saturn and saturn.current_saturn.planet %}
+                        <p style="margin-top: 0;">
+                            <strong>Current Saturn Position:</strong>
+                            {{ saturn.current_saturn.mandali_name or saturn.current_saturn.mandali_number or '—' }}
+                            {% if saturn.current_saturn.rasi %} · {{ saturn.current_saturn.rasi }}{% endif %}
+                            {% if saturn.current_saturn.nakshatra %} · {{ saturn.current_saturn.nakshatra }}{% if saturn.current_saturn.pada %} Pada {{ saturn.current_saturn.pada }}{% endif %}{% endif %}
+                            {% if saturn.current_saturn.entry_date %} · {{ saturn.current_saturn.entry_date }} → {{ saturn.current_saturn.exit_date }}{% endif %}
+                            {% if saturn.current_saturn.active_flags %} · <em>{{ saturn.current_saturn.active_flags | join(', ') }}</em>{% endif %}
+                        </p>
+                        {% endif %}
+                        {% for cycle_key, label in [('sade_sati', 'Sade Sati (12th / 1st / 2nd from Moon)'), ('ardha_ashtama', 'Ardha Ashtama Sani (4th from Moon)'), ('ashtama', 'Ashtama Sani (8th from Moon)'), ('elinati', 'Elinati Sani (8th from Moon)')] %}
+                        {% set rows = saturn[cycle_key].current + saturn[cycle_key].upcoming %}
+                        <h4 style="margin: 14px 0 6px 0;">{{ label }}</h4>
+                        {% if rows %}
+                        <table class="print-table-wrap" style="width: 100%; font-size: 0.82em;">
+                            <thead>
+                                <tr>
+                                    <th>Phase</th>
+                                    <th>Mandali</th>
+                                    <th>Nakshatra</th>
+                                    <th>Pada</th>
+                                    <th>Entry</th>
+                                    <th>Exit</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in rows %}
+                                <tr>
+                                    <td>{{ row.phase or '—' }}</td>
+                                    <td>{{ row.mandali_name or row.mandali_number }}</td>
+                                    <td>{{ row.nakshatra or '—' }}</td>
+                                    <td>{{ row.pada or '—' }}</td>
+                                    {% if row.status == 'NOT_FOUND' %}
+                                    <td colspan="2" style="color: #b91c1c;">Not found within the current governed scan range.</td>
+                                    {% else %}
+                                    <td>{{ row.entry or '—' }}</td>
+                                    <td>{{ row.exit or '—' }}</td>
+                                    {% endif %}
+                                    <td>{{ row.status }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <p style="font-size: 0.85em; color: #64748b;">No Mandali-resolved windows available.</p>
+                        {% endif %}
+                        {% endfor %}
+                        {% if saturn.legacy_windows and saturn.legacy_windows.mechanism %}
+                        <p style="margin-top: 10px; font-size: 0.8em; color: #94a3b8;">
+                            Legacy Rāśi-based lifetime windows ({{ saturn.legacy_windows.mechanism }})
+                            are preserved verbatim in the Gochara &amp; Mandali Analysis section above.
+                        </p>
+                        {% endif %}
                     </div>
                 </details>
                 {% endif %}

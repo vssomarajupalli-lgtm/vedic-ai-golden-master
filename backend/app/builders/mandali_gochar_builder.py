@@ -131,6 +131,7 @@ class MandaliGocharBuilder:
             periods=period_rows,
             saturn_periods=saturn_periods,
             comparison=comparison,
+            fixed_rasi_map=self._build_fixed_rasi_map(),
         )
 
     # -------------------------------------------------------------------------
@@ -209,6 +210,64 @@ class MandaliGocharBuilder:
             ]
 
         return cells
+
+    # -------------------------------------------------------------------------
+    # R2 — Fixed universal Rasi -> Nakshatra-Pada reference
+    # -------------------------------------------------------------------------
+
+    def _build_fixed_rasi_map(self) -> Dict[str, Any]:
+        """Build the identity-independent Rasi -> Nakshatra-Pada reference.
+
+        Groups the 108 absolute padas into the 12 zodiacal Rasis using the
+        authoritative nakshatra_rasi_registry. Every Rasi spans exactly 9
+        absolute padas; within each Rasi the padas are grouped into runs of the
+        same Nakshatra (e.g. "Krittika P1" then "P2-P4" for Vrishabha).
+
+        No astronomy is performed here and nothing is hardcoded — the result is
+        derived purely from CanonicalReferenceData (the same registered source
+        used by every engine), so it is deterministic and registry-owned.
+        """
+        sequence = self._ref_data.get_rasi_sequence()
+        by_rasi: Dict[str, List[int]] = {rasi: [] for rasi in sequence}
+        for absolute_pada in range(1, 109):
+            nakshatra, pada = self._ref_data.get_nakshatra_pada(absolute_pada)
+            rasi = self._ref_data.get_rasi(nakshatra, pada)
+            by_rasi.setdefault(rasi, []).append(absolute_pada)
+
+        fixed_map: Dict[str, Any] = {}
+        for rasi in sequence:
+            absolute_padas = sorted(by_rasi.get(rasi, []))
+            bands: List[Dict[str, Any]] = []
+            for absolute_pada in absolute_padas:
+                nakshatra, pada = self._ref_data.get_nakshatra_pada(absolute_pada)
+                if bands and bands[-1]["nakshatra"] == nakshatra:
+                    bands[-1]["pada_to"] = pada
+                else:
+                    bands.append(
+                        {"nakshatra": nakshatra, "pada_from": pada, "pada_to": pada}
+                    )
+            nakshatra_padas = []
+            for band in bands:
+                nakshatra_padas.append(
+                    {
+                        "nakshatra": band["nakshatra"],
+                        "pada_from": band["pada_from"],
+                        "pada_to": band["pada_to"],
+                        "display": self._pada_range_display(
+                            band["pada_from"], band["pada_to"]
+                        ),
+                    }
+                )
+            fixed_map[rasi] = {
+                "absolute_padas": absolute_padas,
+                "nakshatra_padas": nakshatra_padas,
+                "pada_count": len(absolute_padas),
+            }
+        return fixed_map
+
+    @staticmethod
+    def _pada_range_display(pada_from: int, pada_to: int) -> str:
+        return f"P{pada_from}" if pada_from == pada_to else f"P{pada_from}-P{pada_to}"
 
     # -------------------------------------------------------------------------
     # Report B — Mandali-based period rows

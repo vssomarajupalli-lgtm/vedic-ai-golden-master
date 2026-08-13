@@ -157,8 +157,16 @@ const SaturnCycleCard: React.FC<SaturnCycleCardProps> = ({ title, subtitle, grou
                 <td className="py-1.5 pr-2 text-slate-600">{row.mandali_name || row.mandali_number}</td>
                 <td className="py-1.5 pr-2 text-slate-600">{row.nakshatra || '—'}</td>
                 <td className="py-1.5 pr-2 text-slate-600">{row.pada ?? '—'}</td>
-                <td className="py-1.5 pr-2 text-slate-600 whitespace-nowrap">{row.entry || '—'}</td>
-                <td className="py-1.5 pr-2 text-slate-600 whitespace-nowrap">{row.exit || '—'}</td>
+                {row.status === 'NOT_FOUND' ? (
+                  <td colSpan={2} className="py-1.5 pr-2 text-[10px] text-rose-600">
+                    Not found within the current governed scan range.
+                  </td>
+                ) : (
+                  <>
+                    <td className="py-1.5 pr-2 text-slate-600 whitespace-nowrap">{row.entry || '—'}</td>
+                    <td className="py-1.5 pr-2 text-slate-600 whitespace-nowrap">{row.exit || '—'}</td>
+                  </>
+                )}
                 <td className="py-1.5">
                   <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold ${statusTone(row.status)}`}>
                     {row.status === 'ACTIVE' ? 'ACTIVE' : row.status}

@@ -54,7 +54,8 @@ const Comparison: React.FC<ComparisonProps> = ({ data }) => {
               <th className="py-2 pr-3 bg-indigo-50/60">Mandali</th>
               <th className="py-2 pr-3 bg-indigo-50/60">Nakshatra</th>
               <th className="py-2 pr-3 bg-indigo-50/60">Pada</th>
-              <th className="py-2 bg-indigo-50/60">Mandali Period</th>
+              <th className="py-2 pr-3 bg-indigo-50/60">Mandali Period</th>
+              <th className="py-2 bg-amber-50/60">Difference</th>
             </tr>
           </thead>
           <tbody>
@@ -93,7 +94,7 @@ const Comparison: React.FC<ComparisonProps> = ({ data }) => {
                   </td>
                   <td className="py-2 pr-3 bg-indigo-50/40 text-slate-700">{b?.nakshatra || '—'}</td>
                   <td className="py-2 pr-3 bg-indigo-50/40 text-slate-700">{b?.pada ?? '—'}</td>
-                  <td className="py-2 bg-indigo-50/40 text-slate-600 whitespace-nowrap">
+                  <td className="py-2 pr-3 bg-indigo-50/40 text-slate-600 whitespace-nowrap">
                     {b ? (
                       <>
                         {b.entry_date || '—'} → {b.exit_date || '—'}
@@ -104,6 +105,9 @@ const Comparison: React.FC<ComparisonProps> = ({ data }) => {
                     ) : (
                       '—'
                     )}
+                  </td>
+                  <td className="py-2 bg-amber-50/40">
+                    <DifferenceNote a={a} b={b} />
                   </td>
                 </tr>
               );
@@ -116,6 +120,48 @@ const Comparison: React.FC<ComparisonProps> = ({ data }) => {
         <p className="mt-3 text-xs text-slate-400">{data.comparison.note}</p>
       )}
     </div>
+  );
+};
+
+interface DifferenceNoteProps {
+  a: RasiGocharEntry | undefined;
+  b: MandaliPeriodEntry | undefined;
+}
+
+/**
+ * Per-planet explanation of WHY the two periods differ. Pure presentation:
+ * describes the anchoring of each system (zodiacal Rāśi boundaries vs
+ * Moon-centred 9-pada Mandali arcs) using only data already delivered by the
+ * backend. No astrology is computed on the frontend.
+ */
+const DifferenceNote: React.FC<DifferenceNoteProps> = ({ a, b }) => {
+  if (!a && !b) return <span className="text-slate-400">—</span>;
+  if (!a) {
+    return (
+      <p className="text-[11px] leading-snug text-slate-600">
+        Only the Rāśi-Mandali (Report B) period is available for this planet.
+      </p>
+    );
+  }
+  if (!b) {
+    return (
+      <p className="text-[11px] leading-snug text-slate-600">
+        Only the regular Rāśi (Report A) period is available for this planet.
+      </p>
+    );
+  }
+
+  const aPeriod = `${a.rasi_entry || '—'} → ${a.rasi_exit || '—'}`;
+  const bPeriod = `${b.entry_date || '—'} → ${b.exit_date || '—'}`;
+
+  return (
+    <p className="text-[11px] leading-snug text-slate-600 max-w-[260px]">
+      Regular Rāśi gochar anchors to the zodiacal Rāśi{' '}
+      <span className="font-medium text-slate-800">{a.current_rasi}</span>; the Rāśi-Mandali
+      gochar anchors to the Moon-centred arc{' '}
+      <span className="font-medium text-slate-800">{b.mandali_name}</span> ({b.nakshatra} Pada{' '}
+      {b.pada}). Rāśi period: {aPeriod} · Mandali period: {bPeriod}.
+    </p>
   );
 };
 
