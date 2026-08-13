@@ -11,6 +11,19 @@ interface ActivationTimelineProps {
   className?: string;
 }
 
+interface SaturnPeriodBadge {
+  cycle: string;
+  phase?: string;
+  mandali_number: number;
+  mandali_name?: string;
+  entry?: string;
+  exit?: string;
+  status?: string;
+  mechanism?: string;
+}
+
+type SaturnCrossRef = Record<string, SaturnPeriodBadge[]>;
+
 export const ActivationTimeline: React.FC<ActivationTimelineProps> = ({
   rawOutputs,
   questionResults = [],
@@ -26,13 +39,17 @@ export const ActivationTimeline: React.FC<ActivationTimelineProps> = ({
     const transit = rawOutputs.breakdown.engine_outputs.transit || {};
     const masterProb = rawOutputs.breakdown.master_probability || {};
     const lifetimeProjection = masterProb.lifetime_projection || [];
+    const saturnCrossRef =
+      (rawOutputs.breakdown.engine_outputs.dasha_saturn_cross_reference?.rows ||
+        {}) as SaturnCrossRef;
     
     return {
       synthesis,
       timeline,
       transit,
       masterProb,
-      lifetimeProjection
+      lifetimeProjection,
+      saturnCrossRef
     };
   }, [rawOutputs]);
 
@@ -46,7 +63,7 @@ export const ActivationTimeline: React.FC<ActivationTimelineProps> = ({
     );
   }
 
-  const { synthesis, timeline, transit, masterProb, lifetimeProjection } = timelineData;
+  const { synthesis, timeline, transit, masterProb, lifetimeProjection, saturnCrossRef } = timelineData;
   
   const currentMD = synthesis.active_md?.capitalize() || 'Unknown';
   const currentAD = synthesis.active_ad?.capitalize() || 'Unknown';
@@ -127,6 +144,7 @@ export const ActivationTimeline: React.FC<ActivationTimelineProps> = ({
 
         <FutureWindowsSection
           lifetimeProjection={lifetimeProjection}
+          saturnCrossRef={saturnCrossRef}
         />
 
         <ActivationTrendChart
@@ -139,6 +157,7 @@ export const ActivationTimeline: React.FC<ActivationTimelineProps> = ({
             transit={transit}
             masterProb={masterProb}
             timeline={timeline}
+            saturnCrossRef={saturnCrossRef}
           />
         )}
 
@@ -330,9 +349,28 @@ const DetailItem: React.FC<DetailItemProps> = ({ label, value, description }) =>
 
 interface FutureWindowsSectionProps {
   lifetimeProjection: any[];
+  saturnCrossRef?: SaturnCrossRef;
 }
 
-const FutureWindowsSection: React.FC<FutureWindowsSectionProps> = ({ lifetimeProjection }) => {
+const SaturnBadge: React.FC<{ periods?: SaturnPeriodBadge[] }> = ({ periods }) => {
+  if (!periods || periods.length === 0) return null;
+  return (
+    <div className="space-y-1">
+      {periods.map((sp: SaturnPeriodBadge, i: number) => (
+        <span
+          key={i}
+          className="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold text-red-700 bg-red-100 border border-red-300 whitespace-nowrap"
+        >
+          {sp.cycle}
+          {sp.phase && sp.phase !== sp.cycle ? ` · ${sp.phase}` : ''}
+          {' · M' + sp.mandali_number}
+        </span>
+      ))}
+    </div>
+  );
+};
+
+const FutureWindowsSection: React.FC<FutureWindowsSectionProps> = ({ lifetimeProjection, saturnCrossRef }) => {
   const futureWindows = lifetimeProjection
     .filter((w: any) => new Date(w.start_date) >= new Date())
     .sort((a: any, b: any) => b.final_probability_pct - a.final_probability_pct)
@@ -358,6 +396,7 @@ const FutureWindowsSection: React.FC<FutureWindowsSectionProps> = ({ lifetimePro
               <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Probability</th>
               <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Grade</th>
               <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Driver</th>
+              <th className="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Saturn Period</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -387,6 +426,9 @@ const FutureWindowsSection: React.FC<FutureWindowsSectionProps> = ({ lifetimePro
                   </span>
                 </td>
                 <td className="px-4 py-3 text-sm text-gray-600">{window.md?.capitalize()} MD, {window.ad?.capitalize()} AD</td>
+                <td className="px-4 py-3">
+                  <SaturnBadge periods={saturnCrossRef?.[window.start_date]} />
+                </td>
               </tr>
             ))}
           </tbody>
@@ -442,9 +484,10 @@ interface ExpertDetailsSectionProps {
   transit: any;
   masterProb: any;
   timeline: any[];
+  saturnCrossRef?: SaturnCrossRef;
 }
 
-const ExpertDetailsSection: React.FC<ExpertDetailsSectionProps> = ({ synthesis, transit, masterProb, timeline }) => (
+const ExpertDetailsSection: React.FC<ExpertDetailsSectionProps> = ({ synthesis, transit, masterProb, timeline, saturnCrossRef }) => (
   <details className="group border border-gray-200 rounded-lg bg-gray-50">
     <summary className="flex items-center justify-between p-4 cursor-pointer bg-white border-b border-gray-200">
       <div className="flex items-center gap-3">
@@ -498,6 +541,7 @@ const ExpertDetailsSection: React.FC<ExpertDetailsSectionProps> = ({ synthesis, 
                 <th className="p-2">AD Str</th>
                 <th className="p-2">PD Str</th>
                 <th className="p-2">Act %</th>
+                <th className="p-2">Saturn Period</th>
               </tr>
             </thead>
             <tbody>
@@ -512,6 +556,9 @@ const ExpertDetailsSection: React.FC<ExpertDetailsSectionProps> = ({ synthesis, 
                   <td className="p-2">{Math.round(t.ad_planet_strength || 0)}%</td>
                   <td className="p-2">{Math.round(t.pd_planet_strength || 0)}%</td>
                   <td className="p-2 font-bold text-indigo-600">{Math.round(t.dasha_activation || 0)}%</td>
+                  <td className="p-2">
+                    <SaturnBadge periods={saturnCrossRef?.[t.start_date]} />
+                  </td>
                 </tr>
               ))}
             </tbody>

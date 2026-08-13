@@ -843,6 +843,7 @@
                                     <th>PD Str</th>
                                     <th>Activation %</th>
                                     <th>Grade</th>
+                                    <th>Saturn Period</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -856,6 +857,15 @@
                                     <td>{{ row.pd_strength }}%</td>
                                     <td><span class="badge">{{ row.activation_percentage }}%</span></td>
                                     <td>{{ row.grade }}</td>
+                                    <td>
+                                        {% if row.saturn_periods %}
+                                            {% for sp in row.saturn_periods %}
+                                            <span class="badge" style="background-color: #fee2e2; color: #991b1b; white-space: nowrap;">{{ sp.cycle }}{% if sp.phase and sp.phase != sp.cycle %} · {{ sp.phase }}{% endif %} · Mandali {{ sp.mandali_number }}</span>{% if not loop.last %}<br>{% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <span style="color: #cbd5e1;">—</span>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

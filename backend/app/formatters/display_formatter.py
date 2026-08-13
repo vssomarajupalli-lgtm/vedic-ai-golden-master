@@ -549,6 +549,13 @@ class DisplayFormatter:
         )
 
         # Timeline
+        # Phase 3D — MD/AD/PD ↔ Saturn cross-reference (backend-derived single
+        # source of truth). Attached per-row so the report template renders the
+        # same badges as the React timeline. Keys are ISO start_dates.
+        saturn_cross_ref = (
+            engine_outputs.get("dasha_saturn_cross_reference", {})
+            .get("rows", {})
+        )
         timeline_rows = []
         for item in timeline_raw:
             t_md = item.get("md", "unknown").capitalize()
@@ -577,7 +584,8 @@ class DisplayFormatter:
                 pd_strength=t_pd_str,
                 activation_percentage=t_act,
                 probability_percentage=t_prob,
-                grade=DisplayFormatter._map_display_grade(t_grade)
+                grade=DisplayFormatter._map_display_grade(t_grade),
+                saturn_periods=saturn_cross_ref.get(t_start_raw, [])
             ))
             
         timeline_rows.sort(key=lambda x: datetime.strptime(x.start_date, "%d %b %Y") if x.start_date != "Unknown" else datetime.min)

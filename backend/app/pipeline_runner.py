@@ -375,6 +375,23 @@ class PipelineRunner:
             )
             engine_outputs["mandali_gochar_report"] = asdict(mandali_gochar_report)
 
+            # Step 3.55: MD/AD/PD ↔ Saturn Gochar-Mandali cross-reference.
+            # Backend-derived single source of truth. Consumes only the existing
+            # Dasha timeline and the Mandali-resolved Saturn periods (no new
+            # astrology, no invented dates, no extended scan). Both the report
+            # template and the React timeline render this exact structure.
+            from app.builders.dasha_saturn_crossref import (
+                build_dasha_saturn_cross_reference,
+            )
+            engine_outputs["dasha_saturn_cross_reference"] = (
+                build_dasha_saturn_cross_reference(
+                    dasha_timeline=dasha_results.get("timeline", []),
+                    saturn_periods=engine_outputs["mandali_gochar_report"].get(
+                        "saturn_periods", {}
+                    ),
+                )
+            )
+
             # Step 3.6: Repair the data flow to the existing report layer.
             # DisplayFormatter.format_gochara_report reads engine_outputs["mandali"]
             # and transit metadata — populate them from the already calculated

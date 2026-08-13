@@ -144,6 +144,9 @@ class DashaTimelineRowDisplay(BaseModel):
     activation_percentage: int
     probability_percentage: int
     grade: str
+    # Phase 3D — MD/AD/PD ↔ Saturn Gochar-Mandali cross-reference badges.
+    # Backend-derived (single source of truth); presentation-only field.
+    saturn_periods: List[Dict[str, Any]] = Field(default_factory=list)
 
 class LifetimeIntelligenceDashboard(BaseModel):
     snapshot: LifetimeSnapshotDisplay
