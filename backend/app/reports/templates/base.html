@@ -1210,15 +1210,6 @@
                 </details>
                 {% endif %}
 
-                {% if advisory and advisory.elinati_shani and advisory.elinati_shani.cycles %}
-                <details class="subgroup" open>
-                    <summary>Elinati Shani</summary>
-                    <div class="subgroup-content">
-                        {{ macros.render_cycle_windows(advisory.elinati_shani.cycles, 'elinati_shani_windows') }}
-                    </div>
-                </details>
-                {% endif %}
-
                 {% if report.upcoming_mandali_events %}
                 <details class="subgroup" open>
                     <summary>Upcoming Events</summary>
@@ -1464,7 +1455,7 @@
                             {% if saturn.current_saturn.active_flags %} · <em>{{ saturn.current_saturn.active_flags | join(', ') }}</em>{% endif %}
                         </p>
                         {% endif %}
-                        {% for cycle_key, label in [('sade_sati', 'Sade Sati (12th / 1st / 2nd from Moon)'), ('ardha_ashtama', 'Ardha Ashtama Sani (4th from Moon)'), ('ashtama', 'Ashtama Sani (8th from Moon)'), ('elinati', 'Elinati Sani (8th from Moon)')] %}
+                        {% for cycle_key, label in [('sade_sati', 'Sade Sati (12th / 1st / 2nd from Moon)'), ('ardha_ashtama', 'Ardha Ashtama Sani (4th from Moon)'), ('ashtama', 'Ashtama Sani (8th from Moon)')] %}
                         {% set rows = saturn[cycle_key].current + saturn[cycle_key].upcoming %}
                         <h4 style="margin: 14px 0 6px 0;">{{ label }}</h4>
                         {% if rows %}

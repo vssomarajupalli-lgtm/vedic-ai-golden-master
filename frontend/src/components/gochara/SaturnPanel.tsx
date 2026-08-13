@@ -17,7 +17,7 @@ interface SaturnPanelProps {
  * Dedicated Saturn section for the Present Gochara Rāśi-Mandali report.
  *
  * Shows the Mandali-based Saturn special periods (Sade Sati, Ardha Ashtama,
- * Ashtama, Elinati) resolved through the actual Moon-centred Mandali grid, plus
+ * Ashtama) resolved through the actual Moon-centred Mandali grid, plus
  * Saturn's current Mandali position. The legacy Rāśi-based lifetime windows are
  * displayed separately and clearly labelled — the two calculation systems are
  * never silently merged.
@@ -94,7 +94,6 @@ const SaturnPanel: React.FC<SaturnPanelProps> = ({ data }) => {
         <SaturnCycleCard title="Sade Sati" subtitle="12th / 1st / 2nd from Moon" group={saturn.sade_sati} />
         <SaturnCycleCard title="Ardha Ashtama Sani" subtitle="4th from Moon" group={saturn.ardha_ashtama} />
         <SaturnCycleCard title="Ashtama Sani" subtitle="8th from Moon" group={saturn.ashtama} />
-        <SaturnCycleCard title="Elinati Sani" subtitle="8th from Moon" group={saturn.elinati} />
       </div>
 
       {/* Legacy Rāśi-based windows — kept separate and labelled */}
@@ -201,11 +200,10 @@ const LegacyWindows: React.FC<LegacyWindowsProps> = ({ legacy }) => {
           Universal Mandali Engine. Shown separately from the Mandali-resolved periods above.
         </p>
       )}
-      <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+      <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
         {(
           [
             ['sade_sati', legacy.sade_sati],
-            ['elinati_shani', legacy.elinati_shani],
             ['ashtama_shani', legacy.ashtama_shani],
           ] as Array<[string, LegacySaturnGroup | undefined]>
         ).map(([key, value]) => {

@@ -31,7 +31,6 @@ export const MandaliAnalysisSection: React.FC<MandaliAnalysisSectionProps> = ({
   const upcoming = advisory?.upcoming_mandali_events || [];
   const sadeSatiCycles = advisory?.sade_sati?.cycles || [];
   const ashtamaCycles = advisory?.ashtama_shani?.cycles || [];
-  const elinatiCycles = advisory?.elinati_shani?.cycles || [];
 
   const activationStrengthColor = (strength: string) => {
     switch (strength) {
@@ -160,14 +159,6 @@ export const MandaliAnalysisSection: React.FC<MandaliAnalysisSectionProps> = ({
         <section className="bg-white border border-slate-200 rounded-xl p-5">
           <h3 className="text-md font-semibold text-slate-900 mb-3">Ashtama Shani</h3>
           <CycleWindowList cycles={ashtamaCycles} windowKey="ashtama_shani_windows" />
-        </section>
-      )}
-
-      {/* Elinati Shani */}
-      {elinatiCycles.length > 0 && (
-        <section className="bg-white border border-slate-200 rounded-xl p-5">
-          <h3 className="text-md font-semibold text-slate-900 mb-3">Elinati Shani</h3>
-          <CycleWindowList cycles={elinatiCycles} windowKey="elinati_shani_windows" />
         </section>
       )}
 
