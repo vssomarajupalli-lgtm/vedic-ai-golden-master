@@ -24,8 +24,9 @@ SECTION_TO_REPORT_KEYS = {
     "horoscope-summary": ["client_profile", "executive_summary", "lifetime_intelligence"],
     "questions": ["question_responses"],
     "activation-timeline": ["lifetime_intelligence"],
-    "gochara": ["gochara_report", "mandali_analysis", "important_advisory",
-                "upcoming_mandali_events", "current_mandali", "formula_verification"],
+    "gochara": ["gochara_report", "mandali_analysis", "mandali_gochar_report",
+                "important_advisory", "upcoming_mandali_events", "current_mandali",
+                "formula_verification"],
     "appendix": ["formula_verification"],
 }
 # Keys always retained so the document shell never loses required layout data.

@@ -40,6 +40,7 @@ class ReportBuilder:
             mandali_analysis = mandali_dto or {}
 
         mandali_advisory = engine_outputs.get("mandali_advisory", {}) or {}
+        mandali_gochar_report = engine_outputs.get("mandali_gochar_report", {}) or {}
 
         report = {
             "metadata": {
@@ -63,6 +64,7 @@ class ReportBuilder:
                 "grade": master_prob.get("grade"),
             },
             "mandali_analysis": mandali_analysis,
+            "mandali_gochar_report": mandali_gochar_report,
             "natal_promise": engine_outputs.get("natal_promise", {}),
             "dasha_periods": engine_outputs.get("dashas", {}),
             "active_yogas": engine_outputs.get("yogas", {}).get("active_yogas", []),

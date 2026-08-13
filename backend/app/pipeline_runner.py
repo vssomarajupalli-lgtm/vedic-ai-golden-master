@@ -36,6 +36,7 @@ from app.config.astrology_constants import (
 from app.builders.mandali_chart_layout_builder import MandaliChartLayoutBuilder
 from app.builders.transition_summary_builder import TransitionSummaryBuilder
 from app.builders.mandali_placement_factory import MandaliPlacementFactory
+from app.builders.mandali_gochar_builder import MandaliGocharBuilder
 
 
 class PipelineRunner:
@@ -66,6 +67,10 @@ class PipelineRunner:
         self.chart_layout_builder = MandaliChartLayoutBuilder()
         self.transition_summary_builder = TransitionSummaryBuilder(self.universal_mandali_engine._ref_data)
         self.mandali_placement_factory = MandaliPlacementFactory()
+        self.mandali_gochar_builder = MandaliGocharBuilder(
+            ref_data=self.universal_mandali_engine._ref_data,
+            adapter=self.mandali_transit_adapter,
+        )
 
     def _resolve_target_date_utc(self, metadata: dict, default_utc=None) -> "datetime.datetime":
         """
@@ -356,6 +361,28 @@ class PipelineRunner:
             )
             engine_outputs["mandali_response_dto"] = asdict(mandali_response_dto) # New DTO for new consumers
 
+            # Step 3.5: Rasi-Mandali Gochar report (Present Gochar chart with 9
+            # Nakshatra-Pada positions per Rasi box, Mandali periods, Saturn
+            # special periods via the actual Mandali resolver, and the
+            # Report A / Report B side-by-side comparison). Uses only existing
+            # owners: the adapter's ephemeris scans + the Mandali grid.
+            advisory_dict = asdict(mandali_advisory)
+            mandali_gochar_report = self.mandali_gochar_builder.build(
+                current_transit=canonical_json["current_transit"],
+                mandali_grid=mandali_advisory.mandali_grid,
+                target_date_utc=target_date_utc,
+                advisory=advisory_dict,
+            )
+            engine_outputs["mandali_gochar_report"] = asdict(mandali_gochar_report)
+
+            # Step 3.6: Repair the data flow to the existing report layer.
+            # DisplayFormatter.format_gochara_report reads engine_outputs["mandali"]
+            # and transit metadata — populate them from the already calculated
+            # Mandali result (no recalculation).
+            engine_outputs["mandali"] = self._build_mandali_report_block(
+                mandali_advisory, current_placements
+            )
+
             # Prepare transit_payload for TransitEngine
             transit_payload = {"planets": {}}
             for placement in current_placements:
@@ -374,6 +401,21 @@ class PipelineRunner:
                 # mandali_results no longer passed; transit_payload already carries
                 # mandali-based house numbers from current_placements (legacy fallback path)
             )
+
+            # Report A data flow: the formatter reads transit metadata +
+            # activated_planets/houses from the TransitEngine output.
+            # target_date is serialized at day-granularity (%Y-%m-%d) matching the
+            # DashaEngine convention — the pipeline contract keeps engine_outputs
+            # free of wall-clock microsecond timestamps so identical input
+            # produces identical output.
+            transit_results.setdefault("metadata", {})["target_date"] = (
+                target_date_utc.strftime('%Y-%m-%d') if target_date_utc else ""
+            )
+            t_houses_report = transit_results.get("transit_houses", {})
+            transit_results["activated_planets"] = list(t_houses_report.keys())
+            transit_results["activated_houses"] = [
+                int(h) for h in t_houses_report.values() if isinstance(h, (int, float))
+            ]
 
         if not transit_results: # If no canonical_json or transit_results not set
             transit_results = self.transit_engine._stub_result()
@@ -455,6 +497,67 @@ class PipelineRunner:
             temporal["timing_multiplier"]      = adj_mult
             temporal["base_timing_multiplier"] = base_mult
             temporal["bav_multiplier"]         = bav_mult
+
+    # -------------------------------------------------------------------------
+    # Step 3.6 — Mandali report block (data-flow repair for the report layer)
+    # -------------------------------------------------------------------------
+
+    def _build_mandali_report_block(
+        self,
+        mandali_advisory,
+        current_placements,
+    ) -> dict:
+        """
+        Composes the `engine_outputs["mandali"]` block consumed by
+        DisplayFormatter.format_gochara_report. Pure composition of data the
+        UniversalMandaliEngine and MandaliPlacementFactory already produced —
+        no recalculation. This repairs the data flow so the already-calculated
+        Mandali result reaches the existing GocharaReport layer.
+        """
+        t_houses = {}
+        for p in current_placements:
+            t_houses[p.planet.lower()] = p.mandali["number"]
+
+        sat_house = t_houses.get("saturn", 0)
+        sade_sati_status = "Not Active"
+        sade_sati_phase = "N/A"
+        if sat_house == 12:
+            sade_sati_status = "Active"
+            sade_sati_phase = "Rising (Mandali 12)"
+        elif sat_house == 1:
+            sade_sati_status = "Active"
+            sade_sati_phase = "Peak (Mandali 1)"
+        elif sat_house == 2:
+            sade_sati_status = "Active"
+            sade_sati_phase = "Setting (Mandali 2)"
+
+        cm = mandali_advisory.current_mandali
+        ref = mandali_advisory.reference_moon
+        occupied = sorted(set(t_houses.values()))
+        zone_names = {
+            1: "Moon Mandali", 2: "Wealth", 3: "Siblings", 4: "Home",
+            5: "Children", 6: "Health", 7: "Marriage",
+            8: "Longevity/Transformation", 9: "Fortune", 10: "Career",
+            11: "Gains", 12: "Moksha/Isolation",
+        }
+
+        return {
+            "current_mandali": cm.name,
+            "reference_moon": f"{ref.rasi} {ref.nakshatra} Pada {ref.pada}",
+            "mandali_number": cm.number,
+            "mandali_boundaries": (
+                "Moon-centered: 12 Mandalis of 9 Nakshatra-Pada positions each "
+                "(108 padas total). Mandali 1 is centered on the natal Moon."
+            ),
+            "sade_sati_status": sade_sati_status,
+            "sade_sati_phase": sade_sati_phase,
+            "transit_houses": t_houses,
+            "activated_zones": [str(z) for z in occupied],
+            "activated_bhavas": [int(z) for z in occupied],
+            "activated_planets": [p.planet.lower() for p in current_placements],
+            "zone_names": zone_names,
+            "score": 0,
+        }
 
     # -------------------------------------------------------------------------
     # Question Orchestration (DR-007 Fix)

@@ -181,21 +181,19 @@ class MandaliTransitAdapter:
         key = f"{planet}_h{house_from_moon}"
         return interpretations.get(key, f"{planet.capitalize()} transiting house {house_from_moon} from Moon")
 
-    def _calculate_transit_dates(self, planet: str, grid, target_date: datetime) -> tuple:
-        """Calculate the actual entry/exit dates and the next Mandali for a planet.
+    def calculate_transit_datetimes(self, planet: str, grid, target_date: datetime) -> tuple:
+        """Return (entry_dt, exit_dt, next_mandali) for the planet's current
+        Mandali arc as UTC datetimes, or (None, None, None) when unresolvable.
 
-        The dates are the moments the planet's sidereal longitude crossed into
-        and out of its current Mandali arc, scanned from the ephemeris in both
-        time directions. The next Mandali is the Mandali the planet actually
-        enters at the exit crossing (determined by the real crossing, not a
-        fixed 'current + 1'). No placeholder arithmetic is used: when a crossing
-        cannot be resolved the dates are reported as '—' and next Mandali as
-        None rather than fabricating values.
+        The entry/exit instants are the moments the planet's sidereal longitude
+        crossed into and out of its current Mandali arc, scanned from the
+        ephemeris in both time directions. `next_mandali` is the Mandali the
+        planet actually enters at the exit crossing (retrograde-aware).
         """
         try:
             target_mandali = self._mandali_at(planet, grid, target_date)
         except Exception:
-            return "—", "—", None
+            return None, None, None
 
         # Entry: most recent past transition INTO the current Mandali.
         entry = self._find_transition(
@@ -207,12 +205,197 @@ class MandaliTransitAdapter:
         )
 
         if entry is None or exit_ is None:
-            return "—", "—", None
+            return None, None, None
 
         entry_dt, _ = entry
         exit_dt, next_mandali = exit_
+        return entry_dt, exit_dt, next_mandali
+
+    def _calculate_transit_dates(self, planet: str, grid, target_date: datetime) -> tuple:
+        """Calculate the actual entry/exit dates and the next Mandali for a planet.
+
+        The dates are the moments the planet's sidereal longitude crossed into
+        and out of its current Mandali arc, scanned from the ephemeris in both
+        time directions. The next Mandali is the Mandali the planet actually
+        enters at the exit crossing (determined by the real crossing, not a
+        fixed 'current + 1'). No placeholder arithmetic is used: when a crossing
+        cannot be resolved the dates are reported as '—' and next Mandali as
+        None rather than fabricating values.
+        """
+        entry_dt, exit_dt, next_mandali = self.calculate_transit_datetimes(
+            planet, grid, target_date
+        )
+        if entry_dt is None or exit_dt is None:
+            return "—", "—", None
+
         fmt = "%d.%m.%Y"
         return entry_dt.strftime(fmt), exit_dt.strftime(fmt), next_mandali
+
+    # -------------------------------------------------------------------------
+    # Rasi-based period resolution (Report A — regular gochar side-by-side)
+    # -------------------------------------------------------------------------
+
+    def find_rasi_period(self, planet: str, target_date: datetime) -> tuple:
+        """Return (entry_dt, exit_dt, next_rasi, current_rasi) for the planet's
+        current zodiac Rasi period.
+
+        `next_rasi` is the Rasi actually entered at the exit crossing (for a
+        retrograde planet this is the previous Rasi). Datetimes are UTC or None
+        when unresolvable; Rasi indices are 0-11 in zodiacal order.
+        """
+        try:
+            target_rasi = self._rasi_at(planet, target_date)
+        except Exception:
+            return None, None, None, None
+
+        entry = self._find_rasi_transition(
+            planet, target_rasi, target_date, look_backward=True
+        )
+        exit_ = self._find_rasi_transition(
+            planet, target_rasi, target_date, look_backward=False
+        )
+
+        if entry is None or exit_ is None:
+            return None, None, None, target_rasi
+
+        entry_dt, _ = entry
+        exit_dt, next_rasi = exit_
+        return entry_dt, exit_dt, next_rasi, target_rasi
+
+    def _rasi_at(self, planet: str, date: datetime) -> int:
+        """Return the Rasi index (0-11) of a planet at a UTC datetime."""
+        longitude = self._ephemeris.get_longitude(planet, date)
+        return int((longitude % 360.0) // 30)
+
+    def _find_rasi_transition(
+        self,
+        planet: str,
+        target_rasi: int,
+        target_date: datetime,
+        look_backward: bool,
+    ) -> tuple | None:
+        """Find the UTC instant of the nearest Rasi boundary crossing.
+
+        Returns (crossing_instant, rasi_entered_at_crossing), or None when not
+        found within the scan window.
+        """
+        step = timedelta(days=1)
+        day = 1
+        while day <= _TRANSIT_SCAN_MAX_DAYS:
+            t_outer = target_date - step * day if look_backward else target_date + step * (day - 1)
+            t_inner = t_outer + step
+            r_outer = self._rasi_at(planet, t_outer)
+            r_inner = self._rasi_at(planet, t_inner)
+            if r_outer != r_inner:
+                target_value = r_inner == target_rasi
+                crossing = self._bisect_rasi(planet, target_rasi, t_outer, t_inner, target_value)
+                return crossing, r_inner
+            day += 1
+        return None
+
+    def _bisect_rasi(
+        self,
+        planet: str,
+        target_rasi: int,
+        lo: datetime,
+        hi: datetime,
+        target_value: bool,
+    ) -> datetime:
+        """Bisect to the instant where (rasi == target_rasi) flips."""
+        for _ in range(45):
+            mid = lo + (hi - lo) / 2
+            if (self._rasi_at(planet, mid) == target_rasi) == target_value:
+                hi = mid
+            else:
+                lo = mid
+        return hi
+
+    # -------------------------------------------------------------------------
+    # Targeted Mandali window scans (Saturn special periods via actual resolver)
+    # -------------------------------------------------------------------------
+
+    def find_next_entry(self, planet: str, grid, target_mandali: int, from_date: datetime) -> datetime | None:
+        """Return the next UTC instant the planet enters `target_mandali`, or
+        None when no such crossing occurs within the scan window."""
+        step = timedelta(days=1)
+        try:
+            prev = self._mandali_at(planet, grid, from_date)
+        except Exception:
+            return None
+
+        day = 1
+        while day <= _TRANSIT_SCAN_MAX_DAYS:
+            t = from_date + step * day
+            try:
+                cur = self._mandali_at(planet, grid, t)
+            except Exception:
+                return None
+            if cur == target_mandali and prev != target_mandali:
+                return self._bisect_mandali_predicate(
+                    planet, grid, target_mandali, t - step, t, post_crossing_target=True
+                )
+            prev = cur
+            day += 1
+        return None
+
+    def find_next_exit(self, planet: str, grid, target_mandali: int, from_date: datetime) -> tuple | None:
+        """Return (crossing_instant, mandali_entered) for the next exit OUT of
+        `target_mandali`, or None when no such crossing occurs within the scan
+        window."""
+        step = timedelta(days=1)
+        try:
+            prev = self._mandali_at(planet, grid, from_date)
+        except Exception:
+            return None
+
+        day = 1
+        while day <= _TRANSIT_SCAN_MAX_DAYS:
+            t = from_date + step * day
+            try:
+                cur = self._mandali_at(planet, grid, t)
+            except Exception:
+                return None
+            if prev == target_mandali and cur != target_mandali:
+                crossing = self._bisect_mandali_predicate(
+                    planet, grid, target_mandali, t - step, t, post_crossing_target=False
+                )
+                return crossing, cur
+            prev = cur
+            day += 1
+        return None
+
+    def _bisect_mandali_predicate(
+        self,
+        planet: str,
+        grid,
+        target_mandali: int,
+        lo: datetime,
+        hi: datetime,
+        post_crossing_target: bool,
+    ) -> datetime:
+        """Bisect to the instant where (mandali == target_mandali) flips.
+
+        `post_crossing_target=True` resolves an entry INTO the target; False
+        resolves an exit OUT of the target."""
+        for _ in range(45):
+            mid = lo + (hi - lo) / 2
+            if (self._mandali_at(planet, grid, mid) == target_mandali) == post_crossing_target:
+                hi = mid
+            else:
+                lo = mid
+        return hi
+
+    def get_transit_pada(self, planet: str, date: datetime) -> tuple | None:
+        """Resolve a planet's (Nakshatra, Pada) at a UTC datetime via the
+        existing longitude -> absolute pada -> reference-data chain."""
+        try:
+            longitude = self._ephemeris.get_longitude(planet, date)
+        except Exception:
+            return None
+        if longitude is None:
+            return None
+        absolute_pada = MandaliGenerator.get_absolute_pada(longitude)
+        return self._ref_data.get_nakshatra_pada(absolute_pada)
 
     def _mandali_at(self, planet: str, grid, date: datetime) -> int:
         """Return the Mandali number containing the planet at a given UTC datetime."""

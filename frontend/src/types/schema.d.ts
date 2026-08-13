@@ -123,6 +123,8 @@ export interface FinalReportSchema {
     };
     // Mandali integration — populated by ReportBuilder from the backend MandaliResponseDTO
     mandali_analysis?: import('./mandali').MandaliAnalysisDTO;
+    // Present Gochara Rāśi-Mandali report (Report B) — populated by ReportBuilder.
+    mandali_gochar_report?: import('./mandali').MandaliGocharReport;
 }
 
 
@@ -136,6 +138,7 @@ export interface ChartProcessResponse {
     engine_outputs?: {
         mandali_advisory?: import('./mandali').MandaliAdvisoryDTO;
         transit?: Record<string, any>;
+        mandali_gochar_report?: import('./mandali').MandaliGocharReport;
         [key: string]: any;
     };
     target_date_utc?: string;
