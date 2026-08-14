@@ -92,8 +92,8 @@ const SaturnPanel: React.FC<SaturnPanelProps> = ({ data }) => {
       {/* Mandali-based windows for each cycle */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <SaturnCycleCard title="Sade Sati" subtitle="12th / 1st / 2nd from Moon" group={saturn.sade_sati} />
-        <SaturnCycleCard title="Ardha Ashtama Sani" subtitle="4th from Moon" group={saturn.ardha_ashtama} />
-        <SaturnCycleCard title="Ashtama Sani" subtitle="8th from Moon" group={saturn.ashtama} />
+        <SaturnCycleCard title="Ardha Ashtama Shani" subtitle="4th from Moon" group={saturn.ardha_ashtama} />
+        <SaturnCycleCard title="Ashtama Shani" subtitle="8th from Moon" group={saturn.ashtama} />
       </div>
 
       {/* Legacy Rāśi-based windows — kept separate and labelled */}

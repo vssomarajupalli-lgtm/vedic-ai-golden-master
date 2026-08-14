@@ -76,14 +76,31 @@
 {% endmacro %}
 
 {% macro render_status_dot(score_or_grade) %}
-{% set val = score_or_grade|string|lower %}
-{% if val in ['strong', 'good', 'excellent', 'favorable'] or (val|int(-1) >= 60 and val|int(-1) != -1) %}
+{# Robust classifier for numeric scores (e.g. 72) and formatted grades
+   (e.g. "48% (Weak)" / "70% (Good)"). Detects the authoritative grade word
+   when present; otherwise bands the numeric percentage using the same
+   PROBABILITY_GRADES thresholds used by the backend (80/65/50/35). #}
+{% set s = ((score_or_grade|string) if score_or_grade is defined else '')|lower %}
+{% if 'excellent' in s or 'very good' in s or 'favorable' in s or 'good' in s or 'strong' in s %}
 <span class="status-dot status-strong" title="Strong"></span>
-{% elif val in ['moderate', 'average', 'neutral', 'informational'] or (val|int(-1) >= 40 and val|int(-1) != -1) %}
+{% elif 'moderate' in s or 'average' in s or 'neutral' in s %}
 <span class="status-dot status-moderate" title="Moderate"></span>
-{% elif val in ['weak', 'too weak', 'bad', 'poor', 'unfavorable'] or (val|int(-1) >= 0 and val|int(-1) != -1) %}
+{% elif 'weak' in s or 'poor' in s or 'bad' in s or 'unfavorable' in s %}
 <span class="status-dot status-weak" title="Weak"></span>
-{% else %}
+{% elif 'informational' in s or 'unknown' in s %}
 <span class="status-dot status-info" title="Info"></span>
+{% else %}
+{# No grade word: band the leading numeric percentage using PROBABILITY_GRADES. #}
+{% set num_part = s.split('%')[0].split('(')[0].strip() %}
+{% set val = num_part|int(-1) %}
+{% if val == -1 %}
+<span class="status-dot status-info" title="Info"></span>
+{% elif val >= 65 %}
+<span class="status-dot status-strong" title="Strong"></span>
+{% elif val >= 35 %}
+<span class="status-dot status-moderate" title="Moderate"></span>
+{% else %}
+<span class="status-dot status-weak" title="Weak"></span>
+{% endif %}
 {% endif %}
 {% endmacro %}

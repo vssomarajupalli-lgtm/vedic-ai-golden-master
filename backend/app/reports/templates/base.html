@@ -434,9 +434,10 @@
                     <li><a href="#sec-houses">► Bhava Intelligence</a></li>
                     <li><a href="#sec-yogas">► Yogas & Doshas</a></li>
                     <li><a href="#sec-dasha">► Dasha Analysis</a></li>
-                    <li><a href="#sec-gochara">► Gochara Analysis</a></li>
-                    <li><a href="#sec-gochara-mandali-report">► Rāśi-Mandali Gochar (Report B)</a></li>
                     <li><a href="#sec-questions">► Question Engine</a></li>
+                    <li><a href="#sec-gochara">► Gochara Analysis</a></li>
+                    <li><a href="#sec-gochara-mandali">► Gochara & Mandali Analysis</a></li>
+                    <li><a href="#sec-gochara-mandali-report">► Rāśi-Mandali Gochar (Report B)</a></li>
                     <li><a href="#sec-final">► Final Recommendations</a></li>
                 </ul>
             </div>
@@ -1465,7 +1466,7 @@
                             {% if saturn.current_saturn.active_flags %} · <em>{{ saturn.current_saturn.active_flags | join(', ') }}</em>{% endif %}
                         </p>
                         {% endif %}
-                        {% for cycle_key, label in [('sade_sati', 'Sade Sati (12th / 1st / 2nd from Moon)'), ('ardha_ashtama', 'Ardha Ashtama Sani (4th from Moon)'), ('ashtama', 'Ashtama Sani (8th from Moon)')] %}
+                        {% for cycle_key, label in [('sade_sati', 'Sade Sati (12th / 1st / 2nd from Moon)'), ('ardha_ashtama', 'Ardha Ashtama Shani (4th from Moon)'), ('ashtama', 'Ashtama Shani (8th from Moon)')] %}
                         {% set rows = saturn[cycle_key].current + saturn[cycle_key].upcoming %}
                         <h4 style="margin: 14px 0 6px 0;">{{ label }}</h4>
                         {% if rows %}

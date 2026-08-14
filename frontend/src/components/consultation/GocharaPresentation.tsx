@@ -27,6 +27,9 @@ export const GocharaPresentation: React.FC<GocharaPresentationProps> = ({
     const houses = rawOutputs.breakdown.engine_outputs.houses || {};
     const dashas = rawOutputs.breakdown.engine_outputs.dashas?.synthesis || {};
     const natalPromise = rawOutputs.breakdown.engine_outputs.natal_promise || {};
+    // R-5: prefer the backend Mandali-resolver Saturn periods when present.
+    const saturnPeriods =
+      rawOutputs?.breakdown?.engine_outputs?.mandali_gochar_report?.saturn_periods || null;
     
     return {
       transit,
@@ -34,6 +37,7 @@ export const GocharaPresentation: React.FC<GocharaPresentationProps> = ({
       houses,
       dashas,
       natalPromise,
+      saturnPeriods,
       currentTransits: buildCurrentTransits(transit, planets, dashas),
       mandaliPositions: buildMandaliPositions(transit),
       affectedDomains: buildAffectedDomains(transit, natalPromise),
@@ -61,6 +65,7 @@ export const GocharaPresentation: React.FC<GocharaPresentationProps> = ({
     planets, 
     dashas, 
     natalPromise,
+    saturnPeriods,
     currentTransits, 
     mandaliPositions,
     affectedDomains,
@@ -113,6 +118,7 @@ export const GocharaPresentation: React.FC<GocharaPresentationProps> = ({
         <SaturnTransitCycles 
           transit={transit} 
           planets={planets} 
+          saturnPeriods={saturnPeriods}
           mode={mode}
         />
 
@@ -663,11 +669,20 @@ const MandaliGridView: React.FC<{ currentTransits: any[] }> = ({ currentTransits
 );
 
 // SECTION B: SATURN TRANSIT CYCLES
-const SaturnTransitCycles: React.FC<{ transit: any; planets: any; mode: string }> = ({ transit, planets, mode }) => {
+const SaturnTransitCycles: React.FC<{ transit: any; planets: any; saturnPeriods?: any; mode: string }> = ({ transit, planets, saturnPeriods, mode }) => {
+  // R-5: prefer the backend Mandali-resolver Saturn periods. The resolver is the
+  // single source of truth for Sade Sati (12/1/2), Ardha Ashtama Shani (4) and
+  // Ashtama Shani (8). Client-side builders are used ONLY as a degraded fallback
+  // when no resolver data is present — no new Saturn calculations are created.
+  const resolverAvailable = !!saturnPeriods && !!saturnPeriods.sade_sati;
   const sadeSati = buildSadeSati(transit, planets);
   const ashtamaShani = buildAshtamaShani(transit, planets);
   const ardhaAshtamaShani = buildArdhaAshtamaShani(transit, planets);
-  
+
+  const resolverRows = (group: any): any[] => [
+    ...(group?.current || []),
+    ...(group?.upcoming || []),
+  ];
   return (
     <SectionCard title="Major Saturn Transit Cycles" icon={Saturn} color="amber">
       <div className="space-y-4">
@@ -676,44 +691,59 @@ const SaturnTransitCycles: React.FC<{ transit: any; planets: any; mode: string }
           <div className="flex items-center justify-between mb-4">
             <h4 className="font-bold text-gray-900 flex items-center gap-2">
               <Saturn className="w-5 h-5 text-orange-600" />
-              Sade Sati (Elinati Shani)
+              Sade Sati
             </h4>
-            <span className={`px-3 py-1 rounded-full text-xs font-bold ${sadeSati.is_active ? 'bg-amber-100 text-amber-800' : 'bg-gray-100 text-gray-600'}`}>
-              {sadeSati.is_active ? 'ACTIVE' : 'INACTIVE'}
-            </span>
+            {resolverAvailable ? (
+              <span className="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700">
+                MANDALI RESOLVER
+              </span>
+            ) : (
+              <span className={`px-3 py-1 rounded-full text-xs font-bold ${sadeSati.is_active ? 'bg-amber-100 text-amber-800' : 'bg-gray-100 text-gray-600'}`}>
+                {sadeSati.is_active ? 'ACTIVE' : 'INACTIVE'}
+              </span>
+            )}
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <PhaseCard 
-              title="Phase 1: 12th from Moon" 
-              phase={1}
-              active={sadeSati.current_phase === 1}
-              start={sadeSati.start_date}
-              end={sadeSati.end_date}
-              description="Saturn transiting 12th house from natal Moon. Beginning of 7.5-year cycle. Mental preparation, detachment, spiritual growth."
+
+          {resolverAvailable ? (
+            <SaturnResolverTable
+              rows={resolverRows(saturnPeriods.sade_sati)}
+              subtitle="12th / 1st / 2nd from Moon"
             />
-            <PhaseCard 
-              title="Phase 2: Janma Shani" 
-              phase={2}
-              active={sadeSati.current_phase === 2}
-              start={sadeSati.start_date}
-              end={sadeSati.end_date}
-              description="Saturn over natal Moon. Peak intensity. Major life restructuring, emotional pressure, karmic fruition."
-            />
-            <PhaseCard 
-              title="Phase 3: 2nd from Moon" 
-              phase={3}
-              active={sadeSati.current_phase === 3}
-              start={sadeSati.start_date}
-              end={sadeSati.end_date}
-              description="Saturn transiting 2nd house from Moon. Consolidation, financial pressure, family responsibilities, final lessons."
-            />
-          </div>
-          
-          {sadeSati.is_active && (
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-              <p className="text-amber-800 font-medium">Currently in Phase {sadeSati.current_phase} of Sade Sati.</p>
-            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <PhaseCard
+                  title="Phase 1: 12th from Moon"
+                  phase={1}
+                  active={sadeSati.current_phase === 1}
+                  start={sadeSati.start_date}
+                  end={sadeSati.end_date}
+                  description="Saturn transiting 12th house from natal Moon. Beginning of 7.5-year cycle. Mental preparation, detachment, spiritual growth."
+                />
+                <PhaseCard
+                  title="Phase 2: Janma Shani"
+                  phase={2}
+                  active={sadeSati.current_phase === 2}
+                  start={sadeSati.start_date}
+                  end={sadeSati.end_date}
+                  description="Saturn over natal Moon. Peak intensity. Major life restructuring, emotional pressure, karmic fruition."
+                />
+                <PhaseCard
+                  title="Phase 3: 2nd from Moon"
+                  phase={3}
+                  active={sadeSati.current_phase === 3}
+                  start={sadeSati.start_date}
+                  end={sadeSati.end_date}
+                  description="Saturn transiting 2nd house from Moon. Consolidation, financial pressure, family responsibilities, final lessons."
+                />
+              </div>
+
+              {sadeSati.is_active && (
+                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                  <p className="text-amber-800 font-medium">Currently in Phase {sadeSati.current_phase} of Sade Sati.</p>
+                </div>
+              )}
+            </>
           )}
         </div>
 
@@ -723,12 +753,19 @@ const SaturnTransitCycles: React.FC<{ transit: any; planets: any; mode: string }
             <Saturn className="w-5 h-5 text-purple-600" />
             Ashtama Shani (8th House Transit)
           </h4>
-          <p className="text-gray-600 mb-4">Saturn transiting the 8th house from Moon. Occurs every ~29.5 years. 3 occurrences per cycle.</p>
-          <div className="space-y-2">
-            <AshtamaOccurrence occurrence={1} />
-            <AshtamaOccurrence occurrence={2} />
-            <AshtamaOccurrence occurrence={3} />
-          </div>
+          <p className="text-gray-600 mb-4">Saturn transiting the 8th house from Moon. Occurs every ~29.5 years.</p>
+          {resolverAvailable && saturnPeriods.ashtama ? (
+            <SaturnResolverTable
+              rows={resolverRows(saturnPeriods.ashtama)}
+              subtitle="8th from Moon"
+            />
+          ) : (
+            <div className="space-y-2">
+              <AshtamaOccurrence occurrence={1} />
+              <AshtamaOccurrence occurrence={2} />
+              <AshtamaOccurrence occurrence={3} />
+            </div>
+          )}
         </div>
 
         {/* ARDHA ASHTAMA SHANI */}
@@ -738,11 +775,18 @@ const SaturnTransitCycles: React.FC<{ transit: any; planets: any; mode: string }
             Ardha Ashtama Shani (4th House Transit)
           </h4>
           <p className="text-gray-600 mb-4">Saturn transiting the 4th house from Moon. Home, mother, emotional foundation challenges.</p>
-          <div className="space-y-2">
-            <AshtamaOccurrence occurrence={1} title="Ardha Ashtama 1" />
-            <AshtamaOccurrence occurrence={2} title="Ardha Ashtama 2" />
-            <AshtamaOccurrence occurrence={3} title="Ardha Ashtama 3" />
-          </div>
+          {resolverAvailable && saturnPeriods.ardha_ashtama ? (
+            <SaturnResolverTable
+              rows={resolverRows(saturnPeriods.ardha_ashtama)}
+              subtitle="4th from Moon"
+            />
+          ) : (
+            <div className="space-y-2">
+              <AshtamaOccurrence occurrence={1} title="Ardha Ashtama 1" />
+              <AshtamaOccurrence occurrence={2} title="Ardha Ashtama 2" />
+              <AshtamaOccurrence occurrence={3} title="Ardha Ashtama 3" />
+            </div>
+          )}
         </div>
 
         {/* KANTAKA SHANI */}
@@ -757,6 +801,58 @@ const SaturnTransitCycles: React.FC<{ transit: any; planets: any; mode: string }
     </SectionCard>
   );
 };
+
+const SaturnResolverTable: React.FC<{ rows: any[]; subtitle: string }> = ({ rows, subtitle }) => {
+  if (!rows || rows.length === 0) {
+    return (
+      <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+        <p className="text-sm text-gray-500 mb-1">{subtitle}</p>
+        <p className="text-xs text-gray-400">No Mandali-resolved windows available.</p>
+      </div>
+    );
+  }
+  return (
+    <div className="overflow-x-auto">
+      <p className="text-xs text-slate-500 mb-2">{subtitle}</p>
+      <table className="min-w-full text-xs">
+        <thead>
+          <tr className="text-left text-[10px] uppercase tracking-wide text-slate-500 border-b border-slate-200">
+            <th className="py-1.5 pr-2">Phase</th>
+            <th className="py-1.5 pr-2">Mandali</th>
+            <th className="py-1.5 pr-2">Rāśi</th>
+            <th className="py-1.5 pr-2">Entry</th>
+            <th className="py-1.5 pr-2">Exit</th>
+            <th className="py-1.5">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr key={i} className="border-b border-slate-100">
+              <td className="py-1.5 pr-2 font-medium text-slate-800">{row.phase || '—'}</td>
+              <td className="py-1.5 pr-2 text-slate-600">{row.mandali_name || row.mandali_number}</td>
+              <td className="py-1.5 pr-2 text-slate-600">{row.rasi || '—'}</td>
+              {row.status === 'NOT_FOUND' ? (
+                <td colSpan={3} className="py-1.5 text-[10px] text-rose-600">
+                  Not found within the current governed scan range.
+                </td>
+              ) : (
+                <>
+                  <td className="py-1.5 pr-2 text-slate-600 whitespace-nowrap">{row.entry || '—'}</td>
+                  <td className="py-1.5 pr-2 text-slate-600 whitespace-nowrap">{row.exit || '—'}</td>
+                  <td className="py-1.5">
+                    <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-700">
+                      {row.status || '—'}
+                    </span>
+                  </td>
+                </>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
 
 const PhaseCard: React.FC<{ title: string; phase: number; active: boolean; start: string; end: string; description: string }> = ({ 
   title, phase, active, start, end, description 

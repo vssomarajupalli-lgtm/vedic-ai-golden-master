@@ -147,16 +147,32 @@ class PipelineRunner:
                 natal_moon_nakshatra = natal_moon_nakshatra or derived_nakshatra
                 natal_moon_pada = natal_moon_pada or derived_pada
 
-            # Get birth date from normalized metadata (fallback to a valid date for Mandali).
-            # The Mandali engine requires DD.MM.YYYY; the normalizer emits ISO YYYY-MM-DD.
+            # Get birth date from normalized metadata. The Mandali engine
+            # requires a valid DD.MM.YYYY birth date (governed input contract)
+            # to project lifetime Saturn windows. We NEVER fabricate a birth
+            # date for a horoscope that lacks one: without a valid DOB the
+            # lifetime projection cannot be computed, so the Mandali advisory
+            # is skipped and the report renders those sections as unavailable.
+            # This keeps the system horoscope-independent (no test fixture is
+            # ever substituted as a production fallback).
             birth_date = normalized_payload.get("metadata", {}).get("dob", "Unknown")
             if not birth_date or birth_date == "Unknown":
-                birth_date = "14.05.1980"  # Raju's birth date from test data
-            else:
+                raise ValueError(
+                    "Missing birth date in governed input contract; Mandali "
+                    "lifetime windows unavailable (no fabricated DOB)."
+                )
+            try:
+                birth_date = datetime.datetime.strptime(birth_date, "%Y-%m-%d").strftime("%d.%m.%Y")
+            except (ValueError, TypeError):
+                # Already in DD.MM.YYYY (or another accepted form). Guard against
+                # unparseable values so they never reach the engine as fake data.
                 try:
-                    birth_date = datetime.datetime.strptime(birth_date, "%Y-%m-%d").strftime("%d.%m.%Y")
+                    datetime.datetime.strptime(birth_date, "%d.%m.%Y")
                 except (ValueError, TypeError):
-                    pass  # Already in DD.MM.YYYY (or another accepted form)
+                    raise ValueError(
+                        f"Unparseable birth date {birth_date!r} in governed input "
+                        "contract; Mandali lifetime windows unavailable."
+                    )
 
             # Generate ephemeris snapshot for current transits
             ephemeris_snapshot = self.ephemeris_service.generate_transit_snapshot(target_date_utc)
@@ -324,8 +340,13 @@ class PipelineRunner:
         mandali_response_dto: MandaliResponseDTO | None = None
 
         if isinstance(canonical_json, dict) and "natal" in canonical_json and "current_transit" in canonical_json:
-            # Step 1: Get the rich internal data model from the engine
-            mandali_advisory = self.universal_mandali_engine.generate_mandali_advisory(canonical_json)
+            # Step 1: Get the rich internal data model from the engine.
+            # The governed target_date_utc is threaded into the advisory so the
+            # Upcoming Events filter uses one deterministic anchor (CGP-03) —
+            # never a fresh wall-clock reading.
+            mandali_advisory = self.universal_mandali_engine.generate_mandali_advisory(
+                canonical_json, target_date_utc=target_date_utc
+            )
             engine_outputs["mandali_advisory"] = asdict(mandali_advisory) # Keep for backward compatibility
 
             # Step 2: Create placement DTOs using the factory

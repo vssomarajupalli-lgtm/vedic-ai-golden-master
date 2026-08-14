@@ -1,5 +1,6 @@
 from typing import Dict, Any, List
 from datetime import datetime
+from app.config.astrology_constants import PROBABILITY_GRADES
 from app.schemas.question import (
     StructuredQuestionResult,
     ExecutiveSummaryDisplay,
@@ -38,20 +39,38 @@ class DisplayFormatter:
     
     @staticmethod
     def _map_display_grade(internal_grade: str) -> str:
+        # Single authoritative display mapping matched to the repository's
+        # PROBABILITY_GRADES vocabulary (see astrology_constants.py). The engine
+        # grades are EXCELLENT / VERY GOOD / GOOD / WEAK / TOO WEAK; the natal
+        # promise engine emits STRONG / MODERATE / WEAK / PRESENT which are
+        # mapped onto the same single display scale.
         mapping = {
             "PRESENT": "Very Weak",
             "WEAK": "Weak",
+            "TOO WEAK": "Too Weak",
             "MODERATE": "Moderate",
-            "STRONG": "Good",
+            "GOOD": "Good",
+            "VERY GOOD": "Very Good",
+            "STRONG": "Very Good",
             "EXCELLENT": "Excellent"
         }
         return mapping.get(internal_grade.upper(), internal_grade.capitalize())
+
+    @staticmethod
+    def _grade_from_score(score: float) -> str:
+        """Maps a 0-100 score to the authoritative PROBABILITY_GRADES label."""
+        for threshold, label in PROBABILITY_GRADES:
+            if score >= threshold:
+                return label
+        return "TOO WEAK"
 
     @staticmethod
     def format_percentage(score: float, grade_str: str = None) -> str:
         """
         Enforces Phase 16D Rule: 84% (Excellent).
         Never returns just 'Excellent' or just '84%'.
+        Percentage → grade inference uses the single authoritative
+        PROBABILITY_GRADES thresholds (no second grading scale).
         """
         try:
             val = round(float(score))
@@ -59,14 +78,9 @@ class DisplayFormatter:
             val = 50
             
         if not grade_str:
-            if val >= 80:
-                grade = "Excellent"
-            elif val >= 60:
-                grade = "Good"
-            elif val >= 40:
-                grade = "Moderate"
-            else:
-                grade = "Weak"
+            grade = DisplayFormatter._map_display_grade(
+                DisplayFormatter._grade_from_score(val)
+            )
         else:
             grade = DisplayFormatter._map_display_grade(grade_str)
             
@@ -451,7 +465,12 @@ class DisplayFormatter:
                 num = 0
             
             h_score = h_data.get("final_score", 50)
-            h_grade = DisplayFormatter._map_display_grade(h_data.get("strength_category", "MODERATE"))
+            # HouseStrengthEngine emits the authoritative `grade` key
+            # (PROBABILITY_GRADES label). Fall back to score-derived grade only
+            # if a raw engine grade is ever absent.
+            h_grade = DisplayFormatter._map_display_grade(
+                h_data.get("grade") or DisplayFormatter._grade_from_score(h_score)
+            )
             
             domain_name = house_domain_map.get(num, f"House {num}")
             
@@ -470,7 +489,12 @@ class DisplayFormatter:
         for p_key, p_data in planets.items():
             if p_key in ["ascendant", "lagna"]: continue
             p_score = p_data.get("final_score", 50)
-            p_grade = DisplayFormatter._map_display_grade(p_data.get("strength_category", "MODERATE"))
+            # PlanetStrengthEngine does not emit a grade; derive the display
+            # grade from the existing final_score using the authoritative
+            # PROBABILITY_GRADES mapping. No score/calculation change.
+            p_grade = DisplayFormatter._map_display_grade(
+                DisplayFormatter._grade_from_score(p_score)
+            )
             
             planet_list.append(PlanetIntelligenceDisplay(
                 planet_name=p_key.capitalize(),
@@ -534,7 +558,9 @@ class DisplayFormatter:
         ad_str = synthesis.get("ad_strength", 50.0)
         pd_str = synthesis.get("pd_strength", 50.0)
         act_score = synthesis.get("dasha_strength", 50.0)
-        act_grade = DisplayFormatter._map_display_grade("STRONG" if act_score >= 70 else "MODERATE")
+        act_grade = DisplayFormatter._map_display_grade(
+            DisplayFormatter._grade_from_score(act_score)
+        )
         
         dasha_status = CurrentDashaStatusDisplay(
             current_md=current_md,

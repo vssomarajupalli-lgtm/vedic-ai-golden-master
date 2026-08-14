@@ -235,6 +235,7 @@ class UniversalMandaliEngine:
     def generate_mandali_advisory(
         self,
         canonical_json: Dict[str, Any],
+        target_date_utc: Optional[datetime] = None,
     ) -> MandaliAdvisory:
         """
         Generate the complete mandali_advisory from Canonical JSON.
@@ -262,6 +263,12 @@ class UniversalMandaliEngine:
                         }
                     ]
                 }
+            target_date_utc: Governed consultation/target date used as the
+                anchor for the Upcoming Events filter. Passing the pipeline's
+                target_date_utc keeps the output deterministic (CGP-03). When
+                None, the engine falls back to the current UTC instant as a
+                documented last resort — callers that require determinism must
+                always pass the governed date.
         
         Returns:
             MandaliAdvisory: Complete advisory object per Section 12 schema
@@ -347,6 +354,7 @@ class UniversalMandaliEngine:
             lifetime_projection=lifetime_projection,
             birth_position=birth_position,
             current_transit=current_transit,
+            target_date_utc=target_date_utc,
         )
         
         return advisory
@@ -408,6 +416,7 @@ class UniversalMandaliEngine:
         lifetime_projection: LifetimeCycleProjection,
         birth_position: BirthPositionDetection,
         current_transit: List[Dict[str, Any]],
+        target_date_utc: Optional[datetime] = None,
     ) -> MandaliAdvisory:
         """Compose the final mandali_advisory from all capability outputs."""
         
@@ -478,7 +487,9 @@ class UniversalMandaliEngine:
         )
         
         # ---- Upcoming Events ----
-        upcoming_events = self._generate_upcoming_events(lifetime_projection)
+        upcoming_events = self._generate_upcoming_events(
+            projection=lifetime_projection, target_date_utc=target_date_utc
+        )
         
         return MandaliAdvisory(
             schema_version="1.0",
@@ -750,11 +761,31 @@ class UniversalMandaliEngine:
         
         return statements
     
-    def _generate_upcoming_events(self, projection: LifetimeCycleProjection) -> List[Dict[str, Any]]:
-        """Generate upcoming mandali events from projection."""
+    def _generate_upcoming_events(
+        self,
+        projection: LifetimeCycleProjection,
+        target_date_utc: Optional[datetime] = None,
+    ) -> List[Dict[str, Any]]:
+        """
+        Generate upcoming mandali events from projection.
+
+        CGP-03 determinism: the event window filter is anchored on the governed
+        consultation/target date passed from the pipeline. When no governed date
+        is supplied, the current UTC instant is used as an explicitly documented
+        last-resort fallback (callers requiring determinism must always pass the
+        governed date).
+
+        R-7: Elinati Shani and Ashtama Shani both resolve to the 8th from Moon
+        (LCP-08/LCP-09), so only the canonical Ashtama Shani event is emitted.
+        A duplicate Elinati event is never produced.
+        """
         events = []
-        today = datetime.now()
-        
+        # Governed anchor: strip tz so comparison with naive DD.MM.YYYY windows works.
+        if target_date_utc is not None:
+            today = target_date_utc.replace(tzinfo=None)
+        else:
+            today = datetime.now()
+
         for cycle in projection.cycles:
             for w in cycle.sade_sati_windows:
                 start = datetime.strptime(w.start_date, "%d.%m.%Y")
@@ -764,16 +795,9 @@ class UniversalMandaliEngine:
                         "date": w.start_date,
                         "mandali": w.mandali,
                     })
-            
-            for w in cycle.elinati_shani_windows:
-                start = datetime.strptime(w.start_date, "%d.%m.%Y")
-                if start >= today:
-                    events.append({
-                        "event": f"Elinati Shani begins",
-                        "date": w.start_date,
-                        "mandali": w.mandali,
-                    })
-            
+
+            # Ashtama Shani window (Mandali 8). Elinati Shani is the same
+            # Mandali-8 period under an alternative name — emit once only.
             for w in cycle.ashtama_shani_windows:
                 start = datetime.strptime(w.start_date, "%d.%m.%Y")
                 if start >= today:
@@ -782,7 +806,7 @@ class UniversalMandaliEngine:
                         "date": w.start_date,
                         "mandali": w.mandali,
                     })
-        
+
         # Sort by date and limit
         events.sort(key=lambda e: e["date"])
         return events[:10]
@@ -792,15 +816,19 @@ class UniversalMandaliEngine:
 # Convenience Function
 # -----------------------------------------------------------------------------
 
-def generate_mandali_advisory(canonical_json: Dict[str, Any]) -> MandaliAdvisory:
+def generate_mandali_advisory(
+    canonical_json: Dict[str, Any], target_date_utc: Optional[datetime] = None
+) -> MandaliAdvisory:
     """
     Convenience function to generate mandali_advisory from Canonical JSON.
     
     Args:
         canonical_json: Canonical JSON input
+        target_date_utc: Governed consultation/target date for deterministic
+            Upcoming Events filtering (see UniversalMandaliEngine docstring).
         
     Returns:
         MandaliAdvisory object
     """
     engine = UniversalMandaliEngine()
-    return engine.generate_mandali_advisory(canonical_json)
+    return engine.generate_mandali_advisory(canonical_json, target_date_utc=target_date_utc)
