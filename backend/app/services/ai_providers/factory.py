@@ -12,7 +12,6 @@ from typing import Any, Dict, List, Optional
 from uuid import uuid4
 
 import httpx
-from openai import AsyncOpenAI
 
 from app.services.ai_providers import (
     AIProvider,
@@ -42,7 +41,12 @@ class OpenAIProvider:
     def __init__(self, config: "ProviderConfig"):
         from app.services.ai_providers import ProviderConfig, ProviderStatus, ProviderType
         from app.services.ai_providers import AIProvider, ProviderStatus
-        
+
+        # Lazy import: the OpenAI SDK is required only when the OpenAI provider
+        # is actually instantiated. App import must not require the SDK when the
+        # default provider is MockProvider.
+        from openai import AsyncOpenAI
+
         self.config = config
         self._status = ProviderStatus.HEALTHY
         self._circuit_breaker_failures = 0

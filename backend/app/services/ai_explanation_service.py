@@ -356,6 +356,7 @@ class AIExplanationService:
                 "citations": validated_response["citations"],
                 "evidence_summary": validated_response["evidence_summary"],
                 "confidence": validated_response["confidence"],
+                "deterministic_trace": validated_response.get("deterministic_trace", ""),
                 "metadata": {
                     "grounding_package_hash": grounding_package["metadata"].get("grounding_package_hash", ""),
                     "provider": provider_name or self.provider_name,
