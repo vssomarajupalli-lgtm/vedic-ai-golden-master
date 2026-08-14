@@ -3,6 +3,7 @@ from dataclasses import asdict, is_dataclass
 from datetime import datetime, timezone
 from app.schemas.mandali_response import MandaliResponseDTO
 from app.formatters.display_formatter import DisplayFormatter
+from app.builders.lifetime_saturn_view import build_saturn_lifetime_view
 
 class ReportBuilder:
     """
@@ -116,4 +117,14 @@ class ReportBuilder:
         report["question_responses"] = questions or []
         report["gochara_report"] = gochara.model_dump()
         report["formula_verification"] = pipeline_outputs
+
+        # --- GM-017.6 Saturn Lifetime Cycles (presentation-only) ---
+        # Pure presentation view: DOB is the display start, the existing natural
+        # END of every governed Saturn window is retained, and the MD/AD/PD <->
+        # Saturn cross-reference is passed through read-only. Derived entirely
+        # from existing engine outputs via the presenter. It never feeds scores,
+        # formulas, calibration, or the canonical JSON.
+        report["saturn_lifetime_cycles"] = build_saturn_lifetime_view(
+            engine_outputs, dob=pipeline_meta.get("dob") or ""
+        )
         return report

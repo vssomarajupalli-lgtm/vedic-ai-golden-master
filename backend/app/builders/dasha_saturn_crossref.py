@@ -37,6 +37,40 @@ DISPLAYABLE_CYCLES = ("Sade Sati", "Ardha Ashtama", "Ashtama")
 
 _SATURN_GROUP_KEYS = ("sade_sati", "ardha_ashtama", "ashtama")
 
+# Governed Mandali per cycle phase (presentation labels; engine advisory
+# ``mandali`` integers are internal placeholders and are never used here).
+_ADVISORY_WINDOW_KEYS = {
+    "sade_sati": ("sade_sati_windows", {"Rising": 12, "Peak": 1, "Setting": 2}),
+    "ashtama_shani": ("ashtama_shani_windows", {"Ashtama": 8}),
+}
+
+
+def timeline_display_range(dasha_timeline):
+    """Derive the MD/AD/PD reference range from the Dasha timeline.
+
+    start = first row start_date; end = last known finite boundary (the final
+    open-ended period's start_date when its end is "Unknown"). Returns
+    (date, date) or (None, None) when the timeline is unavailable.
+    """
+    rows = list(dasha_timeline or [])
+    if not rows:
+        return None, None
+    start = None
+    end = None
+    for row in rows:
+        s = _parse_iso_date(row.get("start_date"))
+        if s is not None and (start is None or s < start):
+            start = s
+        e = _parse_iso_date(row.get("end_date"))
+        if e is not None and (end is None or e > end):
+            end = e
+    if start is None:
+        return None, None
+    if end is None:
+        end = _parse_iso_date(rows[-1].get("start_date"))
+    return start, end
+
+
 
 def _parse_iso_date(value: str) -> Optional[date]:
     """Parse ISO date (YYYY-MM-DD). Returns None when unparseable."""
@@ -112,9 +146,60 @@ def _collect_resolved_windows(saturn_periods: Dict[str, Any]) -> List[Dict[str, 
     return windows
 
 
+def _collect_advisory_windows(
+    advisory, display_range=None,
+):
+    """Collect range-selected LifetimeCycleProjector Sade Sati + Ashtama windows.
+
+    GM-017.6: the lifetime advisory (engine_outputs.mandali_advisory) supplies
+    the complete natural Saturn periods. Only the governed displayable cycles
+    (Sade Sati, Ashtama Shani) are collected; Elinati stays internal-only. When
+    a display_range is provided, only windows overlapping it are retained. All
+    dates are passed through verbatim — nothing is clipped or invented.
+    """
+    windows: List[Dict[str, Any]] = []
+    if not advisory:
+        return windows
+    range_start, range_end = display_range or (None, None)
+    for group_key, (window_key, mandali_by_phase) in _ADVISORY_WINDOW_KEYS.items():
+        group = (advisory.get(group_key) or {}) or {}
+        for cycle in list(group.get("cycles", []) or []):
+            if not isinstance(cycle, dict):
+                continue
+            for w in list(cycle.get(window_key, []) or []):
+                if not isinstance(w, dict):
+                    continue
+                entry = _parse_dmy_date(w.get("start"))
+                exit_ = _parse_dmy_date(w.get("end"))
+                if entry is None:
+                    continue
+                if range_start is not None and range_end is not None:
+                    win_end = exit_ if exit_ is not None else range_end
+                    if entry > range_end or win_end < range_start:
+                        continue
+                phase = w.get("phase", "")
+                mandali_number = mandali_by_phase.get(phase)
+                if mandali_number is None:
+                    continue
+                cycle_name = "Sade Sati" if group_key == "sade_sati" else "Ashtama Shani"
+                windows.append({
+                    "cycle": cycle_name,
+                    "phase": phase,
+                    "mandali_number": mandali_number,
+                    "mandali_name": f"Mandali {mandali_number} ({w.get('rasi', '—')})",
+                    "entry": str(w.get("start", "—")).strip(),
+                    "exit": str(w.get("end", "—")).strip(),
+                    "status": "",
+                    "mechanism": "LIFETIME_PROJECTION",
+                })
+    return windows
+
+
 def build_dasha_saturn_cross_reference(
     dasha_timeline: List[Dict[str, Any]],
     saturn_periods: Dict[str, Any],
+    advisory: Optional[Dict[str, Any]] = None,
+    display_range: Optional[tuple] = None,
 ) -> Dict[str, Any]:
     """Compute the MD/AD/PD ↔ Saturn cross-reference (single source of truth).
 
@@ -126,8 +211,15 @@ def build_dasha_saturn_cross_reference(
       }
 
     Rows with no overlapping Saturn window are omitted from ``rows``.
+
+    GM-017.6: the resolver windows (saturn_periods) are always used; when an
+    ``advisory`` is supplied, its range-selected Sade Sati + Ashtama windows
+    (LifetimeCycleProjector, complete natural periods) are added so the Saturn
+    annotations can overlap the relevant MD/AD/PD rows. This is read-only
+    overlap matching — no new calculation.
     """
     windows = _collect_resolved_windows(saturn_periods)
+    windows += _collect_advisory_windows(advisory, display_range)
     rows: Dict[str, List[Dict[str, Any]]] = {}
     matched_rows = 0
     for dasha_row in dasha_timeline or []:

@@ -340,12 +340,37 @@ class PipelineRunner:
         mandali_response_dto: MandaliResponseDTO | None = None
 
         if isinstance(canonical_json, dict) and "natal" in canonical_json and "current_transit" in canonical_json:
+            # GM-017.6: the MD/AD/PD Dasha timeline supplies the outer reference
+            # range. Its start is forwarded to the lifetime projection so the
+            # complete Saturn cycle touching the range start is emitted; the
+            # full range is forwarded to the cross-reference so the same
+            # range-selected Sade Sati / Ashtama windows can overlap MD/AD/PD
+            # rows. No astrology changes — only the emission/selection range.
+            from app.builders.dasha_saturn_crossref import (
+                build_dasha_saturn_cross_reference,
+                timeline_display_range,
+            )
+            range_start_date, range_end_date = timeline_display_range(
+                dasha_results.get("timeline", [])
+            )
+            display_range_start_dmy = (
+                range_start_date.strftime("%d.%m.%Y")
+                if range_start_date is not None else None
+            )
+            display_range = (
+                (range_start_date, range_end_date)
+                if range_start_date is not None and range_end_date is not None
+                else None
+            )
+
             # Step 1: Get the rich internal data model from the engine.
             # The governed target_date_utc is threaded into the advisory so the
             # Upcoming Events filter uses one deterministic anchor (CGP-03) —
             # never a fresh wall-clock reading.
             mandali_advisory = self.universal_mandali_engine.generate_mandali_advisory(
-                canonical_json, target_date_utc=target_date_utc
+                canonical_json,
+                target_date_utc=target_date_utc,
+                display_range_start=display_range_start_dmy,
             )
             engine_outputs["mandali_advisory"] = asdict(mandali_advisory) # Keep for backward compatibility
 
@@ -397,19 +422,19 @@ class PipelineRunner:
             engine_outputs["mandali_gochar_report"] = asdict(mandali_gochar_report)
 
             # Step 3.55: MD/AD/PD ↔ Saturn Gochar-Mandali cross-reference.
-            # Backend-derived single source of truth. Consumes only the existing
-            # Dasha timeline and the Mandali-resolved Saturn periods (no new
-            # astrology, no invented dates, no extended scan). Both the report
-            # template and the React timeline render this exact structure.
-            from app.builders.dasha_saturn_crossref import (
-                build_dasha_saturn_cross_reference,
-            )
+            # Backend-derived single source of truth. Consumes the existing
+            # Dasha timeline, the Mandali-resolved Saturn periods, and the
+            # range-selected LifetimeCycleProjector Sade Sati + Ashtama windows
+            # (no new astrology, no invented dates, no extended scan). Both the
+            # report template and the React timeline render this exact structure.
             engine_outputs["dasha_saturn_cross_reference"] = (
                 build_dasha_saturn_cross_reference(
                     dasha_timeline=dasha_results.get("timeline", []),
                     saturn_periods=engine_outputs["mandali_gochar_report"].get(
                         "saturn_periods", {}
                     ),
+                    advisory=advisory_dict,
+                    display_range=display_range,
                 )
             )
 

@@ -26,7 +26,7 @@ SECTION_TO_REPORT_KEYS = {
     "activation-timeline": ["lifetime_intelligence"],
     "gochara": ["gochara_report", "mandali_analysis", "mandali_gochar_report",
                 "important_advisory", "upcoming_mandali_events", "current_mandali",
-                "formula_verification"],
+                "saturn_lifetime_cycles", "formula_verification"],
     "appendix": ["formula_verification"],
 }
 # Keys always retained so the document shell never loses required layout data.

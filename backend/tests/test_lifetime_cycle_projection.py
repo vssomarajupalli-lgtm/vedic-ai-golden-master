@@ -280,6 +280,91 @@ class TestLifetimeCycleProjection(unittest.TestCase):
         # Cycle -2: 1963-1993 (starts 1963 < 1990) - NOT included
         self.assertEqual(len(past_cycles), 1)
         self.assertEqual([c.cycle_number for c in past_cycles], [-1])
+
+    def test_lcp05_display_range_extends_past_emission(self):
+        """GM-017.6: an explicit MD/AD/PD display range start extends past-cycle
+        emission to every cycle whose natural period overlaps the range start.
+
+        The range/emission boundary change (no astrology change) is scoped to
+        the LCP-05 gate: with a display range supplied, a cycle is emitted while
+        its natural END is at or after the range start. Default behavior (birth
+        boundary) is untouched.
+        """
+        natal_moon_rasi = "Makara"
+        birth_date = "15.08.1990"
+        saturn_transit = {
+            "rasi": "Kumbha",
+            "start_date": "01.01.2023",
+            "end_date": "01.07.2025",
+        }
+        
+        # Default: birth-bounded, exactly 1 past cycle.
+        projection_default = self.projector.project_cycles(
+            natal_moon_rasi, birth_date, saturn_transit
+        )
+        past_default = [c.cycle_number for c in projection_default.cycles if c.cycle_number < 0]
+        self.assertEqual(past_default, [-1])
+        
+        # Display range start 01.01.1969: cycle -2 (1963-1993) ends 1993 >= 1969,
+        # so it is emitted too; cycle -3 (1933-1963) ends 1963 < 1969 and is not.
+        projection_range = self.projector.project_cycles(
+            natal_moon_rasi, birth_date, saturn_transit,
+            display_range_start="01.01.1969",
+        )
+        past_range = [c.cycle_number for c in projection_range.cycles if c.cycle_number < 0]
+        self.assertEqual(past_range, [-2, -1])
+        cycle_minus_2 = next(
+            c for c in projection_range.cycles if c.cycle_number == -2
+        )
+        self.assertEqual(cycle_minus_2.period, "1963-1993")
+
+    def test_lcp05_display_range_natural_windows_unchanged(self):
+        """GM-017.6: range-emitted cycles carry complete natural windows — the
+        range only changes WHICH cycles are emitted, never their dates."""
+        natal_moon_rasi = "Makara"
+        birth_date = "15.08.1990"
+        saturn_transit = {
+            "rasi": "Kumbha",
+            "start_date": "01.01.2023",
+            "end_date": "01.07.2025",
+        }
+        
+        projection_range = self.projector.project_cycles(
+            natal_moon_rasi, birth_date, saturn_transit,
+            display_range_start="01.01.1969",
+        )
+        cycle_minus_2 = next(
+            c for c in projection_range.cycles if c.cycle_number == -2
+        )
+        # Complete natural Sade Sati (3), Elinati (1), Ashtama (1) windows.
+        self.assertEqual(len(cycle_minus_2.sade_sati_windows), 3)
+        self.assertEqual(len(cycle_minus_2.elinati_shani_windows), 1)
+        self.assertEqual(len(cycle_minus_2.ashtama_shani_windows), 1)
+        # 900-day natural spans (30-month lattice) — unchanged by the range.
+        for w in (cycle_minus_2.sade_sati_windows +
+                  cycle_minus_2.elinati_shani_windows +
+                  cycle_minus_2.ashtama_shani_windows):
+            start_dt = __import__('datetime').datetime.strptime(w.start_date, "%d.%m.%Y")
+            end_dt = __import__('datetime').datetime.strptime(w.end_date, "%d.%m.%Y")
+            self.assertEqual((end_dt - start_dt).days, 900)
+
+    def test_lcp05_display_range_invalid_format_raises(self):
+        """GM-017.6: an unparseable display range start raises ValueError —
+        the pipeline only ever passes a date derived from the MD/AD/PD timeline,
+        so a malformed value is a programming error, never silently ignored."""
+        natal_moon_rasi = "Makara"
+        birth_date = "15.08.1990"
+        saturn_transit = {
+            "rasi": "Kumbha",
+            "start_date": "01.01.2023",
+            "end_date": "01.07.2025",
+        }
+        
+        with self.assertRaises(ValueError):
+            self.projector.project_cycles(
+                natal_moon_rasi, birth_date, saturn_transit,
+                display_range_start="not-a-date",
+            )
     
     # -------------------------------------------------------------------------
     # LCP-06: Future cycles: add 30 years per cycle from anchor until governance-defined horizon

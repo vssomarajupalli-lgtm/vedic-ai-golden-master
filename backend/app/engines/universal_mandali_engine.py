@@ -236,6 +236,7 @@ class UniversalMandaliEngine:
         self,
         canonical_json: Dict[str, Any],
         target_date_utc: Optional[datetime] = None,
+        display_range_start: Optional[str] = None,
     ) -> MandaliAdvisory:
         """
         Generate the complete mandali_advisory from Canonical JSON.
@@ -269,6 +270,11 @@ class UniversalMandaliEngine:
                 None, the engine falls back to the current UTC instant as a
                 documented last resort — callers that require determinism must
                 always pass the governed date.
+            display_range_start: Optional MD/AD/PD timeline start (DD.MM.YYYY).
+                GM-017.6 range/emission change (no astrology change): forwarded
+                to the lifetime projection so the complete Saturn cycle touching
+                the MD/AD/PD range start is emitted. When None, the governed
+                LCP-05 default (birth-bounded) emission is unchanged.
         
         Returns:
             MandaliAdvisory: Complete advisory object per Section 12 schema
@@ -330,6 +336,7 @@ class UniversalMandaliEngine:
             natal_moon_rasi=moon_rasi,
             birth_date=birth_date,
             saturn_transit=saturn_transit,
+            display_range_start=display_range_start,
         )
         
         # ================================================================

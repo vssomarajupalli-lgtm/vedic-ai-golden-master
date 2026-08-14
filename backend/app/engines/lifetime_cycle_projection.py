@@ -167,6 +167,7 @@ class LifetimeCycleProjector:
         natal_moon_rasi: str,
         birth_date: str,
         saturn_transit: dict,
+        display_range_start: Optional[str] = None,
     ) -> LifetimeCycleProjection:
         """
         Project Saturn cycles bidirectionally from anchor.
@@ -188,6 +189,14 @@ class LifetimeCycleProjector:
             birth_date: Birth date from Canonical JSON (DD.MM.YYYY)
             saturn_transit: Saturn transit dict from Canonical JSON current_transit
                            Must contain: rasi, start_date, end_date
+            display_range_start: Optional MD/AD/PD timeline start date (DD.MM.YYYY).
+                           GM-017.6 range/emission change (no astrology change):
+                           when supplied, past-cycle emission continues while a
+                           cycle's natural period overlaps this range start, so the
+                           complete cycle touching the MD/AD/PD range is emitted.
+                           The existing anchor, 900-day lattice, rasi mapping,
+                           formulas, and natural dates are all unchanged. When
+                           None, the governed LCP-05 behavior is unchanged.
         
         Returns:
             LifetimeCycleProjection with all cycles and windows
@@ -207,6 +216,14 @@ class LifetimeCycleProjector:
         anchor_end = _parse_date(saturn_transit["end_date"])
         birth_dt = _parse_date(birth_date)
         
+        display_range_start_dt = None
+        if display_range_start is not None:
+            display_range_start_dt = _parse_date(str(display_range_start).strip())
+            if display_range_start_dt is None:
+                raise ValueError(
+                    "display_range_start must be a valid DD.MM.YYYY date"
+                )
+        
         # Validate rasi exists in registry
         _ = _get_rasi_index(self._ref_data, anchor_rasi)
         _ = _get_rasi_index(self._ref_data, natal_moon_rasi)
@@ -218,6 +235,7 @@ class LifetimeCycleProjector:
             anchor_rasi=anchor_rasi,
             anchor_start=anchor_start,
             anchor_end=anchor_end,
+            display_range_start_dt=display_range_start_dt,
         )
         
         return LifetimeCycleProjection(
@@ -236,6 +254,7 @@ class LifetimeCycleProjector:
         anchor_rasi: str,
         anchor_start: datetime,
         anchor_end: datetime,
+        display_range_start_dt: Optional[datetime] = None,
     ) -> List[SaturnCycle]:
         """Build all cycles (past, anchor, future)."""
         cycles = []
@@ -251,12 +270,21 @@ class LifetimeCycleProjector:
         cycles.append(cycle_0)
         
         # Build past cycles (negative numbers)
-        # LCP-05: Subtract 30 years per cycle from anchor until before birth_date
+        # LCP-05: Subtract 30 years per cycle from anchor until before birth_date.
+        # GM-017.6 range/emission change (no astrology change): when an explicit
+        # MD/AD/PD display range start is supplied, emission continues while a
+        # cycle's natural period overlaps that range start. The same anchor,
+        # 900-day lattice, rasi mapping, formulas, and natural dates apply.
         cycle_num = -1
         cycle_start = _subtract_months(anchor_start, MONTHS_PER_CYCLE)
         cycle_end = _add_months(cycle_start, MONTHS_PER_CYCLE)
         
-        while cycle_start >= birth_dt:
+        range_aware = display_range_start_dt is not None
+        emission_gate = display_range_start_dt if range_aware else birth_dt
+        
+        while (
+            cycle_end > emission_gate if range_aware else cycle_start >= emission_gate
+        ):
             cycle = self._build_single_cycle(
                 cycle_number=cycle_num,
                 anchor_rasi=anchor_rasi,

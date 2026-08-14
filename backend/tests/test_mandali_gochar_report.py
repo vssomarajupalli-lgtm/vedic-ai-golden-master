@@ -435,20 +435,24 @@ class TestMandaliGocharReport(unittest.TestCase):
         self.assertTrue(mandali_block["activated_planets"])
 
         # Phase 3D — MD/AD/PD ↔ Saturn cross-reference is emitted backend-side.
+        # GM-017.6: badges come from the governed sources only — the Mandali
+        # resolver (MANDALI_RESOLVER) and the range-selected lifetime projection
+        # (LIFETIME_PROJECTION). Elinati is never surfaced from either.
         xref = eo["dasha_saturn_cross_reference"]
         self.assertEqual(xref["source"], "MANDALI_RESOLVER")
         self.assertEqual(xref["displayed_cycles"],
                          ["Sade Sati", "Ardha Ashtama Shani", "Ashtama Shani"])
-        # Every surfaced badge originates from the Mandali resolver only.
         for _start, badges in xref["rows"].items():
             for b in badges:
-                self.assertEqual(b["mechanism"], "MANDALI_RESOLVER")
+                self.assertIn(b["mechanism"],
+                              {"MANDALI_RESOLVER", "LIFETIME_PROJECTION"})
                 self.assertNotEqual(b["cycle"], "Elinati")
         # Lifetime timeline rows carry the same backend-derived badges.
         for trow in report["lifetime_intelligence"]["timeline"]:
             self.assertIn("saturn_periods", trow)
             for b in trow["saturn_periods"]:
-                self.assertEqual(b["mechanism"], "MANDALI_RESOLVER")
+                self.assertIn(b["mechanism"],
+                              {"MANDALI_RESOLVER", "LIFETIME_PROJECTION"})
 
 
 if __name__ == "__main__":

@@ -7,7 +7,8 @@ import PresentGocharaChart from './gochara/PresentGocharaChart';
 import MandaliPeriodPanel from './gochara/MandaliPeriodPanel';
 import Comparison from './gochara/Comparison';
 import SaturnPanel from './gochara/SaturnPanel';
-import type { MandaliGocharReport } from '../types/mandali';
+import SaturnLifetimePanel from './gochara/SaturnLifetimePanel';
+import type { MandaliGocharReport, SaturnLifetimeView } from '../types/mandali';
 
 interface SadeSatiCycle {
   cycle_number: number;
@@ -30,6 +31,11 @@ export const GocharaTab: React.FC = () => {
     (rawOutputs?.engine_outputs?.mandali_gochar_report as MandaliGocharReport | undefined) ||
     (rawOutputs?.breakdown?.engine_outputs?.mandali_gochar_report as MandaliGocharReport | undefined) ||
     null;
+
+  // GM-017.6 Saturn Lifetime Cycles — backend-composed presentation view
+  // (DOB is the display start; natural ENDs retained). Rendered as-is.
+  const saturnLifetime: SaturnLifetimeView | null =
+    (report?.saturn_lifetime_cycles as SaturnLifetimeView | undefined) || null;
 
   const getGradeColor = (grade: string) => {
     if (grade === 'EXCELLENT' || grade === 'VERY_GOOD' || grade === 'GOOD') return 'text-green-600';
@@ -117,6 +123,19 @@ export const GocharaTab: React.FC = () => {
             <div className="bg-white border border-slate-200 rounded-xl p-5">
               <SaturnPanel data={mandaliGochar} />
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* GM-017.6 SATURN LIFETIME CYCLES — presentation-only mirror */}
+      {saturnLifetime && (
+        <div className="mb-8">
+          <h4 className="text-md font-semibold text-gray-800 mb-3 flex items-center gap-2">
+            <span className="inline-block w-2 h-2 rounded-full bg-rose-500" />
+            Saturn Lifetime Cycles
+          </h4>
+          <div className="bg-white border border-slate-200 rounded-xl p-5">
+            <SaturnLifetimePanel data={saturnLifetime} />
           </div>
         </div>
       )}

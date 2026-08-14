@@ -125,6 +125,9 @@ export interface FinalReportSchema {
     mandali_analysis?: import('./mandali').MandaliAnalysisDTO;
     // Present Gochara Rāśi-Mandali report (Report B) — populated by ReportBuilder.
     mandali_gochar_report?: import('./mandali').MandaliGocharReport;
+    // Saturn Lifetime Cycles (GM-017.6) — presentation-only view populated by
+    // ReportBuilder. DOB is the display start; natural ENDs are retained.
+    saturn_lifetime_cycles?: import('./mandali').SaturnLifetimeView;
 }
 
 

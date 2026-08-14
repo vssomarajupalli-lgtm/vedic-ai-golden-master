@@ -427,6 +427,7 @@
                     <button onclick="collapseMajor()">[ Collapse Major Sections ]</button>
                 </div>
                 <ul class="sidebar-nav">
+                    <li><a href="#sec-index">► Index</a></li>
                     <li><a href="#sec-dashboard">► Executive Dashboard</a></li>
                     <li><a href="#sec-overview">► Birth Chart Overview</a></li>
                     <li><a href="#sec-life-areas">► Life Area Intelligence</a></li>
@@ -437,12 +438,49 @@
                     <li><a href="#sec-questions">► Question Engine</a></li>
                     <li><a href="#sec-gochara">► Gochara Analysis</a></li>
                     <li><a href="#sec-gochara-mandali">► Gochara & Mandali Analysis</a></li>
+                    <li><a href="#sec-saturn-lifetime">► Saturn Lifetime Cycles</a></li>
                     <li><a href="#sec-gochara-mandali-report">► Rāśi-Mandali Gochar (Report B)</a></li>
                     <li><a href="#sec-final">► Final Recommendations</a></li>
                 </ul>
             </div>
             
             <div class="main-content">
+
+                <!-- GM-017.6 PDF Index / Table of Contents -->
+                <!-- HTML anchor links (no printed page numbers). Entries mirror the
+                     section guards below so an absent section never produces a dead
+                     link. Presentation-only; nothing is filtered from the report. -->
+                <details id="sec-index" class="group avoid-break" open>
+                    <summary>Index</summary>
+                    <div class="group-content">
+                        <ol style="margin: 0; padding-left: 20px; line-height: 2.0;">
+                            {% if report.executive_summary is defined %}
+                            <li><a href="#sec-dashboard">Executive Dashboard</a></li>
+                            {% endif %}
+                            {% if report.lifetime_intelligence is defined %}
+                            <li><a href="#sec-overview">Birth Chart Overview</a></li>
+                            {% endif %}
+                            {% if report.question_responses %}
+                            <li><a href="#sec-questions">Question Engine</a></li>
+                            {% endif %}
+                            {% if report.gochara_report %}
+                            <li><a href="#sec-gochara">Gochara Activation</a></li>
+                            {% endif %}
+                            {% if report.mandali_analysis or report.mandali_gochar_report or report.important_advisory or report.current_mandali or report.upcoming_mandali_events %}
+                            <li><a href="#sec-gochara-mandali">Gochara &amp; Mandali Analysis</a></li>
+                            {% endif %}
+                            {% if report.saturn_lifetime_cycles is defined and report.saturn_lifetime_cycles %}
+                            <li><a href="#sec-saturn-lifetime">Saturn Lifetime Cycles</a></li>
+                            {% endif %}
+                            {% if report.mandali_gochar_report %}
+                            <li><a href="#sec-gochara-mandali-report">Rāśi-Mandali Gochar (Report B)</a></li>
+                            {% endif %}
+                            {% if report.executive_summary is defined %}
+                            <li><a href="#sec-final">Consultation Summary</a></li>
+                            {% endif %}
+                        </ol>
+                    </div>
+                </details>
 
                 <!-- SECTION A: Executive Summary Dashboard -->
                 {% if report.executive_summary is defined %}
@@ -1234,6 +1272,128 @@
                         </ul>
                     </div>
                 </details>
+                {% endif %}
+
+            </div>
+        </details>
+        {% endif %}
+
+        <!-- SECTION J2.5: Saturn Lifetime Cycles (GM-017.6, presentation-only) -->
+        <!-- The native DOB is the PRESENTATION START: a governed window that
+             begins before the DOB is displayed from the DOB. The natural END of
+             every governed window is retained verbatim — there is no lifetime-end
+             boundary. Exactly three cycles are shown (Sade Sati, Ardha Ashtama
+             Shani, Ashtama Shani). Elinati is never displayed. Data is passed
+             through from the existing engine outputs; no new calculations. -->
+        {% if report.saturn_lifetime_cycles is defined and report.saturn_lifetime_cycles %}
+        {% set slc = report.saturn_lifetime_cycles %}
+        <details id="sec-saturn-lifetime" class="group page-break" open>
+            <summary>Saturn Lifetime Cycles</summary>
+            <div class="group-content">
+
+                <div style="background-color: #fef2f2; border: 1px solid #fecaca; border-left: 4px solid #dc2626; border-radius: 6px; padding: 12px 15px; margin-bottom: 16px; font-size: 0.9em; color: #7f1d1d;">
+                    <strong>Complete natural Saturn Gochara/Mandali periods within the MD/AD/PD Dasha timeline
+                    {% if slc.md_ad_pd_range and slc.md_ad_pd_range.start %} ({{ slc.md_ad_pd_range.start }} → {{ slc.md_ad_pd_range.end }}){% endif %}.</strong>
+                    Every period that overlaps/touches the timeline range is shown as its
+                    complete natural period — natural START and END are never clipped and the
+                    DOB is not a boundary. Shown exactly three cycles: Sade Sati (12th / 1st /
+                    2nd from Moon), Ardha Ashtama Shani (4th from Moon), and Ashtama Shani (8th
+                    from Moon). Read-only — no new calculations.
+                </div>
+
+                {% for cycle in slc.cycles %}
+                {% if cycle.windows %}
+                <details class="subgroup avoid-break" open>
+                    <summary>
+                        <span>{{ cycle.title }}</span>
+                        <span class="badge">{{ cycle.windows|length }} windows</span>
+                    </summary>
+                    <div class="subgroup-content">
+                        <p style="margin-top: 0; font-size: 0.85em; color: #991b1b;">
+                            {{ cycle.subtitle }} · governed dates passed through from the existing engine outputs.
+                        </p>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+                                <thead>
+                                    <tr style="background-color: #fee2e2; color: #991b1b; text-align: left;">
+                                        <th style="padding: 6px 8px; border-bottom: 1px solid #fecaca;">Phase</th>
+                                        <th style="padding: 6px 8px; border-bottom: 1px solid #fecaca;">Rāśi</th>
+                                        <th style="padding: 6px 8px; border-bottom: 1px solid #fecaca;">Mandali</th>
+                                        <th style="padding: 6px 8px; border-bottom: 1px solid #fecaca;">Start (natural)</th>
+                                        <th style="padding: 6px 8px; border-bottom: 1px solid #fecaca;">End (natural)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for w in cycle.windows %}
+                                    <tr>
+                                        <td style="padding: 6px 8px; border-bottom: 1px solid #f3f4f6;">{{ w.phase or '—' }}</td>
+                                        <td style="padding: 6px 8px; border-bottom: 1px solid #f3f4f6;">{{ w.rasi or '—' }}</td>
+                                        <td style="padding: 6px 8px; border-bottom: 1px solid #f3f4f6;">{{ w.mandali or '—' }}</td>
+                                        <td style="padding: 6px 8px; border-bottom: 1px solid #f3f4f6; color: #991b1b;">{{ w.start or '—' }}</td>
+                                        <td style="padding: 6px 8px; border-bottom: 1px solid #f3f4f6;">{{ w.end or '—' }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </details>
+                {% endif %}
+                {% endfor %}
+
+                <!-- MD/AD/PD <-> Saturn cross-reference (read-only, existing data) -->
+                {% if slc.cross_reference is defined and slc.cross_reference and slc.cross_reference.rows %}
+                <details class="subgroup avoid-break" open>
+                    <summary>
+                        <span>MD/AD/PD ↔ Saturn Cross-Reference</span>
+                        <span class="badge">{{ slc.cross_reference.rows|length }} periods</span>
+                    </summary>
+                    <div class="subgroup-content">
+                        <p style="margin-top: 0; font-size: 0.85em; color: #475569;">
+                            Read-only pairing of the Dasha timeline with overlapping Saturn
+                            windows. Source: <strong>{{ slc.cross_reference.source }}</strong> —
+                            the same backend-derived values shown as Saturn badges in the
+                            Dasha Analysis timeline. No new calculations.
+                        </p>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+                                <thead>
+                                    <tr style="background-color: #f3f4f6; text-align: left;">
+                                        <th style="padding: 6px 8px; border-bottom: 1px solid #e5e7eb;">Dasha Start</th>
+                                        <th style="padding: 6px 8px; border-bottom: 1px solid #e5e7eb;">MD</th>
+                                        <th style="padding: 6px 8px; border-bottom: 1px solid #e5e7eb;">AD</th>
+                                        <th style="padding: 6px 8px; border-bottom: 1px solid #e5e7eb;">PD</th>
+                                        <th style="padding: 6px 8px; border-bottom: 1px solid #e5e7eb;">Saturn Period</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in slc.cross_reference.rows %}
+                                    <tr>
+                                        <td style="padding: 6px 8px; border-bottom: 1px solid #f3f4f6; white-space: nowrap;">{{ row.start_date }}</td>
+                                        <td style="padding: 6px 8px; border-bottom: 1px solid #f3f4f6;">{{ row.md | capitalize }}</td>
+                                        <td style="padding: 6px 8px; border-bottom: 1px solid #f3f4f6;">{{ row.ad | capitalize }}</td>
+                                        <td style="padding: 6px 8px; border-bottom: 1px solid #f3f4f6;">{{ row.pd | capitalize }}</td>
+                                        <td style="padding: 6px 8px; border-bottom: 1px solid #f3f4f6;">
+                                            {% if row.saturn_periods %}
+                                            {% for sp in row.saturn_periods %}
+                                            <span class="badge" style="background-color: #fee2e2; color: #991b1b; white-space: nowrap;">{{ sp.cycle }}{% if sp.phase and sp.phase != sp.cycle %} · {{ sp.phase }}{% endif %} · Mandali {{ sp.mandali_number }}</span>{% if not loop.last %}<br>{% endif %}
+                                            {% endfor %}
+                                            {% else %}
+                                            <span style="color: #cbd5e1;">—</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </details>
+                {% elif slc.cross_reference is defined and slc.cross_reference %}
+                <p style="font-size: 0.85em; color: #64748b; margin-bottom: 0;">
+                    No MD/AD/PD period overlaps a resolved Saturn window within the
+                    governed scan range.
+                </p>
                 {% endif %}
 
             </div>

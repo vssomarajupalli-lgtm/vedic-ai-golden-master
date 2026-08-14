@@ -1,5 +1,7 @@
 import io
 import html as html_lib
+import asyncio
+import sys
 from app.reports.schemas import FinalReportSchema
 from app.reports.html_generator import HTMLGenerator
 import logging
@@ -90,6 +92,12 @@ class PDFGenerator:
         # Fallback to Playwright (Chromium headless)
         if PLAYWRIGHT_AVAILABLE:
             try:
+                # uvicorn with reload=True installs WindowsSelectorEventLoopPolicy,
+                # whose event loop cannot spawn subprocesses. Playwright's sync
+                # driver relies on asyncio subprocess support, so restore the
+                # Proactor policy (subprocess-capable) before launching it.
+                if sys.platform == "win32":
+                    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
                 with sync_playwright() as p:
                     browser = p.chromium.launch()
                     page = browser.new_page()

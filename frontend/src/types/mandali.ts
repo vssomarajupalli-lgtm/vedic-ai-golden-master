@@ -265,3 +265,62 @@ export interface MandaliGocharReport {
   };
   fixed_rasi_map: Record<string, FixedRasiMapEntry>;
 }
+
+// ---------------------------------------------------------------------------
+// Saturn Lifetime Cycles (GM-017.6) — presentation-only view
+// Backend-computed by app/builders/lifetime_saturn_view.py. The MD/AD/PD Dasha
+// timeline supplies the reference range; every complete natural Saturn period
+// that overlaps/touches the range is displayed with its natural START and END
+// verbatim (never clipped to the range or to the DOB).
+// The frontend renders this structure exactly — it performs no Saturn math.
+// ---------------------------------------------------------------------------
+
+/** One governed Saturn window in the lifetime view (complete natural period). */
+export interface SaturnLifetimeWindow {
+  phase: string;
+  rasi: string;
+  mandali: string;
+  start: string;              // DD.MM.YYYY — natural START, verbatim
+  end: string;                // DD.MM.YYYY — natural END, verbatim
+  natural_start: string;      // DD.MM.YYYY — natural START, exactly as supplied
+  natural_end: string;        // DD.MM.YYYY — natural END, exactly as supplied
+}
+
+/** One of exactly three presented lifetime cycles. */
+export interface SaturnLifetimeCycle {
+  key: string;               // "sade_sati" | "ardha_ashtama" | "ashtama_shani"
+  title: string;             // "Sade Sati", "Ardha Ashtama Shani", "Ashtama Shani"
+  subtitle: string;          // rule text (12th/1st/2nd, 4th, 8th from Moon)
+  windows: SaturnLifetimeWindow[];
+}
+
+/** One read-only MD/AD/PD ↔ Saturn cross-reference row (existing backend data). */
+export interface SaturnLifetimeCrossRefRow {
+  start_date: string;        // ISO YYYY-MM-DD (Dasha row start)
+  md: string;
+  ad: string;
+  pd: string;
+  saturn_periods: {
+    cycle: string;
+    phase?: string;
+    mandali_number?: number;
+    [key: string]: unknown;
+  }[];
+}
+
+/** The presentation view emitted by the backend report builder. */
+export interface SaturnLifetimeView {
+  source: string;
+  dob: string;               // DD.MM.YYYY — plain horoscope metadata (not a boundary)
+  md_ad_pd_range?: {
+    start: string | null;    // DD.MM.YYYY — MD/AD/PD timeline start
+    end: string | null;      // DD.MM.YYYY — MD/AD/PD timeline end
+  };
+  cycles: SaturnLifetimeCycle[];
+  cross_reference: {
+    source: string;
+    displayed_cycles: string[];
+    matched_rows: number;
+    rows: SaturnLifetimeCrossRefRow[];
+  };
+}

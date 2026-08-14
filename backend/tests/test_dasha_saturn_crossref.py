@@ -15,6 +15,7 @@ import unittest
 from app.builders.dasha_saturn_crossref import (
     build_dasha_saturn_cross_reference,
     _collect_resolved_windows,
+    timeline_display_range,
 )
 
 
@@ -146,6 +147,61 @@ class TestDashaSaturnCrossref(unittest.TestCase):
         ref = build_dasha_saturn_cross_reference([], {})
         self.assertEqual(ref["rows"], {})
         self.assertEqual(ref["matched_rows"], 0)
+
+    def test_timeline_display_range(self):
+        start, end = timeline_display_range(_dasha_timeline())
+        self.assertEqual(str(start), "2026-01-01")
+        self.assertEqual(str(end), "2029-12-31")
+        self.assertEqual(timeline_display_range([]), (None, None))
+
+    def test_advisory_windows_range_selected_and_verbatim(self):
+        # GM-017.6: the lifetime advisory supplies complete natural Sade Sati +
+        # Ashtama windows. When an advisory + display_range are supplied, only
+        # windows overlapping the range are added (mechanism LIFETIME_PROJECTION,
+        # governed mandali labels), and dates pass through verbatim.
+        advisory = {
+            "sade_sati": {
+                "cycles": [
+                    {"cycle_number": -2, "sade_sati_windows": [
+                        {"phase": "Rising", "rasi": "Dhanus", "mandali": 5,
+                         "start": "25.11.2018", "end": "13.05.2021"},
+                        {"phase": "Setting", "rasi": "Kumbha", "mandali": 6,
+                         "start": "30.10.2023", "end": "17.04.2026"},
+                    ]},
+                ],
+            },
+            "ashtama_shani": {
+                "cycles": [
+                    {"cycle_number": -1, "ashtama_shani_windows": [
+                        {"phase": "Ashtama", "rasi": "Simha", "mandali": 3,
+                         "start": "16.01.2009", "end": "05.07.2011"},
+                    ]},
+                ],
+            },
+        }
+        from datetime import date
+        display_range = (date(2025, 1, 1), date(2029, 12, 31))
+        ref = build_dasha_saturn_cross_reference(
+            dasha_timeline=_dasha_timeline(),
+            saturn_periods={},
+            advisory=advisory,
+            display_range=display_range,
+        )
+        # Only the Setting window (30.10.2023 -> 17.04.2026) overlaps 2025-2029.
+        # Rising (ends 2021) and Ashtama (ends 2011) are outside -> dropped.
+        all_badges = [b for badges in ref["rows"].values() for b in badges]
+        self.assertTrue(all_badges)
+        for b in all_badges:
+            self.assertEqual(b["mechanism"], "LIFETIME_PROJECTION")
+        self.assertTrue(any(
+            b["cycle"] == "Sade Sati" and b["mandali_number"] == 2
+            and b["entry"] == "30.10.2023" and b["exit"] == "17.04.2026"
+            for b in all_badges
+        ))
+        self.assertFalse(any(
+            b["entry"] == "25.11.2018" or b["entry"] == "16.01.2009"
+            for b in all_badges
+        ))
 
 
 if __name__ == "__main__":
