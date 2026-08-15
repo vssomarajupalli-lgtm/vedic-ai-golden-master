@@ -1,0 +1,174 @@
+{# ============================================================================
+   SECTION: South-Indian Charts (fixed 4x4 template)
+   Rendered entirely from the existing report dict. No calculations.
+
+   CHART 1 - Natal / Lagna (D1): Lagna from canonical vargas.D1 Lagna sign;
+             each planet placed by its canonical Rasi with its house number.
+   CHART 2 - Moon-centred Mandali: mandali_gochar_report.chart verbatim
+             (12 cells x 9 Nakshatra-Pada slots, backend placements).
+   CHART 3 - Traditional Rasi Gochara: mandali_gochar_report.comparison.report_a
+             (Report A), Natal Moon Rasi = House 1.
+
+   The 2x2 centre of the grid is never used, consistent with the React
+   reference implementation (southIndianGrid / southIndianGridData).
+   ============================================================================ #}
+{% set sic = report.south_indian_chart_data if report.south_indian_chart_data is defined else none %}
+{% set mgr = report.mandali_gochar_report if report.mandali_gochar_report is defined else none %}
+{% if sic and sic.grid and sic.grid|length == 4 %}
+
+<details id="sec-south-indian-charts" class="group page-break" open>
+    <summary>South-Indian Charts — Natal, Mandali &amp; Gochara</summary>
+    <div class="group-content">
+
+        <p style="margin-top: 0; font-size: 0.85em; color: #64748b;">
+            Fixed South-Indian template (Meena top-left, 12 outer Rāśi boxes,
+            2×2 centre unused). Three verified chart renderings of already-computed
+            report data. No astrology is recalculated here.
+        </p>
+
+        <!-- CHART 1: Natal / Lagna chart (D1) -->
+        <details class="subgroup avoid-break" open>
+            <summary>
+                Chart 1 · Natal / Lagna (D1)
+                {% if sic.natal_lagna and sic.natal_lagna.rasi %}
+                <span style="font-weight: 400; color: #64748b;">— Lagna <span style="color: var(--primary); font-weight: 700;">{{ sic.natal_lagna.rasi }}</span> (House 1)</span>
+                {% endif %}
+            </summary>
+            <div class="subgroup-content">
+                {% set lagna_rasi = sic.natal_lagna.rasi if sic.natal_lagna else '' %}
+                <div class="si-grid">
+                    {% for row in sic.grid %}
+                    {% for rasi in row %}
+                    {% if rasi %}
+                    {% set cell_house = sic.house_by_rasi_lagna.get(rasi, 0) %}
+                    {% set cell_planets = sic.planets_by_rasi.get(rasi, []) if sic.planets_by_rasi else [] %}
+                    <div class="si-cell{% if rasi == lagna_rasi %} si-cell-highlight{% endif %}">
+                        <div class="si-cell-head">
+                            <span class="si-rasi">{{ rasi }}</span>
+                            {% if cell_house %}<span class="si-house">{{ cell_house }}H</span>{% endif %}
+                        </div>
+                        <div class="si-chips">
+                            {% for p in cell_planets %}
+                            <span class="planet-chip"
+                                  title="{{ p.name }}{% if p.degree %} · {{ p.degree }}°{% endif %}{% if p.nakshatra %} · {{ p.nakshatra }}{% if p.pada %} P{{ p.pada }}{% endif %}{% endif %}">{{ p.code }}</span>
+                            {% endfor %}
+                        </div>
+                        {% if rasi == lagna_rasi %}
+                        <div class="si-lagna-flag">LAGNA</div>
+                        {% endif %}
+                        {% if cell_planets %}
+                        <div class="si-note">
+                            {% for p in cell_planets %}{{ p.name }} {{ p.degree or '' }} {{ p.nakshatra or '' }}{% if p.pada %} P{{ p.pada }}{% endif %}{% if not loop.last %}<br>{% endif %}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                    <div class="si-cell si-cell-centre">D1</div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        </details>
+
+        <!-- CHART 2: Moon-centred Mandali chart -->
+        <details class="subgroup avoid-break" open>
+            <summary>
+                Chart 2 · Moon-Centred Mandali
+                {% if sic.reference_moon and sic.reference_moon.rasi %}
+                <span style="font-weight: 400; color: #64748b;">— Mandali 1 centred on natal Moon <span style="color: var(--primary); font-weight: 700;">{{ sic.reference_moon.rasi }} {{ sic.reference_moon.nakshatra }} Pada {{ sic.reference_moon.pada }}</span></span>
+                {% endif %}
+            </summary>
+            <div class="subgroup-content">
+                {% if mgr and mgr.chart %}
+                <div class="si-grid">
+                    {% for row in sic.grid %}
+                    {% for rasi in row %}
+                    {% if rasi %}
+                    {% set cells = mgr.chart | selectattr('rasi', 'equalto', rasi) | list %}
+                    {% if cells %}
+                    {% set cell = cells[0] %}
+                    <div class="si-cell">
+                        <div class="si-cell-head">
+                            <span class="si-rasi">{{ cell.mandali_name }}</span>
+                            <span class="si-house">M{{ cell.mandali_number }}</span>
+                        </div>
+                        <div class="si-slot-grid">
+                            {% for slot in cell.padas %}
+                            <div class="si-slot"{% if slot.planets %} style="background-color: var(--primary-light);"{% endif %}>
+                                <div class="si-slot-key">{{ slot.nakshatra[:3] }}.{{ slot.pada }}</div>
+                                <div class="si-slot-planets">
+                                    {% for code in slot.planets %}<span>{{ code }}</span>{% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="si-cell">
+                        <div class="si-cell-head">
+                            <span class="si-rasi">{{ rasi }}</span>
+                        </div>
+                        <div class="si-lagna-flag">No Mandali</div>
+                    </div>
+                    {% endif %}
+                    {% else %}
+                    <div class="si-cell si-cell-centre">Moon</div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p style="font-size: 0.85em; color: #64748b;">No present gochara mandali chart data available.</p>
+                {% endif %}
+            </div>
+        </details>
+
+        <!-- CHART 3: Traditional Rasi Gochara (Report A) -->
+        <details class="subgroup avoid-break" open>
+            <summary>
+                Chart 3 · Rāśi Gochara (Transit)
+                {% if sic.reference_moon and sic.reference_moon.rasi %}
+                <span style="font-weight: 400; color: #64748b;">— Natal Moon <span style="color: var(--primary); font-weight: 700;">{{ sic.reference_moon.rasi }}</span> = House 1</span>
+                {% endif %}
+            </summary>
+            <div class="subgroup-content">
+                {% set report_a = mgr.comparison.report_a if mgr and mgr.comparison and mgr.comparison.report_a else [] %}
+                {% if report_a %}
+                <div class="si-grid">
+                    {% for row in sic.grid %}
+                    {% for rasi in row %}
+                    {% if rasi %}
+                    {% set cell_house = sic.house_by_rasi_moon.get(rasi, 0) %}
+                    {% set entries = report_a | selectattr('current_rasi', 'equalto', rasi) | list %}
+                    <div class="si-cell{% if rasi == sic.reference_moon.rasi %} si-cell-highlight{% endif %}">
+                        <div class="si-cell-head">
+                            <span class="si-rasi">{{ rasi }}</span>
+                            {% if cell_house %}<span class="si-house">{{ cell_house }}H</span>{% endif %}
+                        </div>
+                        <div class="si-chips">
+                            {% for e in entries %}
+                            <span class="planet-chip" title="{{ e.planet }} · entry {{ e.rasi_entry or '—' }} · exit {{ e.rasi_exit or '—' }}">{{ e.planet }}</span>
+                            {% endfor %}
+                        </div>
+                        {% for e in entries %}
+                        {% if e.status %}
+                        <div><span class="si-status si-status-{{ e.status }}">{{ e.status }}</span></div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="si-cell si-cell-centre">Moon</div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p style="font-size: 0.85em; color: #64748b;">No regular Rāśi gochara data available.</p>
+                {% endif %}
+            </div>
+        </details>
+
+    </div>
+</details>
+{% endif %}

@@ -8,6 +8,7 @@ from app.pipeline_runner import PipelineRunner
 from app.reports.builder import ReportBuilder
 from app.reports.html_generator import HTMLGenerator
 from app.reports.pdf_generator import PDFGenerator
+from app.reports.south_indian_chart_data import build_south_indian_chart_data
 from app.core.logging import log
 
 router = APIRouter()
@@ -26,7 +27,8 @@ SECTION_TO_REPORT_KEYS = {
     "activation-timeline": ["lifetime_intelligence"],
     "gochara": ["gochara_report", "mandali_analysis", "mandali_gochar_report",
                 "important_advisory", "upcoming_mandali_events", "current_mandali",
-                "saturn_lifetime_cycles", "formula_verification"],
+                "saturn_lifetime_cycles", "formula_verification",
+                "south_indian_chart_data"],
     "appendix": ["formula_verification"],
 }
 # Keys always retained so the document shell never loses required layout data.
@@ -83,6 +85,14 @@ def generate_report(
         
         # 3. Build the final report structure
         report = report_builder.build_json_report(outputs, request.machine_index, questions=q_responses)
+        
+        # 3b. Attach the report-level South-Indian chart presentation snapshot.
+        # Pure passthrough of already-existing canonical natal data (no astrology
+        # calculation) so the HTML/PDF templates can render the three verified
+        # South-Indian charts. The JSON report and all calculations are untouched.
+        sic_data = build_south_indian_chart_data(request.canonical_content, report)
+        if sic_data is not None:
+            report["south_indian_chart_data"] = sic_data
         
         # 4. Handle export formats
         if format.lower() == "json":
