@@ -1,6 +1,7 @@
 from typing import Dict, Any
 from app.config.astrology_constants import DASHA_SCORING_MATRIX
 from app.utils.astrology_math import calculate_planetary_axis
+from app.utils.engine_provenance import build_engine_provenance, build_factor_provenance
 
 class DashaEngine:
     """
@@ -194,6 +195,19 @@ class DashaEngine:
                 record["end_date"] = "Unknown"
             
         results["timeline"] = timeline
+
+        provenance = build_engine_provenance(
+            self.calibration, "DashaEngine", "calibration.dasha"
+        )
+        md_weight = self._get_weight("md", 0.50)
+        ad_weight = self._get_weight("ad", 0.30)
+        pd_weight = self._get_weight("pd", 0.20)
+        provenance["factors"] = {
+            "mahadasha":   build_factor_provenance(md_base_score, md_weight),
+            "antardasha":  build_factor_provenance(ad_base_score, ad_weight),
+            "pratyantardasha": build_factor_provenance(pd_base_score, pd_weight),
+        }
+        results["metadata"] = provenance
 
         return results
 

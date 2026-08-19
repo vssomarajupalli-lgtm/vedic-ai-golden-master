@@ -1,5 +1,6 @@
 from app.config.astrology_constants import PLANET_SCORING_MATRIX
 from app.utils.astrology_math import clamp_score
+from app.utils.engine_provenance import build_engine_provenance, build_factor_provenance
 
 class PlanetStrengthEngine:
     """
@@ -28,44 +29,57 @@ class PlanetStrengthEngine:
         Calculates the overall strength of a planet.
         """
         breakdown = {}
+        factor_provenance = {}
 
         # 1. Evaluate Dignity (25%)
         dignity_raw = self._evaluate_dignity(planet_data.get("dignity", "neutral"))
-        dignity_score = dignity_raw * self._get_weight("dignity", 0.25)
+        dignity_weight = self._get_weight("dignity", 0.25)
+        dignity_score = dignity_raw * dignity_weight
         breakdown["dignity"] = dignity_score
+        factor_provenance["dignity"] = build_factor_provenance(dignity_raw, dignity_weight)
 
         # 2. Evaluate House Placement (20%)
         house_raw = self._evaluate_house(planet_data.get("house_type", "neutral"))
-        house_score = house_raw * self._get_weight("house_placement", 0.20)
+        house_weight = self._get_weight("house_placement", 0.20)
+        house_score = house_raw * house_weight
         breakdown["house_placement"] = house_score
+        factor_provenance["house_placement"] = build_factor_provenance(house_raw, house_weight)
 
         # 3. Evaluate Aspects (15%)
         aspect_raw = self._evaluate_aspects(
             planet_data.get("benefic_aspects_count", 0),
             planet_data.get("malefic_aspects_count", 0)
         )
-        aspect_score = aspect_raw * self._get_weight("aspects", 0.15)
+        aspect_weight = self._get_weight("aspects", 0.15)
+        aspect_score = aspect_raw * aspect_weight
         breakdown["aspects"] = aspect_score
+        factor_provenance["aspects"] = build_factor_provenance(aspect_raw, aspect_weight)
 
         # 4. Evaluate Conjunctions (10%)
         conj_raw = self._evaluate_conjunctions(
             planet_data.get("benefic_conjunctions_count", 0),
             planet_data.get("malefic_conjunctions_count", 0)
         )
-        conj_score = conj_raw * self._get_weight("conjunctions", 0.10)
+        conj_weight = self._get_weight("conjunctions", 0.10)
+        conj_score = conj_raw * conj_weight
         breakdown["conjunctions"] = conj_score
+        factor_provenance["conjunctions"] = build_factor_provenance(conj_raw, conj_weight)
 
         # 5. Evaluate Combustion (10%)
         is_combust = planet_data.get("is_combust", False)
         combust_raw = self.scoring_matrix["state_modifiers"]["combust_score"] if is_combust else 100
-        combust_score = combust_raw * self._get_weight("combustion", 0.10)
+        combust_weight = self._get_weight("combustion", 0.10)
+        combust_score = combust_raw * combust_weight
         breakdown["combustion"] = combust_score
+        factor_provenance["combustion"] = build_factor_provenance(combust_raw, combust_weight)
 
         # 6. Evaluate Retrogression (5%)
         is_retro = planet_data.get("is_retrograde", False)
         retro_raw = self.scoring_matrix["state_modifiers"]["retrograde_score"] if is_retro else 50
-        retro_score = retro_raw * self._get_weight("retrogression", 0.05)
+        retro_weight = self._get_weight("retrogression", 0.05)
+        retro_score = retro_raw * retro_weight
         breakdown["retrogression"] = retro_score
+        factor_provenance["retrogression"] = build_factor_provenance(retro_raw, retro_weight)
 
         # 7. Evaluate Shadbala (10%)
         planet_name = planet_data.get("name", "unknown").lower()
@@ -77,13 +91,17 @@ class PlanetStrengthEngine:
             shadbala_raw = self._map_shadbala_to_score(req_pct)
         else:
             shadbala_raw = 50.0 # Neutral fallback
-        shadbala_score = shadbala_raw * self._get_weight("shadbala", 0.10)
+        shadbala_weight = self._get_weight("shadbala", 0.10)
+        shadbala_score = shadbala_raw * shadbala_weight
         breakdown["shadbala"] = shadbala_score
+        factor_provenance["shadbala"] = build_factor_provenance(shadbala_raw, shadbala_weight)
 
         # 8. Evaluate Varga Dignity (5%)
         varga_raw = 50.0 # Placeholder for D9 dignity extraction
-        varga_score = varga_raw * self._get_weight("varga_dignity", 0.05)
+        varga_weight = self._get_weight("varga_dignity", 0.05)
+        varga_score = varga_raw * varga_weight
         breakdown["varga_dignity"] = varga_score
+        factor_provenance["varga_dignity"] = build_factor_provenance(varga_raw, varga_weight)
 
         total_score = (dignity_score + house_score + aspect_score + conj_score + 
                        combust_score + retro_score + shadbala_score + varga_score)
@@ -91,10 +109,16 @@ class PlanetStrengthEngine:
         # Clamp final score between 0 and 100
         final_score = clamp_score(total_score)
 
+        provenance = build_engine_provenance(
+            self.calibration, "PlanetStrengthEngine", "calibration.planet_strength"
+        )
+        provenance["factors"] = factor_provenance
+
         return {
             "metadata": {
                 "entity_id": planet_name,
-                "entity_type": "planet"
+                "entity_type": "planet",
+                **provenance
             },
             "final_score": final_score,
             "raw_score": float(total_score),

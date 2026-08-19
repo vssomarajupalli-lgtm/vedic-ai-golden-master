@@ -40,6 +40,7 @@ from app.config.astrology_constants import (
 )
 from app.schemas.mandali_response import MandaliResponseDTO
 from app.utils.astrology_math import clamp_score
+from app.utils.engine_provenance import build_engine_provenance, build_factor_provenance
 
 
 class TransitEngine:
@@ -73,6 +74,7 @@ class TransitEngine:
         if calibration is None:
             from app.calibration.calibration_manager import CalibrationManager
             calibration = CalibrationManager()
+        self.calibration   = calibration
         self.weights       = calibration.transit.get('TRANSIT_WEIGHTS', {})
         self.vedha_pairs   = calibration.transit.get('VEDHA_PAIRS', {})
         self.house_quality = calibration.transit.get('TRANSIT_HOUSE_QUALITY', {})
@@ -165,6 +167,15 @@ class TransitEngine:
         # --- Confidence flags ---
         flags = self._generate_confidence_flags(t_houses, natal_planets, dasha_results)
 
+        provenance = build_engine_provenance(
+            self.calibration, "TransitEngine", "calibration.transit"
+        )
+        provenance["factors"] = {
+            key: build_factor_provenance(breakdown[key], self.weights[key])
+            for key in self.weights
+            if key in breakdown
+        }
+
         return {
             "activation_score":   activation_score,
             "grade":              self._grade(activation_score),
@@ -175,6 +186,7 @@ class TransitEngine:
             "confidence_flags":   flags,
             "stub_factors":       [],
             "transit_houses":     t_houses,
+            "metadata":           provenance,
         }
 
     # -------------------------------------------------------------------------
@@ -710,6 +722,13 @@ class TransitEngine:
         activation_score = 50 (neutral) — identical to the previous
         _transit_trigger_stub() return value.
         """
+        provenance = build_engine_provenance(
+            self.calibration, "TransitEngine", "calibration.transit"
+        )
+        provenance["factors"] = {
+            key: build_factor_provenance(50, self.weights[key])
+            for key in self.weights
+        }
         return {
             "activation_score":    50,
             "grade":               "GOOD",
@@ -719,4 +738,5 @@ class TransitEngine:
             "breakdown":           {k: 50 for k in self.weights},
             "confidence_flags":    ["transit_stub_no_input"],
             "stub_factors":        ["all"],
+            "metadata":            provenance,
         }

@@ -1,4 +1,5 @@
 from app.utils.astrology_math import clamp_score
+from app.utils.engine_provenance import build_engine_provenance, build_factor_provenance
 
 
 # ---------------------------------------------------------------------------
@@ -97,7 +98,16 @@ class MasterProbabilityEngine:
                 "grade": temp_grade
             })
 
+        provenance = build_engine_provenance(
+            self.calibration, "MasterProbabilityEngine", "calibration.master_probability"
+        )
+        provenance["factors"] = {
+            key: build_factor_provenance(score, self.weights.get(key, 0.0))
+            for key, score in factors.items()
+        }
+
         return {
+            "metadata":     provenance,
             "final_score":  score,
             "raw_score":    round(raw, 4),
             "grade":        grade,

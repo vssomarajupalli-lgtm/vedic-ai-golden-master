@@ -1,6 +1,7 @@
 from typing import Any, Dict, List, Union
 import logging
 from app.utils.astrology_math import clamp_score
+from app.utils.engine_provenance import build_engine_provenance, build_factor_provenance
 
 log = logging.getLogger(__name__)
 
@@ -28,6 +29,7 @@ class NatalPromiseEngine:
         if calibration is None:
             from app.calibration.calibration_manager import CalibrationManager
             calibration = CalibrationManager()
+        self.calibration = calibration
         self.config   = calibration.natal_promise.get("DOMAIN_CONFIG", {})
         self.domains  = list(self.config.keys())
         self.karaka   = calibration.natal_promise.get("DOMAIN_KARAKA", {})
@@ -108,10 +110,21 @@ class NatalPromiseEngine:
         score   = clamp_score(round(raw))
         promise = self._promise_grade(score)
 
+        provenance = build_engine_provenance(
+            self.calibration, "NatalPromiseEngine", "calibration.natal_promise"
+        )
+        provenance["factors"] = {
+            "bhava":        build_factor_provenance(f_bhava,        weights["bhava"]),
+            "bhavadhipati": build_factor_provenance(f_bhavadhipati, weights["bhavadhipati"]),
+            "karaka":       build_factor_provenance(f_karaka,       weights["karaka"]),
+            "varga":        build_factor_provenance(f_varga,        weights["varga"]),
+        }
+
         return {
-            "score":   score,
-            "raw_score": round(raw, 4),
-            "promise": promise,
+            "metadata":    provenance,
+            "score":       score,
+            "raw_score":   round(raw, 4),
+            "promise":     promise,
             "breakdown": {
                 "bhava":          round(f_bhava, 2),
                 "bhavadhipati":   round(f_bhavadhipati, 2),

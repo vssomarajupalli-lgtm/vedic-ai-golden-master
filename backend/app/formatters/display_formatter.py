@@ -130,33 +130,51 @@ class DisplayFormatter:
     def _build_explanation(engine_data: Dict[str, Any], final_score: float, formula: str = "") -> DeterministicExplanation:
         metadata = engine_data.get("metadata", {})
         breakdown = engine_data.get("breakdown", {})
-        
-        factors = []
-        for k, v in breakdown.items():
-            try:
-                val = float(v)
-            except (ValueError, TypeError):
-                val = 0.0
-            factors.append(CalculationFactor(
-                factor_name=k,
-                raw_value=val,
-                weight=1.0,
-                contribution=val
-            ))
-            
-        # Manually add bav_modifier if present
-        if "bav_modifier" in engine_data:
-            try:
-                bav_val = float(engine_data["bav_modifier"])
+
+        # Provenance emitted by the owning formula engine (TR-001). Each entry is
+        # the engine-known {raw, weight, contribution} tuple — passed through as-is.
+        factor_meta = metadata.get("factors")
+        if isinstance(factor_meta, dict) and factor_meta:
+            factors = [
+                CalculationFactor(
+                    factor_name=k,
+                    raw_value=float(v.get("raw", 0.0)),
+                    weight=float(v.get("weight", 0.0)),
+                    calibration_key=k,
+                    calibration_value=float(v.get("weight", 0.0)),
+                    contribution=float(v.get("contribution", 0.0)),
+                )
+                for k, v in factor_meta.items()
+            ]
+        else:
+            # Fallback for engines that do not emit provenance (e.g. YogaEngine):
+            # unchanged legacy behavior.
+            factors = []
+            for k, v in breakdown.items():
+                try:
+                    val = float(v)
+                except (ValueError, TypeError):
+                    val = 0.0
                 factors.append(CalculationFactor(
-                    factor_name="bav_modifier",
-                    raw_value=bav_val,
+                    factor_name=k,
+                    raw_value=val,
                     weight=1.0,
-                    contribution=bav_val
+                    contribution=val
                 ))
-            except (ValueError, TypeError):
-                pass
-            
+
+            # Manually add bav_modifier if present
+            if "bav_modifier" in engine_data:
+                try:
+                    bav_val = float(engine_data["bav_modifier"])
+                    factors.append(CalculationFactor(
+                        factor_name="bav_modifier",
+                        raw_value=bav_val,
+                        weight=1.0,
+                        contribution=bav_val
+                    ))
+                except (ValueError, TypeError):
+                    pass
+
         return DeterministicExplanation(
             engine_name=metadata.get("engine", "Unknown"),
             engine_version=metadata.get("version", "1.0"),

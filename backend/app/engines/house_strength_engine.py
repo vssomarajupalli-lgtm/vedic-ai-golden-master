@@ -1,5 +1,6 @@
 from app.config.astrology_constants import HOUSE_SCORING_MATRIX, NATURAL_BENEFICS, NATURAL_MALEFICS, PROBABILITY_GRADES
 from app.utils.astrology_math import clamp_score
+from app.utils.engine_provenance import build_engine_provenance, build_factor_provenance
 
 class HouseStrengthEngine:
     """
@@ -30,41 +31,55 @@ class HouseStrengthEngine:
         Calculates the overall strength of a single house using the Bhava Pillar formula.
         """
         breakdown = {}
+        factor_provenance = {}
 
         # 1. Evaluate SAV (30%)
         sav_raw = self._evaluate_sav_support(house_data.get("sav_points", 0))
-        sav_score = sav_raw * self._get_weight("sav", 0.30)
+        sav_weight = self._get_weight("sav", 0.30)
+        sav_score = sav_raw * sav_weight
         breakdown["sav"] = sav_score
+        factor_provenance["sav"] = build_factor_provenance(sav_raw, sav_weight)
 
         # 2. Evaluate Occupants (20%)
         occupants_raw = self._evaluate_influences(house_data.get("occupants", []), "occupants")
-        occupants_score = occupants_raw * self._get_weight("occupants", 0.20)
+        occupants_weight = self._get_weight("occupants", 0.20)
+        occupants_score = occupants_raw * occupants_weight
         breakdown["occupants"] = occupants_score
+        factor_provenance["occupants"] = build_factor_provenance(occupants_raw, occupants_weight)
 
         # 3. Evaluate Benefic Aspects (15%) & Malefic Aspects (15%)
         # Note: We split aspects into separate benefic and malefic buckets.
         benefic_aspects_raw = self._evaluate_specific_aspects(house_data.get("aspected_by", []), self.benefics)
-        benefic_aspects_score = benefic_aspects_raw * self._get_weight("benefic_aspects", 0.15)
+        benefic_aspects_weight = self._get_weight("benefic_aspects", 0.15)
+        benefic_aspects_score = benefic_aspects_raw * benefic_aspects_weight
         breakdown["benefic_aspects"] = benefic_aspects_score
+        factor_provenance["benefic_aspects"] = build_factor_provenance(benefic_aspects_raw, benefic_aspects_weight)
 
         malefic_aspects_raw = self._evaluate_specific_aspects(house_data.get("aspected_by", []), self.malefics)
-        malefic_aspects_score = malefic_aspects_raw * self._get_weight("malefic_aspects", 0.15)
+        malefic_aspects_weight = self._get_weight("malefic_aspects", 0.15)
+        malefic_aspects_score = malefic_aspects_raw * malefic_aspects_weight
         breakdown["malefic_aspects"] = malefic_aspects_score
+        factor_provenance["malefic_aspects"] = build_factor_provenance(malefic_aspects_raw, malefic_aspects_weight)
 
         # 4. Evaluate House Nature (10%)
         type_raw = self._evaluate_house_type(house_data.get("house_type", "neutral"))
-        type_score = type_raw * self._get_weight("house_type", 0.10)
+        type_weight = self._get_weight("house_type", 0.10)
+        type_score = type_raw * type_weight
         breakdown["house_type"] = type_score
+        factor_provenance["house_type"] = build_factor_provenance(type_raw, type_weight)
 
         # 5. Evaluate House Specific Yogas (10%)
         yogas_raw = 50.0  # Default fallback until Phase 3 integration
-        yogas_score = yogas_raw * self._get_weight("yogas", 0.10)
+        yogas_weight = self._get_weight("yogas", 0.10)
+        yogas_score = yogas_raw * yogas_weight
         breakdown["house_yogas"] = yogas_score
+        factor_provenance["house_yogas"] = build_factor_provenance(yogas_raw, yogas_weight)
 
         # Restore lord_contribution for contract compatibility with pipeline runner tests
         # This does not affect the deterministic final_score mathematics.
         lord_score = house_data.get("lord_strength_score", 50.0)
         breakdown["lord_contribution"] = lord_score * 0.25
+        factor_provenance["lord_contribution"] = build_factor_provenance(lord_score, 0.25)
 
         total_score = sav_score + occupants_score + benefic_aspects_score + malefic_aspects_score + type_score + yogas_score
 
@@ -73,11 +88,17 @@ class HouseStrengthEngine:
         # Clamp final score between 0 and 100
         final_score = clamp_score(total_score)
 
+        provenance = build_engine_provenance(
+            self.calibration, "HouseStrengthEngine", "calibration.house_strength"
+        )
+        provenance["factors"] = factor_provenance
+
         return {
             "metadata": {
                 "entity_id": str(house_data.get("house", "unknown")),
                 "entity_type": "house",
-                "lord": house_data.get("lord", "unknown")
+                "lord": house_data.get("lord", "unknown"),
+                **provenance
             },
             "final_score": final_score,
             "grade":       self._assign_grade(final_score),
