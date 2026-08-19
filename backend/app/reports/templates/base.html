@@ -434,6 +434,46 @@
             }
         }
 
+        /* Print compaction (D3) — presentation-only whitespace tightening.
+           Screen appearance is untouched; all values stay within the safe
+           readability range (fonts are NOT reduced). No content is removed. */
+        @media print {
+            body { line-height: 1.5; }
+
+            details.group {
+                margin-bottom: 10px;
+            }
+            details.group > summary {
+                padding: 12px 16px;
+            }
+            .group-content {
+                padding: 16px;
+            }
+            details.subgroup {
+                margin-bottom: 6px;
+            }
+            details.subgroup > summary {
+                padding: 9px 12px;
+            }
+            .subgroup-content {
+                padding: 10px 12px;
+            }
+
+            table { line-height: 1.4; }
+            th, td {
+                padding: 6px 9px !important;
+            }
+
+            .deterministic-explanation {
+                margin-top: 8px !important;
+                padding: 10px !important;
+            }
+            .deterministic-explanation > div {
+                gap: 8px !important;
+                margin-bottom: 10px !important;
+            }
+        }
+
         @media (max-width: 768px) {
             .layout-wrapper {
                 grid-template-columns: 1fr;

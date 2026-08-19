@@ -505,3 +505,45 @@ def test_sade_sati_terminology_frontend():
     assert "Sade Sati" in src
     # Elinati must not reappear as a displayed Saturn period header.
     assert "Elinati Shani)" not in src
+
+
+# ---------------------------------------------------------------------------
+# D3 — South-Indian Charts PDF landscape + print-only compaction
+# ---------------------------------------------------------------------------
+
+def test_south_indian_charts_section_uses_landscape_class():
+    """The South-Indian Charts section carries the print landscape page class;
+    the named-page rule already exists in the print CSS."""
+    text = _template_text()
+    section = re.search(
+        r'<details id="sec-south-indian-charts" class="([^"]+)"', text
+    )
+    assert section, "sec-south-indian-charts details not found"
+    assert "landscape-section" in section.group(1)
+    assert "page-break" in section.group(1)
+    css = text[: text.index("</style>")]
+    assert "@page landscape_page {" in css
+    assert ".landscape-section { page: landscape_page; }" in css
+
+
+def test_landscape_class_keeps_all_three_charts():
+    """Wiring the presentation class must not disturb the three charts."""
+    text = _template_text()
+    assert 'id="sec-sa-chart-1"' in text
+    assert 'id="sec-sa-chart-2"' in text
+    assert 'id="sec-sa-chart-3"' in text
+
+
+def test_print_compaction_block_present():
+    """The D3 print-only compaction block exists and does not touch screen CSS:
+    group/subgroup spacing shrinks under @media print only."""
+    text = _template_text()
+    start = text.index("/* Print compaction (D3)")
+    end = text.index("@media (max-width: 768px)")
+    comp = text[start:end]
+    assert "line-height: 1.5;" in comp
+    assert "details.group > summary {" in comp and "padding: 12px 16px;" in comp
+    assert ".subgroup-content {" in comp and "padding: 10px 12px;" in comp
+    assert ".deterministic-explanation {" in comp
+    # The compaction block introduces NO font-size shrink (readability guard).
+    assert "font-size:" not in comp
