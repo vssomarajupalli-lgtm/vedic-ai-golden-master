@@ -84,15 +84,25 @@ def main():
     from app.reports.html_generator import HTMLGenerator
     from app.reports.pdf_generator import PDFGenerator
     from app.reports.south_indian_chart_data import build_south_indian_chart_data
+    from app.reports.report_manifest import build_report_manifest, write_report_manifest
     from app.services.question_service import question_service
+    from app.calibration.calibration_manager import CalibrationManager
 
     runner          = PipelineRunner()
     report_builder  = ReportBuilder()
     html_generator  = HTMLGenerator()
     pdf_generator   = PDFGenerator()
 
+    # Authoritative calibration/version identity (existing single source).
+    # Used only for manifest provenance; never fed into engine calculations.
+    _calibration  = CalibrationManager()
+    _cal_meta     = (_calibration.active_profile or {}).get("metadata", {}) or {}
+    _cal_profile  = str(_cal_meta.get("profile_id", "v1.0_default"))
+    _cal_version  = str(_cal_meta.get("version", "1.0.0"))
+
     html_ok = 0
     pdf_ok  = 0
+    manifest_ok = 0
     failed  = []
 
     for name, canonical_path, machine_index_path in pairs:
@@ -137,6 +147,7 @@ def main():
             print("  [HTML] OK  -> %s (%d bytes)" % (os.path.basename(html_path), len(html_content)))
 
             # 6. PDF report (PDFGenerator handles WeasyPrint -> Playwright fallback).
+            pdf_path = None
             try:
                 pdf_bytes = pdf_generator.generate(report)
                 pdf_path = os.path.join(output_dir, name + "_report.pdf")
@@ -147,6 +158,29 @@ def main():
             except Exception as e:
                 failed.append((name, "pdf", "%s: %s" % (type(e).__name__, e)))
                 print("  [PDF ] FAIL -> %s: %s" % (type(e).__name__, e))
+
+            # 7. Report manifest (D1) — provenance of source + output artifacts.
+            # Hashes the exact final on-disk files. A failed/missing PDF yields
+            # "pdf": null (no fabricated hash). Metadata only: never feeds
+            # engine, formula, calibration, or Gochara/Mandali calculations.
+            try:
+                manifest = build_report_manifest(
+                    stem=name,
+                    canonical_path=canonical_path,
+                    machine_index_path=machine_index_path,
+                    html_path=html_path,
+                    pdf_path=pdf_path,
+                    person_name=report.get("client_profile", {}).get("name") or "Unknown",
+                    engine_version=_cal_version,
+                    calibration_profile=_cal_profile,
+                    calibration_version=_cal_version,
+                )
+                manifest_path = write_report_manifest(manifest, output_dir, name)
+                manifest_ok += 1
+                print("  [MANI] OK  -> %s" % os.path.basename(manifest_path))
+            except Exception as e:
+                failed.append((name, "manifest", "%s: %s" % (type(e).__name__, e)))
+                print("  [MANI] FAIL -> %s: %s" % (type(e).__name__, e))
 
         except Exception as e:
             failed.append((name, "processing", "%s: %s" % (type(e).__name__, e)))
@@ -161,6 +195,7 @@ def main():
     print("  Valid pairs processed       : %d" % len(pairs))
     print("  HTML reports generated      : %d" % html_ok)
     print("  PDF reports generated       : %d" % pdf_ok)
+    print("  Manifests generated         : %d" % manifest_ok)
     print("  Failed                     : %d" % len(failed))
     print("  Skipped (no machine index)  : %d" % len(skipped))
     print("  Output directory            : %s" % output_dir)
