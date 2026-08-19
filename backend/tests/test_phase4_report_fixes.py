@@ -267,6 +267,7 @@ def test_status_dot_classification(value, expected_class):
 # ---------------------------------------------------------------------------
 
 NAV_ORDER = [
+    "#sec-index",
     "#sec-dashboard",
     "#sec-overview",
     "#sec-life-areas",
@@ -277,8 +278,24 @@ NAV_ORDER = [
     "#sec-questions",
     "#sec-gochara",
     "#sec-gochara-mandali",
+    "#sec-saturn-lifetime",
     "#sec-gochara-mandali-report",
+    "#sec-south-indian-charts",
     "#sec-final",
+]
+
+# D2 curated sub-feature navigation targets. Every anchor must already exist
+# in the document as a subgroup/element id; nothing new is created.
+CURATED_SUBNAV = [
+    "#sec-gochara-transit",
+    "#sec-gochara-mandali-current",
+    "#sec-gochara-sade-sati",
+    "#sec-gochara-ashtama-shani",
+    "#sec-gochara-ardha-ashtama",
+    "#sec-dasha-md-ad-pd",
+    "#sec-sa-chart-1",
+    "#sec-sa-chart-2",
+    "#sec-sa-chart-3",
 ]
 
 
@@ -287,12 +304,31 @@ def _template_text():
         os.path.dirname(__file__), "..", "app", "reports", "templates", "base.html"
     )
     with open(path, encoding="utf-8") as f:
-        return f.read()
+        text = f.read()
+    # The South-Indian Charts section lives in an included template; inline it
+    # at its include site so id/order assertions see the full rendered source.
+    include_name = "south_indian_charts.html"
+    include_path = os.path.join(os.path.dirname(path), include_name)
+    with open(include_path, encoding="utf-8") as f:
+        include = f.read()
+    marker = "{% include '" + include_name + "' %}"
+    assert marker in text, f"{marker} not found in base.html"
+    return text.replace(marker, include, 1)
+
+
+def _nav_block(text):
+    # The sidebar uses nested <ul> for curated sub-features, so capture up to
+    # the outer list's closing </ul> followed by the sidebar </div>.
+    match = re.search(
+        r'<ul class="sidebar-nav">(.*?)</ul>\s*</div>', text, re.S
+    )
+    assert match, "sidebar-nav block not found"
+    return match.group(0)
 
 
 def test_nav_entries_present_and_resolve():
     text = _template_text()
-    nav_block = re.search(r'<ul class="sidebar-nav">(.*?)</ul>', text, re.S).group(0)
+    nav_block = _nav_block(text)
     for anchor in NAV_ORDER:
         assert anchor in nav_block, f"nav missing {anchor}"
         section_id = anchor.lstrip("#")
@@ -302,8 +338,137 @@ def test_nav_entries_present_and_resolve():
 
 def test_nav_order_matches_document_order():
     text = _template_text()
-    nav_positions = [text.index(a, text.index('<ul class="sidebar-nav">')) for a in NAV_ORDER]
+    nav_block_start = text.index('<ul class="sidebar-nav">')
+    nav_positions = [text.index(a, nav_block_start) for a in NAV_ORDER]
     assert nav_positions == sorted(nav_positions), "nav order != document order"
+
+
+# ---------------------------------------------------------------------------
+# D2 — curated sub-feature navigation (existing content only)
+# ---------------------------------------------------------------------------
+
+def test_south_indian_charts_present_in_sidebar():
+    text = _template_text()
+    nav_block = _nav_block(text)
+    assert "#sec-south-indian-charts" in nav_block
+    assert 'id="sec-south-indian-charts"' in text
+    assert '► South-Indian Charts' in text
+
+
+def test_curated_subnav_targets_resolve():
+    text = _template_text()
+    nav_block = _nav_block(text)
+    for anchor in CURATED_SUBNAV:
+        assert anchor in nav_block, f"sub-nav missing {anchor}"
+        section_id = anchor.lstrip("#")
+        assert f'id="{section_id}"' in text, f"sub-feature {section_id} missing id"
+
+
+def test_rashi_transit_and_mandali_subnav_stay_separate():
+    text = _template_text()
+    nav_block = _nav_block(text)
+    # Both are distinct curated anchors: Rāśi-based transit vs Moon-centred
+    # Mandali. They must never be the same target or merged.
+    assert "#sec-gochara-transit" in nav_block
+    assert "#sec-gochara-mandali-current" in nav_block
+    assert "#sec-gochara-transit" != "#sec-gochara-mandali-current"
+
+
+def test_sade_sati_subnav_points_to_mandali_context():
+    text = _template_text()
+    nav_block = _nav_block(text)
+    assert "#sec-gochara-sade-sati" in nav_block
+    # The side navigation link targets the existing Sade Sati subgroup; it is
+    # a deep link, not a duplicate of the subgroup content.
+    assert 'id="sec-gochara-sade-sati"' in text
+
+
+def test_sidebar_label_sync():
+    text = _template_text()
+    nav_block = _nav_block(text)
+    assert "Gochara (Transit) Intelligence" in nav_block
+    assert "Bhava (House) Intelligence" in nav_block
+    assert "Gochara Analysis" not in nav_block
+    assert "Bhava Intelligence" not in nav_block
+
+
+def test_index_toc_remains_intact():
+    """The guarded Index/TOC (sec-index) remains intact and still exposes the
+    South-Indian Charts entry alongside the other major sections."""
+    text = _template_text()
+    assert 'id="sec-index"' in text
+    # The guarded Index/TOC must still contain the South-Indian Charts entry.
+    index_section = re.search(
+        r'<details id="sec-index".*?</details>', text, re.S
+    ).group(0)
+    assert "#sec-south-indian-charts" in index_section
+
+
+def test_most_favorable_period_label_only():
+    text = _template_text()
+    # New visible label is a presentation-only wording change.
+    assert "Most Favorable Period" in text
+    # Legacy visible label is gone.
+    assert "<strong>Best Future Period:</strong>" not in text
+    # The machine field binding (value) is untouched and still rendered.
+    assert "best_future_period" in text
+    assert "snapshot.best_future_period" in text
+
+
+def test_no_dead_sidebar_links():
+    """Every sidebar anchor must resolve to an existing element id in the
+    template. Guard clauses may hide a link, but a link must never be emitted
+    without a matching target."""
+    text = _template_text()
+    nav_block = _nav_block(text)
+    hrefs = re.findall(r'href="#([^"]+)"', nav_block)
+    assert len(hrefs) >= 15, "sidebar must expose all major sections"
+    for section_id in hrefs:
+        assert f'id="{section_id}"' in text, f"dangling nav link #{section_id}"
+
+
+def test_sidebar_links_are_guarded():
+    """Sidebar entries (except the always-available Index) must be wrapped in a
+    Jinja guard mirroring their section guard, so absent sections never render
+    a dead link."""
+    text = _template_text()
+    nav_block = _nav_block(text)
+    guards = re.findall(r"\{% if ", nav_block)
+    # Every major section after the Index needs a guard; sub-features add more.
+    assert len(guards) >= len(NAV_ORDER) - 1
+    # Spot-check that conditionally-present sections are guarded.
+    for marker in (
+        "{% if report.executive_summary is defined %}",
+        "{% if report.lifetime_intelligence is defined %}",
+        "{% if report.question_responses %}",
+        "{% if report.gochara_report %}",
+        "{% if report.saturn_lifetime_cycles is defined and report.saturn_lifetime_cycles %}",
+        "{% if report.mandali_gochar_report is defined and report.mandali_gochar_report %}",
+        "{% if report.south_indian_chart_data is defined and report.south_indian_chart_data %}",
+        "{% if sidebar_has_mandali %}",
+    ):
+        assert marker in nav_block, f"missing guard {marker}"
+
+
+def test_sade_sati_kept_in_all_contexts():
+    """Sade Sati content must remain in every existing context: the Gochara &
+    Mandali subgroup, the Saturn lifetime cycles, and the Report B resolver.
+    Navigation may deep-link but must never remove these occurrences."""
+    text = _template_text()
+    # Three literal render sites plus the sidebar sub-feature label.
+    assert text.count("Sade Sati") >= 3
+    assert 'id="sec-gochara-sade-sati"' in text
+
+
+def test_best_future_period_machine_field_unchanged_in_schemas():
+    """best_future_period (JSON/API/schema/calculation) must remain untouched:
+    only the visible label is changed in the template."""
+    schema_path = os.path.join(
+        os.path.dirname(__file__), "..", "app", "reports", "schemas.py"
+    )
+    with open(schema_path, encoding="utf-8") as f:
+        schema = f.read()
+    assert "best_future_period: str" in schema
 
 
 # ---------------------------------------------------------------------------

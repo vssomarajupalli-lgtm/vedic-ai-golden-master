@@ -532,6 +532,9 @@
         </div>
 
         <div class="layout-wrapper">
+            {% set sidebar_advisory = report.formula_verification.engine_outputs.mandali_advisory if report.formula_verification is defined and report.formula_verification.engine_outputs is defined and report.formula_verification.engine_outputs.mandali_advisory is defined else {} %}
+            {% set sidebar_mandali = report.mandali_analysis if report.mandali_analysis is defined else {} %}
+            {% set sidebar_has_mandali = (sidebar_mandali and (sidebar_mandali.natal_chart or sidebar_mandali.current_chart or sidebar_mandali.transition_summary)) or (sidebar_advisory and sidebar_advisory.reference_moon) or report.important_advisory or report.upcoming_mandali_events or report.current_mandali or (sidebar_advisory and sidebar_advisory.sade_sati) %}
             <div class="sidebar no-print">
                 <h3>Navigation</h3>
                 <div class="global-controls">
@@ -542,19 +545,69 @@
                 </div>
                 <ul class="sidebar-nav">
                     <li><a href="#sec-index">► Index</a></li>
+                    {% if report.executive_summary is defined %}
                     <li><a href="#sec-dashboard">► Executive Dashboard</a></li>
+                    {% endif %}
+                    {% if report.lifetime_intelligence is defined %}
                     <li><a href="#sec-overview">► Birth Chart Overview</a></li>
                     <li><a href="#sec-life-areas">► Life Area Intelligence</a></li>
                     <li><a href="#sec-planets">► Planet Intelligence</a></li>
-                    <li><a href="#sec-houses">► Bhava Intelligence</a></li>
+                    <li><a href="#sec-houses">► Bhava (House) Intelligence</a></li>
                     <li><a href="#sec-yogas">► Yogas & Doshas</a></li>
-                    <li><a href="#sec-dasha">► Dasha Analysis</a></li>
+                    <li><a href="#sec-dasha">► Dasha Analysis</a>
+                        {% if report.lifetime_intelligence.timeline %}
+                        <ul style="list-style: none; margin: 2px 0 8px 0; padding-left: 16px;">
+                            <li><a href="#sec-dasha-md-ad-pd" style="font-size: 13px; font-weight: 400;">MD / AD / PD</a></li>
+                        </ul>
+                        {% endif %}
+                    </li>
+                    {% endif %}
+                    {% if report.question_responses %}
                     <li><a href="#sec-questions">► Question Engine</a></li>
-                    <li><a href="#sec-gochara">► Gochara Analysis</a></li>
-                    <li><a href="#sec-gochara-mandali">► Gochara & Mandali Analysis</a></li>
+                    {% endif %}
+                    {% if report.gochara_report %}
+                    <li><a href="#sec-gochara">► Gochara (Transit) Intelligence</a>
+                        <ul style="list-style: none; margin: 2px 0 8px 0; padding-left: 16px;">
+                            <li><a href="#sec-gochara-transit" style="font-size: 13px; font-weight: 400;">Rāśi Transit</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    {% if sidebar_has_mandali %}
+                    <li><a href="#sec-gochara-mandali">► Gochara & Mandali Analysis</a>
+                        <ul style="list-style: none; margin: 2px 0 8px 0; padding-left: 16px;">
+                            {% if sidebar_mandali and sidebar_mandali.current_chart %}
+                            <li><a href="#sec-gochara-mandali-current" style="font-size: 13px; font-weight: 400;">Gochara Mandali</a></li>
+                            {% endif %}
+                            {% if sidebar_advisory and sidebar_advisory.sade_sati and sidebar_advisory.sade_sati.cycles %}
+                            <li><a href="#sec-gochara-sade-sati" style="font-size: 13px; font-weight: 400;">Sade Sati</a></li>
+                            {% endif %}
+                            {% if sidebar_advisory and sidebar_advisory.ashtama_shani and sidebar_advisory.ashtama_shani.cycles %}
+                            <li><a href="#sec-gochara-ashtama-shani" style="font-size: 13px; font-weight: 400;">Ashtama Shani</a></li>
+                            {% endif %}
+                            {% if report.mandali_gochar_report is defined and report.mandali_gochar_report and report.mandali_gochar_report.saturn_periods %}
+                            <li><a href="#sec-gochara-ardha-ashtama" style="font-size: 13px; font-weight: 400;">Ardh-Ashtama Shani</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                    {% if report.saturn_lifetime_cycles is defined and report.saturn_lifetime_cycles %}
                     <li><a href="#sec-saturn-lifetime">► Saturn Lifetime Cycles</a></li>
+                    {% endif %}
+                    {% if report.mandali_gochar_report is defined and report.mandali_gochar_report %}
                     <li><a href="#sec-gochara-mandali-report">► Rāśi-Mandali Gochar (Report B)</a></li>
+                    {% endif %}
+                    {% if report.south_indian_chart_data is defined and report.south_indian_chart_data %}
+                    <li><a href="#sec-south-indian-charts">► South-Indian Charts</a>
+                        <ul style="list-style: none; margin: 2px 0 8px 0; padding-left: 16px;">
+                            <li><a href="#sec-sa-chart-1" style="font-size: 13px; font-weight: 400;">Chart 1 · Natal / Lagna</a></li>
+                            <li><a href="#sec-sa-chart-2" style="font-size: 13px; font-weight: 400;">Chart 2 · Gochara Mandali</a></li>
+                            <li><a href="#sec-sa-chart-3" style="font-size: 13px; font-weight: 400;">Chart 3 · Rāśi Gochara</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    {% if report.executive_summary is defined %}
                     <li><a href="#sec-final">► Final Recommendations</a></li>
+                    {% endif %}
                 </ul>
             </div>
             
@@ -687,7 +740,7 @@
                     <p><strong>Current Trend:</strong><br>{{ report.lifetime_intelligence.snapshot.current_trend }}</p>
                     <p><strong>Current Opportunity:</strong><br>{{ report.lifetime_intelligence.snapshot.current_opportunity }}</p>
                     <p><strong>Current Challenge:</strong><br>{{ report.lifetime_intelligence.snapshot.current_challenge }}</p>
-                    <p><strong>Best Future Period:</strong><br>{{ report.lifetime_intelligence.snapshot.best_future_period }}</p>
+                    <p><strong>Most Favorable Period:</strong><br>{{ report.lifetime_intelligence.snapshot.best_future_period }}</p>
                     <p><strong>Current Activation:</strong><br>{{ report.lifetime_intelligence.snapshot.current_activation }}</p>
                 </div>
             </div>
@@ -985,7 +1038,7 @@
                 </details>
 
                 {% if report.lifetime_intelligence.timeline %}
-                <details class="subgroup avoid-break">
+                <details id="sec-dasha-md-ad-pd" class="subgroup avoid-break">
                     <summary>Technical Lifetime Timeline</summary>
                     <div class="subgroup-content" style="overflow-x: auto;">
                         <table class="print-allow-split" style="font-size: 0.85em; width: 100%;">
@@ -1135,7 +1188,7 @@
                 <span class="summary-stats">Score: {{ report.gochara_report.transit_strength }} | Houses Active: {{ (factors|selectattr('factor_name', 'equalto', 'house_activation')|first).raw_value|round|int if factors|selectattr('factor_name', 'equalto', 'house_activation')|first else 0 }} | Planets Active: {{ (factors|selectattr('factor_name', 'equalto', 'planet_activation')|first).raw_value|round|int if factors|selectattr('factor_name', 'equalto', 'planet_activation')|first else 0 }}</span>
             </summary>
             <div class="group-content">
-                <details class="subgroup avoid-break" open>
+                <details id="sec-gochara-transit" class="subgroup avoid-break" open>
                     <summary>
                         <span>{{ macros.render_status_dot(report.gochara_report.transit_strength) }}Current Transits</span>
                         <span class="badge">{{ report.gochara_report.transit_strength }}</span>
@@ -1265,7 +1318,7 @@
                 {% endif %}
 
                 {% if mandali_analysis and mandali_analysis.current_chart %}
-                <details class="subgroup avoid-break" open>
+                <details id="sec-gochara-mandali-current" class="subgroup avoid-break" open>
                     <summary>Current Gochara Moon-Centered Rasi Mandali</summary>
                     <div class="subgroup-content">
                         {% if mandali_analysis.current_chart.grid %}
@@ -1359,7 +1412,7 @@
                 {% endif %}
 
                 {% if advisory and advisory.sade_sati and advisory.sade_sati.cycles %}
-                <details class="subgroup" open>
+                <details id="sec-gochara-sade-sati" class="subgroup" open>
                     <summary>Sade Sati (Saturn Transit)</summary>
                     <div class="subgroup-content">
                         {{ macros.render_cycle_windows(advisory.sade_sati.cycles, 'sade_sati_windows') }}
@@ -1368,7 +1421,7 @@
                 {% endif %}
 
                 {% if advisory and advisory.ashtama_shani and advisory.ashtama_shani.cycles %}
-                <details class="subgroup" open>
+                <details id="sec-gochara-ashtama-shani" class="subgroup" open>
                     <summary>Ashtama Shani</summary>
                     <div class="subgroup-content">
                         {{ macros.render_cycle_windows(advisory.ashtama_shani.cycles, 'ashtama_shani_windows') }}
@@ -1745,7 +1798,7 @@
                         {% endif %}
                         {% for cycle_key, label in [('sade_sati', 'Sade Sati (12th / 1st / 2nd from Moon)'), ('ardha_ashtama', 'Ardha Ashtama Shani (4th from Moon)'), ('ashtama', 'Ashtama Shani (8th from Moon)')] %}
                         {% set rows = saturn[cycle_key].current + saturn[cycle_key].upcoming %}
-                        <h4 style="margin: 14px 0 6px 0;">{{ label }}</h4>
+                        <h4{% if cycle_key == 'ardha_ashtama' %} id="sec-gochara-ardha-ashtama"{% endif %} style="margin: 14px 0 6px 0;">{{ label }}</h4>
                         {% if rows %}
                         <table class="print-table-wrap" style="width: 100%; font-size: 0.82em;">
                             <thead>

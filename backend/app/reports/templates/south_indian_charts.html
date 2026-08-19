@@ -27,7 +27,7 @@
         </p>
 
         <!-- CHART 1: Natal / Lagna chart (D1) -->
-        <details class="subgroup avoid-break" open>
+        <details id="sec-sa-chart-1" class="subgroup avoid-break" open>
             <summary>
                 Chart 1 · Natal / Lagna (D1)
                 {% if sic.natal_lagna and sic.natal_lagna.rasi %}
@@ -72,7 +72,7 @@
         </details>
 
         <!-- CHART 2: Moon-centred Mandali chart -->
-        <details class="subgroup avoid-break" open>
+        <details id="sec-sa-chart-2" class="subgroup avoid-break" open>
             <summary>
                 Chart 2 · Moon-Centred Mandali
                 {% if sic.reference_moon and sic.reference_moon.rasi %}
@@ -125,7 +125,7 @@
         </details>
 
         <!-- CHART 3: Traditional Rasi Gochara (Report A) -->
-        <details class="subgroup avoid-break" open>
+        <details id="sec-sa-chart-3" class="subgroup avoid-break" open>
             <summary>
                 Chart 3 · Rāśi Gochara (Transit)
                 {% if sic.reference_moon and sic.reference_moon.rasi %}
