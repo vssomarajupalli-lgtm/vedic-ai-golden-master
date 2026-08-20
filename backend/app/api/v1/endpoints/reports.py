@@ -52,19 +52,35 @@ def _filter_report_sections(report: dict, sections: list | None) -> dict:
 def generate_report(
     request: ReportGenerationRequest,
     format: str = Query("json", description="Export format: json, html, pdf"),
-    sections: list[str] | None = Query(None, description="Presentation-only sections to include (e.g. gochara, questions). Default: all sections.")
+    sections: list[str] | None = Query(None, description="Presentation-only sections to include (e.g. gochara, questions). Default: all sections."),
+    report_type: str = Query("main", description="Report type: main (default) or question-companion (additive JSON data layer).")
 ) -> Any:
     """
     Stateless endpoint that accepts raw scraped JSON, runs the astrology engine,
     and formats the output via the ReportBuilder instead of returning raw arrays.
     """
     try:
-        log.info(f"Generating report in format: {format}")
+        log.info(f"Generating report in format: {format}, report_type: {report_type}")
         
         # 1. Execute engine (Identical to process-chart)
         raw_data = request.canonical_content
         raw_data["_machine_index"] = request.machine_index
         outputs = pipeline.process(raw_data)
+
+        # 1b. Question Engine companion (P1 - additive JSON data layer).
+        # Opt-in via report_type=question-companion. Reuses the SAME pipeline
+        # output and the same existing question_service/ReportBuilder code — no
+        # new routing, formulas, or identity sources. HTML/PDF rendering is
+        # intentionally not part of P1 (requests render a 501, not a degraded
+        # document). The default main-report path below is untouched.
+        if report_type == "question-companion":
+            from app.reports.companion_builder import companion_builder
+            if format.lower() != "json":
+                raise HTTPException(
+                    status_code=501,
+                    detail="Question Engine companion is available in JSON only (HTML/PDF are scoped separately)."
+                )
+            return companion_builder.build(outputs, request.machine_index)
         
         # 2. Answer questions using the centralized service
         from app.services.question_service import question_service

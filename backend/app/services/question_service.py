@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, List, Tuple
 from datetime import datetime
 
 from app.core.question_router import QuestionRouter
@@ -52,5 +52,32 @@ class QuestionAnsweringService:
         )
         
         return formatted_result.dict()
+
+    def evaluate_many(
+        self,
+        question_ids: List[str],
+        pipeline_output: Dict[str, Any],
+    ) -> Tuple[List[Dict[str, Any]], List[str]]:
+        """
+        Evaluates a list of question IDs against one full pipeline output and
+        returns both the successfully formatted results and the IDs that failed.
+
+        Each question is isolated by its own try/except (mirrors the existing
+        per-question pattern in the /generate-report endpoint) so a single
+        failure never aborts the batch. The companion data layer uses this to
+        evaluate the full supported catalogue in one pass over the engine output.
+        """
+        results: List[Dict[str, Any]] = []
+        failed_ids: List[str] = []
+        for question_id in question_ids:
+            try:
+                results.append(self.answer_structured_question(
+                    question_id=question_id,
+                    pipeline_output=pipeline_output,
+                ))
+            except Exception as e:
+                log.warning(f"Companion evaluation failed for question {question_id}: {str(e)}")
+                failed_ids.append(question_id)
+        return results, failed_ids
 
 question_service = QuestionAnsweringService()
