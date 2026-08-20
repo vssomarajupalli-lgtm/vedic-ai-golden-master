@@ -67,20 +67,28 @@ def generate_report(
         raw_data["_machine_index"] = request.machine_index
         outputs = pipeline.process(raw_data)
 
-        # 1b. Question Engine companion (P1 - additive JSON data layer).
+        # 1b. Question Engine companion (P1 JSON data layer + P2 HTML render).
         # Opt-in via report_type=question-companion. Reuses the SAME pipeline
         # output and the same existing question_service/ReportBuilder code — no
-        # new routing, formulas, or identity sources. HTML/PDF rendering is
-        # intentionally not part of P1 (requests render a 501, not a degraded
-        # document). The default main-report path below is untouched.
+        # new routing, formulas, or identity sources. The companion JSON payload
+        # is built ONCE and either returned as-is (json) or rendered by the
+        # dedicated P2 template (html). PDF is intentionally not part of P1/P2
+        # (requests render a 501, not a degraded document). The default
+        # main-report path below is untouched.
         if report_type == "question-companion":
             from app.reports.companion_builder import companion_builder
-            if format.lower() != "json":
+            payload = companion_builder.build(outputs, request.machine_index)
+            if format.lower() == "json":
+                return payload
+            if format.lower() == "html":
+                from app.reports.companion_html_generator import companion_html_generator
+                return HTMLResponse(content=companion_html_generator.generate(payload, outputs))
+            if format.lower() == "pdf":
                 raise HTTPException(
                     status_code=501,
-                    detail="Question Engine companion is available in JSON only (HTML/PDF are scoped separately)."
+                    detail="Question Engine companion is available in JSON and HTML only (PDF is scoped separately)."
                 )
-            return companion_builder.build(outputs, request.machine_index)
+            raise HTTPException(status_code=400, detail="Invalid format requested. Supported: json, html, pdf.")
         
         # 2. Answer questions using the centralized service
         from app.services.question_service import question_service

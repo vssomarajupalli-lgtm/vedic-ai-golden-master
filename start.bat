@@ -18,6 +18,36 @@ set "WARNTXT=echo !CLR_YELLOW![WAIT]!CLR_RESET!"
 set "ERRTXT=echo !CLR_RED![ERROR]!CLR_RESET!"
 set "INFOTXT=echo !CLR_CYAN![INFO]!CLR_RESET!"
 
+:: --------------------------------------------------------------
+:: Optional batch-validation mode: start.bat batch
+:: ******************************************************************
+:: Regenerates the existing batch reports AND the Question Companion
+:: HTML for every valid pair in the batch input folder, then exits.
+:: Normal start.bat behavior (dev servers + browser) is completely
+:: unchanged when no argument is supplied.
+:: ******************************************************************
+if /i "%~1"=="batch" (
+    set "PY=%~dp0backend\venv\Scripts\python.exe"
+    if not exist "!PY!" (
+        echo [!CLR_RED!ERROR!CLR_RESET!] Backend venv python not found: !PY!
+        echo         Please create backend\venv and install requirements.txt first.
+        pause
+        exit /b 1
+    )
+    echo ==========================================
+    echo  Vedic AI Golden Master - Batch Reports
+    echo  ^(Question Companion: enabled^)
+    echo ==========================================
+    echo.
+    "!PY!" "%~dp0backend\batch_reports.py" --companion
+    echo.
+    echo ==========================================
+    echo  Batch mode finished.
+    echo ==========================================
+    pause
+    exit /b 0
+)
+
 echo ========================================
 echo  Samartha Vedic AI System v1.0
 echo ========================================

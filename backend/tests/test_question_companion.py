@@ -241,7 +241,7 @@ class TestGenerateReportEndpoint(unittest.TestCase):
         self.assertEqual(len(data["question_results"]), 65)
         self.assertEqual(len(data["question_un_evaluated"]), 18)
 
-    def test_report_type_question_companion_html_is_501(self):
+    def test_report_type_question_companion_html_renders(self):
         from app.api.v1.endpoints.reports import pipeline as reports_pipeline
 
         fake_results = [_fake_structured_result(f"q-{i}") for i in range(65)]
@@ -251,6 +251,61 @@ class TestGenerateReportEndpoint(unittest.TestCase):
             resp = self.client.post(
                 "/generate-report",
                 params={"format": "html", "report_type": "question-companion"},
+                json=self._payload(),
+            )
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn("text/html", resp.headers.get("content-type", ""))
+        html = resp.text
+        self.assertIn("Question Companion", html)
+        self.assertIn("Test User", html)
+        self.assertIn("Total Questions", html)
+        # 65 evaluated + 18 NOT EVALUATED cards visible.
+        self.assertEqual(html.count("INSUFFICIENT ENGINE DOMAIN COVERAGE"), 18)
+        self.assertNotIn("q-999", html)
+
+    def test_report_type_question_companion_grouped_by_domain(self):
+        from app.api.v1.endpoints.reports import pipeline as reports_pipeline
+
+        catalog = _load_catalog()
+        supported = [q for q in catalog if q["domain_id"] in SUPPORTED_DOMAIN_IDS]
+        unsupported = [q for q in catalog if q["domain_id"] not in SUPPORTED_DOMAIN_IDS]
+        # One result per supported question, carrying its real catalog domain so
+        # the template grouping matches the live payload shape.
+        fake_results = [
+            {"question_title": q["question_name"], "domain": q["domain_name"]}
+            for q in supported
+        ]
+        with mock.patch.object(reports_pipeline, "process", return_value=STUB_PIPELINE_OUTPUT), \
+             mock.patch("app.reports.companion_builder.question_service.evaluate_many",
+                        return_value=(fake_results, [])):
+            resp = self.client.post(
+                "/generate-report",
+                params={"format": "html", "report_type": "question-companion"},
+                json=self._payload(),
+            )
+        html = resp.text
+        self.assertEqual(resp.status_code, 200)
+        # Every evaluated registry domain shows up as a section heading.
+        evaluated_domains = {q["domain_name"] for q in supported}
+        for domain in evaluated_domains:
+            self.assertIn(">%s<" % domain, html)
+        # Unsupported domains are present and explicitly marked NOT EVALUATED.
+        for domain in {q["domain_name"] for q in unsupported}:
+            self.assertIn(">%s<" % domain, html)
+            self.assertIn("NOT EVALUATED", html)
+        # A representative evaluated question title is rendered.
+        self.assertIn(supported[0]["question_name"], html)
+
+    def test_report_type_question_companion_pdf_is_501(self):
+        from app.api.v1.endpoints.reports import pipeline as reports_pipeline
+
+        fake_results = [_fake_structured_result(f"q-{i}") for i in range(65)]
+        with mock.patch.object(reports_pipeline, "process", return_value=STUB_PIPELINE_OUTPUT), \
+             mock.patch("app.reports.companion_builder.question_service.evaluate_many",
+                        return_value=(fake_results, [])):
+            resp = self.client.post(
+                "/generate-report",
+                params={"format": "pdf", "report_type": "question-companion"},
                 json=self._payload(),
             )
         self.assertEqual(resp.status_code, 501)
@@ -275,6 +330,25 @@ class TestGenerateReportEndpoint(unittest.TestCase):
         self.assertIn("question_responses", data)
         self.assertIn("client_profile", data)
         self.assertIn("metadata", data)
+
+    def test_main_html_has_no_companion_leak(self):
+        from app.api.v1.endpoints.reports import pipeline as reports_pipeline
+        from app.services.question_service import question_service
+
+        with mock.patch.object(reports_pipeline, "process", return_value=STUB_PIPELINE_OUTPUT), \
+             mock.patch.object(question_service, "answer_structured_question",
+                               return_value=_fake_structured_result("7.1")):
+            resp = self.client.post(
+                "/generate-report",
+                params={"format": "html"},
+                json=self._payload(),
+            )
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn("text/html", resp.headers.get("content-type", ""))
+        html = resp.text
+        self.assertNotIn("question_catalog", html)
+        self.assertNotIn("question_un_evaluated", html)
+        self.assertNotIn("NOT EVALUATED", html)
 
 
 @unittest.skipUnless(os.path.isdir(MVS_DIR), "MVS Prasad output sources not available")
@@ -339,6 +413,18 @@ class TestMvsPrasadRealData(unittest.TestCase):
         te_ids = {r["question_title"] for r in te["question_results"]}
         self.assertEqual(en_ids, te_ids)
 
+    def test_en_html_renders(self):
+        from app.reports.companion_html_generator import companion_html_generator
+
+        payload = self._build("en")
+        html = companion_html_generator.generate(payload)
+        self.assertIn("mvs prasad", html)
+        self.assertIn("Question Companion", html)
+        # All 18 unsupported questions render with the honest reason, none with
+        # a fabricated score/grade.
+        self.assertEqual(html.count("INSUFFICIENT ENGINE DOMAIN COVERAGE"), 18)
+        self.assertNotIn("final_score", html)
+
     def test_deterministic_given_same_pipeline_output(self):
         # The pipeline emits a fresh wall-clock timestamp_utc per process();
         # given the SAME engine output, the companion payload must be stable
@@ -354,6 +440,349 @@ class TestMvsPrasadRealData(unittest.TestCase):
         a["client_profile"].pop("generated_at", None)
         b["client_profile"].pop("generated_at", None)
         self.assertEqual(a, b)
+
+
+RAJU_CANONICAL = r"D:\vedic-ai-golden-master\extracted_json\raju_canonical_content.json"
+RAJU_INDEX = r"D:\vedic-ai-golden-master\extracted_json\raju_machine_index.json"
+
+
+def _rich_pipeline_output():
+    """Pipeline output with existing Dasha + governed Mandali data (no new calcs).
+
+    Timeline reference window: 2020-01-01 -> 2030-01-01; deterministic
+    reference date 2026-08-06. Sade Sati (Rising Current / Setting Upcoming),
+    Ardha Ashtama (resolver: one Current, one Completed) and Ashtama Shani
+    (Upcoming) windows all overlap the reference window.
+    """
+    return {
+        "metadata": {"name": "Test User", "dob": "14.05.1980"},
+        "target_date_utc": "2026-08-06T00:00:00+00:00",
+        "master_probability": {"lifetime_projection": []},
+        "engine_outputs": {
+            "dashas": {
+                "synthesis": {
+                    "active_md": "Mars", "active_ad": "Sun", "active_pd": "Mercury",
+                    "target_date": "2026-08-06",
+                },
+                "timeline": [
+                    {"start_date": "2020-01-01", "end_date": "2023-01-01",
+                     "mahadasha": "Mars", "antardasha": "Moon", "pratyantardasha": "Rahu",
+                     "dasha_activation": 61.0},
+                    {"start_date": "2023-01-01", "end_date": "2030-01-01",
+                     "mahadasha": "Mars", "antardasha": "Sun", "pratyantardasha": "Mercury",
+                     "dasha_activation": 73.0},
+                ],
+            },
+            "mandali_advisory": {
+                "sade_sati": {"cycles": [{"sade_sati_windows": [
+                    {"phase": "Rising", "rasi": "Aries", "start": "01.05.2025",
+                     "end": "09.04.2027", "mandali": 12},
+                    {"phase": "Setting", "rasi": "Gemini", "start": "10.04.2027",
+                     "end": "09.04.2029", "mandali": 2},
+                ]}]},
+                "ashtama_shani": {"cycles": [{"ashtama_shani_windows": [
+                    {"phase": "Ashtama", "rasi": "Leo", "start": "01.06.2028",
+                     "end": "01.06.2030", "mandali": 8},
+                ]}]},
+            },
+            "mandali_gochar_report": {
+                "saturn_periods": {
+                    "ardha_ashtama": {
+                        "current": [
+                            {"mechanism": "MANDALI_RESOLVER", "phase": "Ardha Ashtama",
+                             "rasi": "Taurus", "mandali_name": "4",
+                             "entry": "01.02.2025", "exit": "02.03.2029"},
+                            {"mechanism": "MANDALI_RESOLVER", "phase": "Ardha Ashtama",
+                             "rasi": "Taurus", "mandali_name": "4",
+                             "entry": "01.03.2021", "exit": "01.04.2023"},
+                        ],
+                        "upcoming": [],
+                    },
+                },
+            },
+        },
+    }
+
+
+class TestQuestionCompanionHtmlSections(unittest.TestCase):
+    """P2 additions: dynamic navigation, dasha timeline, special transits, formulas."""
+
+    @classmethod
+    def setUpClass(cls):
+        app = FastAPI()
+        app.include_router(router)
+        cls.client = TestClient(app)
+
+    @staticmethod
+    def _payload():
+        return {
+            "canonical_content": {"metadata": {"name": "Test User"}},
+            "machine_index": {"native_info": {"name": "Test User"}},
+        }
+
+    @staticmethod
+    def _catalog_domain_results():
+        """One result per supported question carrying its real catalog domain."""
+        catalog = _load_catalog()
+        supported = [q for q in catalog if q["domain_id"] in SUPPORTED_DOMAIN_IDS]
+        return [
+            {"question_title": q["question_name"], "domain": q["domain_name"]}
+            for q in supported
+        ]
+
+    def _post_html(self, fake_results, pipeline_output):
+        from app.api.v1.endpoints.reports import pipeline as reports_pipeline
+
+        with mock.patch.object(reports_pipeline, "process", return_value=pipeline_output), \
+             mock.patch("app.reports.companion_builder.question_service.evaluate_many",
+                        return_value=(fake_results, [])):
+            return self.client.post(
+                "/generate-report",
+                params={"format": "html", "report_type": "question-companion"},
+                json=self._payload(),
+            )
+
+    def test_dynamic_left_navigation(self):
+        catalog = _load_catalog()
+        fake = self._catalog_domain_results()
+        resp = self._post_html(fake, _rich_pipeline_output())
+        self.assertEqual(resp.status_code, 200)
+        html = resp.text
+        # All actual domain groups (registry order) have group anchors + nav links.
+        groups = []
+        for record in catalog:
+            if record["domain_name"] not in groups:
+                groups.append(record["domain_name"])
+        for i, group in enumerate(groups):
+            self.assertIn('id="group-%d"' % i, html)
+            self.assertIn('href="#group-%d"' % i, html)
+        # First supported question gets a clickable nav item with a card anchor.
+        self.assertIn('href="#q-0-0"', html)
+        self.assertIn('id="q-0-0"', html)
+        # Bottom information sections are navigable.
+        for anchor in ("#dasha-timeline", "#special-transit", "#formula-methods"):
+            self.assertIn('href="%s"' % anchor, html)
+        self.assertIn("Also in this report", html)
+
+    def test_dasha_timeline_renders_existing_rows(self):
+        fake = self._catalog_domain_results()
+        resp = self._post_html(fake, _rich_pipeline_output())
+        html = resp.text
+        self.assertIn("Planetary Periods / Dasha Timeline", html)
+        self.assertIn("Mahadasha", html)
+        self.assertIn("Antardasha", html)
+        self.assertIn("Pratyantardasha", html)
+        self.assertIn(">Mars<", html)
+        self.assertIn(">Sun<", html)
+
+    def test_special_transit_not_applicable_when_no_data(self):
+        # Empty engine outputs -> every governed cycle is honestly NOT APPLICABLE.
+        empty = {
+            "metadata": {"name": "Test User", "dob": "14.05.1980"},
+            "target_date_utc": "2026-08-06T00:00:00+00:00",
+            "engine_outputs": {"dashas": {"synthesis": {}, "timeline": []}},
+        }
+        fake = self._catalog_domain_results()
+        resp = self._post_html(fake, empty)
+        self.assertEqual(resp.status_code, 200)
+        html = resp.text
+        self.assertIn("Special Transit / Mandali Periods", html)
+        # One NOT APPLICABLE badge per governed cycle (Sade Sati / Ardha
+        # Ashtama / Ashtama) — the honest empty-data presentation.
+        self.assertEqual(html.count(">NOT APPLICABLE<"), 3)
+
+    def test_special_transit_applicable_with_statuses(self):
+        fake = self._catalog_domain_results()
+        resp = self._post_html(fake, _rich_pipeline_output())
+        self.assertEqual(resp.status_code, 200)
+        html = resp.text
+        self.assertEqual(html.count("APPLICABLE"), 3)
+        self.assertNotIn("NOT APPLICABLE", html)
+        # Statuses: Sade Sati Rising Current + Ardha current -> 2 Current,
+        # Sade Sati Setting + Ashtama -> 2 Upcoming, Ardha completed -> 1 Completed.
+        self.assertGreaterEqual(html.count(">Current<"), 2)
+        self.assertGreaterEqual(html.count(">Upcoming<"), 2)
+        self.assertGreaterEqual(html.count(">Completed<"), 1)
+        for period in ("Sade Sati", "Ardha Ashtama Shani", "Ashtama Shani"):
+            self.assertIn(period, html)
+        # No fabricated dates: only the governed window dates appear verbatim.
+        self.assertIn("01.05.2025", html)
+        self.assertIn("01.06.2030", html)
+
+    def test_formula_methods_section(self):
+        fake = self._catalog_domain_results()
+        resp = self._post_html(fake, _rich_pipeline_output())
+        self.assertEqual(resp.status_code, 200)
+        html = resp.text
+        self.assertIn("Formula &amp; Calculation Methods", html)
+        self.assertIn("Natal Promise", html)
+        # Authoritative registry formula reference for Marriage is rendered.
+        self.assertIn("MAR_TIMING_NORMAL", html)
+        self.assertIn("Formula references by domain", html)
+
+
+class TestSaturnOverlapIndicators(unittest.TestCase):
+    """P2.2: Saturn overlap labels appended to Future Opportunity lines.
+
+    Validates exact overlap semantics against the existing governed Windows in
+    ``_rich_pipeline_output``:
+      Sade Sati Rising 01.05.2025-09.04.2027 / Setting 10.04.2027-09.04.2029,
+      Ashtama Shani 01.06.2028-01.06.2030, Ardha Ashtama 01.02.2025-02.03.2029
+      and 01.03.2021-01.04.2023.
+    """
+
+    @staticmethod
+    def _payload_with_windows(windows):
+        catalog = [{
+            "question_id": "marriage_1",
+            "domain_id": 4,
+            "domain_name": "Marriage",
+            "question_name": "When will I get married?",
+            "formula_key": "MAR_TIMING_NORMAL",
+        }]
+        result = {
+            "question_title": "Marriage Timing",
+            "domain": "Marriage",
+            "future_opportunities": windows,
+        }
+        return {
+            "report_type": "question-companion",
+            "client_profile": {"name": "Test User"},
+            "metadata": {},
+            "question_catalog": catalog,
+            "question_results": [result],
+            "question_un_evaluated": [],
+        }
+
+    @staticmethod
+    def _render(windows, pipeline_output=None):
+        from app.reports.companion_html_generator import companion_html_generator
+        return companion_html_generator.generate(
+            TestSaturnOverlapIndicators._payload_with_windows(windows),
+            _rich_pipeline_output() if pipeline_output is None else pipeline_output,
+        )
+
+    @staticmethod
+    def _pipeline_with_cycle(cycle_key):
+        """Rich pipeline restricted to one governed Saturn cycle (+ empty others)."""
+        po = _rich_pipeline_output()
+        advisory = po["engine_outputs"]["mandali_advisory"]
+        po["engine_outputs"]["mandali_advisory"] = {
+            "sade_sati": {"cycles": [{"sade_sati_windows": []}]},
+            "ashtama_shani": {"cycles": [{"ashtama_shani_windows": []}]},
+        }
+        po["engine_outputs"]["mandali_advisory"][cycle_key] = advisory[cycle_key]
+        po["engine_outputs"]["mandali_gochar_report"] = {
+            "saturn_periods": {"ardha_ashtama": {"current": [], "upcoming": []}},
+        }
+        return po
+
+    @staticmethod
+    def _window(start, end):
+        return {
+            "rank": 1,
+            "start_date": start,
+            "end_date": end,
+            "age": "46",
+            "mahadasha": "Mars",
+            "antardasha": "Sun",
+            "pratyantardasha": "Mercury",
+            "final_probability_display": "52% (Good)",
+        }
+
+    def test_overlap_appends_single_label(self):
+        html = self._render(
+            [self._window("15 Jun 2026", "15 Nov 2026")],
+            self._pipeline_with_cycle("sade_sati"),
+        )
+        # Sade Sati Rising window contains the whole Future Opportunity window.
+        self.assertIn(
+            "MD: Mars &middot; AD: Sun &middot; PD: Mercury &middot; "
+            "Period: 15 Jun 2026 &rarr; 15 Nov 2026 &middot; "
+            "Probability: 52% (Good) &middot; <strong>Sade Sati</strong>",
+            html,
+        )
+        self.assertNotIn("<strong>Ashtama Shani</strong>", html)
+        self.assertNotIn("<strong>Ardha Ashtama Shani</strong>", html)
+
+    def test_overlap_appends_ashtama_label(self):
+        html = self._render(
+            [self._window("01 Jan 2029", "01 Dec 2029")],
+            self._pipeline_with_cycle("ashtama_shani"),
+        )
+        self.assertIn("&middot; <strong>Ashtama Shani</strong>", html)
+        self.assertNotIn("<strong>Sade Sati</strong>", html)
+
+    def test_multiple_overlaps_show_all_labels(self):
+        html = self._render([self._window("01 Mar 2025", "01 May 2029")])
+        for label in ("<strong>Sade Sati</strong>",
+                      "<strong>Ashtama Shani</strong>",
+                      "<strong>Ardha Ashtama Shani</strong>"):
+            self.assertIn(label, html)
+
+    def test_no_overlap_adds_nothing(self):
+        html = self._render([self._window("01 Jan 2020", "01 Dec 2020")])
+        self.assertNotIn("<strong>Sade Sati</strong>", html)
+        self.assertNotIn("<strong>Ashtama Shani</strong>", html)
+        self.assertNotIn("<strong>Ardha Ashtama Shani</strong>", html)
+        # The existing line renders unchanged.
+        self.assertIn(
+            "MD: Mars &middot; AD: Sun &middot; PD: Mercury &middot; "
+            "Period: 01 Jan 2020 &rarr; 01 Dec 2020 &middot; Probability: 52% (Good)",
+            html,
+        )
+
+    def test_overlap_matches_custom_date_formats(self):
+        # Future Opportunity dates may be DMY/ISO while governed windows are
+        # ISO/DMY — overlap must be format-agnostic.
+        html = self._render([
+            {**self._window("15.06.2026", "15.11.2026"), "start_date": "2026-06-15",
+             "end_date": "2026-11-15"},
+        ])
+        self.assertIn("&middot; <strong>Sade Sati</strong>", html)
+
+
+@unittest.skipUnless(
+    os.path.isfile(RAJU_CANONICAL) and os.path.isfile(RAJU_INDEX),
+    "RAJU fixture not available",
+)
+class TestRajuRealData(unittest.TestCase):
+    """Second real horoscope: proves the companion is generic (not MVS-specific)."""
+
+    @classmethod
+    def setUpClass(cls):
+        from app.pipeline_runner import PipelineRunner
+        from app.reports.companion_builder import companion_builder
+        from app.reports.companion_html_generator import companion_html_generator
+
+        cls.runner = PipelineRunner()
+        cls.companion_builder = companion_builder
+        cls.companion_html_generator = companion_html_generator
+        with open(RAJU_CANONICAL, encoding="utf-8") as f:
+            cls.canon = json.load(f)
+        with open(RAJU_INDEX, encoding="utf-8") as f:
+            cls.mi = json.load(f)
+
+    def _build(self):
+        raw = dict(self.canon)
+        raw["_machine_index"] = self.mi
+        outputs = self.runner.process(raw)
+        return self.companion_builder.build(outputs, self.mi)
+
+    def test_counts_and_dynamic_identity(self):
+        payload = self._build()
+        self.assertEqual(len(payload["question_catalog"]), 83)
+        self.assertEqual(len(payload["question_results"]), 65)
+        self.assertEqual(len(payload["question_un_evaluated"]), 18)
+        # Distinct identity from the MVS fixtures -> dynamic client derivation.
+        self.assertNotEqual(payload["client_profile"].get("name"), "mvs prasad")
+        self.assertNotEqual(payload["client_profile"].get("dob"), "")
+
+    def test_html_renders_for_raju(self):
+        payload = self._build()
+        html = self.companion_html_generator.generate(payload)
+        self.assertIn(payload["client_profile"].get("name", ""), html)
+        self.assertEqual(html.count("INSUFFICIENT ENGINE DOMAIN COVERAGE"), 18)
 
 
 if __name__ == "__main__":

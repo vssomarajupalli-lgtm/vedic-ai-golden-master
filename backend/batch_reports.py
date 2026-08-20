@@ -9,14 +9,24 @@ pair found in the configured HoroscopeCleaner output folder produces:
     outputs\\batch\\<name>_report.html
     outputs\\batch\\<name>_report.pdf
 
+    With the opt-in --companion flag, each pair also produces the Question
+    Companion HTML using exactly the production companion path
+    (companion_builder.build(outputs, machine_index) followed by
+    companion_html_generator.generate(payload, outputs)) — the SAME pipeline
+    output already computed for the main report is reused; nothing is
+    recomputed and no astrology/report logic is duplicated here.
+
 No engine, formula, schema, registry, or PipelineRunner code is modified.
 This driver only discovers pairs and calls the existing production classes.
+Driving without --companion is byte-for-byte unchanged.
 
 Usage:
-    python batch_reports.py [input_dir] [output_dir]
+    python batch_reports.py [input_dir] [output_dir] [--companion]
 
     input_dir  : HoroscopeCleaner output folder (default D:\\HoroscopeCleaner_Final\\output)
     output_dir : where reports are written   (default <repo>/outputs/batch)
+    --companion: also write <name>_companion.html for every pair via the
+                 production question-companion path (add-only, opt-in)
 """
 import sys
 import os
@@ -55,8 +65,11 @@ def iter_pairs(input_dir: str):
 
 
 def main():
-    input_dir  = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_INPUT_DIR
-    output_dir = sys.argv[2] if len(sys.argv) > 2 else DEFAULT_OUTPUT_DIR
+    # Opt-in companion flag: unknown flags preserved for forward-compat.
+    companion = "--companion" in sys.argv[1:]
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    input_dir  = args[0] if len(args) > 0 else DEFAULT_INPUT_DIR
+    output_dir = args[1] if len(args) > 1 else DEFAULT_OUTPUT_DIR
 
     if not os.path.isdir(input_dir):
         print("[ERROR] Input folder not found: %s" % input_dir)
@@ -85,6 +98,8 @@ def main():
     from app.reports.pdf_generator import PDFGenerator
     from app.reports.south_indian_chart_data import build_south_indian_chart_data
     from app.reports.report_manifest import build_report_manifest, write_report_manifest
+    from app.reports.companion_builder import companion_builder
+    from app.reports.companion_html_generator import companion_html_generator
     from app.services.question_service import question_service
     from app.calibration.calibration_manager import CalibrationManager
 
@@ -103,6 +118,7 @@ def main():
     html_ok = 0
     pdf_ok  = 0
     manifest_ok = 0
+    companion_ok = 0
     failed  = []
 
     for name, canonical_path, machine_index_path in pairs:
@@ -145,6 +161,17 @@ def main():
                 f.write(html_content)
             html_ok += 1
             print("  [HTML] OK  -> %s (%d bytes)" % (os.path.basename(html_path), len(html_content)))
+
+            # 5B. Question Companion HTML (opt-in only) — exact production path,
+            # reusing the SAME outputs already produced for the main report.
+            if companion:
+                payload = companion_builder.build(outputs, machine_index)
+                comp_html = companion_html_generator.generate(payload, outputs)
+                comp_path = os.path.join(output_dir, name + "_companion.html")
+                with open(comp_path, "w", encoding="utf-8") as f:
+                    f.write(comp_html)
+                companion_ok += 1
+                print("  [COMP] OK  -> %s (%d bytes)" % (os.path.basename(comp_path), len(comp_html)))
 
             # 6. PDF report (PDFGenerator handles WeasyPrint -> Playwright fallback).
             pdf_path = None
@@ -196,6 +223,8 @@ def main():
     print("  HTML reports generated      : %d" % html_ok)
     print("  PDF reports generated       : %d" % pdf_ok)
     print("  Manifests generated         : %d" % manifest_ok)
+    if companion:
+        print("  Companion HTML generated    : %d" % companion_ok)
     print("  Failed                     : %d" % len(failed))
     print("  Skipped (no machine index)  : %d" % len(skipped))
     print("  Output directory            : %s" % output_dir)

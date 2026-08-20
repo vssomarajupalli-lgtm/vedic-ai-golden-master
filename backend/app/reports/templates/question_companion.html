@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Companion Report</title>
+    <style>
+        :root {
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --primary: #4f46e5;
+            --primary-light: #e0e7ff;
+            --border: #e5e7eb;
+            --warning: #b45309;
+            --warning-bg: #fef3c7;
+            --warning-border: #fcd34d;
+            --green-bg: #ecfdf5;
+            --green-border: #a7f3d0;
+            --green-text: #065f46;
+            --red-bg: #fee2e2;
+            --red-border: #fecaca;
+            --red-text: #991b1b;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        [id] {
+            scroll-margin-top: 18px;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .nav {
+            position: sticky;
+            top: 0;
+            flex: 0 0 280px;
+            width: 280px;
+            height: 100vh;
+            overflow-y: auto;
+            background-color: #ffffff;
+            border-right: 1px solid var(--border);
+            padding: 20px 14px;
+            box-sizing: border-box;
+        }
+
+        .nav-title {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 15px;
+            padding: 0 8px 10px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 6px 8px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 13px;
+            border-radius: 6px;
+        }
+
+        .nav-link:hover {
+            background-color: var(--primary-light);
+        }
+
+        .nav-caption {
+            margin-top: 16px;
+            padding: 0 8px 4px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .nav-group-link {
+            display: block;
+            padding: 6px 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            border-radius: 6px;
+        }
+
+        .nav-group-link:hover {
+            background-color: var(--primary-light);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 3px 8px 3px 20px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 12.5px;
+            border-left: 2px solid var(--border);
+            margin-left: 12px;
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .nav-item.muted {
+            color: var(--warning);
+        }
+
+        .content {
+            flex: 1;
+            min-width: 0;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary);
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            margin: 0 0 4px;
+            color: var(--primary);
+        }
+
+        .report-subtitle {
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .client-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .client-cell {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+        }
+
+        .client-cell .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .client-cell .value {
+            font-weight: 600;
+        }
+
+        .summary-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .summary-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-align: center;
+            padding: 14px;
+        }
+
+        .summary-card .number {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .summary-card .caption {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .domain-section {
+            margin-bottom: 24px;
+        }
+
+        .domain-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 4px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+        }
+
+        .domain-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .domain-counts {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px 18px;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            margin: 0 0 10px;
+            font-size: 16px;
+        }
+
+        .grid2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 20px;
+        }
+
+        .field {
+            font-size: 14px;
+        }
+
+        .field .label {
+            color: var(--text-muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .field .value {
+            font-weight: 500;
+        }
+
+        .none-card {
+            background: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .badge-warn {
+            background: #fde68a;
+            color: var(--warning);
+        }
+
+        .badge-green {
+            background: var(--green-bg);
+            color: var(--green-text);
+            border: 1px solid var(--green-border);
+        }
+
+        .badge-red {
+            background: var(--red-bg);
+            color: var(--red-text);
+            border: 1px solid var(--red-border);
+            white-space: nowrap;
+        }
+
+        .badge-muted {
+            background: var(--bg-color);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+
+        ul {
+            margin: 6px 0 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border);
+            background: #f8fafc;
+            color: var(--text-muted);
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        tbody td {
+            padding: 7px 10px;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: top;
+        }
+
+        .note {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 0 0 12px;
+        }
+
+        .footer {
+            margin-top: 28px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 13px;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .nav {
+                display: none;
+            }
+            .grid2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            .nav {
+                display: none;
+            }
+            body {
+                background-color: white;
+            }
+            .card {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="layout">
+    <nav class="nav" aria-label="Contents">
+        <div class="nav-title">Question Companion</div>
+        <a class="nav-link" href="#summary">Overview &amp; Summary</a>
+
+        <div class="nav-caption">Questions by Domain</div>
+        {% for g in nav_groups %}
+        <a class="nav-group-link" href="#{{ g.anchor }}">{{ g.label }}</a>
+        {% for item in g.questions %}
+        <a class="nav-item {{ 'muted' if item.kind == 'un_evaluated' }}" href="#{{ item.anchor }}">{{ item.label }}</a>
+        {% endfor %}
+        {% endfor %}
+
+        <div class="nav-caption">Also in this report</div>
+        <a class="nav-group-link" href="#dasha-timeline">Planetary Periods / Dasha Timeline</a>
+        <a class="nav-group-link" href="#special-transit">Special Transit / Mandali Periods</a>
+        <a class="nav-group-link" href="#formula-methods">Formula &amp; Calculation Methods</a>
+    </nav>
+
+    <div class="content">
+        <div class="container">
+            <div class="header">
+                <h1>Question Companion</h1>
+                <p class="report-subtitle">Question Analysis Report</p>
+                <p class="report-subtitle">{{ metadata.generated_at }}</p>
+            </div>
+
+            <div class="client-grid">
+                <div class="client-cell">
+                    <div class="label">Client</div>
+                    <div class="value">{{ client.name }}</div>
+                </div>
+                <div class="client-cell">
+                    <div class="label">Date of Birth</div>
+                    <div class="value">{{ client.dob }}</div>
+                </div>
+                <div class="client-cell">
+                    <div class="label">Time of Birth</div>
+                    <div class="value">{{ client.tob }}</div>
+                </div>
+                <div class="client-cell">
+                    <div class="label">Place of Birth</div>
+                    <div class="value">{{ client.pob }}</div>
+                </div>
+            </div>
+
+            <div class="summary-bar" id="summary">
+                <div class="summary-card">
+                    <div class="number">{{ summary.total }}</div>
+                    <div class="caption">Total Questions</div>
+                </div>
+                <div class="summary-card">
+                    <div class="number">{{ summary.evaluated }}</div>
+                    <div class="caption">Evaluated</div>
+                </div>
+                <div class="summary-card">
+                    <div class="number">{{ summary.not_evaluated }}</div>
+                    <div class="caption">Not Evaluated</div>
+                </div>
+            </div>
+
+            {% for section in sections %}
+            <section class="domain-section" id="{{ section.anchor }}">
+                <div class="domain-header">
+                    <h2>{{ section.domain }}</h2>
+                    <span class="domain-counts">{{ section.evaluated|length }} evaluated &middot; {{ section.un_evaluated|length }} not evaluated</span>
+                </div>
+
+                {% for r in section.evaluated %}
+                <div class="card" id="{{ r.anchor }}">
+                    <h3>{{ r.question_title }}</h3>
+                    {% set es = r.executive_summary or {} %}
+                    {% set cd = r.current_dasha_status or {} %}
+                    <div class="grid2">
+                        {% if es.promise_display %}<div class="field"><div class="label">Natal Promise</div><div class="value">{{ es.promise_display }}</div></div>{% endif %}
+                        {% if es.current_support_display %}<div class="field"><div class="label">Current Support</div><div class="value">{{ es.current_support_display }}</div></div>{% endif %}
+                        {% if es.best_future_opportunity_display %}<div class="field"><div class="label">Best Future Opportunity</div><div class="value">{{ es.best_future_opportunity_display }}</div></div>{% endif %}
+                        {% if es.overall_lifetime_direction %}<div class="field"><div class="label">Lifetime Direction</div><div class="value">{{ es.overall_lifetime_direction }}</div></div>{% endif %}
+                        {% if cd.current_md %}<div class="field"><div class="label">Current Dasha (MD / AD / PD)</div><div class="value">MD: {{ cd.current_md }} &middot; AD: {{ cd.current_ad }} &middot; PD: {{ cd.current_pd }}</div></div>{% endif %}
+                        {% if cd.current_activation_display %}<div class="field"><div class="label">Dasha Activation</div><div class="value">{{ cd.current_activation_display }}</div></div>{% endif %}
+                        {% if cd.ends_on %}<div class="field"><div class="label">Current Period Ends</div><div class="value">{{ cd.ends_on }}</div></div>{% endif %}
+                    </div>
+
+                    {% if es.best_future_window and es.best_future_window != 'Unknown' %}
+                    <div class="field" style="margin-top:8px"><div class="label">Best Window</div><div class="value">{{ es.best_future_window }}</div></div>
+                    {% endif %}
+
+                    {% if r.future_opportunities %}
+                    <div class="field" style="margin-top:8px"><div class="label">Future Opportunity Windows</div>
+                        <ul>
+                            {% for w in r.future_opportunities[:5] %}
+                            <li>MD: {{ w.mahadasha }} &middot; AD: {{ w.antardasha }} &middot; PD: {{ w.pratyantardasha }} &middot; Period: {{ w.start_date }} &rarr; {{ w.end_date }}{% if w.final_probability_display %} &middot; Probability: {{ w.final_probability_display }}{% endif %}{% for lbl in (w.get("saturn_overlaps") or []) %}{% if lbl %} &middot; <strong>{{ lbl }}</strong>{% endif %}{% endfor %}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    {% if r.detailed_analysis and r.detailed_analysis.natural_language_explanation %}
+                    <div class="field" style="margin-top:8px"><div class="label">Interpretation</div><div class="value">{{ r.detailed_analysis.natural_language_explanation }}</div></div>
+                    {% endif %}
+
+                    {% if r.supporting_factors %}
+                    <div class="field" style="margin-top:8px"><div class="label">Strengths (Supporting Factors)</div>
+                        <ul>
+                            {% for f in r.supporting_factors %}<li><strong>{{ f.title }}</strong> &mdash; {{ f.explanation }} ({{ f.impact }})</li>{% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    {% if r.attention_factors %}
+                    <div class="field" style="margin-top:8px"><div class="label">Attention Areas</div>
+                        <ul>
+                            {% for f in r.attention_factors %}<li><strong>{{ f.reason }}</strong> &mdash; {{ f.impact }} (severity: {{ f.severity }}). {{ f.recommendation }}</li>{% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                {% for e in section.un_evaluated %}
+                <div class="card none-card" id="{{ e.anchor }}">
+                    <h3><span class="badge badge-warn">NOT EVALUATED</span> Question {{ e.question_id }}</h3>
+                    <div class="field"><div class="label">Reason</div><div class="value">{{ e.reason }}</div></div>
+                    <div class="field"><div class="label">Domain</div><div class="value">{{ e.domain }}</div></div>
+                </div>
+                {% endfor %}
+            </section>
+            {% endfor %}
+
+            <section class="domain-section" id="dasha-timeline">
+                <div class="domain-header">
+                    <h2>Planetary Periods / Dasha Timeline</h2>
+                    <span class="domain-counts">MD &middot; AD &middot; PD &mdash; existing Vimshottari Dasha engine timeline</span>
+                </div>
+                {% if dasha_timeline %}
+                <p class="note">
+                    Existing Dasha engine output (<code>dashas.timeline</code>). Dates and planets are
+                    displayed verbatim; nothing is recomputed.
+                    {% if md_ad_pd_range and (md_ad_pd_range.start or md_ad_pd_range.end) %}Reference window: {{ md_ad_pd_range.start or '—' }} to {{ md_ad_pd_range.end or '—' }}.{% endif %}
+                </p>
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr><th>Start</th><th>End</th><th>Mahadasha</th><th>Antardasha</th><th>Pratyantardasha</th><th>Activation</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for row in dasha_timeline %}
+                            <tr>
+                                <td style="white-space:nowrap;">{{ row.start or '—' }}</td>
+                                <td style="white-space:nowrap;">{{ row.end or '—' }}</td>
+                                <td>{{ row.md or '—' }}</td>
+                                <td>{{ row.ad or '—' }}</td>
+                                <td>{{ row.pd or '—' }}</td>
+                                <td>{% if row.activation is not none %}{{ row.activation }}%{% else %}—{% endif %}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="note">No Dasha timeline rows available.</p>
+                {% endif %}
+            </section>
+
+            <section class="domain-section" id="special-transit">
+                <div class="domain-header">
+                    <h2>Special Transit / Mandali Periods</h2>
+                    <span class="domain-counts">Saturn &mdash; existing governed engine data only</span>
+                </div>
+                <p class="note">
+                    Contextual timing information from the existing governed Mandali / Gochara data
+                    (the same authoritative view the main report renders). No causal link is implied
+                    between any question and a Saturn transit.
+                </p>
+
+                {% for cycle in saturn_cycles %}
+                <div class="card">
+                    <h3>{{ cycle.title }}
+                        {% if cycle.applicable %}<span class="badge badge-green">APPLICABLE</span>
+                        {% else %}<span class="badge badge-red">NOT APPLICABLE</span>{% endif %}
+                    </h3>
+                    {% if cycle.subtitle %}<div class="field"><div class="label">Definition</div><div class="value">{{ cycle.subtitle }}</div></div>{% endif %}
+                    {% if cycle.windows %}
+                    <div style="overflow-x:auto; margin-top:8px;">
+                        <table>
+                            <thead>
+                                <tr><th>Phase</th><th>Rashi</th><th>Mandali</th><th>Period Start</th><th>Period End</th><th>Status</th></tr>
+                            </thead>
+                            <tbody>
+                                {% for w in cycle.windows %}
+                                <tr>
+                                    <td>{{ w.phase or '—' }}</td>
+                                    <td>{{ w.rasi or '—' }}</td>
+                                    <td>{{ w.mandali or '—' }}</td>
+                                    <td style="white-space:nowrap;">{{ w.start or '—' }}</td>
+                                    <td style="white-space:nowrap;">{{ w.end or '—' }}</td>
+                                    <td>
+                                        {% if w.status == 'Current' %}<span class="badge badge-green">{{ w.status }}</span>
+                                        {% elif w.status == 'Upcoming' %}<span class="badge">{{ w.status }}</span>
+                                        {% elif w.status == 'Completed' %}<span class="badge badge-muted">{{ w.status }}</span>
+                                        {% else %}<span class="badge badge-muted">Date reference unavailable</span>{% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="note" style="margin-top:8px;">NOT APPLICABLE &mdash; no governed period in the reference MD/AD/PD window.</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                {% if saturn_xref.rows %}
+                <div class="card">
+                    <h3>MD/AD/PD &harr; Saturn Context <span class="badge">{{ saturn_xref.rows|length }} periods</span></h3>
+                    <p class="note">
+                        Read-only pairing of the Dasha timeline with overlapping Saturn windows
+                        ({{ saturn_xref.matched_rows }} matched). Contextual only. No new calculations.
+                    </p>
+                    <div style="overflow-x:auto;">
+                        <table>
+                            <thead>
+                                <tr><th>Dasha Start</th><th>MD</th><th>AD</th><th>PD</th><th>Saturn Period</th></tr>
+                            </thead>
+                            <tbody>
+                                {% for row in saturn_xref.rows %}
+                                <tr>
+                                    <td style="white-space:nowrap;">{{ row.start_date }}</td>
+                                    <td>{{ row.md | capitalize }}</td>
+                                    <td>{{ row.ad | capitalize }}</td>
+                                    <td>{{ row.pd | capitalize }}</td>
+                                    <td>
+                                        {% if row.saturn_periods %}
+                                        {% for sp in row.saturn_periods %}
+                                        <span class="badge badge-red">{{ sp.cycle }}{% if sp.phase and sp.phase != sp.cycle %} &middot; {{ sp.phase }}{% endif %} &middot; Mandali {{ sp.mandali_number }}</span>{% if not loop.last %}<br>{% endif %}
+                                        {% endfor %}
+                                        {% else %}<span style="color:#cbd5e1;">—</span>{% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endif %}
+            </section>
+
+            <section class="domain-section" id="formula-methods">
+                <div class="domain-header">
+                    <h2>Formula &amp; Calculation Methods</h2>
+                    <span class="domain-counts">transparency &mdash; existing methodology, no new calculations</span>
+                </div>
+
+                <div class="card">
+                    <h3>How the values in this report are produced</h3>
+                    <ul>
+                        <li><strong>Natal Promise</strong> &mdash; the domain-level foundation score computed by the
+                            existing NatalPromise engine from the natal D1 structure. Displayed as a percentage
+                            with a grade label using the single authoritative grade scale
+                            (<code>EXCELLENT 80+ / VERY GOOD 65+ / GOOD 50+ / WEAK 35+ / TOO WEAK</code>).</li>
+                        <li><strong>Planetary / House strength</strong> &mdash; existing planet and house strength
+                            factors, including the Ashtakavarga (BAV) adjustment layer where present
+                            (<code>base score &rarr; BAV modifier &rarr; adjusted final score</code>).</li>
+                        <li><strong>Current Support</strong> &mdash; the current Vimshottari period&rsquo;s activation
+                            percentage computed by the existing Dasha engine from the weighting of the MD / AD / PD
+                            lord strengths (0.50 / 0.30 / 0.20).</li>
+                        <li><strong>Dasha contribution &amp; the MD / AD / PD role</strong> &mdash; each row of the
+                            Planetary Periods timeline is a Vimshottari MD / AD / PD period; the Dasha activation of
+                            the period is one of the weighted factors of the master probability synthesis.</li>
+                        <li><strong>Activation / Probability</strong> &mdash; <code>activation_pct</code> is the
+                            period&rsquo;s Dasha activation; <code>final_probability_pct</code> is the master
+                            probability synthesis score for that period (both from the existing engine outputs shown
+                            as the Future Opportunity Windows).</li>
+                        <li><strong>Grade interpretation</strong> &mdash; percentages and grades always travel together
+                            (e.g. &ldquo;84% (Excellent)&rdquo;); there is no second grading scale.</li>
+                        <li><strong>Special Transit / Mandali periods</strong> &mdash; Sade Sati, Ardha Ashtama Shani
+                            and Ashtama Shani status comes from the existing governed Mandali resolver, displayed
+                            verbatim (Elinati Shani is internal-only by project governance).</li>
+                    </ul>
+                </div>
+
+                {% if formula_methods %}
+                <div class="card">
+                    <h3>Formula references by domain</h3>
+                    <p class="note">
+                        Authoritative formula keys from the question registry. Shown for transparency; the
+                        formulas themselves are not duplicated or re-run here.
+                    </p>
+                    <table>
+                        <thead>
+                            <tr><th>Domain</th><th>Registry formula reference(s)</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for m in formula_methods %}
+                            <tr>
+                                <td><strong>{{ m.domain }}</strong></td>
+                                <td><code>{{ m.methods | join(', ') }}</code></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </section>
+
+            <div class="footer">
+                Report ID: {{ metadata.report_id }} &middot; Generated: {{ metadata.generated_at }}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
