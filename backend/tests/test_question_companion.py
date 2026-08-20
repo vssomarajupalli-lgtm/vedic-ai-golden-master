@@ -15,6 +15,7 @@ payloads because it routes through the real PipelineRunner.
 
 import json
 import os
+import tempfile
 import unittest
 from unittest import mock
 
@@ -783,6 +784,65 @@ class TestRajuRealData(unittest.TestCase):
         html = self.companion_html_generator.generate(payload)
         self.assertIn(payload["client_profile"].get("name", ""), html)
         self.assertEqual(html.count("INSUFFICIENT ENGINE DOMAIN COVERAGE"), 18)
+
+
+class TestCompanionPdfBatchStep(unittest.TestCase):
+    """Hermetic: companion PDF generation + the batch driver's write step.
+
+    The batch driver routes the companion HTML string through
+    ``PDFGenerator.generate_html`` (same WeasyPrint -> Playwright infra as the
+    main report). The renderer itself is stubbed so no browser/PDF engine is
+    required; only the add-only wiring introduced for the companion PDF is
+    covered here.
+    """
+
+    def test_generate_html_renders_verbatim_no_details_forcing(self):
+        from app.reports.pdf_generator import PDFGenerator
+
+        generator = PDFGenerator()
+        sample_html = "<details><summary>Q</summary><p>Body</p></details>"
+        with mock.patch.object(
+            PDFGenerator, "_render_html_to_pdf", return_value=b"%PDF-companion"
+        ) as renderer:
+            result = generator.generate_html(sample_html, client="G Srinivas")
+        self.assertEqual(result, b"%PDF-companion")
+        # The exact HTML is passed through untouched (no <details open> rewrite).
+        renderer.assert_called_once_with(sample_html, "G Srinivas")
+
+    def test_generate_html_defaults_client(self):
+        from app.reports.pdf_generator import PDFGenerator
+
+        generator = PDFGenerator()
+        with mock.patch.object(
+            PDFGenerator, "_render_html_to_pdf", return_value=b"%PDF"
+        ) as renderer:
+            generator.generate_html("<html></html>")
+        renderer.assert_called_once_with("<html></html>", "Vedic-AI Report")
+
+    def test_write_companion_pdf_writes_named_file(self):
+        from batch_reports import write_companion_pdf
+
+        class StubPdfGenerator:
+            def __init__(self):
+                self.received = {}
+
+            def generate_html(self, html_content, client="Vedic-AI Report"):
+                self.received = {"html": html_content, "client": client}
+                return b"%PDF-batch-companion"
+
+        stub = StubPdfGenerator()
+        with tempfile.TemporaryDirectory() as tmp:
+            path, pdf = write_companion_pdf(
+                stub, "<html>c</html>",
+                {"client_profile": {"name": "G Srinivas"}},
+                tmp, "g srinivas en",
+            )
+            self.assertEqual(os.path.basename(path), "g srinivas en_companion.pdf")
+            self.assertEqual(pdf, b"%PDF-batch-companion")
+            with open(path, "rb") as f:
+                self.assertEqual(f.read(), b"%PDF-batch-companion")
+        self.assertEqual(stub.received["html"], "<html>c</html>")
+        self.assertEqual(stub.received["client"], "G Srinivas")
 
 
 if __name__ == "__main__":

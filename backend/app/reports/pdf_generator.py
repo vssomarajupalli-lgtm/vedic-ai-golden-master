@@ -60,25 +60,19 @@ def _footer_template() -> str:
 
 class PDFGenerator:
     """
-    Consumes the rendered HTML string and converts it to a binary PDF Blob
+    Consumes rendered HTML and converts it to a binary PDF Blob
     using WeasyPrint (preferred) or Playwright (fallback).
     """
     def __init__(self):
         self.html_generator = HTMLGenerator()
 
-    def generate(self, report_data: FinalReportSchema) -> bytes:
+    def _render_html_to_pdf(self, html_content: str, client: str) -> bytes:
+        """Convert an already-rendered HTML string to PDF bytes.
+
+        Shared by the main-report and companion paths so the WeasyPrint ->
+        Playwright fallback logic exists in exactly one place. The client
+        name is only used for the Playwright running header/footer.
         """
-        Renders the data to HTML, then converts the HTML to PDF bytes.
-        Tries WeasyPrint first (best quality), falls back to Playwright (Chromium).
-        """
-        # 1. Generate the raw HTML string
-        html_content = self.html_generator.generate(report_data)
-
-        # 1.5. PDF Parity: Forcibly expand all <details> tags so the Shadow DOM renders them
-        html_content = html_content.replace("<details", "<details open")
-
-        client = _client_name(report_data)
-
         # Try WeasyPrint first (best quality for printing)
         if WEASYPRINT_AVAILABLE:
             try:
@@ -116,3 +110,28 @@ class PDFGenerator:
                 log.error(f"Playwright PDF generation failed: {e}")
 
         raise RuntimeError("PDF generation unavailable: WeasyPrint (missing GTK/Pango) and Playwright (not installed) both failed.")
+
+    def generate(self, report_data: FinalReportSchema) -> bytes:
+        """
+        Renders the data to HTML, then converts the HTML to PDF bytes.
+        Tries WeasyPrint first (best quality), falls back to Playwright (Chromium).
+        """
+        # 1. Generate the raw HTML string
+        html_content = self.html_generator.generate(report_data)
+
+        # 1.5. PDF Parity: Forcibly expand all <details> tags so the Shadow DOM renders them
+        html_content = html_content.replace("<details", "<details open")
+
+        client = _client_name(report_data)
+
+        return self._render_html_to_pdf(html_content, client)
+
+    def generate_html(self, html_content: str, client: str = "Vedic-AI Report") -> bytes:
+        """Convert an already-rendered HTML string to PDF bytes.
+
+        Used by the batch driver to produce the companion PDF from the exact
+        companion HTML already generated (reusing the same infrastructure as
+        the main report). The HTML is rendered verbatim — no <details> forcing,
+        so companion content is never rewritten.
+        """
+        return self._render_html_to_pdf(html_content, client)

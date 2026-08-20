@@ -10,9 +10,10 @@ pair found in the configured HoroscopeCleaner output folder produces:
     outputs\\batch\\<name>_report.pdf
 
     With the opt-in --companion flag, each pair also produces the Question
-    Companion HTML using exactly the production companion path
+    Companion HTML and PDF using exactly the production companion path
     (companion_builder.build(outputs, machine_index) followed by
-    companion_html_generator.generate(payload, outputs)) — the SAME pipeline
+    companion_html_generator.generate(payload, outputs), then
+    PDFGenerator.generate_html on that exact HTML) — the SAME pipeline
     output already computed for the main report is reused; nothing is
     recomputed and no astrology/report logic is duplicated here.
 
@@ -25,8 +26,9 @@ Usage:
 
     input_dir  : HoroscopeCleaner output folder (default D:\\HoroscopeCleaner_Final\\output)
     output_dir : where reports are written   (default <repo>/outputs/batch)
-    --companion: also write <name>_companion.html for every pair via the
-                 production question-companion path (add-only, opt-in)
+    --companion: also write <name>_companion.html and <name>_companion.pdf
+                 for every pair via the production question-companion path
+                 (add-only, opt-in)
 """
 import sys
 import os
@@ -62,6 +64,22 @@ def iter_pairs(input_dir: str):
         else:
             skipped.append((stem, canonical_path))
     return pairs, skipped
+
+
+def write_companion_pdf(pdf_generator, comp_html, payload, output_dir, name):
+    """Render the companion PDF from the exact companion HTML string.
+
+    Uses the same PDF infrastructure as the main report (WeasyPrint ->
+    Playwright fallback) via ``PDFGenerator.generate_html`` — the HTML is
+    rendered verbatim; no ``<details open>`` forcing is applied. Returns
+    ``(pdf_path, pdf_bytes)``.
+    """
+    comp_pdf_path = os.path.join(output_dir, name + "_companion.pdf")
+    comp_client = str((payload.get("client_profile") or {}).get("name") or "Vedic-AI Report")
+    comp_pdf = pdf_generator.generate_html(comp_html, client=comp_client)
+    with open(comp_pdf_path, "wb") as f:
+        f.write(comp_pdf)
+    return comp_pdf_path, comp_pdf
 
 
 def main():
@@ -119,6 +137,7 @@ def main():
     pdf_ok  = 0
     manifest_ok = 0
     companion_ok = 0
+    companion_pdf_ok = 0
     failed  = []
 
     for name, canonical_path, machine_index_path in pairs:
@@ -173,6 +192,18 @@ def main():
                 companion_ok += 1
                 print("  [COMP] OK  -> %s (%d bytes)" % (os.path.basename(comp_path), len(comp_html)))
 
+                # Companion PDF — same PDF infra as the main report, fed the
+                # exact companion HTML string above (no <details> forcing).
+                try:
+                    comp_pdf_path, comp_pdf = write_companion_pdf(
+                        pdf_generator, comp_html, payload, output_dir, name
+                    )
+                    companion_pdf_ok += 1
+                    print("  [COMP-PDF] OK  -> %s (%d bytes)" % (os.path.basename(comp_pdf_path), len(comp_pdf)))
+                except Exception as e:
+                    failed.append((name, "companion_pdf", "%s: %s" % (type(e).__name__, e)))
+                    print("  [COMP-PDF] FAIL -> %s: %s" % (type(e).__name__, e))
+
             # 6. PDF report (PDFGenerator handles WeasyPrint -> Playwright fallback).
             pdf_path = None
             try:
@@ -225,6 +256,7 @@ def main():
     print("  Manifests generated         : %d" % manifest_ok)
     if companion:
         print("  Companion HTML generated    : %d" % companion_ok)
+        print("  Companion PDF generated     : %d" % companion_pdf_ok)
     print("  Failed                     : %d" % len(failed))
     print("  Skipped (no machine index)  : %d" % len(skipped))
     print("  Output directory            : %s" % output_dir)
